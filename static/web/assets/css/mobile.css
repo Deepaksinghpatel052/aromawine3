@@ -1,0 +1,247 @@
+
+.breadcrumb{
+	background-color: transparent!important;
+}
+.breadcrumb-item.active {
+    color: #8a5401 !important;
+}
+.filter-section{
+	
+	font-size: 14px;
+	width: 100%;
+	float: left!important;
+}
+.filter-section ul li i{
+	padding-right: 0px;
+}
+.filter-section .heading1{
+	background-color: #eee;
+	padding: 10px;
+	border-radius: 5px;
+}
+.selling-section{
+	padding:15px;
+	width: 100%;
+    border: 1px solid #ccc;
+}
+.filter-area{
+	/*padding: 15px;*/
+	
+}
+.selling-area{
+	/*padding: 15px;*/
+	
+}
+.heading-content{
+	color: #000;
+	font-size:22px;
+	font-weight: 400;
+	font-family: GrotBold,Arial,Helvetica,sans-serif;
+	
+}
+.radio-cont li{
+	padding-left: 15px;
+}
+
+.p-l-r-20{
+	padding-left: 20px!important;
+	padding-right: 20px!important;
+}
+.p-l-r-50{
+	padding-left: 50px!important;
+	padding-right: 50px!important;
+}
+.filter-color{
+	padding: 10px 0px 0px;
+
+}
+.filter-rating{
+	padding: 10px 0px 0px;
+
+}
+.filter-rating ul li span {color: #ffc107;}
+
+.filter-rating .fa-star:not(.checked)
+{
+	color: transparent;
+}
+.filter-maturity{
+	
+	padding: 10px 0px 0px;
+}
+.filter-vintage{
+
+	padding: 10px 0px 0px;
+}
+.filter-variety{
+	
+	padding: 10px 0px 0px;
+}
+.filter-case-size{
+	
+	padding: 10px 0px 0px;
+}
+.filter-bottle-size{
+	
+	padding: 10px 0px 0px;
+}
+.filter-alcohol{
+	
+	padding: 10px 0px 0px;
+}
+.selling-area .selling-section .rock-two{
+	object-fit: contain;
+	height: 230px;
+}
+.selling-area .selling-section .card {
+	margin-bottom: 15px;
+	padding: 5px 10px;
+	position:relative;
+	display:flex;
+	flex-direction:column;
+	min-width:0;
+	word-wrap:break-word;
+	background-color:#fff;
+	background-clip:border-box;
+	border:1px solid rgba(0,0,0,.125);
+border-radius:.25rem
+}
+
+.selling-section .card-main{
+	color: maroon;
+	font-size: 16px;
+}
+.selling-section .card-amount{
+	font-weight: bold;
+	color:red;
+	font-size: 20px;
+}
+.selling-section .card-content{
+	text-align: left!important;
+}
+.selling-section p{
+margin-bottom: 0px;
+}
+.contentbox p.discpition {
+    color: #212529;
+    font-size: 15px;
+}
+
+.selling-section p.pricebox {
+    color: #212529;
+    text-align: center;
+}
+
+.contentbox {
+    text-align: center;
+}
+.selling-section .card-reviews{
+	font-size: 10px;
+}
+
+
+
+.selling-area .show-entry{
+text-align: right;
+}
+.selling-area select{
+	    margin-bottom: 10px;
+    padding: 5px;
+    width: 100%;
+	height:40px;
+    outline: none;
+	
+}
+/*---------Accordina sidebar filter-----------------*/
+
+
+ @charset "utf-8";
+
+.accordion-container {
+  position: relative;
+  width: 100%;
+  border-top: none;
+  outline: 0;
+  cursor: pointer
+}
+/*.accordion-container a{
+   display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #555;
+  font-weight: 600;
+  border-bottom: 1px solid #ddd;
+  -webkit-transition:all 0.2s linear;
+  -moz-transition:all 0.2s linear;
+  transition:all 0.2s linear;
+}*/
+.accordion-container .article-title {
+    display: block;
+    position: relative;
+    margin: 0px;
+    padding: 0.625em 0.625em 0.625em 0em;
+   font-size:16px;
+    font-weight: bold;
+    color: #2e2529;
+   background: transparent;
+    cursor: pointer;
+   
+	
+}
+
+/*.accordion-container .article-title:hover,
+.accordion-container .article-title:active,
+.accordion-container .content-entry.open .article-title {
+  background-color: #00aaa7;
+  color: #2e2529;
+}*/
+
+.accordion-container .article-title:hover i:before,
+.accordion-container .article-title:hover i:active,
+.accordion-container .content-entry.open i {
+  color:  #2e2529;
+}
+
+.article-title{
+  position: relative;
+}
+
+.article-title:after {
+  content: "";
+  position: absolute;
+  right: 25px;
+  top: 38%;
+  transition: all 0.2s ease-in-out;
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-top: solid 2px #555;
+  border-right: solid 2px #555;
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+
+.article-title.open:after {
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  top: 45%;
+}
+
+.accordion-content {
+  display: none;
+}
+
+/* CSS for CodePen */
+/*.accordion-container {
+  width: 300px;
+}*/
+
+section.cat-section {
+    padding-bottom: 50px;
+}
+.contentbox button {
+    margin-top: 10px;
+}
+.filter-section ul {
+    margin-bottom: 0px;
+}

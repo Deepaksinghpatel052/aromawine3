@@ -1,0 +1,255 @@
+<div class="filter-area col-md-3" id="sidebarWrap">
+    <div id="sidebar">
+      <div class="heading-content">
+        <p class="heading-content">Filters By</p>
+      </div>
+      <div class="filter-section">
+        <div id="accordion" class="accordion-container"> 
+		      {% if get_all_colors %}
+          <a class="article-title" id="defaultOpen">Color</a>
+		
+          <div class="accordion-content open" style="display: block;">
+		
+            <div class="filter-color checkbox-color-change">
+              <ul>
+                {% for item_color in get_all_colors %}
+                <li>
+                  <input type="Checkbox" name="" value="Product__Color={{item_color.id}}" id="{{item_color}}">
+                  <label for="{{item_color}}"><span class="filletr-text">{{item_color}} </span><span class="text-secondary">(195 d)</span>
+                  </label>
+                </li>
+               {% endfor %}
+              
+              </ul>
+            </div>
+          </div>
+          {% endif %}
+        
+        <a class="article-title" href="javascript:void(0)" id="defaultOpen">
+  Price</a>
+  <input type="hidden" id="get_min_price" value="{{min_price}}">
+  <input type="hidden" id="get_max_price" value="{{max_price}}">
+          <div class="accordion-content open" style="display: block;">
+            <div class="filter-alcohol">
+              <div id="slider-snap"></div>
+              <div class="value d-flex justify-content-between">
+      <div class="min">From <span id="slider-snap-value-lower" class="example-val"></span>$</div>
+      <div class="max">To <span id="slider-snap-value-upper" class="example-val"></span>$</div>
+			  </div>
+            </div>
+          </div> 
+		  
+		  {% if get_all_appellation %}
+		  <a class="article-title" href="javascript:void(0)" id="defaultOpen">
+      Appellation</a>
+          <div class="accordion-content open" style="display: block;">
+		  <input type="text" class="searchbox-input"/>
+            <div class="content filter-bottle-size active style-4 checkbox-color-change">
+              <ul class="bottolebox">
+                {% for get_item_appellation in get_all_appellation %}
+                <li>
+                  <input type="Checkbox" name="" id="{{get_item_appellation}}">
+                  <label for="{{get_item_appellation}}"><span class="filletr-text">{{get_item_appellation}}</span> <span class="text-secondary">(16)</span>
+                  </label>
+                </li>
+               {% endfor %} 
+				
+
+               
+           
+				
+				
+              </ul>
+            </div>
+          </div>
+		   {% endif %}
+		  
+		 
+		 {% if get_all_size %} 
+		  
+		  
+		  <a class="article-title" href="javascript:void(0)" id="defaultOpen">
+      Bottle Size</a>
+          <div class="accordion-content open" style="display: block;">
+		  <input type="text" class="searchbox-input"/>
+            <div class="content filter-bottle-size active style-4 checkbox-color-change">
+              <ul class="bottolebox">
+               {% for get_size in get_all_size  %}
+               <li>
+                  <input type="Checkbox" name="" id="{{get_size}}">
+                  <label id="{{get_size}}"><span class="filletr-text">{{get_size}}</span> <span class="text-secondary">(65)</span>
+                  </label>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+      {% endif %}   
+		   
+      {% if get_all_producers %} 
+		  <a class="article-title" href="javascript:void(0)" id="defaultOpen">Producer</a>
+          <div class="accordion-content open" style="display: block;">
+		  <input type="text" class="searchbox-input"/>
+            <div class="content filter-bottle-size active style-4 checkbox-color-change">
+              <ul class="bottolebox">
+               
+                {% for get_item_producers in get_all_producers %}  
+                <li>
+                  <input type="Checkbox" name="" id="{{get_item_producers}}">
+                  <label for="{{get_item_producers}}"><span class="filletr-text">{{get_item_producers}}</span> <span class="text-secondary">(16)</span>
+                  </label>
+                </li>
+                {% endfor %}
+               
+              </ul>
+            </div>
+          </div>
+		  {% endif %}
+		 
+		
+		  {% if get_all_classification %}  
+		  <a class="article-title" href="javascript:void(0)" id="defaultOpen">
+      Classification</a>
+          <div class="accordion-content open" style="display: block;">
+		  <input type="text" class="searchbox-input"/>
+            <div class="content filter-bottle-size active style-4 checkbox-color-change">
+              <ul class="bottolebox">
+             
+             {% for item_classification in get_all_classification %}
+                <li>
+                  <input type="Checkbox" name="" id="{{item_classification}}">
+                  <label for="{{item_classification}}"><span class="filletr-text">{{item_classification}}</span> <span class="text-secondary">(1)</span>
+                  </label>
+                </li>
+             {% endfor %}
+                
+              </ul>
+             
+            </div>
+          </div>
+		   {% endif %}
+		
+		  
+		  <a class="article-title" href="javascript:void(0)" id="defaultOpen">
+      In-Stock</a>
+          <div class="accordion-content open" style="display: block;">
+		  <input type="text" class="searchbox-input"/>
+            <div class="content filter-bottle-size active checkbox-color-change">
+              <ul class="bottolebox">
+                <li>
+                  <input type="Checkbox" name="" id="par-32">
+                  <label for="par-31"><span class="filletr-text">Pre-Arrivals</span> <span class="text-secondary">(1)</span>
+                  </label>
+                </li>
+                
+				
+              </ul>
+            </div>
+          </div>
+		  
+		  {% if get_all_vintages %} 
+		  <a class="article-title" href="javascript:void(0)" id="defaultOpen">
+      Vintage</a>
+          <div class="accordion-content open" style="display: block;">
+		  <input type="text" class="searchbox-input"/>
+            <div class="content filter-vintage style-4 checkbox-color-change">
+              <ul>
+                {% for item_vintage in get_all_vintages %}
+                <li>
+                  <input type="Checkbox" name="" id="{{item_vintage}}">
+                  <label for="{{item_vintage}}"><span class="filletr-text">{{item_vintage}}</span> <span class="text-secondary">(16)</span>
+                  </label>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div> 
+		  {% endif %}
+      {% if get_all_varietals %}
+		  <a class="article-title" href="javascript:void(0)" id="defaultOpen">
+      Varietals</a>
+          <div class="accordion-content open" style="display: block;">
+		  <input type="text" class="searchbox-input"/>
+            <div class="content filter-vintage checkbox-color-change">
+              <ul>
+                {% for item_varietals in get_all_varietals %}
+                <li>
+                  <input type="Checkbox" name="" id="{{item_varietals}}">
+                  <label for="{{item_varietals}}"><span class="filletr-text">{{item_varietals}}</span> <span class="text-secondary">(16)</span>
+                  </label>
+                </li>
+                {% endfor %}
+
+              
+              </ul>
+            </div>
+          </div> 
+		  
+		  {% endif %}
+		 
+		  <a class="article-title" href="javascript:void(0)" id="defaultOpen">
+      Case Size</a>
+          <div class="accordion-content open" style="display: block;">
+		  <input type="text" class="searchbox-input"/>
+            <div class=" filter-case-size style-4 checkbox-color-change">
+              <ul>
+                <li>
+                  <input type="Checkbox" name="" id="Casesize-1">
+                  <label for="Casesize-1"><span class="filletr-text">1 bottles</span> <span class="text-secondary">(16)</span>
+                  </label>
+                </li>
+                <li>
+                  <input type="Checkbox" name="" id="Casesize-2">
+                  <label for="Casesize-2"><span class="filletr-text">3 bottles</span> <span class="text-secondary">(65)</span>
+                  </label>
+                </li>
+                <li>
+                  <input type="Checkbox" name="" id="Casesize-3">
+                  <label for="Casesize-3"><span class="filletr-text">6 bottles</span> <span class="text-secondary">(19)</span>
+                  </label>
+                </li>
+                <li>
+                  <input type="Checkbox" name="" id="Casesize-4">
+                  <label for="Casesize-4"><span class="filletr-text">12 bottles</span> <span class="text-secondary">(21)</span>
+                  </label>
+                </li>
+                <li>
+                  <input type="Checkbox" name="" id="Casesize-5">
+                  <label for="Casesize-5"><span class="filletr-text">24 bottles</span> <span class="text-secondary">(21)</span>
+                  </label>
+                </li>
+                <li>
+                  <input type="Checkbox" name="" id="Casesize-6">
+                  <label for="Casesize-6"><span class="filletr-text">36 bottles</span> <span class="text-secondary">(21)</span>
+                  </label>
+                </li>
+              </ul>
+            </div>
+          </div>
+          {% if get_all_region %}
+		  <a class="article-title" href="javascript:void(0)" id="defaultOpen">
+      Regions</a>
+          <div class="accordion-content open" style="display: block;">
+		  <input type="text" class="searchbox-input"/>
+            <div class=" filter-case-size style-4 checkbox-color-change">
+              <ul>
+                {% for item_region in get_all_region  %}
+                <li>
+                  <input type="Checkbox" name="" id="{{item_region}}">
+                  <label for="{{item_region}}"><span class="filletr-text">{{item_region}}</span><span class="text-secondary">(16)</span>
+                  </label>
+                </li>
+                {% endfor %}
+               
+              </ul>
+            </div>
+          </div>
+	   {% endif %}	  
+  
+		  
+		  
+        </div>
+        <!--/#accordion-->
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href='{% static "admin/assets/img/basic/logo.png" %}'  type="image/x-icon">
+<title>Wine| Admin</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href='{% static "admin/assets/css/panel.css" %}' >
+</head>
+<body class="login_bg">
+ <div class="login-form">
+
+  {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+  <form class="box" method="post" action="">
+    <img src='{% static "admin/assets/img/basic/logo.png" %}'   class="images">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="email">Email:</label>
+      {{form.username}}
+      <!-- <input type="email" class="form-control" id="email" placeholder="Enter email" name="email"> -->
+    </div>
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      {{form.password}}
+      <!-- <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd"> -->
+    </div>
+    <div class="form-group form-check">
+      <label class="form-check-label">
+        <!-- <input type="checkbox" name="remember"> Remember me -->
+      </label>
+    </div>
+
+     <div class="mt-5">
+      <div class="form-group">
+ <button type="submit" class=" w-25 btn btn-white subbtn"> Login</button>
+   </div>
+ </div>
+  </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#id_username").attr("placeholder", "Email");
+		$("#id_password").attr("placeholder", "Password");
+     $("input").each(function(){
+     	$(this).addClass('form-control');
+     });
+	});
+</script>
+</body>
+</html>

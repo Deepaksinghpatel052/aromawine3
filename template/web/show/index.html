@@ -1,0 +1,229 @@
+{% extends 'web/base-template.html' %}
+{% block content %}
+{% load static %}
+
+
+<!-----------Page Content Start------------->
+
+<!-- 
+<section>
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+	  <li class="breadcrumb-item"><a href="index.php"><i class="fa fa-home"></i></a></li>
+        <li class="breadcrumb-item"><a href="#">Fine wines</a></li>
+		<li class="breadcrumb-item"><a href="all-wine.php">French Wines</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Bordeaux Wines</li>
+		</ol>
+    </nav>
+  </div>
+</section> -->
+<br><br>
+
+
+
+<section class="fluid-container p-l-r-50 cat-section">
+<div class="container">
+<div class="row">
+
+
+   {% include 'web/include/fillter.html' %}
+  <div class="selling-area col-md-9" id="main">
+    <!-- <div class="selling-section"> -->
+    <div class="row">
+	<!-- <div class="col-md-12">
+	<div class="yellow_bg text-center">
+	<h1>Amarone della Valpolicella Classico Wines</h1>
+	<p>The following is a selection of Wine Spectator and Wine Advocates 90+ rated wines. The rating systems of these two prolific publications have for many become the benchmark of quality in the wine...</p>
+	<a href="#" class="product-story_info-btn">Read More</a>
+	</div>
+	</div> -->
+	
+	
+      <div class="col-md-3">
+{{filters.form.Product__Color}}
+
+        <select id="short_by_product">
+          <option>Sort By</option>
+          <option {% if short_by == "price" %} selected="" {% endif %} value="{% url 'wine_shop:wine_shop'  %}price">Price</option>
+          <option {% if short_by == "name" %} selected="" {% endif %} value="{% url 'wine_shop:wine_shop' %}name" >Name</option>
+        </select>
+      </div>
+      <div class="col-md-4"></div>
+      <div class="col-md-5">
+        <div class="show-entry"> <span>24 results for <span class="ruby-list-heading2">All Wines</span></span>
+        </div>
+      </div>
+    </div>
+	
+	{% if object_list %}
+
+    {% for get_item_wine in object_list %}
+	<div class="product-card product-card-list mb-4">
+  <div class="img"><a href="{% url 'product_detail:product_detail' get_item_wine.Product.Product_id get_item_wine.Product.Product_slug  get_item_wine   %}"><img src='{{get_item_wine.Product|get_product_image_one}}' alt="Masi : Vaio Armaron 1988"></a></div>
+  <div class="product-info">
+    <div class="product-info-header">
+      <div><a class="productname" href="{% url 'product_detail:product_detail' get_item_wine.Product.Product_id get_item_wine.Product.Product_slug  get_item_wine   %}">
+        <h2 class="title">{{get_item_wine.Product.Select_Type}} : {{get_item_wine.Product}} ({{get_item_wine}})</h2>
+        </a>
+        <div class="product-attributes"><a href="#">Veneto</a> - <a href="#">Amarone della Valpolicella Classico</a> - {{get_item_wine.Product.Color.all|join:" | "}}</div>
+      </div>
+    </div>
+    <hr>
+    <div class="product-info-content">
+      <div class="product-price">
+      <span class="list-price">SG${{get_item_wine.Retail_Cost}}&nbsp;<span>Incl. GST &amp; DP</span></span>
+      
+      <span class="offer-price">
+   SG${{get_item_wine.Descount_Cost|get_product_price_with_gst_include:get_item_wine.GST}}&nbsp;<span class="taxSymbol">Incl. GST &amp; DP</span></span>
+      
+      <span class="details mt-2"><span>{{get_item_wine.Bottle}}</span>
+      <span class="d-none d-sm-inline-block mx-sm-1"> | </span><span> SG${{get_item_wine.Retail_Cost}}&nbsp;/&nbsp;Unit</span>
+      </span>
+      </div>
+      <div class="product-info-content-cta">
+        <button class="mb-2 product-story_info-btn cick_to_view_product" data-toggle="modal" data-target="#listing-add-to-cart-modal" data-quick_view_url="{% url 'wine_shop:quick_view_product' get_item_wine.id  %}">Quick View</button>
+        <a class="product-story_info-btn" href="{% url 'product_detail:product_detail' get_item_wine.Product.Product_id get_item_wine.Product.Product_slug  get_item_wine   %}">See details</a></div>
+    </div>
+    <div class="product-brand-link"><a href="{% url 'product_detail:product_detail' get_item_wine.Product.Product_id get_item_wine.Product.Product_slug  get_item_wine   %}" aria-label="All Masi wines">All Masi wines</a></div>
+  </div>
+  <div class="options">
+    <div class="promo-label">Special Prices</div>
+    <div><span>Available</span></div>
+  </div>
+</div>
+
+ {% endfor %}
+{% endif %}
+
+{% if is_paginated %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="page-item "><a class="page-link active" href="?page={{page_obj.previous_page_number}}"><</a></li>
+    {% else %}
+    <li class="page-item "><a class="page-link active" href="#"><</a></li>
+    {% endif %}
+    {% for page_no in paginator.page_range %}
+      {% if page_obj.number == page_no %}
+      <li class="page-item active"><a class="page-link" href="#">{{page_no}}</a></li>
+      {% else %}
+      <li class="page-item"><a class="page-link" href="?page={{page_no}}">{{page_no}}</a></li>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+    <li class="page-item "><a class="page-link active" href="?page={{page_obj.next_page_number}}">></a></li>
+    {% else %}
+    <li class="page-item "><a class="page-link active" href="#">></a></li>
+    {% endif %}
+    
+  
+  </ul>
+</nav>
+
+{% endif %}
+
+
+  </div>
+  </div>
+  </div>
+  <div class="clearfix"></div>
+</section>
+<section class="description-bottom">
+<div class="container">
+<div class="row">
+<div class="col-md-6">
+<div class="long-description-modal">
+<h2>Description</h2>
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+<p>
+</div>
+</div>
+<div class="col-md-6">
+<img src='{% static "web/assets/image/offer3.jpg" %}' >
+</div>
+
+
+</div>
+</div>
+</section>
+<section class="keypoint">
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+<div class="long-description-modal">
+<h2>Key Points</h2>
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+<p>
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+<p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Modal -->
+<div class="modal right fade" id="listing-add-to-cart-modal" tabindex="-1" role="dialog" aria-labelledby="listing-add-to-cart-modal">
+		<div class="modal-dialog listing-add-to-cart-modal" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					
+					<h4 class="modal-title" id="listing-add-to-cart-modal">Select the desired format and quantity</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				</div>
+
+				<div class="modal-body">
+			
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+	
+
+{% endblock %}
+
+
+{% block script %}
+ 
+<script type="text/javascript">
+
+
+$(document).on('change',"#short_by_product",function(){
+var short_by = $(this).val();
+// alert(short_by);
+window.location.href = short_by;
+
+});
+
+	$(document).on("click",".cick_to_view_product",function(){
+		$.ajax({
+          method:"GET",
+          url:$(this).data("quick_view_url"),
+          dataType:"html",
+          success:function(data){
+          	$("#listing-add-to-cart-modal .modal-body").html(data);
+          }
+		});
+	});
+
+
+$(document).on("change","input[type=Checkbox]",function(){
+
+var valye = $(this).val();
+alert(valye);
+window.location.href = "?".valye;
+});
+
+
+</script>
+{% endblock %}

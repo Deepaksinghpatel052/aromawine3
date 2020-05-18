@@ -1,0 +1,27 @@
+         <div class="login-form-content">
+  <form action="{% url 'admin_manage_size:update_size'  object.id %}" id="size_update"  method="post" enctype='multipart/form-data'>
+      
+{% csrf_token %}
+
+
+    <div class="row">
+     <div class="col-md-12">
+      <div class="form-group">
+                   <label class="age">Bottle Size</label>
+                   {{form.Bottle_Size}}
+                   <!-- <input type="text" class="form-control" placeholder="Enter your winery name"> -->
+        </div>
+     </div>
+    </div>
+
+
+<div class="row">
+ 
+  <div class="col-md-6">
+    <div class="form-group">
+      <button type="submit" class="btn-block btn btn-white subbtn">Save</button>
+    </div>
+  </div>
+</div>
+</form>
+</div>

@@ -1,0 +1,2828 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href='{% static "web/assets/image/logo.png" %}' type="image/x-icon">
+<title>{{Page_title}} | aroma-wine</title>
+<link rel="stylesheet" href='{% static "web/assets/css/style.css" %}' >
+<link rel="stylesheet" href='{% static "web/assets/css/mobile.css" %}'>
+<link rel="stylesheet" href='{% static "web/assets/css/megamenu.css" %}' >
+<link rel="stylesheet" href='{% static "web/assets/css/bootstrap.min.css" %}' >
+<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href='{% static "web/assets/css/owl.carousel.min.css" %}' >
+<link rel="stylesheet" href='{% static "web/assets/css/jquery.simpleLens.css" %}' type="text/css">
+<link rel="stylesheet" href='{% static "web/assets/css/nouislider.css" %}'  type="text/css">
+<link rel="stylesheet" href='{% static "web/assets/css/new.css" %}'  type="text/css">
+   {% block cssstyle %}
+      {% endblock %}
+</head>
+
+<body >
+<div class="nav-sticky">
+  <nav class="mainnav navbar navbar-default justify-content-between">
+    <div class="container relative"> 
+      <!-- <a class="offcanvas dl-trigger paper-nav-toggle" type="button" data-toggle="offcanvas" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><i></i></a>  --> 
+      <a class="navbar-brand" href="{% url 'home:home' %}"> <img class="d-inline-block align-top" alt="" src='{% static "web/assets/image/wine-logo.svg" %}' > </a>
+      <div class="col-md-6">
+        <div class="search-box">
+          <input class="" type="search" name="" placeholder="Search Wines And Spirits">
+          <button><i class="fa fa-search"></i> </button>
+          <!-- <select>
+                    <option>Wines</option>
+                  </select> --> 
+        </div>
+      </div>
+      <div class="paper_menu">
+        <div id="dl-menu" class="xv-menuwrapper responsive-menu">
+          <ul class="dl-menu align-items-center">
+            <li class="parent"><a href="#"><i class="fa fa-facebook"></i></a> </li>
+            <li class="parent"><a href="#"><i class="fa fa-twitter"></i></a> </li>
+            </li>
+            <li class="parent"><a href="#"><i class="fa fa-instagram"></i></a> </li>
+            <li> <a href="#">Login / Register</a></li>
+            <li><a href="#" id="cart"><i class="fa fa-shopping-cart"></i><span class="badge_item">3</span> Cart <span class="">$ 0.00</span></a>
+              <div class="shopping-cart">
+                <div class="shopping-cart-header"> Your Basket
+                  <div class="shopping-cart-total"> <span class="main-color-text">3 Item(s) </span> </div>
+                </div>
+                <!--end shopping-cart-header -->
+                
+                <ul class="shopping-cart-items">
+                  <li class="clearfix"> <img src='{% static "web/assets/image/shop/spcial-wine-1.jpg" %}' >
+                    <div class="cart_shopping">
+                      <div class="item-name"><a href="#">Product Name</a>
+                        <div class="typeprd"> <span>Type</span>
+                          <select>
+                            <option>Delivery</option>
+                            <option>Caller</option>
+                            <option>Bond</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="itemshipping"> <span class="item-quantity">Qty: 01</span> <span class="item-price">$849.99</span> </div>
+                    </div>
+                  </li>
+                  <li class="clearfix"> <img src='{% static "web/assets/image/shop/spcial-wine-2.jpg" %}' >
+                    <div class="cart_shopping">
+                      <div class="item-name"><a href="#">Product Name</a>
+                        <div class="typeprd"> <span>Type</span>
+                          <select>
+                            <option>Delivery</option>
+                            <option>Caller</option>
+                            <option>Bond</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="itemshipping"> <span class="item-quantity">Qty: 01</span> <span class="item-price">$849.99</span> </div>
+                    </div>
+                  </li>
+                  <li class="clearfix"> <img src='{% static "web/assets/image/shop/spcial-wine-3.jpg" %}' >
+                    <div class="cart_shopping">
+                      <div class="item-name"><a href="#">Product Name</a>
+                        <div class="typeprd"> <span>Type</span>
+                          <select>
+                            <option>Delivery</option>
+                            <option>Caller</option>
+                            <option>Bond</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="itemshipping"> <span class="item-quantity">Qty: 01</span> <span class="item-price">$849.99</span> </div>
+                    </div>
+                    <!--<div class="cart_shopping">
+        <span class="item-name">Product Name</span>
+		<div class="itemshipping">
+        <span class="item-quantity">Qty: 01</span>
+		<span class="item-price">$129.99</span>
+		</div>
+		</div>--> 
+                    
+                  </li>
+                </ul>
+                <div class="shopping-borde shopping-cart-header"> Order Total
+                  <div class="shopping-cart-total"> <span class="main-color-text bold">$2,229.97</span> </div>
+                </div>
+                <a href="checkout.php" class="btn_achor">Checkout</a> </div>
+              <!--end shopping-cart --> 
+              
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+<!------------header Ends----------------<a href="#" data-toggle="modal" class="" data-target="#modalLogin">Log In</a> -->
+	<!------------navbar starts---------------->
+	<div class="fluid-container">
+		<div class="ruby-menu-demo-header">
+			<div class="ruby-wrapper">
+				<button class="c-hamburger c-hamburger--htx visible-xs"><span>toggle menu</span>
+				</button>
+				<ul class="ruby-menu">
+					<!-- <li class="ruby-menu"><a href="#">Home</a></li> -->
+					<li class="ruby-menu-mega"><a href="#">Aroma of Wine </a>
+						<div class="ruby-grid ruby-grid-lined">
+							<div class="ruby-row">
+								
+								<div class="ruby-col-3">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Aromas Recommendations</span>
+											<ul class="nested">
+												<li><a href="view-producer.php">100 Pointers</a>
+												</li>
+												<li><a href="view-producer.php">Aroma Rare Finds</a>
+												</li>
+												<li><a href="view-producer.php">Top Quality wines > 95 points at low proces</a>
+												</li>
+												<li><a href="view-producer.php">New Releases</a>
+												</li>
+												<li><a href="view-producer.php">Clearence Sale</a>
+												</li>
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<span class="ruby-dropdown-toggle"></span>
+						</li>
+						<li class="ruby-menu-mega"><a href="#">Fine Wines</a>
+							<div class="ruby-grid ruby-grid-lined">
+								<div class="ruby-row">
+									
+									<div class="ruby-col-3">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Region</span>
+												<ul class="nested region_tabs">
+													<li class="active"><a href="#tab1">Bordeaux</a></li>
+													<li><a href="#tab2">Italy</a></li>
+													<li><a href="#tab3">USA</a></li>
+													<li><a href="#tab4">Chile</a></li>
+													<li><a href="#tab5">Australia</a></li>
+													
+													
+												</ul>
+											</li>
+										</ul>
+									</div>
+									<div class="ruby-col-9">
+									<div class="mega_menu_show" id="tab1" style="display:block;">
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Designation</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Haut-Medoc</a>
+															</li>
+															<li><a href="#">Pauillac</a>
+															</li>
+															<li><a href="#">Pomerol</a>
+															</li>
+															<li><a href="#">Margaux</a></li>
+															<li><a href="#">St Estephe</a></li>
+															<li><a href="#">St Julien</a></li>
+															<li><a href="#">Medoc</a></li>
+															<li><a href="#">Pessac-Leognan</a></li>
+															<li><a href="#">St Emilion</a></li>
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+									
+									
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Vintage  - 10 / 10</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">2018</a></li>
+															<li><a href="#">2017</a></li>
+															<li><a href="#">2016</a></li>
+															<li><a href="#">2015</a></li>
+															<li><a href="#">2014</a></li>
+															<li><a href="#">2010</a></li>
+															<li><a href="#">2009</a></li>
+															<li><a href="#">2005</a></li>
+															<li><a href="#">2000</a></li>
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+									
+									
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Wineries</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Chateau Angelus</a></li>
+															<li><a href="#">Chateau Ausone</a></li>
+															<li><a href="#">Haut-Biron</a></li>
+															<li><a href="#">Lafite - Rothschild</a></li>
+															<li><a href="#">Latour</a></li>
+															<li><a href="#">Lynch Bages</a></li>
+															<li><a href="#">Margaux</a></li>
+															<li><a href="#">chateay Pavie</a></li>
+															<li><a href="#">Palmer Margaux</a></li>
+															<li><a href="#">Petrus</a></li>
+															<li><a href="#">Pontent Canet</a></li>
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+									</div>
+									
+									<div class="mega_menu_show" id="tab2">
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Designation</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Amarone</a></li>
+															<li><a href="#">Barolo</a></li>
+															<li><a href="#">Tuscany</a></li>
+															<li><a href="#">Super Tuscan</a></li>
+															<li><a href="#">Sassicaia</a></li>
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+									
+									
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Vintage  - 10 / 10</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">2018</a></li>
+															<li><a href="#">2016</a></li>
+															<li><a href="#">2015</a></li>
+															<li><a href="#">2013</a></li>
+															<li><a href="#">2010</a></li>
+															<li><a href="#">2010</a></li>
+															<li><a href="#">2008</a></li>
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+									
+									
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Wineries</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Antinori</a></li>
+															<li><a href="#">Castello Banfi</a></li>
+															<li><a href="#">Giusti</a></li>
+															<li><a href="#">Gaja</a></li>
+															<li><a href="#">Monte</a></li>
+															<li><a href="#">Sassicaia</a></li>
+															
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+									</div>
+									
+									
+									
+									<div class="mega_menu_show" id="tab3">
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Designation</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Cabernet Sauvignon</a></li>
+															<li><a href="#">Napa</a></li>
+															<li><a href="#">Chile</a></li>
+															
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+									
+									
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Vintage  - 10 / 10</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">2015</a></li>
+															<li><a href="#">2014</a></li>
+															<li><a href="#">2009</a></li>
+															<li><a href="#">2008</a></li>
+															<li><a href="#">2007</a></li>
+															<li><a href="#">1997</a></li>
+															
+															
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+									
+									
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Wineries</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Dominus</a></li>
+															<li><a href="#">Caymus</a></li>
+															<li><a href="#">Joseph Phelps</a></li>
+															<li><a href="#">Lewis Cellar</a></li>
+															<li><a href="#">Montes</a></li>
+															<li><a href="#">Opus One</a></li>
+															
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+									</div>
+									
+									
+									
+									<div class="mega_menu_show" id="tab4">
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Designation</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Montes</a></li>
+															
+															
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+									
+									
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Vintage  - 10 / 10</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#"></a></li>
+															<li><a href="#"></a></li>
+															<li><a href="#"></a></li>
+															<li><a href="#"></a></li>
+															<li><a href="#"></a></li>
+															
+															
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+									
+									
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Wineries</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Almaviva</a></li>
+															<li><a href="#">Purple Angel</a></li>
+															<li><a href="#">Sena</a></li>
+															
+															
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+									</div>
+									
+									<div class="mega_menu_show" id="tab5">
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Designation</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Shiraz</a></li>
+															<li><a href="#">Borssa Valley</a></li>
+															<li><a href="#">Eden Vale</a></li>
+															<li><a href="#">Mclaren Vale</a></li>
+															<li><a href="#">Yarra Valley</a></li>
+															
+															
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+									
+									
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Vintage  - 10 / 10</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">2018</a></li>
+															<li><a href="#">2016</a></li>
+															<li><a href="#">2015</a></li>
+															<li><a href="#">2012</a></li>
+															<li><a href="#">2010</a></li>
+															<li><a href="#">2004</a></li>
+															
+															
+															
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+									
+									
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Wineries</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Clarendon Hills</a></li>
+															<li><a href="#">Henschke</a></li>
+															<li><a href="#">Henschke</a></li>
+															<li><a href="#">Penfolds</a></li>
+															<li><a href="#">Torbreck</a></li>
+															<li><a href="#">Two Hands</a></li>
+
+															
+															
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+									</div>
+									
+									
+									
+									
+									
+									
+									</div>
+									
+									
+								</div>
+							</div> <span class="ruby-dropdown-toggle"></span>
+						</li>
+						
+						
+						<li class="ruby-menu-mega"><a href="#">Aroma Selection</a>
+							<div class="ruby-grid ruby-grid-lined">
+								<div class="ruby-row">
+									
+									<div class="ruby-col-3">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Aroma Favorites</span>
+												<ul class="nested region_tabs_w">
+													<li class=""><a href="#wines-tab">Popular Wines</a></li>
+													<li><a href="#">Great Value</a></li>
+													<li><a href="#">Aroma Recommendations</a></li>
+													
+													
+													
+												</ul>
+											</li>
+										</ul>
+									</div>
+									<div class="ruby-col-9">
+									<div class="mega_menu_show_w" id="wines-tab" style="display:block;">
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Country</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested france_w">
+													<li class=""><a href="#country_w">France</a></li>
+													<li><a href="#country_w2">Italy</a></li>
+													<li><a href="#country_w3">USA</a></li>
+													<li><a href="#">Chile</a></li>
+													<li><a href="#">Argentina</a></li>
+													
+													
+													
+												</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+									
+									
+									<div class="ruby-col-8">
+									<div class="country_div" id="country_w">
+									<div class="ruby-col-6">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Region</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested region_b">
+															<li><a href="#bordeaux_w">Bordeaux</a></li>
+															<li><a href="#burgandy_w">Burgandy</a></li>
+															<li><a href="#rhone_w">Cote Du Rhone</a></li>
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+										
+										</div>
+										
+										
+										<div class="ruby-col-6">
+										<div class="applicon_w" id="bordeaux_w">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Appellation</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Pauillac</a></li>
+															<li><a href="#">Margaux</a></li>
+															<li><a href="#">Medoc</a></li>
+															<li><a href="#">Pessac- Leognan</a></li>
+															<li><a href="#">St Juien</a></li>
+															<li><a href="#">St Emilion</a></li>
+															<li><a href="#">St Estephe</a></li>
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+										</div>
+										
+										
+										<div class="applicon_w" id="burgandy_w">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Appellation</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Puigny-Montrachet</a></li>
+															<li><a href="#">Vosne- Romane</a></li>
+															<li><a href="#">Mersault</a></li>
+															<li><a href="#">Nuits-St George</a></li>
+															<li><a href="#">Pommard</a></li>
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+										</div>
+										
+										
+										<div class="applicon_w" id="rhone_w">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Appellation</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Chateauneuf-Du Pape</a></li>
+															
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+										</div>
+										
+										
+										
+										</div>
+										
+										
+										
+										</div>
+										
+										
+										
+										<div class="country_div" id="country_w2">
+									<div class="ruby-col-6">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Region</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested region_b">
+															<li><a href="#">Piedmont</a></li>
+															<li><a href="#">Tuscany</a></li>
+															<li><a href="#">Sicily</a></li>
+															<li><a href="#">Veneto</a></li>
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+										
+										</div>
+										
+										
+										<div class="ruby-col-6">
+										<div class="" id="">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Appellation</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Amarone</a></li>
+															<li><a href="#">Antinori</a></li>
+															<li><a href="#">Barolo</a></li>
+															<li><a href="#">Brunello Di Montalcino</a></li>
+															<li><a href="#">Nero d Avola</a></li>
+															<li><a href="#">Ornelliaia</a></li>
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										</div>
+										
+										
+										
+										</div>
+										
+										
+										
+										
+										<div class="country_div" id="country_w3">
+									<div class="ruby-col-6">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Region</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested region_b">
+															<li><a href="#">Napa</a></li>
+															
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+										
+										</div>
+										
+										
+										<div class="ruby-col-6">
+										<div class="" id="">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Appellation</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Cabernet Sauvignon</a></li>
+															<li><a href="#">Merlots</a></li>
+															<li><a href="#">Malbecs</a></li>
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										</div>
+										
+										
+										
+										</div>
+										
+										
+										
+							
+									
+									</div>
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									</div>
+									
+									
+								</div>
+							</div> <span class="ruby-dropdown-toggle"></span>
+						</li>
+						
+						<li class="ruby-menu-mega"><a href="#">Aroma Wine Partners </a>
+						<div class="ruby-grid ruby-grid-lined">
+							<div class="ruby-row">
+								
+								<div class="ruby-col-4">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Country</span>
+											<ul class="nested">
+												<li><a href="#">France</a>
+												</li>
+												<li><a href="#">Italy</a>
+												</li>
+												<li><a href="#">USA</a>
+												</li>
+												<li><a href="#">Chile</a>
+												</li>
+												<li><a href="#">Australia</a></li>
+												<li><a href="#">New Zealand</a></li>
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<div class="ruby-col-4">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Winery</span>
+											<ul class="nested">
+												<li><a href="#">Salvano</a>
+												</li>
+												<li><a href="#">Coste Sciliane</a>
+												</li>
+												<li><a href="#">Mark Herold</a>
+												</li>
+												<li><a href="#">Montes</a>
+												</li>
+												<li><a href="#">Chapel Hill</a>
+												</li>
+												<li><a href="#">Konrad</a>
+												</li>
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<div class="ruby-col-4">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Appellation</span>
+											<ul class="nested">
+												<li><a href="#">Barolo</a>
+												</li>
+												<li><a href="#">Barberesco</a>
+												</li>
+												<li><a href="#">Langhe</a>
+												</li>
+												<li><a href="#">Nero d Avloa</a>
+												</li>
+												<li><a href="#">Cabernet Sauvignon</a>
+												</li>
+												<li><a href="#">Purple Angel</a></li>
+												<li><a href="#">Cabernet Sauvignon</a></li>
+												<li><a href="#">Shiraz</a></li>
+												<li><a href="#">Pinot</a></li>
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<span class="ruby-dropdown-toggle"></span>
+						</li>
+						
+						<li class="ruby-menu-mega"><a href="#">En Premier </a>
+						<div class="ruby-grid ruby-grid-lined">
+							<div class="ruby-row">
+								
+								<div class="ruby-col-4">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Year</span>
+											<ul class="nested">
+												<li><a href="#">2018</a>
+												</li>
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<div class="ruby-col-4">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Winery</span>
+											<ul class="nested">
+												<li><a href="#">Palmer Marguax</a>
+												</li>
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<div class="ruby-col-4">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Wine Name</span>
+											<ul class="nested">
+												<li><a href="#">Alter Ego</a>
+												</li>
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<span class="ruby-dropdown-toggle"></span>
+						</li>
+						
+						<li class="ruby-menu-mega"><a href="#">Spirits</a>
+							<div class="ruby-grid ruby-grid-lined">
+								<div class="ruby-row">
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">SCOTLAND</span>
+												<ul class="nested">
+													<li><a href="#">Balvenie</a>
+													</li>
+													<li><a href="#">Craigellachie</a>
+													</li>
+													<li><a href="#">Glenmorangie</a>
+													</li>
+													<li><a href="#">Macallan</a>
+													</li>
+													<li><a href="#">Old pultney</a>
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</div>
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">JAPAN</span>
+												<ul class="nested">
+													<li><a href="#">Hibiki</a>
+													</li>
+													<li><a href="#">Yamazaki</a>
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</div>
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">TAIWAN</span>
+												<ul class="nested">
+													<li><a href="#">Kavalan</a>
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div> <span class="ruby-dropdown-toggle"></span>
+						</li>
+
+						
+						<li class="ruby-menu-mega"><a href="#">Sommelier Services</a>
+						<div class="ruby-grid ruby-grid-lined">
+							<div class="ruby-row">
+								
+								<div class="ruby-col-3">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Sommelier Services</span>
+											<ul class="nested">
+												<li><a href="#">Sommelier Classes</a></li>
+												<li><a href="wine-pairng-recipes.php">Wine Pairng - Recipes</a></li>
+												<li><a href="#">SommelierAdvice</a></li>
+												<li><a href="account-cellaritems.php">Cellar Plan</a></li>
+												<li><a href="event.php">Events</a></li>
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<div class="ruby-col-3">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Wine Experiences</span>
+											<ul class="nested">
+												<li><a href="dinner.php">Dinners</a></li>
+												<li><a href="wine-tasting.php">Wine Tasting</a></li>
+												
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<div class="ruby-col-2">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Events</span>
+											<ul class="nested">
+												<li><a href="#">Social </a></li>
+												<li><a href="#">Private </a></li>
+												<li><a href="#">Corporate </a></li>
+												
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<div class="ruby-col-2">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Expertise</span>
+											<ul class="nested">
+												<li><a href="vintage-chart.php">Vintage Chart </a></li>
+												<li><a href="view-grape.php">Grapes </a></li>
+												<li><a href="region.php">Regions </a></li>
+												
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								<div class="ruby-col-2">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Advice</span>
+											<ul class="nested">
+												<li><a href="contact.php">Contact us</a></li>
+												<li><a href="shipping-delivery.php">Delivery </a></li>
+												<li><a href="faq.php">FAQ </a></li>
+												
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<span class="ruby-dropdown-toggle"></span>
+						</li>
+						
+						
+						
+						
+						
+						
+						</ul>
+			</div>
+		</div>
+	</div>
+	<!-----------navbar Ends----------------->
+	
+	<div id="app" class="paper-loading"><a href="#" data-toggle="offcanvas" class="paper-nav-toggle fixed left"><i></i></a>
+  <aside class="main-sidebar fixed offcanvas scroll">
+    <section class="sidebar" style="padding-top: 20px;">
+      <div class="jquery-accordion-menu-header text-center">
+        <a href="dashboard.html">
+          <img src='{% static "web/assets/image/logo.png" %}' >
+        </a>
+      </div>
+      <ul class="sidebar-menu scroll sp-menu">
+        <li class="treeview"><a class="active" href="dashboard.html"><span>Fine Wine-First Class</span><i class="icon icon-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a href="javascript:void(0);" class="p-l-35"><span>France</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                <li><a href="manageuserrolespermissions.html" class="p-l-70">Manage User Profile</a>
+                </li>
+                <li><a href="javascript:void(0)" class="p-l-70">Invite New User</a>
+                </li>
+                <li><a href="javascript:void(0)" class="p-l-70">Manage User Profile</a>
+                </li>
+                <li><a href="javascript:void(0)" class="p-l-70">Manage User Profile</a>
+                </li>
+                <li><a href="javascript:void(0)" class="p-l-70">Manage User Profile</a>
+                </li>
+                <li><a href="javascript:void(0)" class="p-l-70">Manage User Profile</a>
+                </li>
+                <li><a href="javascript:void(0)" class="p-l-70">Manage User Profile</a>
+                </li>
+                <li><a href="javascript:void(0)" class="p-l-70">Manage User Profile</a>
+                </li>
+                <li><a href="javascript:void(0)" class="p-l-70">Manage User Profile</a>
+                </li>
+                <li><a href="javascript:void(0)" class="p-l-70">Manage User Profile</a>
+                </li>
+
+              </ul>
+            </li>
+            <li><a href="manageusers.html"><span>Italy</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                <li><a href="manageuserrolespermissions.html">Manage User Profile</a>
+                </li>
+                <li><a href="invitenewuser.html">Invite New User</a>
+                </li>
+              </ul>
+            </li>
+            <li><a href="manageusers.html"><span>Australia</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                <li><a href="manageuserrolespermissions.html">Manage User Profile</a>
+                </li>
+                <li><a href="invitenewuser.html">Invite New User</a>
+                </li>
+              </ul>
+            </li>
+            <li><a href="manageusers.html"><span>U.S.A.</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                <li><a href="manageuserrolespermissions.html">Manage User Profile</a>
+                </li>
+                <li><a href="invitenewuser.html">Invite New User</a>
+                </li>
+              </ul>
+            </li>
+            <li><a href="manageusers.html"><span>Chile</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                <li><a href="manageuserrolespermissions.html">Manage User Profile</a>
+                </li>
+                <li><a href="invitenewuser.html">Invite New User</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="manageacct.html"> <span>Fine Wines</span><i class="icon icon-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu active">
+            <li><a href="manageusers.html"><span>France</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                <li><a href="manageuserrolespermissions.html">Manage User Profile</a>
+                </li>
+                <li><a href="invitenewuser.html">Invite New User</a>
+                </li>
+              </ul>
+            </li>
+            <li><a href="manageenv.html"><span>Italy</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu active">
+                <li><a href="manageenv-capabilities.html">Manage Epic Capability</a>
+                </li>
+                <li><a href="manageenv-feature.html">Manage Features </a>
+                </li>
+                <li><a href="manageenv-products.html">Manage Products</a>
+                </li>
+                <li><a href="manageenv-teams.html">Manage Teams</a>
+                </li>
+                <li><a href="manageenv-team-member.html">Manage Team Members</a>
+                </li>
+                <li><a href="manageenv-backlog.html">Manage Backlogs</a>
+                </li>
+                <li><a href="manageenv-Iterations.html">Manage Iterations</a>
+                </li>
+                <li><a href="manageenv-roles.html">Manage Roles</a>
+                </li>
+                <li><a href="manageenv-goals.html">Manage Goals</a>
+                </li>
+                <li><a href="manageenv-benefits.html">Manage Benefits</a>
+                </li>
+                <li><a href="manageenv-userstory.html">Manage User Story Points</a>
+                </li>
+              </ul>
+            </li>
+            <li><a href="manageusers.html"><span>U.S.A.</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                <li><a href="manageuserrolespermissions.html">Manage User Profile</a>
+                </li>
+                <li><a href="invitenewuser.html">Invite New User</a>
+                </li>
+              </ul>
+            </li>
+            <li><a href="manageusers.html"><span></span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                <li><a href="manageuserrolespermissions.html">Manage User Profile</a>
+                </li>
+                <li><a href="invitenewuser.html">Invite New User</a>
+                </li>
+              </ul>
+            </li>
+            <li><a href="dataxfer.html"><span>Data Exchange</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                <li><a href="import-data.html">Manage Import Data</a>
+                </li>
+                <li><a href="export-data.html">Manage Export Data</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="manageacct.html"> <span>Popular Wines</span><i class="icon icon-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu active">
+            <li><a href="manageusers.html"><span>Manage Users</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                <li><a href="manageuserrolespermissions.html">Manage User Profile</a>
+                </li>
+                <li><a href="invitenewuser.html">Invite New User</a>
+                </li>
+              </ul>
+            </li>
+            <li><a href="manageenv.html"><span>Manage Environment</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu active">
+                <li><a href="manageenv-capabilities.html">Manage Epic Capability</a>
+                </li>
+                <li><a href="manageenv-feature.html">Manage Features </a>
+                </li>
+                <li><a href="manageenv-products.html">Manage Products</a>
+                </li>
+                <li><a href="manageenv-teams.html">Manage Teams</a>
+                </li>
+                <li><a href="manageenv-team-member.html">Manage Team Members</a>
+                </li>
+                <li><a href="manageenv-backlog.html">Manage Backlogs</a>
+                </li>
+                <li><a href="manageenv-Iterations.html">Manage Iterations</a>
+                </li>
+                <li><a href="manageenv-roles.html">Manage Roles</a>
+                </li>
+                <li><a href="manageenv-goals.html">Manage Goals</a>
+                </li>
+                <li><a href="manageenv-benefits.html">Manage Benefits</a>
+                </li>
+                <li><a href="manageenv-userstory.html">Manage User Story Points</a>
+                </li>
+              </ul>
+            </li>
+            <li><a href="dataxfer.html"><span>Data Exchange</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                <li><a href="import-data.html">Manage Import Data</a>
+                </li>
+                <li><a href="export-data.html">Manage Export Data</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="treeview"><a class="active" href="dashboard.html"><span>En Premier</span><i class="icon icon-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a href="product-view.html">2018 Fine Wines</a>
+            </li>
+            <li><a href="backlog-view.html">Top Vintage</a>
+            </li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#"> <span>Spirits</span><i class="icon icon-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu active">
+            <li><a href="#"><span>Scotland</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                <li><a href="#">Balvenie</a>
+                </li>
+                <li><a href="#">Craigellachie</a>
+                </li>
+                <li><a href="#">Glenmorangie</a>
+                </li>
+                <li><a href="#">Macallan</a>
+                </li>
+                <li><a href="#">Old pultney</a>
+                </li>
+              </ul>
+            </li>
+            <li><a href="#"><span>Japan</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu active">
+                <li><a href="#">Hibiki</a>
+                </li>
+                <li><a href="#">Yamazaki</a>
+                </li>
+              </ul>
+            </li>
+            <li><a href="dataxfer.html"><span>Taiwan</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                <li><a href="#">Kawalan</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="treeview"><a class="active" href="dashboard.html"><span>Sommelier Services</span><i class="icon icon-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a href="#">Sommelier Classes</a>
+            </li>
+            <li><a href="#">Wine Pairing</a>
+            </li>
+            <li><a href="#">Sommelier Advice</a>
+            </li>
+            <li><a href="#">Cellar Plan</a>
+            </li>
+            <li><a href="#">Sommelier Recommendation</a>
+            </li>
+          </ul>
+        </li>
+        <li class="treeview"><a class="active" href="dashboard.html"><span>Special Offers</span><i class="icon icon-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a href="product-view.html">France Wineries</a>
+            </li>
+            <li><a href="backlog-view.html">Italy Wineries</a>
+            </li>
+            <li><a href="javascript-void(0)">Australian Wineries</a>
+            </li>
+            <li><a href="javascript-void(0)">Direct From Wineries</a>
+            </li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#" data-toggle="modal" class="" data-target="#modalLogin"><span>Login</span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="#" data-toggle="modal" data-target="#modalSignUp"><span>Signup</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+  </aside>
+</div>
+
+
+
+   {% block content %}
+   
+               {% endblock %}
+
+
+<!------Footer start--->
+	<div class="fluid-container">
+		<footer class="page-footer font-small">
+			<div class="container text-center text-md-left">
+				<div class="row">
+				<div class="col-md-3 mx-auto">
+						<h5 class="mt-3 mb-4">About Us</h5>
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						
+				</div>
+				
+					<div class="col-md-2 mx-auto">
+						<h5 class="mt-3 mb-4">Categories</h5>
+						<ul class="list-unstyled">
+						<li> <a href="#">Aroma of Wine</a></li>
+							<li> <a href="all-wine.php">Fine Wines</a>
+							</li>
+							<li> <a href="all-wine.php">Aroma Selection</a>
+							</li>
+							
+							<li> <a href="chateau-angelus.php">En Premier</a>
+							</li>
+							<li> <a href="all-wine.php">Aroma Wine Partners </a>
+							</li>
+							<li> <a href="all-wine.php">Sommelier Services</a>
+							</li>
+							<li> <a href="#">Special Offers</a>
+							</li>
+						</ul>
+					</div>
+					<hr class="clearfix w-100 d-md-none">
+					<div class="col-md-3 mx-auto">
+						<h5 class="mt-3 mb-4">Customer Service</h5>
+						<ul class="list-unstyled">
+							<li> <a href="about.php">About Us</a>
+							</li>
+							<li> <a href="contact.php">Contact Us</a></li>
+							<li> <a href="event.php">Events</a></li>
+							
+							<li> <a href="shipping-delivery.php">Shipping & Delivery</a>
+							</li>
+							
+							<li> <a href="faq.php"> FAQ</a></li>
+							<li> <a href="privacy-policy.php"> Privacy Policy</a></li>
+							<li> <a href="terms-and-conditions.php"> Terms and Conditions</a></li>
+						</ul>
+					</div>
+					<hr class="clearfix w-100 d-md-none">
+					<div class="col-md-2 mx-auto">
+						<h5 class="mt-3 mb-4">My Account</h5>
+						<ul class="list-unstyled">
+							<li> <a href="dashboard.php">My Account</a>
+							</li>
+							<li> <a href="account-cellaritems.php">My Celler</a>
+							</li>
+							<li> <a href="orders.php">My Order History</a>
+							</li>
+							<li> <a href="wishlist-summary.php">Wish List</a>
+							</li>
+						</ul>
+					</div>
+					<hr class="clearfix w-100 d-md-none">
+					<div class="col-md-2 mx-auto">
+					<h5 class="mt-3 mb-4">Follow</h5>
+						<div class="social-icon">
+							
+							
+							<ul>
+								<li><a href="#"><i class="fa fa-facebook"></i></a>
+								</li>
+								<li><a href="#"><i class="fa fa-twitter"></i></a>
+								</li>
+								<li><a href="#"><i class="fa fa-instagram"></i></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3 offset-md-9">
+						<button class="btn-newsletter">Sign Up For Our Newsletter</button>
+					</div>
+				</div>
+				
+			</div>
+		</footer>
+	</div>
+	<div class="footer_copy">
+	<div class="container">
+	<div class="row">
+					<div class="col-md-4 p-t-b-30">
+						<img src='{% static "web/assets/image/wine-logo.svg" %}'>
+					</div>
+					<div class="col-md-8 p-t-b-30">
+						<ul class="payment-icons payment">
+              <li class="payment-icons-item">
+                <svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 38 24" width="38" height="24" aria-labelledby="pi-american_express"><title id="pi-american_express">American Express</title><g fill="none"><path fill="#000" d="M35,0 L3,0 C1.3,0 0,1.3 0,3 L0,21 C0,22.7 1.4,24 3,24 L35,24 C36.7,24 38,22.7 38,21 L38,3 C38,1.3 36.6,0 35,0 Z" opacity=".07"></path><path fill="#006FCF" d="M35,1 C36.1,1 37,1.9 37,3 L37,21 C37,22.1 36.1,23 35,23 L3,23 C1.9,23 1,22.1 1,21 L1,3 C1,1.9 1.9,1 3,1 L35,1"></path><path fill="#FFF" d="M8.971,10.268 L9.745,12.144 L8.203,12.144 L8.971,10.268 Z M25.046,10.346 L22.069,10.346 L22.069,11.173 L24.998,11.173 L24.998,12.412 L22.075,12.412 L22.075,13.334 L25.052,13.334 L25.052,14.073 L27.129,11.828 L25.052,9.488 L25.046,10.346 L25.046,10.346 Z M10.983,8.006 L14.978,8.006 L15.865,9.941 L16.687,8 L27.057,8 L28.135,9.19 L29.25,8 L34.013,8 L30.494,11.852 L33.977,15.68 L29.143,15.68 L28.065,14.49 L26.94,15.68 L10.03,15.68 L9.536,14.49 L8.406,14.49 L7.911,15.68 L4,15.68 L7.286,8 L10.716,8 L10.983,8.006 Z M19.646,9.084 L17.407,9.084 L15.907,12.62 L14.282,9.084 L12.06,9.084 L12.06,13.894 L10,9.084 L8.007,9.084 L5.625,14.596 L7.18,14.596 L7.674,13.406 L10.27,13.406 L10.764,14.596 L13.484,14.596 L13.484,10.661 L15.235,14.602 L16.425,14.602 L18.165,10.673 L18.165,14.603 L19.623,14.603 L19.647,9.083 L19.646,9.084 Z M28.986,11.852 L31.517,9.084 L29.695,9.084 L28.094,10.81 L26.546,9.084 L20.652,9.084 L20.652,14.602 L26.462,14.602 L28.076,12.864 L29.624,14.602 L31.499,14.602 L28.987,11.852 L28.986,11.852 Z"></path></g></svg>
+
+              </li>
+            
+              <li class="payment-icons-item">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" role="img" x="0" y="0" width="38" height="24" viewBox="0 0 165.521 105.965" xml:space="preserve" aria-labelledby="pi-apple_pay"><title id="pi-apple_pay">Apple Pay</title><path fill="#000" d="M150.698 0H14.823c-.566 0-1.133 0-1.698.003-.477.004-.953.009-1.43.022-1.039.028-2.087.09-3.113.274a10.51 10.51 0 0 0-2.958.975 9.932 9.932 0 0 0-4.35 4.35 10.463 10.463 0 0 0-.975 2.96C.113 9.611.052 10.658.024 11.696a70.22 70.22 0 0 0-.022 1.43C0 13.69 0 14.256 0 14.823v76.318c0 .567 0 1.132.002 1.699.003.476.009.953.022 1.43.028 1.036.09 2.084.275 3.11a10.46 10.46 0 0 0 .974 2.96 9.897 9.897 0 0 0 1.83 2.52 9.874 9.874 0 0 0 2.52 1.83c.947.483 1.917.79 2.96.977 1.025.183 2.073.245 3.112.273.477.011.953.017 1.43.02.565.004 1.132.004 1.698.004h135.875c.565 0 1.132 0 1.697-.004.476-.002.952-.009 1.431-.02 1.037-.028 2.085-.09 3.113-.273a10.478 10.478 0 0 0 2.958-.977 9.955 9.955 0 0 0 4.35-4.35c.483-.947.789-1.917.974-2.96.186-1.026.246-2.074.274-3.11.013-.477.02-.954.022-1.43.004-.567.004-1.132.004-1.699V14.824c0-.567 0-1.133-.004-1.699a63.067 63.067 0 0 0-.022-1.429c-.028-1.038-.088-2.085-.274-3.112a10.4 10.4 0 0 0-.974-2.96 9.94 9.94 0 0 0-4.35-4.35A10.52 10.52 0 0 0 156.939.3c-1.028-.185-2.076-.246-3.113-.274a71.417 71.417 0 0 0-1.431-.022C151.83 0 151.263 0 150.698 0z"></path><path fill="#FFF" d="M150.698 3.532l1.672.003c.452.003.905.008 1.36.02.793.022 1.719.065 2.583.22.75.135 1.38.34 1.984.648a6.392 6.392 0 0 1 2.804 2.807c.306.6.51 1.226.645 1.983.154.854.197 1.783.218 2.58.013.45.019.9.02 1.36.005.557.005 1.113.005 1.671v76.318c0 .558 0 1.114-.004 1.682-.002.45-.008.9-.02 1.35-.022.796-.065 1.725-.221 2.589a6.855 6.855 0 0 1-.645 1.975 6.397 6.397 0 0 1-2.808 2.807c-.6.306-1.228.511-1.971.645-.881.157-1.847.2-2.574.22-.457.01-.912.017-1.379.019-.555.004-1.113.004-1.669.004H14.801c-.55 0-1.1 0-1.66-.004a74.993 74.993 0 0 1-1.35-.018c-.744-.02-1.71-.064-2.584-.22a6.938 6.938 0 0 1-1.986-.65 6.337 6.337 0 0 1-1.622-1.18 6.355 6.355 0 0 1-1.178-1.623 6.935 6.935 0 0 1-.646-1.985c-.156-.863-.2-1.788-.22-2.578a66.088 66.088 0 0 1-.02-1.355l-.003-1.327V14.474l.002-1.325a66.7 66.7 0 0 1 .02-1.357c.022-.792.065-1.717.222-2.587a6.924 6.924 0 0 1 .646-1.981c.304-.598.7-1.144 1.18-1.623a6.386 6.386 0 0 1 1.624-1.18 6.96 6.96 0 0 1 1.98-.646c.865-.155 1.792-.198 2.586-.22.452-.012.905-.017 1.354-.02l1.677-.003h135.875"></path><g><g><path fill="#000" d="M43.508 35.77c1.404-1.755 2.356-4.112 2.105-6.52-2.054.102-4.56 1.355-6.012 3.112-1.303 1.504-2.456 3.959-2.156 6.266 2.306.2 4.61-1.152 6.063-2.858"></path><path fill="#000" d="M45.587 39.079c-3.35-.2-6.196 1.9-7.795 1.9-1.6 0-4.049-1.8-6.698-1.751-3.447.05-6.645 2-8.395 5.1-3.598 6.2-.95 15.4 2.55 20.45 1.699 2.5 3.747 5.25 6.445 5.151 2.55-.1 3.549-1.65 6.647-1.65 3.097 0 3.997 1.65 6.696 1.6 2.798-.05 4.548-2.5 6.247-5 1.95-2.85 2.747-5.6 2.797-5.75-.05-.05-5.396-2.101-5.446-8.251-.05-5.15 4.198-7.6 4.398-7.751-2.399-3.548-6.147-3.948-7.447-4.048"></path></g><g><path fill="#000" d="M78.973 32.11c7.278 0 12.347 5.017 12.347 12.321 0 7.33-5.173 12.373-12.529 12.373h-8.058V69.62h-5.822V32.11h14.062zm-8.24 19.807h6.68c5.07 0 7.954-2.729 7.954-7.46 0-4.73-2.885-7.434-7.928-7.434h-6.706v14.894z"></path><path fill="#000" d="M92.764 61.847c0-4.809 3.665-7.564 10.423-7.98l7.252-.442v-2.08c0-3.04-2.001-4.704-5.562-4.704-2.938 0-5.07 1.507-5.51 3.82h-5.252c.157-4.86 4.731-8.395 10.918-8.395 6.654 0 10.995 3.483 10.995 8.89v18.663h-5.38v-4.497h-.13c-1.534 2.937-4.914 4.782-8.579 4.782-5.406 0-9.175-3.222-9.175-8.057zm17.675-2.417v-2.106l-6.472.416c-3.64.234-5.536 1.585-5.536 3.95 0 2.288 1.975 3.77 5.068 3.77 3.95 0 6.94-2.522 6.94-6.03z"></path><path fill="#000" d="M120.975 79.652v-4.496c.364.051 1.247.103 1.715.103 2.573 0 4.029-1.09 4.913-3.899l.52-1.663-9.852-27.293h6.082l6.863 22.146h.13l6.862-22.146h5.927l-10.216 28.67c-2.34 6.577-5.017 8.735-10.683 8.735-.442 0-1.872-.052-2.261-.157z"></path></g></g></svg>
+
+              </li>
+            
+              <li class="payment-icons-item">
+                <svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 38 24" width="38" height="24" aria-labelledby="pi-discover"><title id="pi-discover">Discover</title><path d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z" fill="#000" opacity=".07"></path><path d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32" fill="#FFF"></path><path d="M37 16.95V21c0 1.1-.9 2-2 2H23.228c7.896-1.815 12.043-4.601 13.772-6.05z" fill="#EDA024"></path><path fill="#494949" d="M9 11h20v2H9z"></path><path d="M22 12c0 1.7-1.3 3-3 3s-3-1.4-3-3 1.4-3 3-3c1.7 0 3 1.3 3 3z" fill="#EDA024"></path></svg>
+
+              </li>
+            
+              <li class="payment-icons-item">
+                <svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" role="img" width="38" height="24" aria-labelledby="pi-master"><title id="pi-master">Mastercard</title><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"></path><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"></path><circle fill="#EB001B" cx="15" cy="12" r="7"></circle><circle fill="#F79E1B" cx="23" cy="12" r="7"></circle><path fill="#FF5F00" d="M22 12c0-2.4-1.2-4.5-3-5.7-1.8 1.3-3 3.4-3 5.7s1.2 4.5 3 5.7c1.8-1.2 3-3.3 3-5.7z"></path></svg>
+              </li>
+            
+              <li class="payment-icons-item">
+                <svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" width="38" height="24" role="img" aria-labelledby="pi-paypal"><title id="pi-paypal">PayPal</title><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"></path><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"></path><path fill="#003087" d="M23.9 8.3c.2-1 0-1.7-.6-2.3-.6-.7-1.7-1-3.1-1h-4.1c-.3 0-.5.2-.6.5L14 15.6c0 .2.1.4.3.4H17l.4-3.4 1.8-2.2 4.7-2.1z"></path><path fill="#3086C8" d="M23.9 8.3l-.2.2c-.5 2.8-2.2 3.8-4.6 3.8H18c-.3 0-.5.2-.6.5l-.6 3.9-.2 1c0 .2.1.4.3.4H19c.3 0 .5-.2.5-.4v-.1l.4-2.4v-.1c0-.2.3-.4.5-.4h.3c2.1 0 3.7-.8 4.1-3.2.2-1 .1-1.8-.4-2.4-.1-.5-.3-.7-.5-.8z"></path><path fill="#012169" d="M23.3 8.1c-.1-.1-.2-.1-.3-.1-.1 0-.2 0-.3-.1-.3-.1-.7-.1-1.1-.1h-3c-.1 0-.2 0-.2.1-.2.1-.3.2-.3.4l-.7 4.4v.1c0-.3.3-.5.6-.5h1.3c2.5 0 4.1-1 4.6-3.8v-.2c-.1-.1-.3-.2-.5-.2h-.1z"></path></svg>
+              </li>
+            
+              <li class="payment-icons-item">
+                <svg viewBox="0 0 38 24" width="38" height="24" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="pi-venmo"><title id="pi-venmo">Venmo</title><g fill="none" fill-rule="evenodd"><rect fill-opacity=".07" fill="#000" width="38" height="24" rx="3"></rect><path fill="#3D95CE" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"></path><path d="M24.675 8.36c0 3.064-2.557 7.045-4.633 9.84h-4.74L13.4 6.57l4.151-.402 1.005 8.275c.94-1.566 2.099-4.025 2.099-5.702 0-.918-.154-1.543-.394-2.058l3.78-.783c.437.738.634 1.499.634 2.46z" fill="#FFF" fill-rule="nonzero"></path></g></svg>
+
+              </li>
+            
+              <li class="payment-icons-item">
+                <svg viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" role="img" width="38" height="24" aria-labelledby="pi-visa"><title id="pi-visa">Visa</title><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"></path><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"></path><path d="M28.3 10.1H28c-.4 1-.7 1.5-1 3h1.9c-.3-1.5-.3-2.2-.6-3zm2.9 5.9h-1.7c-.1 0-.1 0-.2-.1l-.2-.9-.1-.2h-2.4c-.1 0-.2 0-.2.2l-.3.9c0 .1-.1.1-.1.1h-2.1l.2-.5L27 8.7c0-.5.3-.7.8-.7h1.5c.1 0 .2 0 .2.2l1.4 6.5c.1.4.2.7.2 1.1.1.1.1.1.1.2zm-13.4-.3l.4-1.8c.1 0 .2.1.2.1.7.3 1.4.5 2.1.4.2 0 .5-.1.7-.2.5-.2.5-.7.1-1.1-.2-.2-.5-.3-.8-.5-.4-.2-.8-.4-1.1-.7-1.2-1-.8-2.4-.1-3.1.6-.4.9-.8 1.7-.8 1.2 0 2.5 0 3.1.2h.1c-.1.6-.2 1.1-.4 1.7-.5-.2-1-.4-1.5-.4-.3 0-.6 0-.9.1-.2 0-.3.1-.4.2-.2.2-.2.5 0 .7l.5.4c.4.2.8.4 1.1.6.5.3 1 .8 1.1 1.4.2.9-.1 1.7-.9 2.3-.5.4-.7.6-1.4.6-1.4 0-2.5.1-3.4-.2-.1.2-.1.2-.2.1zm-3.5.3c.1-.7.1-.7.2-1 .5-2.2 1-4.5 1.4-6.7.1-.2.1-.3.3-.3H18c-.2 1.2-.4 2.1-.7 3.2-.3 1.5-.6 3-1 4.5 0 .2-.1.2-.3.2M5 8.2c0-.1.2-.2.3-.2h3.4c.5 0 .9.3 1 .8l.9 4.4c0 .1 0 .1.1.2 0-.1.1-.1.1-.1l2.1-5.1c-.1-.1 0-.2.1-.2h2.1c0 .1 0 .1-.1.2l-3.1 7.3c-.1.2-.1.3-.2.4-.1.1-.3 0-.5 0H9.7c-.1 0-.2 0-.2-.2L7.9 9.5c-.2-.2-.5-.5-.9-.6-.6-.3-1.7-.5-1.9-.5L5 8.2z" fill="#142688"></path></svg>
+              </li>
+            
+          </ul>
+					</div>
+				</div>
+	</div>
+	</div>
+	
+	<!-- Footer Ends---->
+	<div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog width-400" role="document">
+			<div class="modal-content no-r "><a href="#" data-dismiss="modal" aria-label="Close" class="paper-nav-toggle active"><i></i></a>
+				<div class="modal-body no-p">
+					 <div class="text-center p-40 p-b-0">
+						<img src='{% static "web/assets/image/u.png" %}'  alt="">
+						<h2 class=" text-center">Login</h2>
+					</div>
+					<div class="light p-40">
+						<form action="dashboard.html">
+							<div class="form-group has-icon"><i class="icon-envelope-o"></i>
+								<input type="text" class="form-control form-control-lg" placeholder="Email Address">
+							</div>
+							<div class="form-group has-icon"><i class="icon-user-secret"></i>
+								<input type="text" class="form-control form-control-lg" placeholder="Password">
+							</div>
+							<input type="submit" class="btn btn-primary btn-lg btn-block" value="Log In"> <small class="forget-pass">Have you forgot your username or password ?</small>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="modalSignUp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog width-400" role="document">
+			<div class="modal-content no-r "><a href="#" data-dismiss="modal" aria-label="Close" class="paper-nav-toggle active"><i></i></a>
+				<div class="modal-body no-p">
+					<div class="row">
+						<div class="col-lg-12">
+							<form action="dashboard.html">
+								<div class="col-lg-12">
+									<div class="p-t-b-20">
+										<div class="p-10">
+											<h2 class="p-b-20 text-center">New Buyer Registration</h2>
+											<div class="row">
+												<div class="col-md-12">
+													<div class="form-group has-icon"><i class="icon-user-circle"></i>
+														<!-- <label>Name</label> -->
+														<input type="text" class="form-control form-control-lg" placeholder="Your Name">
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="form-group has-icon"><i class="icon-envelope-o"></i>
+														<input type="text" class="form-control form-control-lg" placeholder="Email Address">
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="form-group form-control has-icon text-center" style="padding-top: 11px;">
+														<input type="radio"><span>Female</span>
+														<input type="radio"><span>Male</span>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="form-group has-icon"><i class="icon-user-secret"></i>
+														<input type="Password" class="form-control form-control-lg" placeholder="Password">
+													</div>
+												</div>
+												
+												<div class="col-md-12">
+													<div class="form-group has-icon"><i class="icon-user-secret"></i>
+														<input type="Password" class="form-control form-control-lg" placeholder="Confirm Password">
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="unit-cptc">
+              <div class="row">
+              <img src='{% static "web/assets/image/captcha.jpg" %}' class="ccppt">
+            </div>
+              <input type="text" name="">
+                <p class="data text-center">
+                     Accept <span class="red-data"> Terms and Conditions &nbsp;</span><span><input type="checkbox" name="" style="vertical-align: middle;"></span></p>
+
+            </div>
+												</div>
+											</div>
+											
+											<div class="row">
+												  
+											</div>
+											<div class="row">
+												<div class="col-md-6 offset-md-3">
+													<input type="submit" class="btn btn-primary btn-lg btn-block" value="Sign Up Now">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src='{% static "web/assets/js/jquery.min.js" %}' ></script>
+	 <script src='{% static "web/assets/js/popper.min.js" %}' ></script>
+  <script src='{% static "web/assets/js/bootstrap.min.js" %}' ></script>
+   
+	<script src='{% static "web/assets/js/app.js" %}'></script>
+	<script src='{% static "web/assets/js/nouislider.min.js" %}' ></script>
+	<script src='{% static "web/assets/js/custom.js" %}' ></script>
+
+ <script src='{% static "web/assets/js/owl.carousel.min.js" %}' ></script>
+ 
+
+
+<script type="text/javascript">
+
+
+
+
+$(document).ready(function(){
+    $('.vintageshow').click(function(event){
+        event.stopPropagation();
+         $(".sincebox").slideToggle("fast");
+    });
+    $(".sincebox").on("click", function (event) {
+        event.stopPropagation();
+    });
+});
+
+$(document).on("click", function () {
+    $(".sincebox").hide();
+});
+
+$(document).ready(function(){
+    $('.vintageshow1').click(function(event){
+        event.stopPropagation();
+         $(".redtoggle").slideToggle("fast");
+    });
+    $(".redtoggle").on("click", function (event) {
+        event.stopPropagation();
+    });
+});
+
+$(document).on("click", function () {
+    $(".redtoggle").hide();
+});
+
+
+jQuery(document).ready(function($) {
+    $(".region_tabs li").hover(function() {
+        $(".mega_menu_show").hide();
+        $(".region_tabs li").removeClass('active');                  
+        $(this).addClass("active");                 
+        var selected_tab = $(this).find("a").attr("href");
+        $(selected_tab).show();
+        return false;
+    });
+});
+
+
+jQuery(document).ready(function($) {
+    $(".region_tabs_w li").hover(function() {
+        $(".mega_menu_show_w").hide();
+        $(".region_tabs_w li").removeClass('active');                  
+        $(this).addClass("active");                 
+        var selected_tab = $(this).find("a").attr("href");
+        $(selected_tab).show();
+        return false;
+    });
+});
+
+
+jQuery(document).ready(function($) {
+    $(".france_w li").hover(function() {
+        $(".country_div").hide();
+        $(".france_w li").removeClass('active');                  
+        $(this).addClass("active");                 
+        var selected_tab = $(this).find("a").attr("href");
+        $(selected_tab).show();
+        return false;
+    });
+});
+
+jQuery(document).ready(function($) {
+    $(".region_b li").hover(function() {
+        $(".applicon_w").hide();
+        $(".region_b li").removeClass('active');                  
+        $(this).addClass("active");                 
+        var selected_tab = $(this).find("a").attr("href");
+        $(selected_tab).show();
+        return false;
+    });
+});
+
+
+
+$(document).ready(function () {
+    
+    $(".accordion_head").click(function () {
+        if ($('.accordion_body').is(':visible')) {
+            $(".accordion_body").slideUp(300);
+            $(".plusminus").text('+');
+        }
+        if ($(this).next(".accordion_body").is(':visible')) {
+            $(this).next(".accordion_body").slideUp(300);
+            $(this).children(".plusminus").text('+');
+        } else {
+            $(this).next(".accordion_body").slideDown(300);
+            $(this).children(".plusminus").text('-');
+        }
+    });
+});
+$(document).ready(function(){
+	
+	$('ul.product-tabs li').click(function(){
+		var tab_id = $(this).attr('data-tab');
+
+		$('ul.product-tabs li').removeClass('current');
+		$('.tab-content').removeClass('current');
+
+		$(this).addClass('current');
+		$("#"+tab_id).addClass('current');
+	})
+	
+	$('ul.product-tabs1 li').click(function(){
+		var tab_id = $(this).attr('data-tab');
+
+		$('ul.product-tabs1 li').removeClass('current');
+		$('.tab-content1').removeClass('current');
+
+		$(this).addClass('current');
+		$("#"+tab_id).addClass('current');
+	})
+
+})     
+    
+jQuery(document).ready(function(){
+jQuery('#carouselExampleIndicators').carousel({
+  interval: 2000
+})
+});
+
+/*------------------------------------
+    single-carousel
+    ------------------------------------- */  
+    $("#single-carousel").owlCarousel({
+        autoplay: false,
+        slideSpeed:1500,
+        pagination:false,
+        nav: true,
+        items : 4,
+		margin:30,
+        itemsDesktop : [1199,3],
+        itemsDesktopSmall : [980,2],
+        itemsTablet: [768,2],
+        itemsMobile : [479,1],
+    });
+	
+ 
+    
+
+
+  jQuery("#carousel").owlCarousel({
+    autoplay: true,
+    lazyLoad: true,
+    loop: true,
+    margin: 20,
+     /*
+    animateOut: 'fadeOut',
+    animateIn: 'fadeIn',
+    */
+    responsiveClass: true,
+    autoHeight: true,
+    autoplayTimeout: 7000,
+    smartSpeed: 800,
+    nav: true,
+    responsive: {
+      0: {
+        items: 1
+      },
+  
+      600: {
+        items: 2
+      },
+  
+      1024: {
+        items: 3
+      },
+  
+      1366: {
+        items:6
+      }
+    }
+  });
+</script>
+<script type="text/javascript">
+  jQuery("#carousel1").owlCarousel({
+    autoplay: true,
+    lazyLoad: true,
+    loop: true,
+    margin: 20,
+     /*
+    animateOut: 'fadeOut',
+    animateIn: 'fadeIn',
+    */
+    responsiveClass: true,
+    autoHeight: true,
+    autoplayTimeout: 7000,
+    smartSpeed: 800,
+    nav: true,
+    responsive: {
+      0: {
+        items: 1
+      },
+  
+      600: {
+        items: 3
+      },
+  
+      1024: {
+        items: 4
+      },
+  
+      1366: {
+        items: 4
+      }
+    }
+  });
+  
+  
+  jQuery("#releted-product").owlCarousel({
+    autoplay: true,
+    lazyLoad: true,
+    loop: true,
+    margin: 20,
+     /*
+    animateOut: 'fadeOut',
+    animateIn: 'fadeIn',
+    */
+    responsiveClass: true,
+    autoHeight: true,
+    autoplayTimeout: 7000,
+    smartSpeed: 800,
+    nav: true,
+    responsive: {
+      0: {
+        items: 1
+      },
+  
+      600: {
+        items: 3
+      },
+  
+      1024: {
+        items: 4
+      },
+  
+      1366: {
+        items: 4
+      }
+    }
+  });
+  
+  jQuery("#releted-product1").owlCarousel({
+    autoplay: true,
+    lazyLoad: true,
+    loop: true,
+    margin: 20,
+     /*
+    animateOut: 'fadeOut',
+    animateIn: 'fadeIn',
+    */
+    responsiveClass: true,
+    autoHeight: true,
+    autoplayTimeout: 7000,
+    smartSpeed: 800,
+    nav: true,
+    responsive: {
+      0: {
+        items: 1
+      },
+  
+      600: {
+        items: 3
+      },
+  
+      1024: {
+        items: 4
+      },
+  
+      1366: {
+        items: 4
+      }
+    }
+  });
+  
+</script>
+	<script>
+		function openCity(cityName,elmnt,color) {
+	  var i, tabcontent, tablinks;
+	  tabcontent = document.getElementsByClassName("tabcontent");
+	  for (i = 0; i < tabcontent.length; i++) {
+	    tabcontent[i].style.display = "none";
+	  }
+	  tablinks = document.getElementsByClassName("tablink");
+	  for (i = 0; i < tablinks.length; i++) {
+	    tablinks[i].style.backgroundColor = "";
+	  }
+	  document.getElementById(cityName).style.display = "block";
+	  elmnt.style.backgroundColor = color;
+	
+	}
+	// Get the element with id="defaultOpen" and click on it
+	document.getElementById("defaultOpen").click();
+	</script>
+
+
+	<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+</script>
+<!--<script>
+
+
+
+$(function(){
+  
+  $('.caret').on('click',function(event){
+    
+    event.preventDefault()
+    
+    $(this).parent().find('.nested').first().toggle(300);
+    
+    $(this).parent().siblings().find('.nested').hide(200);
+    
+    //Hide menu when clicked outside
+    $(this).parent().find('.ruby-menu-demo-header').mouseleave(function(){  
+      var thisUI = $(this);
+      $('html').click(function(){
+        thisUI.hide();
+        $('html').unbind('click');
+      });
+    });
+    
+    
+  });
+  
+
+ 
+  
+});
+
+</script>-->
+<!-- <script> $(function () {
+    $('li').has('ul').click(function (event) {
+        if (this == event.target) {
+            $(this).toggleClass('open');
+            $(this).children('ul').toggle();
+            if($(this).siblings().hasClass('open')) { $(this).siblings().addClass('closed').removeClass('open').children('ul').hide();
+                                                    }
+        }
+    }).addClass('closed').children('ul').hide();
+});</script> -->
+<script>
+  jQuery(function ($) {
+jQuery('.article-title').on('click', function () {
+ 
+  jQuery(this).next().slideToggle(200);
+ 
+  jQuery(this).toggleClass('open');
+});
+
+});
+</script>
+
+
+
+<script>
+$(document).ready(function(){
+  $(".read-more-show").click(function(){
+    $(".details").slideDown();
+	$(".read-more-show").hide();
+  });
+  $(".read-less").click(function(){
+    $(".details").slideUp();
+	$(".read-more-show").show();
+  });
+});
+</script>
+<script>
+
+(function($) {
+    'use strict';
+
+    var _currentSpinnerId = 0;
+
+    function _scopedEventName(name, id) {
+        return name + '.touchspin_' + id;
+    }
+
+    function _scopeEventNames(names, id) {
+        return $.map(names, function(name) {
+            return _scopedEventName(name, id);
+        });
+    }
+
+    $.fn.TouchSpin = function(options) {
+
+        if (options === 'destroy') {
+            this.each(function() {
+                var originalinput = $(this),
+                    originalinput_data = originalinput.data();
+                $(document).off(_scopeEventNames([
+                  'mouseup',
+                  'touchend',
+                  'touchcancel',
+                  'mousemove',
+                  'touchmove',
+                  'scroll',
+                  'scrollstart'], originalinput_data.spinnerid).join(' '));
+            });
+            return;
+        }
+
+        var defaults = {
+            min: 0,
+            max: 100,
+            initval: '',
+            replacementval: '',
+            step: 1,
+            decimals: 0,
+            stepinterval: 100,
+            forcestepdivisibility: 'round', // none | floor | round | ceil
+            stepintervaldelay: 500,
+            verticalbuttons: false,
+            verticalupclass: 'glyphicon glyphicon-chevron-up',
+            verticaldownclass: 'glyphicon glyphicon-chevron-down',
+            prefix: '',
+            postfix: '',
+            prefix_extraclass: '',
+            postfix_extraclass: '',
+            booster: true,
+            boostat: 10,
+            maxboostedstep: false,
+            mousewheel: true,
+            buttondown_class: 'btn btn-default',
+            buttonup_class: 'btn btn-default',
+            buttondown_txt: '-',
+            buttonup_txt: '+'
+        };
+
+        var attributeMap = {
+            min: 'min',
+            max: 'max',
+            initval: 'init-val',
+            replacementval: 'replacement-val',
+            step: 'step',
+            decimals: 'decimals',
+            stepinterval: 'step-interval',
+            verticalbuttons: 'vertical-buttons',
+            verticalupclass: 'vertical-up-class',
+            verticaldownclass: 'vertical-down-class',
+            forcestepdivisibility: 'force-step-divisibility',
+            stepintervaldelay: 'step-interval-delay',
+            prefix: 'prefix',
+            postfix: 'postfix',
+            prefix_extraclass: 'prefix-extra-class',
+            postfix_extraclass: 'postfix-extra-class',
+            booster: 'booster',
+            boostat: 'boostat',
+            maxboostedstep: 'max-boosted-step',
+            mousewheel: 'mouse-wheel',
+            buttondown_class: 'button-down-class',
+            buttonup_class: 'button-up-class',
+            buttondown_txt: 'button-down-txt',
+            buttonup_txt: 'button-up-txt'
+        };
+
+        return this.each(function() {
+
+            var settings,
+                originalinput = $(this),
+                originalinput_data = originalinput.data(),
+                container,
+                elements,
+                value,
+                downSpinTimer,
+                upSpinTimer,
+                downDelayTimeout,
+                upDelayTimeout,
+                spincount = 0,
+                spinning = false;
+
+            init();
+
+
+            function init() {
+                if (originalinput.data('alreadyinitialized')) {
+                    return;
+                }
+
+                originalinput.data('alreadyinitialized', true);
+                _currentSpinnerId += 1;
+                originalinput.data('spinnerid', _currentSpinnerId);
+
+
+                if (!originalinput.is('input')) {
+                    console.log('Must be an input.');
+                    return;
+                }
+
+                _initSettings();
+                _setInitval();
+                _checkValue();
+                _buildHtml();
+                _initElements();
+                _hideEmptyPrefixPostfix();
+                _bindEvents();
+                _bindEventsInterface();
+                elements.input.css('display', 'block');
+            }
+
+            function _setInitval() {
+                if (settings.initval !== '' && originalinput.val() === '') {
+                    originalinput.val(settings.initval);
+                }
+            }
+
+            function changeSettings(newsettings) {
+                _updateSettings(newsettings);
+                _checkValue();
+
+                var value = elements.input.val();
+
+                if (value !== '') {
+                    value = Number(elements.input.val());
+                    elements.input.val(value.toFixed(settings.decimals));
+                }
+            }
+
+            function _initSettings() {
+                settings = $.extend({}, defaults, originalinput_data, _parseAttributes(), options);
+            }
+
+            function _parseAttributes() {
+                var data = {};
+                $.each(attributeMap, function(key, value) {
+                    var attrName = 'bts-' + value + '';
+                    if (originalinput.is('[data-' + attrName + ']')) {
+                        data[key] = originalinput.data(attrName);
+                    }
+                });
+                return data;
+            }
+
+            function _updateSettings(newsettings) {
+                settings = $.extend({}, settings, newsettings);
+            }
+
+            function _buildHtml() {
+                var initval = originalinput.val(),
+                    parentelement = originalinput.parent();
+
+                if (initval !== '') {
+                    initval = Number(initval).toFixed(settings.decimals);
+                }
+
+                originalinput.data('initvalue', initval).val(initval);
+                originalinput.addClass('form-control');
+
+                if (parentelement.hasClass('input-group')) {
+                    _advanceInputGroup(parentelement);
+                }
+                else {
+                    _buildInputGroup();
+                }
+            }
+
+            function _advanceInputGroup(parentelement) {
+                parentelement.addClass('bootstrap-touchspin');
+
+                var prev = originalinput.prev(),
+                    next = originalinput.next();
+
+                var downhtml,
+                    uphtml,
+                    prefixhtml = '<span class="input-group-addon bootstrap-touchspin-prefix">' + settings.prefix + '</span>',
+                    postfixhtml = '<span class="input-group-addon bootstrap-touchspin-postfix">' + settings.postfix + '</span>';
+
+                if (prev.hasClass('input-group-btn')) {
+                    downhtml = '<button class="' + settings.buttondown_class + ' bootstrap-touchspin-down mybut" type="button">' + settings.buttondown_txt + '</button>';
+                    prev.append(downhtml);
+                }
+                else {
+                    downhtml = '<span class="input-group-btn"><button class="' + settings.buttondown_class + ' bootstrap-touchspin-down" type="button">' + settings.buttondown_txt + '</button></span>';
+                    $(downhtml).insertBefore(originalinput);
+                }
+
+                if (next.hasClass('input-group-btn')) {
+                    uphtml = '<button class="' + settings.buttonup_class + ' bootstrap-touchspin-up" type="button">' + settings.buttonup_txt + '</button>';
+                    next.prepend(uphtml);
+                }
+                else {
+                    uphtml = '<span class="input-group-btn"><button class="' + settings.buttonup_class + ' bootstrap-touchspin-up" type="button">' + settings.buttonup_txt + '</button></span>';
+                    $(uphtml).insertAfter(originalinput);
+                }
+
+                $(prefixhtml).insertBefore(originalinput);
+                $(postfixhtml).insertAfter(originalinput);
+
+                container = parentelement;
+            }
+
+            function _buildInputGroup() {
+                var html;
+
+                if (settings.verticalbuttons) {
+                    html = '<div class="input-group bootstrap-touchspin"><span class="input-group-addon bootstrap-touchspin-prefix">' + settings.prefix + '</span><span class="input-group-addon bootstrap-touchspin-postfix">' + settings.postfix + '</span><span class="input-group-btn-vertical"><button class="' + settings.buttondown_class + ' bootstrap-touchspin-up" type="button"><i class="' + settings.verticalupclass + '"></i></button><button class="' + settings.buttonup_class + ' bootstrap-touchspin-down" type="button"><i class="' + settings.verticaldownclass + '"></i></button></span></div>';
+                }
+                else {
+                    html = '<div class="input-group bootstrap-touchspin"><span class="input-group-btn"><button class="' + settings.buttondown_class + ' bootstrap-touchspin-down" type="button">' + settings.buttondown_txt + '</button></span><span class="input-group-addon bootstrap-touchspin-prefix">' + settings.prefix + '</span><span class="input-group-addon bootstrap-touchspin-postfix">' + settings.postfix + '</span><span class="input-group-btn"><button class="' + settings.buttonup_class + ' bootstrap-touchspin-up" type="button">' + settings.buttonup_txt + '</button></span></div>';
+                }
+
+                container = $(html).insertBefore(originalinput);
+
+                $('.bootstrap-touchspin-prefix', container).after(originalinput);
+
+                if (originalinput.hasClass('input-sm')) {
+                    container.addClass('input-group-sm');
+                }
+                else if (originalinput.hasClass('input-lg')) {
+                    container.addClass('input-group-lg');
+                }
+            }
+
+            function _initElements() {
+                elements = {
+                    down: $('.bootstrap-touchspin-down', container),
+                    up: $('.bootstrap-touchspin-up', container),
+                    input: $('input', container),
+                    prefix: $('.bootstrap-touchspin-prefix', container).addClass(settings.prefix_extraclass),
+                    postfix: $('.bootstrap-touchspin-postfix', container).addClass(settings.postfix_extraclass)
+                };
+            }
+
+            function _hideEmptyPrefixPostfix() {
+                if (settings.prefix === '') {
+                    elements.prefix.hide();
+                }
+
+                if (settings.postfix === '') {
+                    elements.postfix.hide();
+                }
+            }
+
+            function _bindEvents() {
+                originalinput.on('keydown', function(ev) {
+                    var code = ev.keyCode || ev.which;
+
+                    if (code === 38) {
+                        if (spinning !== 'up') {
+                            upOnce();
+                            startUpSpin();
+                        }
+                        ev.preventDefault();
+                    }
+                    else if (code === 40) {
+                        if (spinning !== 'down') {
+                            downOnce();
+                            startDownSpin();
+                        }
+                        ev.preventDefault();
+                    }
+                });
+
+                originalinput.on('keyup', function(ev) {
+                    var code = ev.keyCode || ev.which;
+
+                    if (code === 38) {
+                        stopSpin();
+                    }
+                    else if (code === 40) {
+                        stopSpin();
+                    }
+                });
+
+                originalinput.on('blur', function() {
+                    _checkValue();
+                });
+
+                elements.down.on('keydown', function(ev) {
+                    var code = ev.keyCode || ev.which;
+
+                    if (code === 32 || code === 13) {
+                        if (spinning !== 'down') {
+                            downOnce();
+                            startDownSpin();
+                        }
+                        ev.preventDefault();
+                    }
+                });
+
+                elements.down.on('keyup', function(ev) {
+                    var code = ev.keyCode || ev.which;
+
+                    if (code === 32 || code === 13) {
+                        stopSpin();
+                    }
+                });
+
+                elements.up.on('keydown', function(ev) {
+                    var code = ev.keyCode || ev.which;
+
+                    if (code === 32 || code === 13) {
+                        if (spinning !== 'up') {
+                            upOnce();
+                            startUpSpin();
+                        }
+                        ev.preventDefault();
+                    }
+                });
+
+                elements.up.on('keyup', function(ev) {
+                    var code = ev.keyCode || ev.which;
+
+                    if (code === 32 || code === 13) {
+                        stopSpin();
+                    }
+                });
+
+                elements.down.on('mousedown.touchspin', function(ev) {
+                    elements.down.off('touchstart.touchspin');  // android 4 workaround
+
+                    if (originalinput.is(':disabled')) {
+                        return;
+                    }
+
+                    downOnce();
+                    startDownSpin();
+
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                });
+
+                elements.down.on('touchstart.touchspin', function(ev) {
+                    elements.down.off('mousedown.touchspin');  // android 4 workaround
+
+                    if (originalinput.is(':disabled')) {
+                        return;
+                    }
+
+                    downOnce();
+                    startDownSpin();
+
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                });
+
+                elements.up.on('mousedown.touchspin', function(ev) {
+                    elements.up.off('touchstart.touchspin');  // android 4 workaround
+
+                    if (originalinput.is(':disabled')) {
+                        return;
+                    }
+
+                    upOnce();
+                    startUpSpin();
+
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                });
+
+                elements.up.on('touchstart.touchspin', function(ev) {
+                    elements.up.off('mousedown.touchspin');  // android 4 workaround
+
+                    if (originalinput.is(':disabled')) {
+                        return;
+                    }
+
+                    upOnce();
+                    startUpSpin();
+
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                });
+
+                elements.up.on('mouseout touchleave touchend touchcancel', function(ev) {
+                    if (!spinning) {
+                        return;
+                    }
+
+                    ev.stopPropagation();
+                    stopSpin();
+                });
+
+                elements.down.on('mouseout touchleave touchend touchcancel', function(ev) {
+                    if (!spinning) {
+                        return;
+                    }
+
+                    ev.stopPropagation();
+                    stopSpin();
+                });
+
+                elements.down.on('mousemove touchmove', function(ev) {
+                    if (!spinning) {
+                        return;
+                    }
+
+                    ev.stopPropagation();
+                    ev.preventDefault();
+                });
+
+                elements.up.on('mousemove touchmove', function(ev) {
+                    if (!spinning) {
+                        return;
+                    }
+
+                    ev.stopPropagation();
+                    ev.preventDefault();
+                });
+
+                $(document).on(_scopeEventNames(['mouseup', 'touchend', 'touchcancel'], _currentSpinnerId).join(' '), function(ev) {
+                    if (!spinning) {
+                        return;
+                    }
+
+                    ev.preventDefault();
+                    stopSpin();
+                });
+
+                $(document).on(_scopeEventNames(['mousemove', 'touchmove', 'scroll', 'scrollstart'], _currentSpinnerId).join(' '), function(ev) {
+                    if (!spinning) {
+                        return;
+                    }
+
+                    ev.preventDefault();
+                    stopSpin();
+                });
+
+                originalinput.on('mousewheel DOMMouseScroll', function(ev) {
+                    if (!settings.mousewheel || !originalinput.is(':focus')) {
+                        return;
+                    }
+
+                    var delta = ev.originalEvent.wheelDelta || -ev.originalEvent.deltaY || -ev.originalEvent.detail;
+
+                    ev.stopPropagation();
+                    ev.preventDefault();
+
+                    if (delta < 0) {
+                        downOnce();
+                    }
+                    else {
+                        upOnce();
+                    }
+                });
+            }
+
+            function _bindEventsInterface() {
+                originalinput.on('touchspin.uponce', function() {
+                    stopSpin();
+                    upOnce();
+                });
+
+                originalinput.on('touchspin.downonce', function() {
+                    stopSpin();
+                    downOnce();
+                });
+
+                originalinput.on('touchspin.startupspin', function() {
+                    startUpSpin();
+                });
+
+                originalinput.on('touchspin.startdownspin', function() {
+                    startDownSpin();
+                });
+
+                originalinput.on('touchspin.stopspin', function() {
+                    stopSpin();
+                });
+
+                originalinput.on('touchspin.updatesettings', function(e, newsettings) {
+                    changeSettings(newsettings);
+                });
+            }
+
+            function _forcestepdivisibility(value) {
+                switch (settings.forcestepdivisibility) {
+                    case 'round':
+                        return (Math.round(value / settings.step) * settings.step).toFixed(settings.decimals);
+                    case 'floor':
+                        return (Math.floor(value / settings.step) * settings.step).toFixed(settings.decimals);
+                    case 'ceil':
+                        return (Math.ceil(value / settings.step) * settings.step).toFixed(settings.decimals);
+                    default:
+                        return value;
+                }
+            }
+
+            function _checkValue() {
+                var val, parsedval, returnval;
+
+                val = originalinput.val().replace(',', '');
+
+                if (val === '') {
+                    if (settings.replacementval !== '') {
+                        originalinput.val(settings.replacementval);
+                        originalinput.trigger('change');
+                    }
+                    return;
+                }
+
+                if (settings.decimals > 0 && val === '.') {
+                    return;
+                }
+
+                parsedval = parseFloat(val);
+
+                if (isNaN(parsedval)) {
+                    if (settings.replacementval !== '') {
+                        parsedval = settings.replacementval;
+                    }
+                    else {
+                        parsedval = 0;
+                    }
+                }
+
+                returnval = parsedval;
+
+                if (parsedval.toString() !== val) {
+                    returnval = parsedval;
+                }
+
+                if (parsedval < settings.min) {
+                    returnval = settings.min;
+                }
+
+                if (parsedval > settings.max) {
+                    returnval = settings.max;
+                }
+
+                returnval = _forcestepdivisibility(returnval);
+
+                if (Number(val).toString() !== returnval.toString()) {
+                    //originalinput.val(returnval);
+                    originalinput.val(returnval.toString().replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")); // Added Format back
+                    originalinput.trigger('change');
+                }
+            }
+
+            function _getBoostedStep() {
+                if (!settings.booster) {
+                    return settings.step;
+                }
+                else {
+                    var boosted = Math.pow(2, Math.floor(spincount / settings.boostat)) * settings.step;
+
+                    if (settings.maxboostedstep) {
+                        if (boosted > settings.maxboostedstep) {
+                            boosted = settings.maxboostedstep;
+                            value = Math.round((value / boosted)) * boosted;
+                        }
+                    }
+
+                    return Math.max(settings.step, boosted);
+                }
+            }
+
+            function upOnce() {
+                _checkValue();
+
+                //value = parseFloat(elements.input.val());
+                value = parseFloat(elements.input.val().replace(',',''));
+                if (isNaN(value)) {
+                    value = 0;
+                }
+
+                var initvalue = value,
+                    boostedstep = _getBoostedStep();
+
+                value = value + boostedstep;
+
+                if (value > settings.max) {
+                    value = settings.max;
+                    originalinput.trigger('touchspin.on.max');
+                    stopSpin();
+                }
+
+                elements.input.val(Number(value).toFixed(settings.decimals).toString().replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+                if (initvalue !== value) {
+                    originalinput.trigger('change');
+                }
+            }
+
+            function downOnce() {
+                _checkValue();
+
+                //value = parseFloat(elements.input.val());
+                value = parseFloat(elements.input.val().replace(',', ''));
+                if (isNaN(value)) {
+                    value = 0;
+                }
+
+                var initvalue = value,
+                    boostedstep = _getBoostedStep();
+
+                value = value - boostedstep;
+
+                if (value < settings.min) {
+                    value = settings.min;
+                    originalinput.trigger('touchspin.on.min');
+                    stopSpin();
+                }
+
+                elements.input.val(value.toFixed(settings.decimals).toString().replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+                if (initvalue !== value) {
+                    originalinput.trigger('change');
+                }
+            }
+
+            function startDownSpin() {
+                stopSpin();
+
+                spincount = 0;
+                spinning = 'down';
+
+                originalinput.trigger('touchspin.on.startspin');
+                originalinput.trigger('touchspin.on.startdownspin');
+
+                downDelayTimeout = setTimeout(function() {
+                    downSpinTimer = setInterval(function() {
+                        spincount++;
+                        downOnce();
+                    }, settings.stepinterval);
+                }, settings.stepintervaldelay);
+            }
+
+            function startUpSpin() {
+                stopSpin();
+
+                spincount = 0;
+                spinning = 'up';
+
+                originalinput.trigger('touchspin.on.startspin');
+                originalinput.trigger('touchspin.on.startupspin');
+
+                upDelayTimeout = setTimeout(function() {
+                    upSpinTimer = setInterval(function() {
+                        spincount++;
+                        upOnce();
+                    }, settings.stepinterval);
+                }, settings.stepintervaldelay);
+            }
+
+            function stopSpin() {
+                clearTimeout(downDelayTimeout);
+                clearTimeout(upDelayTimeout);
+                clearInterval(downSpinTimer);
+                clearInterval(upSpinTimer);
+
+                switch (spinning) {
+                    case 'up':
+                        originalinput.trigger('touchspin.on.stopupspin');
+                        originalinput.trigger('touchspin.on.stopspin');
+                        break;
+                    case 'down':
+                        originalinput.trigger('touchspin.on.stopdownspin');
+                        originalinput.trigger('touchspin.on.stopspin');
+                        break;
+                }
+
+                spincount = 0;
+                spinning = false;
+            }
+
+        });
+
+    };
+
+})(jQuery);
+
+
+function formatNumber(nStr) {
+    //check for blank, use jquery trim for ie8 compat
+    if ("" === $.trim(nStr)) {
+        return 0;
+    }
+
+    // Check if it is a number
+    if (!$.isNumeric(nStr)) {
+        return nStr;
+    }
+
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+}
+
+function initCommas() {
+    // Cache document for better performance
+    var $document = $(document);
+
+    $document.on('blur', '.comma-format', function() {
+        // Format and place back into text
+        $(this).val(formatNumber($(this).val()));
+    });
+}
+
+$('.dollar-spin').TouchSpin({
+        min: 1,
+        max: 100,
+        step: 1,
+        forcestepdivisibility: 'round',
+        replacementval: 0
+});
+$(function () {
+  //this formats the number if it was typed in manually -- the spin code is in the modified bootstrap-touchspin script
+  initCommas();
+});
+
+$('.moreless-button').click(function() {
+  $('.moretext').slideToggle();
+  if ($('.moreless-button').text() == "Read more") {
+    $(this).text("Read less")
+  } else {
+    $(this).text("Read more")
+  }
+});
+
+$('#facetfilterNavigation .dropdown').hover(function() {
+  $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(500);
+}, function() {
+  $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
+});
+</script>
+
+
+      {% block script %}
+      {% endblock %}
+
+
+</body>
+
+</html>               
