@@ -1,0 +1,48 @@
+{% if year_list %}
+{% for year in year_list %}
+
+<div class="since2010">
+   <table width="100%" border="1" class="table table-striped table-bordered newpage editableTable" align="center" cellpadding="0" cellspacing="0" style=" font-size: 15px;">
+      <thead>
+         <tr style="cursor: pointer;">
+            <td colspan="9">
+               <div class="yearwine"><span>{{year}}</span> -> {{product_ins}}</div>
+            </td>
+         </tr>
+         <tr style="cursor: pointer;">
+            <th align="left" valign="top">Bottle</th>
+            <th align="left" valign="top">Retail Cost</th>
+            <th align="left" valign="top">Retail Stock</th>
+            <th align="left" valign="top">Discount Cost</th>
+            <th align="left" valign="top">Duty</th>
+            <th align="left" valign="top">GST</th>
+            <th align="left" valign="top">Bond Cost</th>
+            <th align="left" valign="top">Bond Stock</th>
+            <th align="left" valign="top">Bond Discount Cost</th>
+         </tr>
+      </thead>
+      <tbody>
+        {% if object %}
+        {% for cost_items in object %}
+      
+        {% if cost_items.Vintage_Year.Vintages_Year == year %}
+         <tr data-id="1" style="cursor: pointer;">
+            <td data-field="retail" align="left" valign="top">{{cost_items.Bottle}}</td>
+            <td data-field="cost" align="left" valign="top">{{cost_items.Retail_Cost}}</td>
+            <td data-field="retail-stock" align="left" valign="top">{{cost_items.Retail_Stock}}</td>
+            <td data-field="discount" align="left" valign="top">{{cost_items.Descount_Cost}}</td>
+            <td data-field="tax" align="left" valign="top">{{cost_items.Duty}}</td>
+            <td data-field="name" align="left" valign="top">{{cost_items.GST}}%</td>
+            <td data-field="bond-stock" align="left" valign="top">{{cost_items.Bond_Cost}}</td>
+            <td data-field="duty" align="left" valign="top">{{cost_items.Bond_Stock}}</td>
+            <td data-field="duty" align="left" valign="top">{{cost_items.Bond_Descount_Cost}}</td>
+         </tr>
+         {% endif %}
+         {% endfor %}
+        {% endif %}
+      </tbody>
+   </table>
+</div>
+<hr>
+{% endfor %}
+{% endif %}

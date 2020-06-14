@@ -1,0 +1,27 @@
+         <div class="login-form-content">
+  <form action="{% url 'admin_manage_classification:update_classification'  object.id %}" method="post" enctype='multipart/form-data'>
+      
+{% csrf_token %}
+
+
+    <div class="row">
+     <div class="col-md-12">
+      <div class="form-group">
+                   <label class="age">Classification Name</label>
+                   {{form.Classification_Name}}
+                   <!-- <input type="text" class="form-control" placeholder="Enter your winery name"> -->
+        </div>
+     </div>
+    </div>
+
+
+<div class="row">
+ 
+  <div class="col-md-6">
+    <div class="form-group">
+      <button type="submit" class="btn-block btn btn-white subbtn">Save</button>
+    </div>
+  </div>
+</div>
+</form>
+</div>

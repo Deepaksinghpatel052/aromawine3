@@ -1,0 +1,655 @@
+{% extends 'web/base-template.html' %}
+{% block content %}
+{% load static %}
+
+
+<!-----------Page Content Start------------->
+<div class="breadcrumbs">
+<div class="container">
+
+<a href="index.php" title="Go to Home Page"><i class="fa fa-home"></i></a>
+<span>/ </span>
+
+<strong>{{get_product_one_year.Product.Product_name}} ->
+ {% if get_product_one_year.Product.Vintage.all %}
+ |
+ {% for get_year in get_product_one_year.Product.Vintage.all %}
+<a href="{% url 'product_detail:product_detail' get_product_one_year.Product.Product_id get_product_one_year.Product.Product_slug  get_year %}"><u>{{get_year}}</u> |</a> 
+
+ {% endfor %}
+{% endif %}
+
+ ->({{get_product_one_year.Product.Bottel_Size.all|join:" | "}})</strong>
+
+</div>
+</div>
+
+<section class="single-product-main">
+<div class="container">
+<div class="row">
+
+<div class="col-lg-5 col-sm-12 col-xs-12">
+  <div class="simpleLens-gallery-container" id="demo-1">
+    <div class="simpleLens-container">
+      <div class="simpleLens-big-image-container"> <a class="simpleLens-lens-image" data-lens-image="assets/image/shop/single-1.png"> <img src='{% static "web/assets/image/shop/single-1.png" %}'class="simpleLens-big-image"> </a> </div>
+    </div>
+    <div class="simpleLens-thumbnails-container"> 
+    	{% if get_product_image %}
+    	{% for items in get_product_image %}
+    	<a class="simpleLens-thumbnail-wrapper"
+               data-lens-image='{{items.Image.url}}'
+               data-big-image='{{items.Image.url}}'> <img src='{{items.Image.url}}' > </a> 
+           {% endfor %}    
+    	{% else %}
+
+    	<a class="simpleLens-thumbnail-wrapper"
+               data-lens-image='{% static "web/assets/image/shop/single-1.png" %}'
+               data-big-image='{% static "web/assets/image/shop/single-1.png" %}'> <img src='{% static "web/assets/image/shop/single-1.png" %}' > </a> 
+        <a class="simpleLens-thumbnail-wrapper"
+               data-lens-image='{% static "web/assets/image/shop/single-1.png" %}'
+               data-big-image='{% static "web/assets/image/shop/single-1.png" %}'> <img src='{% static "web/assets/image/shop/single-1.png" %}' > </a>
+        <a class="simpleLens-thumbnail-wrapper"
+               data-lens-image='{% static "web/assets/image/shop/single-1.png" %}'
+               data-big-image='{% static "web/assets/image/shop/single-1.png" %}'> <img src='{% static "web/assets/image/shop/single-1.png" %}' > </a> 
+{% endif %}
+           </div>
+  </div>
+</div>
+<div class="col-lg-7 col-sm-12 col-xs-12">
+  <div class="page-single-product-desc">
+<div class="product-name">
+    <h2>{{get_product_one_year.Product.Product_name}} {{get_product_one_year}}</h2>
+  </div>
+  
+  <div class="inbond">
+<form method="post" class="row">
+<div class="col-xs-7 col-sm-7 col-lg-7 no-padding">
+<div class="row">
+<div class="ib-dp-price col-xs-12 col-md-4">
+<span class="regular-price">${{get_product_one_year.Bond_Cost}}</span>
+</div>
+<div class="product-type col-xs-12 col-md-8">
+<span>Delivered to Bond</span>
+<a class="tooltips">
+<span class="iconsprite question">?</span>
+<span class="tooltip on-top">
+We will only be able to deliver this product to a bonded account. But you can request to set one up at the Checkout. </span>
+</a>
+<div class="warehouse">
+Stock in United Kingdom <p>Delivery to United Kingdom Storage: 25 Mar 2020</p>
+</div>
+</div>
+</div>
+</div>
+<div class="col-xs-5 col-sm-5 col-lg-5 add-to a-right">
+<div class="bottleboxx">
+<div class="guaranteed-stock-tip-cont">
+	{% if get_produuct_years_one_data %}
+<div id="guaranteed-stock-tip">Bottle/Case Format</div>
+
+<select class="quantity_select" style="width:100%;">
+			
+			{% for items in get_produuct_years_one_data  %}
+			<option>{{items.Bottle}}</option>
+			{% endfor %}
+			</select>
+			{% endif %}
+			</div>
+</div>
+<div class="qtybox">
+<select name="qty" id="qty">
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+</select>
+<button type="button" title="Add To Order" class="button btn-cart change-ib-db">
+Buy
+
+</button>
+</div>
+ </div>
+</form>
+</div>
+
+
+<div class="inbond">
+<form method="post" class="row">
+<div class="col-xs-7 col-sm-7 col-lg-7 no-padding">
+<div class="row">
+<div class="ib-dp-price col-xs-12 col-md-4">
+<span class="regular-price">${{get_product_one_year.Retail_Cost}}</span>
+</div>
+<div class="product-type col-xs-12 col-md-8">
+<span>Retail Price (Inc. VAT)</span>
+
+<div class="warehouse">
+Stock in United Kingdom
+Delivery to United Kingdom Storage: 25 Mar 2020</p>
+</div>
+</div>
+</div>
+</div>
+<div class="col-xs-5 col-sm-5 col-lg-5 add-to a-right">
+<div class="bottleboxx">
+<div class="guaranteed-stock-tip-cont">
+	{% if get_produuct_years_one_data %}
+<div id="guaranteed-stock-tip">Bottle/Case Format</div>
+
+<select class="quantity_select" style="width:100%;">
+			
+			{% for items in get_produuct_years_one_data  %}
+			<option>{{items.Bottle}}</option>
+			{% endfor %}
+			</select>
+			{% endif %}
+			</div>
+</div>
+<div class="qtybox">
+<select name="qty" id="qty">
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+</select>
+<button type="button" title="Add To Order" class="button btn-cart change-ib-db">
+Buy
+
+</button>
+</div>
+ </div>
+</form>
+</div>
+
+   
+  </div>
+  
+  <div class="itemselector-container">
+  <ul class="itemselector list-group">
+    <li class="d-flex justify-content-between align-items-center list-group-item">
+      <div class="label">Vintage
+
+      </div>
+      <div class="vintage-togglebox">
+        <button class="selector dropdown-toggle vintageshow" type="button">{{get_product_one_year}} <span class="caret"></span></button>
+        <ul class="dropdown-menu-right12 sincebox">
+     		
+     	{% for items  in get_product_one_year.Product.Vintage.all %}
+		<li><a aria-label="{{items}}" href="#">{{items}}</a></li>
+		{% endfor %}
+          
+        </ul>
+      </div>
+    </li>
+    <li class="d-flex justify-content-between align-items-center list-group-item">
+      <div class="label">Color</div>
+      <div class="vintage-togglebox">
+        <button class="selector dropdown-toggle vintageshow1" type="button">Select Color </button>
+		<ul class="dropdown-menu-right12 redtoggle">
+          {% for items  in get_product_one_year.Product.Color.all %}
+		<li><a href="#">{{items}}</a></li>
+		{% endfor %}
+          
+          
+        </ul>
+      </div>
+    </li>
+    <li class="d-flex justify-content-between align-items-center list-group-item">
+      <div class="label">Bottle/Case Format</div>
+      <div class="">
+        <button class="selector" type="button" data-toggle="dropdown" disabled="">{{get_product_one_year.Bottle}}</button>
+        
+      </div>
+    </li>
+  </ul>
+  <button class="product-story_info-btn right">Add to my shopping cart</button>
+</div>
+
+  
+  <div class="accordion_container">
+ <div class="accordion_box">
+    <div class="accordion_head"><span class="score">93 </span>Vinous<span class="plusminus">+</span></div>
+    <div class="accordion_body" style="display: none;">
+        <p>The 2018 Charmes-Chambertin Grand Cru has a clean, precise bouquet with subtle violet aromas infusing the blackberry and cassis fruit. The palate is ripe and sensual on the opening, slightly lower in acidity compared to the other Grand Crus, but undeniably harmonious and velvety-smooth toward the finish. This is a classy, almost understated Charmes-Chambertin. Very fine.</p>
+<p>
+<strong>Drinking Window: 2024 - 2050</strong>
+</p>
+<p><strong>Reviewer Name: Neal Martin</strong></p>
+<p><strong>Review Date: 20th January 2001</strong></p>
+    </div>
+	</div>
+	<div class="accordion_box">
+    <div class="accordion_head"><span class="score">94 </span>Wine Advocate<span class="plusminus">+</span>
+
+    </div>
+    <div class="accordion_body" style="display: none;">
+       <p>Derived from two supplies, from one as grapes and from the other as wine, the 2018 Charmes-Chambertin Grand Cru (Maison Louis Jadot) offers up a pure, fruit-driven bouquet of ripe cherries and berries. On the palate, it's medium to full-bodied, ample and open-knit, with an expressive, generous 
+<p><strong>Reviewer Name: William Kelley</strong></p>
+<p><strong>Review Date: 10th January 2020</strong></p>
+    </div>
+
+</div>
+       </div> 
+	   
+	   
+	   
+
+
+
+	   
+  
+  
+  
+</div>
+<div class="clearfix"></div>
+</section>
+<section>
+<div class="container">
+
+<div class="review-box scores">
+<div class="">
+
+	<ul class="tabs product-tabs">
+		<li class="tab-link current" data-tab="tab-1">Details</li>
+		<!--<li class="tab-link" data-tab="tab-2">Review (2)</li>-->
+		<li class="tab-link" data-tab="tab-2">Winery</li>
+		<li class="tab-link" data-tab="tab-3">Producer Notes</li>
+		<!--<li class="tab-link" data-tab="tab-5">Valuation Tools</li>-->
+	</ul>
+
+	<div id="tab-1" class="tab-content current">
+		<ul class="wine-info">
+<li>
+<span>Year</span>
+<span>{{get_product_one_year.Product.Vintage.all|join:" | "}}</span>
+</li>
+<li>
+<span>Colour</span>
+<span>{{get_product_one_year.Product.Color.all|join:" | "}}</span>
+</li>
+<li>
+<span>Country</span>
+<span>{{get_product_one_year.Product.Country}}</span>
+</li>
+<li>
+<span>Region</span>
+<span>{{get_product_one_year.Product.Regions}}</span>
+</li>
+<!-- <li>
+<span>Designation</span>
+<span>{{get_product_one_year.Product.Description | safe}}</span>
+</li> -->
+<li>
+<span>Classification</span>
+<span>{{get_product_one_year.Product.Classification.all|join:" | "}}</span>
+</li>
+<li>
+<span>Pack Size</span>
+<span>{{get_product_one_year.Product.Bottel_Size.all|join:" | "}}</span>
+</li>
+<li>
+<span>Drinking Window</span>
+<span>2024 - 2050</span>
+</li>
+<li>
+<span>Drinking Recommendation</span>
+<span>Not Ready</span>
+</li>
+<li>
+<span>LWIN</span>
+<span>{{get_product_one_year.Product.Product_id}}</span>
+</li>
+</ul>
+	</div>
+
+<div id="tab-2" class="tab-content">
+	
+<p>
+<a href="#" title="Alvear">
+{{get_product_one_year.Product.Producer.Winnery_Name}} </a>
+</p>
+<p>
+{{get_product_one_year.Product.Producer.Description | safe}}</p>
+<p>
+<a href="#" style="text-decoration: underline" title="Alvear" class="product-story_info-btn">
+See more products from Alvear </a>
+</p>
+
+	</div>
+	<div id="tab-3" class="tab-content">
+		{{get_product_one_year.Product.Description | safe}}
+
+
+	</div>
+	
+		
+
+</div>
+</div>
+</div>
+</section>
+{% if get_filan_vintage_year %}
+  <div class="fluid-container" style="border-top:1px solid rgba(204, 204, 204, 0.7)">
+    <div class="popular p-t-b-20">
+      <div class="container">
+	 <h2 class="palate">Wine inspired by your palate</h2>
+        
+        <div class="owl-slider">
+		
+		<!--<div class="product-carousel-title-holder">
+		<p>By the same winery</p></div>-->
+		
+          <div id="releted-product" class="owl-carousel">
+            {% for get_items in get_filan_vintage_year %}
+            <div class="item"> <a href="{% url 'product_detail:product_detail' get_items.Product.Product_id get_items.Product.Product_slug  get_items.Product|get_product_vintage_yera_one %}"><img src='{{get_items.Product|get_product_image_one}}' alt="" /></a>
+              <div class="bottale-name">
+			  <p>{{get_items.Product}} ({{get_items}})</p>
+			  <a href="{% url 'product_detail:product_detail' get_items.Product.Product_id get_items.Product.Product_slug  get_items.Product|get_product_vintage_yera_one %}" class="product-story_info-btn">See Details</a>
+			  </div>
+            </div>
+             {% endfor %}
+          
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  {% if trending_wines %}
+
+
+  <div class="fluid-container border-top" >
+    <div class="popular p-t-b-20">
+      <div class="container">
+	  <h2 class="palate">Customers who viewed this item also viewed</h2>
+        
+        <div class="owl-slider">
+		
+		<!--<div class="product-carousel-title-holder"><p>Aroma Customers Also Bought</p></div>-->
+          <div id="releted-product1" class="owl-carousel">
+            
+            {% for items in trending_wines %}
+            <div class="item"> <a href="{% url 'product_detail:product_detail' items.Product_id items.Product_slug  items|get_product_vintage_yera_one %}"><img src='{{items|get_product_image_one}}'  alt="" /></a>
+              <div class="bottale-name">
+			  <p>{{items.Product_name}} 
+                     ({{items|get_product_vintage_yera_one}})</p>
+			  <a href="{% url 'product_detail:product_detail' items.Product_id items.Product_slug  items|get_product_vintage_yera_one %}" class="product-story_info-btn">See Details</a>
+			  </div>
+            </div>
+
+           {% endfor %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  {% endif %}
+  
+  <section class="producer" style="border-top:0px;">
+  <div class="container">
+    <div class="row">
+      <!-- <div class="col-md-6">
+        <div class="newstylebox">
+          <h2 class="title_h2">The Producer</h2>
+          {% if get_product_one_year.Product.Producer.Producer_Image %}
+           <img src='{{get_product_one_year.Product.Producer.Producer_Image.url}}' alt=""/>
+          {% else %}
+          <img src='{% static "web/assets/image/shop/procducer.jpg" %}' alt=""/>
+          {% endif %}
+          <h3 class="title_h3">{{get_product_one_year.Product.Producer.Winnery_Name}}</h3>
+          <p>{{get_product_one_year.Product.Producer.Description | safe}}</p>
+          <div class="view_producer_btn"> <a class="product-story_info-btn" href="view-producer.php">View Producer</a> </div>
+        </div>
+      </div> -->
+      {% if get_product_one_year.Product.Grape %}
+      {% for items in get_product_one_year.Product.Grape.all  %}
+      <div class="col-md-6">
+        <div class="newstylebox">
+          <h2 class="title_h2">The Grape</h2>
+          {% if items.Grape_Image %}
+           <img src='{{items.Grape_Image.url}}' alt=""/>
+          {% else %}
+          <img src='{% static "web/assets/image/Italy_world_leading_wine_producer.jpg" %}'  alt=""/>
+          {% endif %}
+          
+          <h3 class="title_h3">{{items.Grape_Name}}</h3>
+          <p>{{items.Description | safe}}</p>
+
+          <div class="view_producer_btn"> <a class="product-story_info-btn" href="#">View Grape</a> </div>
+        </div>
+      </div>
+       {% endfor %}
+      {% endif %}
+      
+    </div>
+  </div>
+  </div>
+</section>
+{% if get_product_one_year.Product.Producer %}
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="title_h2">The Producer</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h3 class="title_h3">{{ get_product_one_year.Product.Producer}}</h3>
+        {{get_product_one_year.Product.Producer.Description | safe }}
+        <div class="view_producer_btn"> <a class="product-story_info-btn" href="#">View Region</a> </div>
+      </div>
+      <div class="col-md-6"> 
+{% if get_product_one_year.Product.Producer.Producer_Image %}
+           <img src='{{get_product_one_year.Product.Producer.Producer_Image.url}}' alt=""/>
+          {% else %}
+          <img src='{% static "web/assets/image/shop/bodega-clos-floridene-banner.jpg" %}'  alt=""/>
+          {% endif %}
+      	 </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+<section class="review-box">
+  <div class="container">
+    <ul class="tabs product-tabs1">
+      <li class="tab-link current" data-tab="tab-6">Customer Reviews</li>
+      <!--<li class="tab-link current" data-tab="tab-7">Critic Reviews (10)</li>
+      <li class="tab-link" data-tab="tab-3">Tab Three</li>
+		<li class="tab-link" data-tab="tab-4">Tab Four</li>-->
+    </ul>
+    <div id="tab-6" class="tab-content current" style="display:block;">
+      
+	  
+		
+		 <div class="review_box">
+        <div class="row customer_review">
+		
+		<div class="col-md-1">
+		<div class="review_user">
+		<img alt="" src='{% static "web/assets/image/u.png" %}' >
+		</div>
+		</div>
+		
+		<div class="col-md-10">
+		<div class="rating-stars">
+        <ul id="stars">
+          <li class="star " title="Poor" data-value="1"> <i class="fa fa-star fa-fw"></i> </li>
+          <li class="star " title="Fair" data-value="2"> <i class="fa fa-star fa-fw"></i> </li>
+          <li class="star " title="Good" data-value="3"> <i class="fa fa-star fa-fw"></i> </li>
+          <li class="star " title="Excellent" data-value="4"> <i class="fa fa-star fa-fw"></i> </li>
+          <li class="star" title="WOW!!!" data-value="5"> <i class="fa fa-star fa-fw"></i> </li>
+        </ul>
+      </div>
+      <p class="review_highlight">Your Rating</p>
+		<div class="rating_box_view">
+              <div class="rating_div">
+			  <form action="#" method="post">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="comment" class="form-comm">comment *</label>
+                    <textarea rows="3" required="required" class="form-control"></textarea>
+                </div>
+            </div>
+			<div class="col-md-12">
+			<div class="form-group text-right ">
+<button type="submit" class="product-story_info-btn">Submit</button>
+</div>
+			</div>
+            </div>
+           
+        </form>
+              
+            </div>
+		</div>
+		
+		</div>
+		</div>
+		</div>
+		
+      
+	  <div class="review_box">
+        <div class="row customer_review">
+		<div class="col-md-1">
+		<div class="review_user">
+		<img alt="" src='{% static "web/assets/image/u.png" %}'>
+		</div>
+		</div>
+		
+		<div class="col-md-10">
+		<div class="rating_box_view">
+              <div class="rating_div">
+			  <h6>Client Name <small>31 Jan 2020</small></h6>
+                <fieldset>
+                  <span class="great">3.0/5</span>
+                  <div class="rating-stars">
+        <ul id="stars">
+          <li class="star selected" title="Poor" data-value="1"> <i class="fa fa-star fa-fw"></i> </li>
+          <li class="star selected" title="Fair" data-value="2"> <i class="fa fa-star fa-fw"></i> </li>
+          <li class="star selected" title="Good" data-value="3"> <i class="fa fa-star fa-fw"></i> </li>
+          <li class="star selected" title="Excellent" data-value="4"> <i class="fa fa-star fa-fw"></i> </li>
+          <li class="star" title="WOW!!!" data-value="5"> <i class="fa fa-star fa-fw"></i> </li>
+        </ul>
+      </div>
+                </fieldset>
+              </div>
+              <p>this was nice in buy. this was nice in buy. this was nice in buy. this was nice in buy this was nice in buy this was nice in buy this was nice in buy this was nice in buy</p>
+              
+            </div>
+		</div>
+		
+		</div>
+		</div>
+		
+		<div class="review_box">
+        <div class="row customer_review">
+		<div class="col-md-1">
+		<div class="review_user">
+		<img alt="" src='{% static "web/assets/image/u.png" %}'>
+		</div>
+		</div>
+		
+		<div class="col-md-10">
+		<div class="rating_box_view">
+              <div class="rating_div">
+			  <h6>Client Name <small>01 Feb 2020</small></h6>
+                <fieldset>
+                  <span class="great">4.5/5</span>
+                  <div class="rating-stars">
+        <ul id="stars">
+          <li class="star selected" title="Poor" data-value="1"> <i class="fa fa-star fa-fw"></i> </li>
+          <li class="star selected" title="Fair" data-value="2"> <i class="fa fa-star fa-fw"></i> </li>
+          <li class="star selected" title="Good" data-value="3"> <i class="fa fa-star fa-fw"></i> </li>
+          <li class="star selected" title="Excellent" data-value="4"> <i class="fa fa-star fa-fw"></i> </li>
+          <li class="star" title="WOW!!!" data-value="5"> <i class="fa fa-star fa-fw"></i> </li>
+        </ul>
+      </div>
+                </fieldset>
+              </div>
+              <p>this was nice in buy. this was nice in buy. this was nice in buy. this was nice in buy this was nice in buy this was nice in buy this was nice in buy this was nice in buy</p>
+              
+            </div>
+		</div>
+		
+		</div>
+		</div>
+		
+		
+		<div class="review_box">
+        <div class="row customer_review">
+		<div class="col-md-1">
+		<div class="review_user">
+		<img alt="" src='{% static "web/assets/image/u.png" %}'>
+		</div>
+		</div>
+		
+		<div class="col-md-10">
+		<div class="rating_box_view">
+              <div class="rating_div">
+			  <h6>Client Name <small>01 Feb 2020</small></h6>
+                <fieldset>
+                  <span class="great">4.5/5</span>
+                  <div class="rating-stars">
+        <ul id="stars">
+          <li class="star selected" title="Poor" data-value="1"> <i class="fa fa-star fa-fw"></i> </li>
+          <li class="star selected" title="Fair" data-value="2"> <i class="fa fa-star fa-fw"></i> </li>
+          <li class="star selected" title="Good" data-value="3"> <i class="fa fa-star fa-fw"></i> </li>
+          <li class="star selected" title="Excellent" data-value="4"> <i class="fa fa-star fa-fw"></i> </li>
+          <li class="star" title="WOW!!!" data-value="5"> <i class="fa fa-star fa-fw"></i> </li>
+        </ul>
+      </div>
+                </fieldset>
+              </div>
+              <p>this was nice in buy. this was nice in buy. this was nice in buy. this was nice in buy this was nice in buy this was nice in buy this was nice in buy this was nice in buy</p>
+              
+            </div>
+		</div>
+		
+		</div>
+		</div>
+	   
+    
+
+  </div>
+  </div>
+</section>
+
+  </div>
+  </div>
+</section>
+
+
+
+
+{% endblock %}
+
+
+  {% block script %}
+ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script> 
+<script src='{% static "web/assets/js/jquery.simpleGallery.js" %}' ></script> 
+<script src='{% static "web/assets/js/jquery.simpleLens.min.js" %}' ></script> 
+<script>
+    $(document).ready(function(){
+        $('#demo-1 .simpleLens-thumbnails-container img').simpleGallery({
+            loading_image: 'assets/image/shop/loading.gif',
+			
+        });
+
+        $('#demo-1 .simpleLens-big-image').simpleLens({
+            loading_image: 'assets/image/shop/loading.gif',
+			
+        });
+    });
+</script> 
+  {% endblock %}
+
+
