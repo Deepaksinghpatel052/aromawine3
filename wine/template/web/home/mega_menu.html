@@ -1,0 +1,641 @@
+
+	<div class="fluid-container">
+		<div class="ruby-menu-demo-header">
+			<div class="ruby-wrapper">
+				<button class="c-hamburger c-hamburger--htx visible-xs"><span>toggle menu</span>
+				</button>
+				<ul class="ruby-menu">
+					<!-- <li class="ruby-menu"><a href="#">Home</a></li> -->
+					<li class="ruby-menu-mega"><a href="#">Aroma of Wine </a>
+						<div class="ruby-grid ruby-grid-lined">
+							<div class="ruby-row">
+								<div class="ruby-col-3">
+										<ul id="myUL">
+					<li><span class="caret ruby-list-heading">Aromas Recommendations</span>
+				      <ul class="nested region_tabs">
+													{% if get_category %}
+													 {% for item in get_category %}
+							<li class="{% if forloop.counter == 1 %}active{% endif %}" ><a href="#category{{item.id}}">{{item}}</a></li>
+													 {% endfor %}	
+													{% endif %}
+													
+													
+													
+												</ul>
+											</li>
+										</ul>
+									</div>
+									<div class="ruby-col-9">
+                                    {% if get_category %}
+									{% for item in get_category %}
+		<div class="mega_menu_show" id="category{{item.id}}"  {% if forloop.counter == 1 %}style="display:block;"{% endif %}>
+									<div class="ruby-col-12">
+										<span class="caret ruby-list-heading">Wines ({{item}})</span>
+										<div class="row">					      
+                                     {{item.Category_name|get_wine_according_category}}
+										</div>
+										
+									</div>
+								</div>
+									{% endfor %}	
+								{% endif %}
+								
+										
+									</div>
+							</div>
+						</li>
+						<li class="ruby-menu-mega"><a href="#">Fine Wines</a>
+							<div class="ruby-grid ruby-grid-lined">
+								<div class="ruby-row">
+									
+									<div class="ruby-col-3">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Region</span>
+												<ul class="nested region_tabs">
+													{% if get_region_for_fine_wine %}
+													{% for item in get_region_for_fine_wine %}
+													<li class="{% if forloop.counter == 1 %}active{% endif %}"><a href="#regin{{item.id}}">{{item}}</a></li>
+													{% endfor %}
+													{% endif %}
+													
+												</ul>
+											</li>
+										</ul>
+									</div>
+									<div class="ruby-col-9">
+                                    {% if get_region_for_fine_wine %}
+									{% for item in get_region_for_fine_wine %}
+		<div class="mega_menu_show" id="regin{{item.id}}"  {% if forloop.counter == 1 %}style="display:block;"{% endif %}>
+									
+								{{item.Region_Name|get_wine_according_region}}
+									
+								</div>
+									{% endfor %}	
+								{% endif %}
+								
+										
+									</div>
+									
+									
+								</div>
+							</div> <span class="ruby-dropdown-toggle"></span>
+						</li>
+						
+						
+						<li class="ruby-menu-mega"><a href="#">Aroma Selection</a>
+							<div class="ruby-grid ruby-grid-lined">
+								<div class="ruby-row">
+									
+									<div class="ruby-col-3">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Aroma Favorites</span>
+												<ul class="nested region_tabs_w">
+													<li class=""><a href="#wines-tab">Popular Wines</a></li>
+													<li><a href="#">Great Value</a></li>
+													<li><a href="#">Aroma Recommendations</a></li>
+													
+													
+													
+												</ul>
+											</li>
+										</ul>
+									</div>
+									<div class="ruby-col-9">
+									<div class="mega_menu_show_w" id="wines-tab" style="display:block;">
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Country</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested france_w">
+													<li class=""><a href="#country_w">France </a></li>
+													<li><a href="#country_w2">Italy</a></li>
+													<li><a href="#country_w3">USA</a></li>
+													<li><a href="#">Chile</a></li>
+													<li><a href="#">Argentina</a></li>
+													
+													
+													
+												</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+									
+									
+									<div class="ruby-col-8">
+									<div class="country_div" id="country_w">
+									<div class="ruby-col-6">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Region</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested region_b">
+															<li><a href="#bordeaux_w">Bordeaux</a></li>
+															<li><a href="#burgandy_w">Burgandy</a></li>
+															<li><a href="#rhone_w">Cote Du Rhone</a></li>
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+										
+										</div>
+										
+										
+										<div class="ruby-col-6">
+										<div class="applicon_w" id="bordeaux_w">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Appellation</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Pauillac</a></li>
+															<li><a href="#">Margaux</a></li>
+															<li><a href="#">Medoc</a></li>
+															<li><a href="#">Pessac- Leognan</a></li>
+															<li><a href="#">St Juien</a></li>
+															<li><a href="#">St Emilion</a></li>
+															<li><a href="#">St Estephe</a></li>
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+										</div>
+										
+										
+										<div class="applicon_w" id="burgandy_w">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Appellation</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Puigny-Montrachet</a></li>
+															<li><a href="#">Vosne- Romane</a></li>
+															<li><a href="#">Mersault</a></li>
+															<li><a href="#">Nuits-St George</a></li>
+															<li><a href="#">Pommard</a></li>
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+										</div>
+										
+										
+										<div class="applicon_w" id="rhone_w">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Appellation</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Chateauneuf-Du Pape</a></li>
+															
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+										</div>
+										
+										
+										
+										</div>
+										
+										
+										
+										</div>
+										
+										
+										
+										<div class="country_div" id="country_w2">
+									<div class="ruby-col-6">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Region</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested region_b">
+															<li><a href="#">Piedmont</a></li>
+															<li><a href="#">Tuscany</a></li>
+															<li><a href="#">Sicily</a></li>
+															<li><a href="#">Veneto</a></li>
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+										
+										</div>
+										
+										
+										<div class="ruby-col-6">
+										<div class="" id="">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Appellation</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Amarone</a></li>
+															<li><a href="#">Antinori</a></li>
+															<li><a href="#">Barolo</a></li>
+															<li><a href="#">Brunello Di Montalcino</a></li>
+															<li><a href="#">Nero d Avola</a></li>
+															<li><a href="#">Ornelliaia</a></li>
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										</div>
+										
+										
+										
+										</div>
+										
+										
+										
+										
+										<div class="country_div" id="country_w3">
+									<div class="ruby-col-6">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Region</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested region_b">
+															<li><a href="#">Napa</a></li>
+															
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+										
+										</div>
+										
+										
+										<div class="ruby-col-6">
+										<div class="" id="">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Appellation</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															<li><a href="#">Cabernet Sauvignon</a></li>
+															<li><a href="#">Merlots</a></li>
+															<li><a href="#">Malbecs</a></li>
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										</div>
+										
+										
+										
+										</div>
+										
+										
+										
+							
+									
+									</div>
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									</div>
+									
+									
+								</div>
+							</div> <span class="ruby-dropdown-toggle"></span>
+						</li>
+						
+						<li class="ruby-menu-mega"><a href="#">Aroma Wine Partners </a>
+						<div class="ruby-grid ruby-grid-lined">
+							<div class="ruby-row">
+								
+								<div class="ruby-col-4">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Country</span>
+											<ul class="nested">
+												{% if aromawine_pattenre_country %}
+												 {% for item in aromawine_pattenre_country %}
+												<li><a href="#">{{item}}</a>
+												</li>
+												 {% endfor %}
+												{% endif %}
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<div class="ruby-col-4">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Winery</span>
+											<ul class="nested">
+												{% if aromawine_pattenre_winnery %}
+												 {% for item in aromawine_pattenre_winnery %}
+												<li><a href="#">{{item}}</a>
+												</li>
+												 {% endfor %}
+												{% endif %}
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<div class="ruby-col-4">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Appellation</span>
+											<ul class="nested">
+												{% if aromawine_pattenre_applicant %}
+												 {% for item in aromawine_pattenre_applicant %}
+												<li><a href="#">{{item}}</a>
+												</li>
+												 {% endfor %}
+												{% endif %}
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<span class="ruby-dropdown-toggle"></span>
+						</li>
+						
+						<li class="ruby-menu-mega"><a href="#">En Premier </a>
+						<div class="ruby-grid ruby-grid-lined">
+							<div class="ruby-row">
+								
+								<div class="ruby-col-4">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Year</span>
+											<ul class="nested">
+												{% if en_premier_vintage_year %}
+												 {% for item in en_premier_vintage_year %}
+												<li><a href="#">{{item}}</a>
+												</li>
+												 {% endfor %}
+												{% endif %}
+
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<div class="ruby-col-4">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Winery</span>
+											<ul class="nested">
+												{% if en_premier_vintage_winnery %}
+												 {% for item in en_premier_vintage_winnery %}
+												<li><a href="#">{{item}}</a>
+												</li>
+												 {% endfor %}
+												{% endif %}
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<div class="ruby-col-4">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Wine Name</span>
+											<ul class="nested">
+												{% if en_premier_vintage_wine %}
+												 {% for item in en_premier_vintage_wine %}
+												<li><a href="#">{{item.Product}}({{item}})</a>
+												</li>
+												 {% endfor %}
+												{% endif %}
+												
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<span class="ruby-dropdown-toggle"></span>
+						</li>
+						
+						<li class="ruby-menu-mega"><a href="#">Spirits</a>
+							<div class="ruby-grid ruby-grid-lined">
+								<div class="ruby-row">
+									{% if sprit_country %}
+									{% for item in sprit_country %}
+									<div class="ruby-col-3">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">{{item}}</span>
+												<ul class="nested">
+													{% if sprit_product %}
+													 {% for item_pro in sprit_product %}
+													
+{% if item_pro.Product.Country.Country_Name == item.Country_Name %}
+													<li><a href="#">{{item_pro.Product}}({{item_pro}})</a>
+													</li>
+       {% endif %}
+
+													 {% endfor %}
+													{% endif %}
+												</ul>
+											</li>
+										</ul>
+									</div>
+									{% endfor %}
+									{% endif %}
+									
+									
+								</div>
+							</div> <span class="ruby-dropdown-toggle"></span>
+						</li>
+
+						
+						<li class="ruby-menu-mega"><a href="#">Sommelier Services</a>
+						<div class="ruby-grid ruby-grid-lined">
+							<div class="ruby-row">
+								
+								<div class="ruby-col-3">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Sommelier Services</span>
+											<ul class="nested">
+												<li><a href="#">Sommelier Classes</a></li>
+												<li><a href="wine-pairng-recipes.php">Wine Pairng - Recipes</a></li>
+												<li><a href="#">SommelierAdvice</a></li>
+												<li><a href="account-cellaritems.php">Cellar Plan</a></li>
+												<li><a href="event.php">Events</a></li>
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<div class="ruby-col-3">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Wine Experiences</span>
+											<ul class="nested">
+												<li><a href="dinner.php">Dinners</a></li>
+												<li><a href="wine-tasting.php">Wine Tasting</a></li>
+												
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<div class="ruby-col-2">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Events</span>
+											<ul class="nested">
+												<li><a href="#">Social </a></li>
+												<li><a href="#">Private </a></li>
+												<li><a href="#">Corporate </a></li>
+												
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<div class="ruby-col-2">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Expertise</span>
+											<ul class="nested">
+												<li><a href="vintage-chart.php">Vintage Chart </a></li>
+												<li><a href="view-grape.php">Grapes </a></li>
+												<li><a href="region.php">Regions </a></li>
+												
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								<div class="ruby-col-2">
+									<ul id="myUL">
+										<li><span class="caret ruby-list-heading">Advice</span>
+											<ul class="nested">
+												<li><a href="contact.php">Contact us</a></li>
+												<li><a href="shipping-delivery.php">Delivery </a></li>
+												<li><a href="faq.php">FAQ </a></li>
+												
+												
+												
+											</ul>
+										</li>
+									</ul>
+									
+								</div>
+								
+								<span class="ruby-dropdown-toggle"></span>
+						</li>
+						
+						
+						
+						
+						
+						
+						</ul>
+			</div>
+		</div>
+	</div>

@@ -57,7 +57,7 @@
         <div class="owl-slider">
           <div id="carousel" class="owl-carousel">
             {% for items in trending_wines %}
-
+             {% if items|get_product_vintage_yera_one %}
             <div class="item">
               <div class="fare-deal__col">
   <a href="{% url 'product_detail:product_detail' items.Product_id items.Product_slug  items|get_product_vintage_yera_one   %}" class="fare-deal__item">
@@ -74,6 +74,7 @@
                 </a>
               </div>
             </div>
+             {% endif %}
      	{% endfor %}
             
             
@@ -99,6 +100,7 @@
                         <!-- single-product start-->
                        
  						{% for items in get_all_wines %}
+                        {% if items|get_product_vintage_yera_one %}
                         <div class="item">
 						<div class="single-productbox">
                             <div class="single-product">
@@ -118,7 +120,7 @@
                             </div>
                         </div>
 						</div>
-                       
+                         {% endif %}
                        {% endfor %}
 
 

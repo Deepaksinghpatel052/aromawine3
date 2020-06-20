@@ -1,0 +1,68 @@
+<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Designation</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+											{% if get_product %}
+												{% for item in get_product %}
+				<li><a href="{% url 'product_detail:product_detail' item.Product.Product_id item.Product.Product_slug item.Vintage_Year %}">{{item.Product}}</a></li>
+											{% endfor %}
+										{% endif %}			
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Vintage  - 10 / 10</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+															{% if get_product %}
+												{% for item in get_product %}
+				<li><a href="{% url 'product_detail:product_detail' item.Product.Product_id item.Product.Product_slug  item.Vintage_Year %}">{{item}}</a></li>
+											{% endfor %}
+										{% endif %}	
+														
+															
+															
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>
+
+									<div class="ruby-col-4">
+										<ul id="myUL">
+											<li><span class="caret ruby-list-heading">Wineries</span>
+												<ul class="nested">
+													<li>
+														<ul class="nested">
+														{% if get_product %}
+												{% for item in get_product %}
+				<li><a href="{% url 'product_detail:product_detail' item.Product.Product_id item.Product.Product_slug  item.Vintage_Year %}">{{item.Product.Producer }}</a></li>
+											{% endfor %}
+										{% endif %}	
+				
+														</ul>
+													</li>
+													
+												
+												
+												</ul>
+											</li>
+										</ul>
+									</div>

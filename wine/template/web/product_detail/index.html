@@ -31,7 +31,7 @@
 <div class="col-lg-5 col-sm-12 col-xs-12">
   <div class="simpleLens-gallery-container" id="demo-1">
     <div class="simpleLens-container">
-      <div class="simpleLens-big-image-container"> <a class="simpleLens-lens-image" data-lens-image="assets/image/shop/single-1.png"> <img src='{% static "web/assets/image/shop/single-1.png" %}'class="simpleLens-big-image"> </a> </div>
+      <div class="simpleLens-big-image-container"> <a class="simpleLens-lens-image" data-lens-image="{% if get_product_image.0.Image %} {{get_product_image.0.Image.url}} {% else %} {% static 'web/assets/image/shop/single-1.png' %} {% endif %}"> <img src="{% if get_product_image.0.Image %} {{get_product_image.0.Image.url}} {% else %} {% static 'web/assets/image/shop/single-1.png' %} {% endif %}" class="simpleLens-big-image"> </a> </div>
     </div>
     <div class="simpleLens-thumbnails-container"> 
     	{% if get_product_image %}
@@ -41,16 +41,6 @@
                data-big-image='{{items.Image.url}}'> <img src='{{items.Image.url}}' > </a> 
            {% endfor %}    
     	{% else %}
-
-    	<a class="simpleLens-thumbnail-wrapper"
-               data-lens-image='{% static "web/assets/image/shop/single-1.png" %}'
-               data-big-image='{% static "web/assets/image/shop/single-1.png" %}'> <img src='{% static "web/assets/image/shop/single-1.png" %}' > </a> 
-        <a class="simpleLens-thumbnail-wrapper"
-               data-lens-image='{% static "web/assets/image/shop/single-1.png" %}'
-               data-big-image='{% static "web/assets/image/shop/single-1.png" %}'> <img src='{% static "web/assets/image/shop/single-1.png" %}' > </a>
-        <a class="simpleLens-thumbnail-wrapper"
-               data-lens-image='{% static "web/assets/image/shop/single-1.png" %}'
-               data-big-image='{% static "web/assets/image/shop/single-1.png" %}'> <img src='{% static "web/assets/image/shop/single-1.png" %}' > </a> 
 {% endif %}
            </div>
   </div>
@@ -345,13 +335,17 @@ See more products from Alvear </a>
 		
           <div id="releted-product" class="owl-carousel">
             {% for get_items in get_filan_vintage_year %}
+
+            {% if get_items.Product|get_product_vintage_yera_one %}
             <div class="item"> <a href="{% url 'product_detail:product_detail' get_items.Product.Product_id get_items.Product.Product_slug  get_items.Product|get_product_vintage_yera_one %}"><img src='{{get_items.Product|get_product_image_one}}' alt="" /></a>
               <div class="bottale-name">
 			  <p>{{get_items.Product}} ({{get_items}})</p>
 			  <a href="{% url 'product_detail:product_detail' get_items.Product.Product_id get_items.Product.Product_slug  get_items.Product|get_product_vintage_yera_one %}" class="product-story_info-btn">See Details</a>
 			  </div>
             </div>
+            {% endif %}
              {% endfor %}
+            
           
             
           </div>
@@ -374,6 +368,7 @@ See more products from Alvear </a>
           <div id="releted-product1" class="owl-carousel">
             
             {% for items in trending_wines %}
+             {% if items|get_product_vintage_yera_one %}
             <div class="item"> <a href="{% url 'product_detail:product_detail' items.Product_id items.Product_slug  items|get_product_vintage_yera_one %}"><img src='{{items|get_product_image_one}}'  alt="" /></a>
               <div class="bottale-name">
 			  <p>{{items.Product_name}} 
@@ -381,6 +376,7 @@ See more products from Alvear </a>
 			  <a href="{% url 'product_detail:product_detail' items.Product_id items.Product_slug  items|get_product_vintage_yera_one %}" class="product-story_info-btn">See Details</a>
 			  </div>
             </div>
+            {% endif %}
 
            {% endfor %}
 
@@ -634,7 +630,7 @@ See more products from Alvear </a>
 
   {% block script %}
  
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script> 
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script> 
 <script src='{% static "web/assets/js/jquery.simpleGallery.js" %}' ></script> 
 <script src='{% static "web/assets/js/jquery.simpleLens.min.js" %}' ></script> 
 <script>
@@ -649,7 +645,7 @@ See more products from Alvear </a>
 			
         });
     });
-</script> 
+</script>  -->
   {% endblock %}
 
 

@@ -46,6 +46,22 @@ if(jQuery.inArray("add-region", url_in_array) != -1)
 
 
 
+if(jQuery.inArray("country", url_in_array) != -1 && jQuery.inArray("add-country", url_in_array) == -1)
+{
+	$("#Manage_Countries").addClass("active_dsp");
+	$("#Countries").addClass("active");
+}
+
+if(jQuery.inArray("add-country", url_in_array) != -1)
+{
+	$("#Add_Countries").addClass("active_dsp");
+	$("#Countries").addClass("active");
+}
+
+
+
+
+
 if(jQuery.inArray("grape", url_in_array) != -1 && jQuery.inArray("add-grape", url_in_array) == -1)
 {
 	$("#Manage_Grape").addClass("active_dsp");
@@ -65,6 +81,9 @@ if(jQuery.inArray("producer", url_in_array) != -1 || jQuery.inArray("add-produce
 	$("#Producer_Winery").addClass("active_dsp");
 	$("#Manage_Filtters").addClass("active");
 }
+
+
+
 
 
 if(jQuery.inArray("appellation", url_in_array) != -1)

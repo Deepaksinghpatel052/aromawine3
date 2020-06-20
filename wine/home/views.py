@@ -6,7 +6,73 @@ from django.template.defaulttags import register
 from .models import AwAboutAromaWines
 from admin_manage_region.models import AwRegion
 from admin_manage_banners.models import AwBanners
+from admin_manage_categoryes.models import AwCategory
+from admin_manage_appellation.models import AwAppellation
+from django.template.loader import render_to_string
+from django.db.models import Q
+from admin_manage_country.models import AwCountry
+from admin_manage_producer.models import AwSetTo,AwProducers
+from admin_manage_Vintages.models import AwVintages
 # Create your views here.
+
+
+@register.filter(name='get_wine_according_region')
+def get_wine_according_region(region):
+    get_product = None
+    if AwProductPrice.objects.filter(Product__Regions__Region_Name=region).filter(Product__Status=True).filter(Vintage_Year__isnull=False).exists():
+        get_product = AwProductPrice.objects.filter(Product__Regions__Region_Name=region).filter(Product__Status=True).filter(Vintage_Year__isnull=False)
+    return render_to_string('web/home/regions/get_product_by_region.html',{"get_product":get_product})
+
+@register.filter(name='get_wine_according_category')
+def get_wine_according_category(category):
+    get_product = None
+    if AwProductPrice.objects.filter(Product__Category__Category_name=category).filter(Product__Status=True).filter(Vintage_Year__isnull=False).annotate(replies=Count('Vintage_Year') - 1).exists():
+        get_product = AwProductPrice.objects.filter(Product__Category__Category_name=category).filter(Product__Status=True).filter(Vintage_Year__isnull=False).annotate(replies=Count('Vintage_Year') - 1)
+    return render_to_string('web/home/category/get_product.html',{"get_product":get_product})
+
+
+
+@register.filter(name='show_mega_menu')
+def show_mega_menu(dummt_data):
+    get_category = None
+    get_region_for_fine_wine = None
+    aromawine_pattenre_country= None
+    fine_wine_ins = get_object_or_404(AwSetTo,Title='Fine Wines')
+    if AwCategory.objects.filter(Status=True).exists():
+        get_category = AwCategory.objects.filter(Status=True).order_by("Category_name")
+
+    if AwRegion.objects.filter(Status=True).filter(Set_To__Title='Fine Wines').exists():
+        get_region_for_fine_wine = AwRegion.objects.filter(Status=True).filter(Set_To__Title='Fine Wines').order_by("Region_Name")
+    aromawine_pattenre_country = None
+    aromawine_pattenre_winnery = None
+    aromawine_pattenre_applicant = None
+    if AwCountry.objects.filter(Set_To__Title='Aroma Wine partners').exists():
+        aromawine_pattenre_country = AwCountry.objects.filter(Set_To__Title='Aroma Wine partners').order_by('Country_Name')
+    if AwProducers.objects.filter(Set_To__Title='Aroma Wine partners').exists():
+        aromawine_pattenre_winnery = AwProducers.objects.filter(Set_To__Title='Aroma Wine partners').order_by('Winnery_Name')
+    if AwAppellation.objects.filter(Set_To__Title='Aroma Wine partners').exists():
+        aromawine_pattenre_applicant = AwAppellation.objects.filter(Set_To__Title='Aroma Wine partners').order_by('Appellation_Name')
+
+
+    en_premier_vintage_year = None
+    en_premier_vintage_winnery = None
+    en_premier_vintage_wine = None
+    if AwVintages.objects.filter(Set_To__Title='En Premier').exists():
+        en_premier_vintage_year = AwVintages.objects.filter(Set_To__Title='En Premier').order_by('Vintages_Year')
+    if AwProducers.objects.filter(Set_To__Title='En Premier').exists():
+        en_premier_vintage_winnery = AwProducers.objects.filter(Set_To__Title='En Premier').order_by('Winnery_Name')
+    if AwProducers.objects.filter(Set_To__Title='En Premier').exists():
+        en_premier_vintage_winnery = AwProducers.objects.filter(Set_To__Title='En Premier').order_by('Winnery_Name')
+    if AwProductPrice.objects.filter(Product__Category__Category_name='En Premier').filter(Product__Status=True).filter(Vintage_Year__isnull=False).annotate(replies=Count('Vintage_Year') - 1).exists():
+        en_premier_vintage_wine = AwProductPrice.objects.filter(Product__Category__Category_name='En Premier').filter(Product__Status=True).filter(Vintage_Year__isnull=False).annotate(replies=Count('Vintage_Year') - 1)
+
+    sprit_country = None
+    sprit_product = None
+    if AwCountry.objects.filter(Set_To__Title='Sprits').exists():
+        sprit_country = AwCountry.objects.filter(Set_To__Title='Sprits').order_by('Country_Name')
+    if AwProductPrice.objects.filter(Product__Select_Type__Type='Sprits').filter(Product__Status=True).filter(Vintage_Year__isnull=False).annotate(replies=Count('Vintage_Year') - 1).exists():
+        sprit_product = AwProductPrice.objects.filter(Product__Select_Type__Type='Sprits').filter(Product__Status=True).filter(Vintage_Year__isnull=False).annotate(replies=Count('Vintage_Year') - 1)
+    return render_to_string('web/home/mega_menu.html',{'sprit_product':sprit_product,'sprit_country':sprit_country,'en_premier_vintage_year':en_premier_vintage_year,'en_premier_vintage_winnery':en_premier_vintage_winnery,'en_premier_vintage_wine':en_premier_vintage_wine, "get_category":get_category,'get_region_for_fine_wine':get_region_for_fine_wine,'aromawine_pattenre_country':aromawine_pattenre_country,'aromawine_pattenre_winnery':aromawine_pattenre_winnery,'aromawine_pattenre_applicant':aromawine_pattenre_applicant})
 
 @register.filter(name='get_product_image_one')
 def get_product_image_one(product_ins):
@@ -23,8 +89,9 @@ def get_product_vintage_yera_one(product_ins):
     vintage_year = ""
     if product_ins:
         if AwProductPrice.objects.filter(Product=product_ins).exists():
-            get_product_vintage_ins = AwProductPrice.objects.filter(Product=product_ins).order_by("?").first()
-            vintage_year = get_product_vintage_ins.Vintage_Year.Vintages_Year
+            get_product_vintage_ins = AwProductPrice.objects.filter(Product=product_ins).filter(Vintage_Year__isnull=False).order_by("?").first()
+            if get_product_vintage_ins.Vintage_Year:
+                vintage_year = get_product_vintage_ins.Vintage_Year.Vintages_Year
     return vintage_year
 
 class HomeView(generic.TemplateView):

@@ -191,3 +191,42 @@ sudo systemctl restart gunicorn
 cd wine/
 git init
 git add -A
+git init
+git add -A
+git status
+git commit -m "server running code with dinamic search filter"
+git remote add origin https://github.com/Deepaksinghpatel052/aromawine3.git
+git branch --list
+git branch with_search_and_creaet_accont_and_login_on_one_page
+git branch --list
+git checkout with_search_and_creaet_accont_and_login_on_one_page
+git branch --list
+git puch -u origin with_search_and_creaet_accont_and_login_on_one_page
+git push -u origin with_search_and_creaet_accont_and_login_on_one_page
+sudo systemctl restart gunicorn
+cd wine
+source wineenv/bin/activate
+python manage.py makemoigrations
+python manage.py makemigrations
+python manage.py migrate
+sudo systemctl restart gunicorn
+sudo systemctl restart gunicorn
+sudo systemctl restart gunicorn
+sudo systemctl restart gunicorn
+sudo systemctl restart gunicorn
+sudo systemctl restart gunicorn
+sudo systemctl restart gunicorn\
+sudo systemctl restart gunicorn
+sudo systemctl restart gunicorn\
+sudo systemctl restart gunicorn
+cd wine/
+source wineenv/bin/activate
+python manage.py collectstatic
+sudo systemctl restart gunicorn
+python manage.py collectstatic
+sudo systemctl restart gunicorn
+sudo systemctl restart gunicorn
+sudo systemctl restart gunicorn
+sudo systemctl restart gunicorn
+sudo systemctl restart gunicorn
+sudo systemctl restart gunicorn

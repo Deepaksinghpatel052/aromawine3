@@ -62,7 +62,7 @@ class ShowView(generic.ListView):
     paginate_by = 4
 
     def get_queryset(self,**kwargs):
-        get_vintage_year = AwProductPrice.objects.all().order_by('-Vintage_Year').annotate(replies=Count('Vintage_Year') - 1)
+        get_vintage_year = AwProductPrice.objects.filter(Vintage_Year__isnull=False).order_by('-Vintage_Year').annotate(replies=Count('Vintage_Year') - 1)
         get_years_product = []
         get_filan_vintage_year = []
         if get_vintage_year:

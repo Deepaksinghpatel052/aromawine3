@@ -212,13 +212,111 @@ var bottle_value = "";
 console.log(($("."+vintage_year+"_bottle").last().val() == undefined));
 if($("."+vintage_year+"_bottle").last().val() == undefined)
 {
-   bottle_value  = "";
+   bottle_value  = "0";
 }
 else{
   bottle_value  = $("."+vintage_year+"_bottle").last().val();
 }
 
-  $(".add_row_"+vintage_year).append('<tr style="cursor: pointer;"><td data-field="name" style="width: 75px;"><input type="text" name="'+vintage_year+'_bottle[]" value="'+bottle_value+'" class="'+vintage_year+'_bottle"></td><td data-field="name" style="width: 116px;"><input type="number" style="width: 100px;" class="'+vintage_year+'_retail_cose" value="'+$("."+vintage_year+"_retail_cose").last().val()+'" name="'+vintage_year+'_retail_cose[]"></td><td data-field="name" style="width: 126px;"><input type="number" name="'+vintage_year+'_retail_stock[]" value="'+$("."+vintage_year+"_retail_stock").last().val()+'" class="'+vintage_year+'_retail_stock" style="width: 100px;"></td><td data-field="name" style="width: 147px;"><input type="number" name="'+vintage_year+'_descount_cose[]" class="'+vintage_year+'_descount_cose" value="'+$("."+vintage_year+"_descount_cose").last().val()+'" style="width: 100px;"> </td><td data-field="name" style="width: 63px;"><input type="number" name="'+vintage_year+'_duty[]"  class="'+vintage_year+'_duty" value="'+$("."+vintage_year+"_duty").last().val()+'" style="width: 65px;"></td><td data-field="name" style="width: 54px;"><input type="number" name="'+vintage_year+'_GST[]" value="'+$("."+vintage_year+"_GST").last().val()+'" class="'+vintage_year+'_GST" style="width: 65px;"></td><td data-field="name" style="width: 115px;"><input type="number" name="'+vintage_year+'_bond_cose[]" value="'+$("."+vintage_year+"_bond_cose").last().val()+'" class="'+vintage_year+'_bond_cose" style="width: 100px;"></td><td data-field="name" style="width: 125px;"><input type="number" name="'+vintage_year+'_bond_stock[]" class="'+vintage_year+'_bond_stock" value="'+$("."+vintage_year+"_bond_stock").last().val()+'" style="width: 100px;"></td><td><input type="number" name="'+vintage_year+'_bond_descount_cost[]" class="'+vintage_year+'_bond_descount_cost" value="'+$("."+vintage_year+"_bond_descount_cost").last().val()+'" style="width: 100px;"></td><td><a class="delect_ed" title="Delete"><i class="fa fa-trash"></i></a></td></tr>');  
+var _retail_cose_set = "0";
+var _retail_stock_set = "0";
+
+if($("."+vintage_year+"_retail_cose").last().val() == undefined)
+{
+  _retail_cose_set = "0";
+}
+else
+{
+  _retail_cose_set =$("."+vintage_year+"_retail_cose").last().val();
+}
+
+if($("."+vintage_year+"_retail_stock").last().val() == undefined)
+{
+  _retail_stock_set = "0";
+}
+else
+{
+  _retail_stock_set =$("."+vintage_year+"_retail_stock").last().val();
+}
+
+
+var _descount_cose_set = "0";
+if($("."+vintage_year+"_descount_cose").last().val() == undefined)
+{
+  _descount_cose_set = "0";
+}
+else
+{
+  _descount_cose_set =$("."+vintage_year+"_descount_cose").last().val();
+}
+
+
+
+var _duty_set = "0";
+if($("."+vintage_year+"_duty").last().val() == undefined)
+{
+  _duty_set = "0";
+}
+else
+{
+  _duty_set =$("."+vintage_year+"_duty").last().val();
+}
+
+var set_GST = "0";
+if($("."+vintage_year+"_GST").last().val() == undefined)
+{
+  set_GST = "0";
+}
+else
+{
+  set_GST =$("."+vintage_year+"_GST").last().val();
+}
+
+var set_bond_cose = "0";
+if($("."+vintage_year+"_bond_cose").last().val() == undefined)
+{
+  set_bond_cose = "0";
+}
+else
+{
+  set_bond_cose=$("."+vintage_year+"_bond_cose").last().val();
+}
+
+var set_bond_stock = "0";
+if($("."+vintage_year+"_bond_stock").last().val() == undefined)
+{
+  set_bond_stock = "0";
+}
+else
+{
+  set_bond_stock=$("."+vintage_year+"_bond_stock").last().val();
+}
+
+
+var set_bond_stock = "0";
+if($("."+vintage_year+"_bond_stock").last().val() == undefined)
+{
+  set_bond_stock = "0";
+}
+else
+{
+  set_bond_stock=$("."+vintage_year+"_bond_stock").last().val();
+}
+
+
+var set_bond_descount_cost = "0";
+if($("."+vintage_year+"_bond_descount_cost").last().val() == undefined)
+{
+  set_bond_descount_cost = "0";
+}
+else
+{
+  set_bond_descount_cost=$("."+vintage_year+"_bond_descount_cost").last().val();
+}
+
+
+  $(".add_row_"+vintage_year).append('<tr style="cursor: pointer;"><td data-field="name" style="width: 75px;"><input type="text" name="'+vintage_year+'_bottle[]" value="'+bottle_value+'" class="'+vintage_year+'_bottle"></td><td data-field="name" style="width: 116px;"><input type="text" style="width: 100px;" class="'+vintage_year+'_retail_cose" value="'+_retail_cose_set+'" name="'+vintage_year+'_retail_cose[]"></td><td data-field="name" style="width: 126px;"><input type="text" name="'+vintage_year+'_retail_stock[]" value="'+_retail_stock_set+'" class="'+vintage_year+'_retail_stock" style="width: 100px;"></td><td data-field="name" style="width: 147px;"><input type="text" name="'+vintage_year+'_descount_cose[]" class="'+vintage_year+'_descount_cose" value="'+_descount_cose_set+'" style="width: 100px;"> </td><td data-field="name" style="width: 63px;"><input type="text" name="'+vintage_year+'_duty[]"  class="'+vintage_year+'_duty" value="'+_duty_set+'" style="width: 65px;"></td><td data-field="name" style="width: 54px;"><input type="text" name="'+vintage_year+'_GST[]" value="'+set_GST+'" class="'+vintage_year+'_GST" style="width: 65px;"></td><td data-field="name" style="width: 115px;"><input type="text" name="'+vintage_year+'_bond_cose[]" value="'+set_bond_cose+'" class="'+vintage_year+'_bond_cose" style="width: 100px;"></td><td data-field="name" style="width: 125px;"><input type="text" name="'+vintage_year+'_bond_stock[]" class="'+vintage_year+'_bond_stock" value="'+set_bond_stock+'" style="width: 100px;"></td><td><input type="text" name="'+vintage_year+'_bond_descount_cost[]" class="'+vintage_year+'_bond_descount_cost" value="'+set_bond_descount_cost+'" style="width: 100px;"></td><td><a class="delect_ed" title="Delete"><i class="fa fa-trash"></i></a></td></tr>');  
+  
   // editTable();  
   // setTimeout(function(){   
   //   $(".editableTable").find("tbody tr:first td:last a[title='Edit']").click(); 

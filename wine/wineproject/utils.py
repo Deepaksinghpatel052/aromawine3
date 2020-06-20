@@ -27,7 +27,7 @@ def slug_generator_for_color(instance,new_slug=None):
     Klass = instance.__class__
     qs_exists = Klass.objects.filter(Slug=slug).exists()
     if qs_exists:
-        new_slug = "{slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
+        new_slug = "{Slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
         return slug_generator_for_product(instance,new_slug=new_slug)
     return slug
 
@@ -42,7 +42,7 @@ def slug_generator_for_AwRegion(instance,new_slug=None):
     Klass = instance.__class__
     qs_exists = Klass.objects.filter(Slug=slug).exists()
     if qs_exists:
-        new_slug = "{slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
+        new_slug = "{Slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
         return slug_generator_for_AwRegion(instance,new_slug=new_slug)
     return slug
 
@@ -55,7 +55,7 @@ def slug_generator_for_AwVarietals(instance,new_slug=None):
     Klass = instance.__class__
     qs_exists = Klass.objects.filter(Slug=slug).exists()
     if qs_exists:
-        new_slug = "{slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
+        new_slug = "{Slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
         return slug_generator_for_AwVarietals(instance,new_slug=new_slug)
     return slug
 
@@ -70,7 +70,7 @@ def slug_generator_for_AwVintages(instance,new_slug=None):
     Klass = instance.__class__
     qs_exists = Klass.objects.filter(Slug=slug).exists()
     if qs_exists:
-        new_slug = "{slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
+        new_slug = "{Slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
         return slug_generator_for_AwVintages(instance,new_slug=new_slug)
     return slug
 
@@ -83,7 +83,7 @@ def slug_generator_for_AwClassification(instance,new_slug=None):
     Klass = instance.__class__
     qs_exists = Klass.objects.filter(Slug=slug).exists()
     if qs_exists:
-        new_slug = "{slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
+        new_slug = "{Slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
         return slug_generator_for_AwClassification(instance,new_slug=new_slug)
     return slug
 
@@ -97,7 +97,7 @@ def slug_generator_for_AwProducers(instance,new_slug=None):
     Klass = instance.__class__
     qs_exists = Klass.objects.filter(Slug=slug).exists()
     if qs_exists:
-        new_slug = "{slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
+        new_slug = "{Slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
         return slug_generator_for_AwProducers(instance,new_slug=new_slug)
     return slug
 
@@ -110,7 +110,7 @@ def slug_generator_for_AwSize(instance,new_slug=None):
     Klass = instance.__class__
     qs_exists = Klass.objects.filter(Slug=slug).exists()
     if qs_exists:
-        new_slug = "{slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
+        new_slug = "{Slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
         return slug_generator_for_AwSize(instance,new_slug=new_slug)
     return slug
 
@@ -123,7 +123,7 @@ def slug_generator_for_AwAppellation(instance,new_slug=None):
     Klass = instance.__class__
     qs_exists = Klass.objects.filter(Slug=slug).exists()
     if qs_exists:
-        new_slug = "{slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
+        new_slug = "{Slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
         return slug_generator_for_AwAppellation(instance,new_slug=new_slug)
     return slug
 
@@ -137,6 +137,6 @@ def slug_generator_for_product(instance,new_slug=None):
     Klass = instance.__class__
     qs_exists = Klass.objects.filter(Product_slug=slug).exists()
     if qs_exists:
-        new_slug = "{slug}-{rendstr}".format(Product_slug=slug,rendstr=random_string_generator(size=4))
+        new_slug = "{Product_slug}-{rendstr}".format(Product_slug=slug,rendstr=random_string_generator(size=4))
         return slug_generator_for_product(instance,new_slug=new_slug)
     return slug

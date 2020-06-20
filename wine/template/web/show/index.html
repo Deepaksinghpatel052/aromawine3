@@ -59,10 +59,12 @@
 
     {% for get_item_wine in object_list %}
 	<div class="product-card product-card-list mb-4">
-  <div class="img"><a href="{% url 'product_detail:product_detail' get_item_wine.Product.Product_id get_item_wine.Product.Product_slug  get_item_wine   %}"><img src='{{get_item_wine.Product|get_product_image_one}}' alt="Masi : Vaio Armaron 1988"></a></div>
+  <div class="img"><a href="#">
+    <img style="width: 100%; height:auto;" src='{{get_item_wine.Product|get_product_image_one}}' alt="{{get_item_wine.Product.Select_Type}} : {{get_item_wine.Product}} ({{get_item_wine}})">
+  </a></div>
   <div class="product-info">
     <div class="product-info-header">
-      <div><a class="productname" href="{% url 'product_detail:product_detail' get_item_wine.Product.Product_id get_item_wine.Product.Product_slug  get_item_wine   %}">
+      <div><a class="productname" href="#">
         <h2 class="title">{{get_item_wine.Product.Select_Type}} : {{get_item_wine.Product}} ({{get_item_wine}})</h2>
         </a>
         <div class="product-attributes"><a href="#">Veneto</a> - <a href="#">Amarone della Valpolicella Classico</a> - {{get_item_wine.Product.Color.all|join:" | "}}</div>

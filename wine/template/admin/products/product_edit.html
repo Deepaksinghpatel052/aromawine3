@@ -345,23 +345,23 @@
         {% if cost_items.Vintage_Year.Vintages_Year == year %}
          <tr style="cursor: pointer;">
             <td data-field="name" style="width: 75px;">
-              <input type="text" name="{{year}}_bottle[]" value="{{cost_items.Bottle}}" class="{{year}}_bottle"></td>
+              <input type="text" name="{{year}}_bottle[]" value="{% if cost_items.Bottle %} {{cost_items.Bottle}} {% else %} 0 {% endif %}" class="{{year}}_bottle"></td>
             <td data-field="name" style="width: 116px;">
-              <input type="number" style="width: 100px;" class="{{year}}_retail_cose" value="{{cost_items.Retail_Cost}}" name="{{year}}_retail_cose[]"></td>
+              <input type="text" style="width: 100px;" class="{{year}}_retail_cose" value="{% if cost_items.Retail_Cost %} {{cost_items.Retail_Cost}}{% else %} 0 {% endif %}" name="{{year}}_retail_cose[]"></td>
             <td data-field="name" style="width: 126px;">
-              <input type="number" name="{{year}}_retail_stock[]" value="{{cost_items.Retail_Stock}}" class="{{year}}_retail_stock" style="width: 100px;"></td>
+              <input type="text" name="{{year}}_retail_stock[]" value="{% if cost_items.Retail_Stock %} {{cost_items.Retail_Stock}}{% else %} 0 {% endif %}" class="{{year}}_retail_stock" style="width: 100px;"></td>
             <td data-field="name" style="width: 147px;">
-              <input type="number" name="{{year}}_descount_cose[]" class="{{year}}_descount_cose" value="{{cost_items.Descount_Cost}}" style="width: 100px;"> </td>
+              <input type="text" name="{{year}}_descount_cose[]" class="{{year}}_descount_cose" value="{% if cost_items.Descount_Cost %} {{cost_items.Descount_Cost}}{% else %} 0 {% endif %}" style="width: 100px;"> </td>
             <td data-field="name" style="width: 63px;">
-              <input type="number" name="{{year}}_duty[]" class="{{year}}_duty" value="{{cost_items.Duty}}" style="width: 65px;"></td>
+              <input type="text" name="{{year}}_duty[]" class="{{year}}_duty" value="{% if cost_items.Duty %} {{cost_items.Duty}}{% else %} 0 {% endif %}" style="width: 65px;"></td>
             <td data-field="name" style="width: 70px;">
-              <input type="number" name="{{year}}_GST[]" value="{{cost_items.GST}}" class="{{year}}_GST" style="width: 65px;"> </td>
+              <input type="text" name="{{year}}_GST[]" value="{% if cost_items.GST %} {{cost_items.GST}}{% else %} 0 {% endif %}" class="{{year}}_GST" style="width: 65px;"> </td>
             <td data-field="name" style="width: 115px;">
-              <input type="number" name="{{year}}_bond_cose[]" value="{{cost_items.Bond_Cost}}" class="{{year}}_bond_cose" style="width: 100px;"></td>
+              <input type="text" name="{{year}}_bond_cose[]" value="{% if cost_items.Bond_Cost %} {{cost_items.Bond_Cost}}{% else %} 0 {% endif %}" class="{{year}}_bond_cose" style="width: 100px;"></td>
             <td data-field="name" style="width: 125px;">
-              <input type="number" name="{{year}}_bond_stock[]" class="{{year}}_bond_stock" value="{{cost_items.Bond_Stock}}" style="width: 100px;"></td>
+              <input type="text" name="{{year}}_bond_stock[]" class="{{year}}_bond_stock" value="{% if cost_items.Bond_Stock %} {{cost_items.Bond_Stock}}{% else %} 0 {% endif %}" style="width: 100px;"></td>
             <td data-field="name" style="width: 125px;">
-              <input type="number" name="{{year}}_bond_descount_cost[]" class="{{year}}_bond_descount_cost" value="{{cost_items.Bond_Descount_Cost}}" style="width: 100px;"></td>
+              <input type="text" name="{{year}}_bond_descount_cost[]" class="{{year}}_bond_descount_cost" value="{% if cost_items.Bond_Descount_Cost %} {{cost_items.Bond_Descount_Cost}}{% else %} 0 {% endif %}" style="width: 100px;"></td>
             <td><a class="delect_ed" title="Delete"><i class="fa fa-trash"></i></a></td>
          </tr>
          {% endif %}
