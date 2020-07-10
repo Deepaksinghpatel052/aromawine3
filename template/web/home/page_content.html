@@ -1,0 +1,14 @@
+{% extends 'web/base-template.html' %}
+{% block content %}
+{% load static %}
+
+<section class="aboutus padding-small bg-1 text-center" style="background: url({% if get_page_info.Background_Image %} {{get_page_info.Background_Image.url}} {% else %} {% static 'web/assets/image/shop/banner-a.jpg' %} {% endif %});">
+<div class="container ">
+
+<h1>{{get_page_info.Title}}</h1>
+
+</div>
+</section>
+
+{{get_page_info.description | safe}}
+{% endblock %}

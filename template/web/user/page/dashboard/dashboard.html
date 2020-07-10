@@ -1,0 +1,183 @@
+{% extends 'web/base-template.html' %}
+{% block content %}
+{% load static %}
+
+
+
+<main class="information">
+ 
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9 order-lg-last dashboard-content">
+                       
+
+
+
+
+                        
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+
+                                    <div class="card-header">
+                                       Simon Sall Esq., - S20653 
+                     <!--<button class="deliverCellaredWineButton" style="margin-left:20px;">
+                    
+                    <span class="product-button-info">Set Default Account</span>
+                  </button>-->
+                     
+                                       
+                                    </div><!-- End .card-header -->
+
+                                    <div class="card-body">
+                  <div class="row">
+                  <div class="col-md-9">
+                  <h5>Your Account Manager</h5>
+                                        <p>
+                                          Simon Herriot<br>Tel: 020 3301 7531
+                      <br>
+                      Email: <a href="#">simon.herriot@bbr.com</a>
+                                        </p>
+                    </div>
+                    <div class="col-md-3">
+                    <img src='{% static "web/assets/image/cm1.png" %}'>
+                    </div>
+                    </div>
+                    
+                    <div class="row">
+                    <div class="col-md-12 order-detailtext">
+                    
+                    <table cellspacing="0" cellpadding="0" class="accountTable">
+            <tbody><tr>
+              <td>
+                Account Balance:&nbsp;£3,999.00&nbsp; DR
+              </td>
+        <td><a class="btn-secondary-action right" href="#">Add Funds</a></td>
+            </tr>
+          </tbody></table>
+          
+          <table cellspacing="0" cellpadding="0" class="accountTable">
+            <tbody><tr>
+              <td>
+                Latest Order 13th Jan 2020 00:00am,<a href="#">Order Number: 06229572</a>
+              </td>
+              <td>
+                <a class="btn-secondary-action right" href="#">View Your Order History</a>
+                </td>
+            </tr>
+          </tbody></table>
+          
+                    </div>
+                    </div>
+                    
+                                    </div><!-- End .card-body -->
+                                </div><!-- End .card -->
+                            </div><!-- End .col-md-6 -->
+
+                            <!-- End .col-md-6 -->
+                       
+
+<div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Your dashboard
+                              
+                            </div><!-- End .card-header -->
+
+                            <div class="card-body">
+                               
+                                        <a href="#">Manage Your Wine</a>
+                                       
+                                    
+                            </div><!-- End .card-body -->
+                        </div><!-- End .card -->
+            </div>
+            
+            <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                               Your Wish List
+                              
+                            </div><!-- End .card-header -->
+
+                            <div class="card-body">
+                         
+                                       <a href="wishlist-summary.php">View / Edit Your Wish List</a>
+                          
+                            </div><!-- End .card-body -->
+                        </div><!-- End .card -->
+            </div>
+            
+            
+            
+            </div>
+            <div class="row">
+            <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                Your Cellared Wines
+                              
+                            </div><!-- End .card-header -->
+
+                            <div class="card-body">
+                               <div class="col-md-12 order-detailtext">
+                    
+                    <table cellspacing="0" cellpadding="0" class="accountTable">
+            <tbody><tr>
+              <td>
+                <a href="#">View Your Cellared Wines</a>
+              </td>
+        <td><a class="btn-secondary-action right" href="#">Download List</a></td>
+            </tr>
+          </tbody></table>
+          
+          <table cellspacing="0" cellpadding="0" class="accountTable">
+            <tbody><tr>
+              <td>
+                <a href="customer-cellar-valuation.php">View Your Cellar Valuation</a>
+              </td>
+              <td>
+                
+                </td>
+            </tr>
+          </tbody>
+          </table>
+          
+          <div class="callerplan">
+          <h3>Your Cellar Plan</h3>
+          <table cellspacing="0" cellpadding="0" class="accountTable">
+            <tbody><tr>
+              <td>
+                You pay £0 per month
+              </td>
+              <td>
+                <a href="#" class="btn-secondary-action right">View Your Cellar Plan</a>
+                </td>
+            </tr>
+          </tbody>
+          </table>
+          </div>
+          
+          
+                    </div>
+                                       
+                                    
+                            </div><!-- End .card-body -->
+                        </div><!-- End .card -->
+            </div>
+            </div>
+            
+            
+                    </div><!-- End .col-lg-9 -->
+
+                    <aside class="col-md-3">
+                        {% include 'web/user/include/user_sidebar.html' %}
+                    </aside>          
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+
+            <div class="mb-5"></div><!-- margin -->
+        </main>
+{% endblock %}

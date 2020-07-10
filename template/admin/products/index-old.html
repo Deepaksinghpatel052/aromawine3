@@ -1,0 +1,317 @@
+{% extends 'admin/base-template.html' %}
+{% block content %}
+{% load static %}
+
+<section class="content-header">
+        
+        <div class="header-title">
+            <h1>{{Page_title}}</h1>
+			</div>
+<!-- 			<ol class="breadcrumb">
+                <li><a href="index.php"> Home</a></li>
+                
+                <li class="active">Manage Products</li>
+            </ol> -->
+    </section>
+            {% if messages %}
+    {% for message in messages %}
+<div class="alert alert-success alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+    {% endfor %}
+    {% endif %}
+
+<div class="container-fluid">
+  <div class="row p-t-b-20">
+  <div class="col-md-3">
+  <div class="">
+              <div class="select-some">
+                  <select class="form-control">
+                    <option disabled="" selected="" value="">--Selected--</option>
+                    <option>Product ID</option>
+                    <option>Product Name</option>
+                    <option>Producer</option>
+                    <option>Cost</option>
+                    <option>Discout Cost</option>
+                    <option>Color</option>
+                    <option>Appellation</option>
+                    <option>In stock</option>
+                    <option>Maturity </option>
+                    <option>Vintage </option>
+                    <option>Varietals</option>
+                    <option>Case Size</option>
+                    <option>Region</option>
+                    <option>Wine</option>
+                    <option>Status</option>
+                    <option>Action</option>
+                    </select>&nbsp;
+                  <button class="View-btn">Apply</button>
+              </div>
+              
+          </div>
+		  </div>
+		  
+		
+		  
+    <div class="col-md-12">
+	<div class="add_button">
+	<a href="add-product.php">Add</a>
+	</div>
+      <!-- <div class="card no-b"> -->
+      <div class="login-form-card">
+        <!-- <div class="login-form-content"> -->
+        <form action="javascript:(0);">
+          <div class="table-responsive product-edit">
+            <!-- <button class="btn-success add-data">Add Iteration</button> -->
+            <!-- start Table -->
+            <table id="example" width="100%" border="1" class="table table-striped table-bordered newpage order-column" align="center" cellpadding="0" cellspacing="0" style=" font-size: 15px;">
+              <thead>
+                <tr>
+				<th align="left" valign="top"><input type="checkbox" id="selectall" /></th>
+                  <th align="left" valign="top">ID</th>
+                  <th align="left" valign="top">Images</th>
+                  <th align="left" valign="top">Product Name</th>
+                  
+                  <th align="left" valign="top">Producer</th>
+				  <th align="left" valign="top">Cost</th>
+				  <th align="left" valign="top">Discount Cost</th>
+				  <th align="left" valign="top">Stock </th>
+				  
+				  <th align="left" valign="top">Bottle Size </th>
+				  
+				  <th align="left" valign="top">Vintage </th>
+				  
+				  <th align="left" valign="top">Case Size </th>
+				  <th align="left" valign="top">Regions </th>
+				  
+				  
+                  <th align="left" valign="top">Status</th>
+                  <th align="left" valign="top">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+				<td align="left" valign="top"><input type="checkbox" name="name" class="name"  /></td>
+                  <td align="left" valign="top">#1</td>
+				  <td align="center" valign="top"><img src="assets/img/dummy/bottle1.png" class="fix-img"></td>
+                  <td align="left" valign="top">List Associated</td>
+                 
+                  <td align="left" valign="top">Backlog 1</td>
+				  <td align="left" valign="top">£3,999.00</td>
+				  <td align="left" valign="top">£3,999.00</td>
+				  <td align="left" valign="top">100</td>
+				  
+				  <td align="left" valign="top">750 ML</td>
+				  
+				  
+				  
+				 
+				  <td align="left" valign="top">2017</td>
+				  
+				  <td align="left" valign="top">1 bottles</td>
+				  <td align="left" valign="top">Australia</td>
+				  
+				
+                  <td align="left" valign="top"><span class="label label-success font-weight-100">Activate</span></td>
+                  <td align="left" valign="top">
+                    <table width="100%" border="0" align="left" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td align="center" valign="top"><a href="edit-product.php" ><i class="icon-pencil"></i></a>
+                        </td>
+                        <td align="center" valign="top"><a href=""><i class="icon-delete"></i><a></td>
+                   </tr>
+                </table>
+                </td>
+            </tr>
+            <tr>
+			<td align="left" valign="top"><input type="checkbox" name="name" class="name"  /></td>
+                <td align="left" valign="top">#2</td>
+				<td align="center" valign="top"><img src="assets/img/dummy/bottle1.png" class="fix-img"></td>
+                <td align="left" valign="top">List Associated</td>
+                 
+                 <td align="left" valign="top">Backlog 1</td>
+				 <td align="left" valign="top">£3,999.00</td>
+				  <td align="left" valign="top">£3,999.00</td>
+				  <td align="left" valign="top">100</td>
+				 
+				  <td align="left" valign="top">750 ML</td>
+
+				  
+				  
+				  
+				  
+				  <td align="left" valign="top">2017</td>
+				  
+				  <td align="left" valign="top">1 bottles</td>
+				  <td align="left" valign="top">Australia</td>
+				  
+				
+                <td align="left" valign="top"><span class="label label-danger font-weight-100">Deactivate</span></td>
+                <td align="left" valign="top">
+                <table width="100%" border="0" align="left" cellpadding="0" cellspacing="0">
+                   <tr>
+                    <td align="center" valign="top"><a href="javascript:void(0);" data-toggle="modal" data-target="#modal-default"><i class="icon-pencil"></i></a>
+                        </td>
+                        <td align="center" valign="top"><a href=""><i class="icon-delete"></i><a></td>
+                   </tr>
+                </table>
+                </td>
+
+            </tr>
+            
+        </tbody>
+    </table>
+                                     <!---Table Ends---->
+</div>
+                                    
+                         </form>
+                     <!--  </div> -->
+             </div>
+          <!-- </div> -->
+               </div>
+      </div>
+         </div>
+      </div>
+   </div>
+   <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog width-400" role="document">
+         <div class="modal-content no-r "><a href="#" data-dismiss="modal" aria-label="Close" class="paper-nav-toggle active"><i></i></a>
+                          <div class="modal-body no-p">
+                            <div class="text-center p-40 p-b-0">
+                              <img src="assets/img/dummy/u4.png" alt="">
+                              <h3>Welcome Back</h3>
+                              <p class="p-t-b-20">Hey Soldier welcome back signin now there is lot of new stuff waiting for you</p>
+                            </div>
+                            <div class="light p-40 b-t-b">
+                              <form action="https://xvelopers.com/demos/html/paper-1.8.2/dashboard2.html">
+                                <div class="form-group has-icon"><i class="icon-envelope-o"></i>
+                                  <input type="text" class="form-control form-control-lg" placeholder="Email Address">
+                                </div>
+                                <div class="form-group has-icon"><i class="icon-user-secret"></i>
+                                  <input type="text" class="form-control form-control-lg" placeholder="Password">
+                                </div>
+                                <input type="submit" class="btn btn-primary btn-lg btn-block" value="Log In"> <small class="forget-pass">Have you forgot your username or password ?</small>
+                              </form>
+                            </div>
+                            <div class="p-40"><a href="#" class="btn btn-lg btn-block btn-social facebook"><i class="icon-facebook"></i> Login with Facebook</a><a href="#" class="btn btn-lg btn-block btn-social twitter"><i class="icon-twitter"></i> Login with Twitter</a>
+                            </div>
+                          </div>
+          </div>
+      </div>
+    </div>
+    <div class="modal fade" id="modalSignUp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content no-r "><a href="#" data-dismiss="modal" aria-label="Close" class="paper-nav-toggle active"><i></i></a>
+          <div class="modal-body no-p">
+            <div class="row">
+              <div class="col-lg-5 grid">
+                <div class="p-40">
+                  <h5 class="p-t-40">Sign Up Using Social Account</h5>
+                  <p class="p-t-b-20">Hey Soldier welcome back signin now there is lot of new stuff waiting for you</p> <a href="#" class="btn btn-lg btn-block btn-social facebook"><i class="icon-facebook"></i> Login with Facebook</a><a href="#" class="btn btn-lg btn-block btn-social twitter"><i class="icon-twitter"></i> Login with Twitter</a>
+                </div>
+              </div>
+              <div class="col-lg-7">
+                <div class="light p-t-b-40">
+                  <div class="p-40">
+                    <h5 class="p-b-20">Create New User Account</h5>
+                    <form action="https://xvelopers.com/demos/html/paper-1.8.2/dashboard2.html">
+                      <div class="form-group has-icon"><i class="icon-user-circle"></i>
+                        <input type="text" class="form-control form-control-lg" placeholder="Your Name">
+                      </div>
+                      <div class="form-group has-icon"><i class="icon-envelope-o"></i>
+                        <input type="text" class="form-control form-control-lg" placeholder="Email Address">
+                      </div>
+                      <div class="form-group has-icon"><i class="icon-user-secret"></i>
+                        <input type="text" class="form-control form-control-lg" placeholder="Password">
+                      </div>
+                      <div class="form-group has-icon"><i class="icon-repeat"></i>
+                        <input type="text" class="form-control form-control-lg" placeholder="Confirm Password">
+                      </div>
+                      <input type="submit" class="btn btn-primary btn-lg btn-block" value="Sign Up Now">
+                      <p class="forget-pass">A verification email wil be sent to you</p>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!------------Modal Popup------->
+  <div class="modal fade in sp-map" id="modal-default">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Manage Iteration</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" style="font-size: 32px;">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="paper">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="container-fluid">
+                  <!-- <div class="card no-b"> -->
+                  <!-- <div class="login-form-card"> -->
+                  <div class="login-form-content">
+                    <form action="javascript:(0);">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <!-- start login -->
+                          <div class="form-group">
+                            <label>Iteration</label>
+                            <select class="form-control" name="list" placeholder="select Team Member">
+                              <option>Sprint 1</option>
+                              <option>Sprint 2</option>
+                              <option>Sprint 3</option>
+                              <option>Sprint 4</option>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label>Description</label>
+                            <textarea class="form-control login-frm-input" style="height: 100px;    padding: 11px;" placeholder="Description"></textarea>
+                          </div>
+                          <div class="form-group">
+                            <label>Associated User Story List</label>
+                            <select class="form-control" name="list" placeholder="select Team Member">
+                              <option>select userstory</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <button type="submit" class="btn-block btn btn-white subbtn" data-dismiss="modal">Cancel</button>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <button type="submit" class="btn-block btn btn-white subbtn">Update</button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </div>
+            </div> -->
+  <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+</div>
+<!---------------------------Modal Ends---------------->
+ {% endblock %}
+
+{% block script %}
+
+
+{% endblock %}

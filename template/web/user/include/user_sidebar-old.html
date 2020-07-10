@@ -1,0 +1,24 @@
+<div class="widget-dashboard">
+                            <h3 class="widget-title">My Account</h3>
+
+                           <ul class="list">
+               <li class=""><a href="#" class="active">Your Dashboard</a></li>
+        <li><a href="#">Your Profile</a></li>
+
+        <li class=""><a href="#">Your Preferences</a></li>
+
+        <li><a href="{% url 'addressbook_user:addressbooklist'  %}">Your Address Book</a></li>
+
+        <li><a href="#">Your Password</a></li>  
+        <li><a href="#">Your Payment Details</a></li>
+
+        <li><a href="{% url 'orders:orders' %}">Your Order History</a></li>        
+  
+          <li><a href="#">Your Wines Ordered</a></li>
+        <li><a href="#">Your Wish List</a></li>
+        <li><a href="#" target="_blank">My Cellar</a></li>
+        <li><a href="{% url 'account:logout' %}" >Logout</a></li>
+        
+        
+        </ul>
+                        </div><!-- End .widget -->

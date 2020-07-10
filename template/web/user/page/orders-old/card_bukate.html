@@ -1,0 +1,17 @@
+{% load static %}
+
+{% if get_product %}
+{% for item in get_product %}
+<li class="clearfix"> <img src="{{item.Product|get_product_image_one}}" ><div class="cart_shopping"><div class="item-name"><a href="{% url 'product_detail:product_detail' item.Product.Product_id item.Product.Product_slug  item.Year %}">{{item.Product.Product_name}}({{item.Year}})</a></div><div class="itemshipping"> <span class="item-quantity">Qty: {{item.Quentity}}</span><span class="item-price">
+{% if item.Type == 'Bond' %}
+${% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}
+
+{% endif %}	
+{% if item.Type == 'Retail' %}
+  ${% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}{% endif %}
+</span> </div></div></li>
+{% endfor %}
+
+{% else %}
+<li class="clearfix">Your Card is empty.</li>
+{% endif %}

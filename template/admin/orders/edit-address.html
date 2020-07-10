@@ -1,0 +1,386 @@
+{% extends 'admin/base-template.html' %}
+{% block content %}
+{% load static %}
+<section class="content-header">
+        
+        <div class="header-title">
+            <h1>{{Page_title}}</h1>
+			</div>
+<!-- 			<ol class="breadcrumb">
+                <li><a href="index.php"><i class="pe-7s-home"></i> Home</a></li>
+                <li><a href="manage-orders.php">Manage Order</a></li>
+                <li class="active">Edit address </li>
+            </ol> -->
+    </section>
+    
+            {% if messages %}
+    {% for message in messages %}
+<div class="alert alert-success alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+    {% endfor %}
+    {% endif %}
+
+<div class="container-fluid">
+  <div class="row p-t-b-20">
+    <div class="col-md-12">
+      <!-- <div class="card no-b"> -->
+    
+<div class="login-form-content">
+  <!-- <form action="javascript:(0);"> -->
+
+
+              <form id="addressForm" method="post">
+               {% csrf_token %}
+
+      
+                    
+ 
+         
+			                        
+
+                        <div class="row">
+						<div class="col-md-6">
+                         <div class="form-group">
+                            <label>First name</label>
+                            {{form.First_Name}}
+                          <!-- <input type="text" value="{{address_set.First_Name}}" class="form-control" /> -->
+                          </div>
+                        </div>
+						<div class="col-md-6">
+                         <div class="form-group">
+                            <label>Last Name</label>
+                            {{form.Last_Name}}
+                          <!-- <input type="text" value="{{address_set.Last_Name}}" class="form-control" /> -->
+                          </div>
+                        </div>
+                        <div class="col-md-6">   
+                        <div class="form-group">
+                           <label class="age">Email Id</label>
+                           {{form.Email}}
+                           <!-- <input type="text" value="{{address_set.Email}}"  class="form-control"> -->
+                        </div>
+                      </div>
+
+                        <div class="col-md-6">   
+                        <div class="form-group">
+                           <label class="age">Phone Number</label>
+                           {{form.Pnone_no}}
+                           <!-- <input type="text" value="{{address_set.Pnone_no}}"  class="form-control"> -->
+                        </div>
+                      </div>
+                        <div class="col-md-6">
+                        <div class="form-group">
+                           <label>Company</label>
+                           {{form.Conpany_Name}}
+                          <!-- <input type="text" value="{{address_set.Conpany_Name}}"  class="form-control"/> -->
+                        </div>
+                      </div>
+					  
+					  <div class="col-md-6">
+                        <div class="form-group">
+                           <label>Country</label>
+                           {{form.Country}}
+                          <!-- <input type="text" value="{{address_set.Country}}"  class="form-control" > -->
+                        </div>
+                      </div>
+
+                       
+					   <div class="col-md-4">
+					   <div class="form-group">
+                        <label class="age">State </label>
+                        {{form.State}}
+                        <!-- <input type="text" value="{{address_set.State}}"  class="form-control" > -->
+                       </div>
+					   </div>
+					   <div class="col-md-4">
+					   <div class="form-group">
+                        <label class="age">City </label>
+                        {{form.City}}
+<!-- <input type="text" value="{{address_set.City}}"  class="form-control" > -->
+                       </div>
+					   </div>
+					   <div class="col-md-4">   
+                        <div class="form-group">
+                           <label class="age">Zip / postal code	</label>
+                           {{form.Postcode}}
+                           <!-- <input type="text" value="{{address_set.Postcode}}"  class="form-control" > -->
+                        </div>
+                      </div>
+					   
+					   <div class="col-md-6">   
+                        <div class="form-group">
+                           <label class="age">Address 1	</label>
+                           {{form.Address}}
+                           <!-- <input type="text" value="{{address_set.Address}}"  class="form-control" > -->
+                        </div>
+                      </div>
+					   <div class="col-md-6">   
+                        <div class="form-group">
+                           <label class="age">Address 2	</label>
+                           {{form.Address_2}}
+                           <!-- <input type="text"  value="{{address_set.Address_2}}" class="form-control" > -->
+                        </div>
+                      </div>
+					  
+					  
+					  
+
+                    </div>
+
+    <!-- <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+                   <label class="age">Title</label>
+                   <input type="text" class="form-control" placeholder="title">
+
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+                   <label class="age">Banner Position</label>
+                   <input type="text" class="form-control" placeholder="banner position">
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+     <div class="col-md-6">
+      <label class="age">Banner Images</label>
+     </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+                   
+    
+    <div class="avatar-upload">
+        <div class="avatar-edit">
+            <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+            <label for="imageUpload"> <i class="fa fa-pencil"></i></label>
+        </div>
+        <div class="avatar-preview">
+            <div id="imagePreview" style="background-image: url(http://i.pravatar.cc/500?img=7);">
+            </div>
+        </div>
+    </div>
+
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+                   <label class="age">URL</label>
+                   <input type="text" class="form-control" placeholder="url">
+
+        </div>
+      </div>
+    </div> -->
+
+<div class="row">
+ 
+  <div class="col-md-2">
+    <div class="form-group">
+      <button type="submit" class="btn-block btn btn-white subbtn">Save</button>
+    </div>
+  </div>
+</div>
+</form>
+</div>
+
+
+
+
+          <!-- </div> -->
+               </div>
+      </div>
+         </div>
+      </div>
+   </div>
+   <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog width-400" role="document">
+         <div class="modal-content no-r "><a href="#" data-dismiss="modal" aria-label="Close" class="paper-nav-toggle active"><i></i></a>
+                          <div class="modal-body no-p">
+                            <div class="text-center p-40 p-b-0">
+                              <img src="assets/img/dummy/u4.png" alt="">
+                              <h3>Welcome Back</h3>
+                              <p class="p-t-b-20">Hey Soldier welcome back signin now there is lot of new stuff waiting for you</p>
+                            </div>
+                            <div class="light p-40 b-t-b">
+                              <form action="https://xvelopers.com/demos/html/paper-1.8.2/dashboard2.html">
+                                <div class="form-group has-icon"><i class="icon-envelope-o"></i>
+                                  <input type="text" class="form-control form-control-lg" placeholder="Email Address">
+                                </div>
+                                <div class="form-group has-icon"><i class="icon-user-secret"></i>
+                                  <input type="text" class="form-control form-control-lg" placeholder="Password">
+                                </div>
+                                <input type="submit" class="btn btn-primary btn-lg btn-block" value="Log In"> <small class="forget-pass">Have you forgot your username or password ?</small>
+                              </form>
+                            </div>
+                            <div class="p-40"><a href="#" class="btn btn-lg btn-block btn-social facebook"><i class="icon-facebook"></i> Login with Facebook</a><a href="#" class="btn btn-lg btn-block btn-social twitter"><i class="icon-twitter"></i> Login with Twitter</a>
+                            </div>
+                          </div>
+          </div>
+      </div>
+    </div>
+    <div class="modal fade" id="modalSignUp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content no-r "><a href="#" data-dismiss="modal" aria-label="Close" class="paper-nav-toggle active"><i></i></a>
+          <div class="modal-body no-p">
+            <div class="row">
+              <div class="col-lg-5 grid">
+                <div class="p-40">
+                  <h5 class="p-t-40">Sign Up Using Social Account</h5>
+                  <p class="p-t-b-20">Hey Soldier welcome back signin now there is lot of new stuff waiting for you</p> <a href="#" class="btn btn-lg btn-block btn-social facebook"><i class="icon-facebook"></i> Login with Facebook</a><a href="#" class="btn btn-lg btn-block btn-social twitter"><i class="icon-twitter"></i> Login with Twitter</a>
+                </div>
+              </div>
+              <div class="col-lg-7">
+                <div class="light p-t-b-40">
+                  <div class="p-40">
+                    <h5 class="p-b-20">Create New User Account</h5>
+                    <form action="https://xvelopers.com/demos/html/paper-1.8.2/dashboard2.html">
+                      <div class="form-group has-icon"><i class="icon-user-circle"></i>
+                        <input type="text" class="form-control form-control-lg" placeholder="Your Name">
+                      </div>
+                      <div class="form-group has-icon"><i class="icon-envelope-o"></i>
+                        <input type="text" class="form-control form-control-lg" placeholder="Email Address">
+                      </div>
+                      <div class="form-group has-icon"><i class="icon-user-secret"></i>
+                        <input type="text" class="form-control form-control-lg" placeholder="Password">
+                      </div>
+                      <div class="form-group has-icon"><i class="icon-repeat"></i>
+                        <input type="text" class="form-control form-control-lg" placeholder="Confirm Password">
+                      </div>
+                      <input type="submit" class="btn btn-primary btn-lg btn-block" value="Sign Up Now">
+                      <p class="forget-pass">A verification email wil be sent to you</p>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!------------Modal Popup------->
+  <div class="modal fade in sp-map" id="modal-default">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Manage Iteration</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" style="font-size: 32px;">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="paper">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="container-fluid">
+                  <!-- <div class="card no-b"> -->
+                  <!-- <div class="login-form-card"> -->
+                  <div class="login-form-content">
+                    <form action="javascript:(0);">
+
+
+                      <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                        <label>Gender</label>
+                                       <select class="form-control">
+                                        <option>--Select--</option>
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                        <option>Other</option>
+                                      </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                         <div class="form-group">
+                            <label>App User</label>
+                          <select class="form-control">
+                            <option>--Select--</option>
+                            <option></option>
+                            <option></option>
+                            <option></option>
+
+                           </select>
+                          </div>
+                        </div>
+                      </div>
+
+                        <div class="row">
+                        <div class="col-md-6">   
+                        <div class="form-group">
+                           <label class="age">Age Range</label>
+                           <input type="text" class="form-control" placeholder="Age range">
+                        </div>
+                      </div>
+
+                        <div class="col-md-6">   
+                        <div class="form-group">
+                           <label class="age">Shopping Amount </label>
+                           <input type="text" class="form-control" placeholder="Shopping Amount ">
+                        </div>
+                      </div>
+                    </div>
+
+               <div class="row">
+                        <div class="col-md-12">
+                        <div class="form-group">
+                           <label>City</label>
+                          <select class="form-control">
+                            <option>--Select--</option>
+                            <option>Gwalior</option>
+                            <option>Juna</option>
+                            <option>Morena</option>
+
+                           </select>
+                        </div>
+                      </div>
+                    </div>
+
+                  
+
+
+                        </div>
+                      </div>
+                      
+                      <div class="row">
+                        <div class="col-md-6">
+                          <button type="submit" class="btn-block btn btn-white subbtn" data-dismiss="modal">Cancel</button>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <button type="submit" class="btn-block btn btn-white subbtn">Update</button>
+                          </div>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </div>
+            </div> -->
+  <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+</div>
+<!---------------------------Modal Ends---------------->
+ {% endblock %}
+
+{% block script %}
+
+
+{% endblock %}

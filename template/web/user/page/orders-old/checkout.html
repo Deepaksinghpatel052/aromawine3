@@ -1,0 +1,238 @@
+{% extends 'web/base-template.html' %}
+{% block content %}
+{% load static %}
+ <form action="checkout">
+<div class="container cart-area">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="checkout-form form-style">
+                        <h3>Billing Details</h3>
+                       
+                       
+                            <div class="row" id="address_form">
+                              
+                                <div class="col-sm-6 col-12">
+                                    <p>First Name *</p>
+                                  {{address_form.First_Name}}
+                                </div>
+                                <div class="col-sm-6 col-12">
+                                    <p>Last Name *</p>
+                                    {{address_form.Last_Name}}
+                                </div>
+                                <div class="col-12">
+                                    <p>Compani Name</p>
+                                     {{address_form.Conpany_Name}}
+                                </div>
+                                <div class="col-sm-6 col-12">
+                                    <p>Email Address *</p>
+                                    {{address_form.Email}}
+                                </div>
+                                <div class="col-sm-6 col-12">
+                                    <p>Phone No. *</p>
+                                    {{address_form.Pnone_no}}
+                                </div>
+                                <div class="col-6">
+                                    <p>Country *</p>
+                                    {{address_form.Country}}
+                                </div>
+                                <div class="col-sm-6 col-12">
+                                    <p>Town/City *</p>
+                                    {{address_form.City}} 
+                                </div>
+                                <div class="col-12">
+                                    <p>Your Address *</p>
+                                    {{address_form.Address}}
+                                </div>
+                                <br>
+                                <br>
+                                <div class="col-sm-6 col-12">
+                                    <p>Postcode/ZIP *</p>
+                                    {{address_form.Postcode}}
+                                </div>
+                                
+                                <div class="col-sm-6 col-12">
+                                    <p>Landark *</p>
+                                    {{address_form.Landark}} 
+                                </div>
+                            
+                         </div>
+                         <div class="row">
+                                <div class="col-12">
+                                    <input id="toggle2" type="checkbox" name="old_address">
+                                    <label class="fontsize" for="toggle2"><h5>Ship to a different address?</h5></label>
+                                    <select class="form-control" id="address_obj" style="display: none;" name="address_id">
+                                      <option value=""> Select Address</option>
+                                      {% if my_address %}
+                                       {% for item in my_address %}
+                                      <option value="{{item.id}}"> {{item}}</option>
+                                       {% endfor %}
+                                      {% endif %}
+                                    </select>
+                                </div>
+
+                                <div class="col-12">
+                                    <p>Order Notes </p>
+                                    <textarea class="form-control" name="massage" placeholder="Notes about Your Order, e.g.Special Note for Delivery"></textarea>
+                                </div>
+                            </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="order-area">
+                        <h3>Your Order</h3>
+            <table class="table table-bordered" style="
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-spacing: 0;
+    border-collapse: collapse;
+    ">
+  <thead>
+    <tr style="cursor: pointer;">
+      <td class="text-center"><b>Images</b></td>
+      <td class="text-center"><b>Product</b></td>
+      <td class="text-center"><b>Quantity</b></td>
+    <td class="text-center"><b>Type</b></td>
+    <td class="text-center"><b>Case Size</b></td>
+      <td class="text-center"><b>Price</b></td>
+      <td class="text-center"><b>Amount</b></td>
+    </tr>
+  </thead>
+  <tbody>
+    {% if card_product %}
+     {% for item in card_product %}
+    <tr style="cursor: pointer;">
+      <td class="text-left"><a href="{% url 'product_detail:product_detail' item.Product.Product_id item.Product.Product_slug  item.Year %}"><img src='{{item.Product|get_product_image_one}}' style="height: 50px;"></a></td>
+      <td class="text-left"><a href="{% url 'product_detail:product_detail' item.Product.Product_id item.Product.Product_slug  item.Year %}">{{item.Product}}({{item.Year}})</a></td>
+      <td class="text-center">{{item.Quentity}}</td>
+      <td class="text-center">{{item.Type}}</td>
+      <td class="text-center">{{item.Case_Formate.Bottle}}</td>
+      <td class="text-center">
+        {% if item.Type == 'Bond' %}
+  ${{item.Case_Formate.Bond_Cost}}*{{item.Quentity}}
+{% endif %} 
+{% if item.Type == 'Retail' %}
+  ${{item.Case_Formate.Retail_Cost}}*{{item.Quentity}}
+{% endif %}
+      </td>
+      <td class="text-center">
+{% if item.Type == 'Bond' %}
+<input type="hidden" class="total" value="{% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}">
+  ${% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}
+{% endif %} 
+{% if item.Type == 'Retail' %}
+<input type="hidden" class="total" value="{% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}">
+  ${% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}
+{% endif %}
+      </td>
+    </tr>
+     {% endfor %}
+    {% endif %}
+ <tr>
+   <th  colspan="3">
+    <select class="form-control" name="order_type">
+                            <option>Delivery</option>
+                            <option>Caller</option>
+                            <option>Bond</option>
+                          </select></th>
+   <th  colspan="3">Total</th>
+   <th>$<span id="show_total_ampount">0.00</span></th>
+ </tr>
+
+  </tbody>
+</table>
+                      
+                        <!--<ul class="total-cost">
+                            <li>Pure Nature Honey <span class="pull-right">$139.00</span></li>
+                            
+                            <li>Your Product Name <span class="pull-right">$100.00</span></li>
+                            
+                            <li>Pure Nature Honey <span class="pull-right">$141.00</span></li>
+                            
+                            <li>Subtotal <span class="pull-right"><strong>$380.00</strong></span></li>
+                          
+                            <li>Shipping <span class="pull-right">Free</span></li>
+                           
+                            <li><strong>Total<span class="pull-right">$380.00</span></li>
+                            
+                        </ul>-->
+                        <ul class="payment-method">
+                            <li>
+                                <input id="bank" type="radio" name="payment_type" value="Direct Bank Transfer">
+                                <label for="bank">Direct Bank Transfer</label>
+                            </li>
+                            <li>
+                                <input id="paypal" type="radio" name="payment_type" value="Paypal">
+                                <label for="paypal">Paypal</label>
+                            </li>
+                            <li>
+                                <input id="card" type="radio" name="payment_type" value="Credit Card">
+                                <label for="card">Credit Card</label>
+                            </li>
+                            <li>
+                                <input id="delivery" type="radio" name="payment_type" checked="true" value="Cash on Delivery">
+                                <label for="delivery">Cash on Delivery</label>
+                            </li>
+                        </ul>
+            
+            <div class="iconbox">
+            <img src='{% static "web/assets/image/paypal.jpg" %}'  >
+            </div>
+                         <div class="cart-total text-right">
+                                   
+                                    <button type="submit" class="btn btn-warning">PLASE ORDER</button>
+                                </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+</form>
+
+{% endblock %}
+
+
+
+{% block script %}
+
+<script type="text/javascript">
+
+function set_total_amount_of_card_product()
+{
+  var total_amount = 0.00;
+  $(".total").each(function(){
+ 
+ total_amount = total_amount +  parseFloat($(this).val());
+
+});
+  return total_amount;
+}
+
+
+  $(document).ready(function(){
+
+$("#show_total_ampount").text(set_total_amount_of_card_product());
+
+
+
+
+ $("#toggle2").change(function(){
+   if($(this).prop("checked")==false)
+    {
+      $("#address_obj").css('display','none');
+      $("#address_form").css('display','block');
+    }
+    if($(this).prop("checked")==true)
+    {
+      $("#address_form").css('display','none');
+      $("#address_obj").css('display','block');
+    }
+
+
+ });
+
+  });
+</script>
+      {% endblock %}

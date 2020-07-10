@@ -1,0 +1,93 @@
+{% extends 'web/base-template.html' %}
+{% block content %}
+{% load static %}
+
+
+
+<main class="information">
+ 
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9 order-lg-last dashboard-content">
+                       <div class="card">
+                           <div class="card-header">Your Order History</div>
+<div class="profile-edit card-body">
+{% if messages %}
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+            <div class="alert alert-success alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+           {% endif %}   
+           
+           {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+           {% endif %}         
+      
+    {% endfor %}
+    {% endif %}
+<div class="update-password">
+
+   <div class="paymentItem newPaymentItem">
+		
+<table class="cart-wrap">
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>Date</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              	{% if get_orders %}
+              	{% for item in get_orders %}
+                <tr>
+                  <th># {{item}}</th>
+                  <td>{{item.Order_Date}}</td>
+                  <td>${{item.Amount}}</td>
+                  <td>
+                  	{% if item.Order_Status == "Pending" %}
+                  	<span class="badge badge-info">Pending </span>
+                  	{% endif %}
+                  	{% if item.Order_Status == "Done" %}
+                  	<span class="badge badge-success">Done </span>
+                  	{% endif %}
+                  	{% if item.Order_Status == "Cancelled" %}
+                  	<span class="badge badge-danger">Cancelled </span>
+                  	{% endif %}
+                  </td>
+                  <td><a href="{% url 'orders:prodyuct_info' item.order_id  %}" class="btn btn-primary btn-sm">View</a></td>
+                </tr>
+                 {% endfor %}
+                {% endif %}
+              </tbody>
+            </table>
+</div>   
+      
+</div>
+
+</div>
+ </div>
+                    </div>
+
+
+
+
+
+
+                    <aside class="col-md-3">
+                        {% include 'web/user/include/user_sidebar.html' %}
+                    </aside>          
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+
+            <div class="mb-5"></div><!-- margin -->
+        </main>
+{% endblock %}

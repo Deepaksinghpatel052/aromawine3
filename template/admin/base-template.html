@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href='{% static "admin/assets/img/basic/logo.png" %}'  type="image/x-icon">
+<title>Wine| Admin</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href='{% static "admin/assets/css/panel.css" %}' >
+<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href='{% static "admin/assets/css/dataTables.bootstrap4.css" %}' >
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
+
+
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
+<link rel="stylesheet" href='{% static "admin/assets/cropme/croppie.css" %}'  type="text/css">
+   {% block cssstyle %}
+      {% endblock %}
+
+<style type="text/css">
+   .active_dsp{
+      background:#cca261;
+    color: #fff;
+   }
+</style>
+
+</head>
+
+
+<body>
+<!--fixed-->
+<div id="app" class="paper-loading">
+   <aside class="main-sidebar offcanvas">
+   <div class="jquery-accordion-menu-header text-center"><a href="#"><img src='{% static "admin/assets/img/basic/wine-logo.svg" %}'></a></div>
+      <section class="sidebar">
+    
+     <ul class="sidebar-menu scroll sp-menu">
+	 <li class=""><a href="{% url 'admin_dashboard:dashboard' %}">Dashbord</a></li>
+                      <!--<li class=""><a href="manage-buyers.php"></i>Manage Buyers</a></li>-->
+					  <li class="treeview" id="Products">
+					 <a href="#"><span>Products</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview " id="Manage_Product"><a href="{% url 'admin_manage_products:products' %}">Manage Product</a></li>
+                      
+					  <li class="treeview"  id="Add_Product"><a href="{% url 'admin_manage_products:add_product' %}">Add Product</a></li>
+			
+					  
+                     
+					 
+                  </ul>
+               </li>
+
+
+               <li class="treeview" id="Category">
+                <a href="#"><span>Category</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview " id="Manage_Categoryes"><a href="{% url 'admin_manage_categoryes:catogoryes' %}">Manage Categoryes</a></li>
+                      
+                 <li class="treeview"  id="Add_Categoryes"><a href="{% url 'admin_manage_categoryes:add_catogoryes' %}">Add Category</a></li>
+         
+                 
+                     
+                
+                  </ul>
+               </li>
+					  
+					
+                   <li class="treeview">
+					 <a href="#"><span>Customer</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview">
+					  <a href="manage-customer.php">Manage Customer</a>
+					  </li>
+                     <li class="treeview">
+					 <a href="add-customer.php">Add Customer</a>
+					 </li>
+                     
+                  </ul>
+               </li>
+			   <li class="treeview">
+					 <a href="#"><span>Orders</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview">
+					  <a href="{% url 'admin_manage_order:orders' %}">Manage Orders</a>
+					  </li>
+					  <li class="treeview">
+					 <a href="{% url 'admin_manage_order:celler_order' %}">Celler Orders</a>
+					 </li>
+					 <!--<li class="treeview">
+					  <a href="manage-shipping.php">Manage Delivery</a>
+					  </li>-->
+                     
+                     <li class="treeview">
+					 <a href="{% url 'admin_manage_order:refunded_order' %}">Refunded Orders</a>
+					 </li>
+					 <li class="treeview">
+					 <a href="{% url 'admin_manage_order:canclled_order' %}">Canclled orders</a>
+					 </li>
+					 <li class="treeview">
+					 <a href="{% url 'admin_manage_order:failled_order' %}">Failled orders</a>
+					 </li>
+					 
+					 
+                  </ul>
+               </li>
+			   <li class="treeview"><a href="disocunt-coupons.php">Disocunt Coupons</a></li>
+			   <li class="treeview" id="Countries">
+					 <a href="#"><span>Countries</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview"  id="Manage_Countries"><a href="{% url 'admin_manage_country:country' %}">Manage Countries</a></li>
+                     <li class="treeview" id="Add_Countries">
+					 <a href="{% url 'admin_manage_country:add_country' %}">Add Countries</a>
+					 </li>
+                     
+                  </ul>
+               </li>
+			   <li class="treeview" id="Region">
+					 <a href="#"><span>Region</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                     <li class="treeview" id="Manage_Region"><a href="{% url 'admin_manage_region:region' %}">Manage Region</a></li>
+                     <li class="treeview" id="Add_Region">
+					 <a href="{% url 'admin_manage_region:add_region' %}">Add Region</a>
+					 </li>
+                     
+                  </ul>
+               </li>
+			   <li class="treeview" id="Grape">
+					 <a href="#"><span>Grape</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview" id="Manage_Grape"><a href="{% url 'admin_manage_grape:grape' %}">Manage Grape</a></li>
+                     <li class="treeview" id="Add_Grape">
+					 <a href="{% url 'admin_manage_grape:add_grape' %}">Add Grape</a>
+					 </li>
+                     
+                  </ul>
+               </li>
+			   
+			   
+                     
+			  
+			  
+			   
+                     
+           
+                     
+					
+                    
+					 
+			   
+			   <li class="treeview" id="Manage_Filtters">
+					 <a href="#"><span>Manage Filtters</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+				  <li  id="Producer_Winery"><a href="{% url 'admin_manage_producer:producer' %}">Manage Producer/Winery</a></li>
+				  <li class="treeview" id="Manage_Appellation"><a href="{% url 'admin_manage_appellation:appellation' %}">Manage Appellation</a></li>
+                      <li class="treeview" id="Color">
+					  <a href="{% url 'admin_manage_color:color' %}">Color</a>
+					  </li>
+					  <li class="treeview" id="Bottle_Size">
+					 <a href="{% url 'admin_manage_size:size'%}">Bottle Size</a>
+					 </li>
+                     
+                     <li class="treeview" id="Classification">
+					 <a href="{% url 'admin_manage_classification:classification'%}">Classification</a>
+					 </li>
+					 <li class="treeview" id="Varietals">
+					 <a href="{% url 'admin_manage_varietals:varietals' %}">Varietals</a>
+					 </li>
+					 
+					 <li class="treeview" id="Vintages">
+					 <a href="{% url 'admin_manage_Vintages:vintages'%}">Vintages</a>
+					 </li>
+					 
+					 <li class="treeview">
+					 <a href="critics.php">Critics</a>
+					 </li>
+					 
+					 
+					 
+                  </ul>
+               </li>
+					 
+					 
+                     
+                    <!-- <li><a href="manage-attributes.php">Manage Attributes</a></li>-->
+                     <li><a href="notifications.php">Notifications</a></li>
+                     <li><a href="membership-settings.php">Membership Settings</a></li>
+                     <li><a href="source-wine-request.php">Source Wine requests</a></li>
+                     
+                     <li><a href="enqueries.php">Manage Enqueries</a></li>
+                     
+                     <li><a href="manage-event.php">Manage Events</a></li>
+                     
+                     
+                     <!--<li><a href="manage-review.php">Manage Reviews</a></li>
+                     <li><a href="manage-complaints.php">Manage Complaints</a></li>
+                     <li><a href="manage-contact.php">Manage Enquiries (Contact Us)</a></li>-->
+					 
+					 
+                     
+					 <li class="treeview" >
+					 <a href="#"><span>Manage Banners</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview">
+					  <a href="{% url 'admin_manage_banners:banners' %}">Manage Banner</a>
+					  </li>
+                     <li class="treeview">
+					 <a href="{% url 'admin_manage_banners:add_banners' %}">Add Banner</a>
+					
+					 <!--<li class="treeview"><a href="manage-s.e.o.php">Manage S.E.O.</a></li>-->
+                  </ul>
+               </li>
+                     
+                    
+                    
+                     <!--<li><a href="manage-newsletters.php">Manage Newsletters </a></li>
+                     <li><a href="manage-testimonial.php">Manage Testimonials</a></li>
+                      <li><a href="manage-cms.php">Manage CMS Pages</a></li> -->
+                     <li class="treeview" id="Manage_Content"><a href="#"><span>Manage Content</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li id="Mange_Pages"><a href="{% url 'admin_manage_content_page:custom_page' %}">Mange Pages</a></li>
+                      <li id="Add_Page"><a href="{% url 'admin_manage_content_page:add_page' %}">Add Page</a></li>
+                  </ul>
+               </li>
+			   
+			   
+                     
+                     <li><a href="manage-vintage-chart-data.php">Manage Vintage Chart data</a></li>
+					 
+					 
+					 <li class="treeview"><a href="#"><span>Manage Admin Setting</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li><a href="manage-admin-setting.php">General Setting</a></li>
+					  <li><a href="Fee-shipping.php">Manage Shipping</a></li>
+                     <li><a href="social-media.php">Social Media</a></li>
+                     <li><a href="email-setting.php">Email Setting</a></li>
+					 
+                  </ul>
+               </li>
+                     
+            
+            </li>
+            
+         </ul>
+     
+     
+         
+      </section>
+   </aside>
+   <div class="page offcanvas-page">
+      <div class="pos-f-t">
+         <div class="collapse" id="navbarToggleExternalContent">
+            <div class="bg-dark p-4">
+               <div class="search-bar">
+                  <input class="transparent s-24 text-white b-0 font-weight-lighter w-128 height-50" type="text" placeholder="start typing...">
+               </div>
+               <a href="#" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation" class="paper-nav-toggle paper-nav-white active "><i></i></a></div>
+         </div>
+      </div>
+      
+         <header class="blue accent-3 relative">
+            <div class="navbar navbar-expand navbar-dark d-flex justify-content-end bd-navbar" style="float: right;">
+               <ul class="navbar-nav p-t-10">
+                  
+                  <li class="nav-item dropdown">
+                     <a class="nav-item nav-link  mr-md-2" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-user-circle" style="font-size: 25px; color: #fff;"></i></a>
+                     <div class="dropdown-menu dropdown-menu-right b-0 shadow1">
+                        <a class="dropdown-item" href="setting.html"><i class="icon-cog"></i> Account Settings</a>
+                        
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'logout' %}"><i class="icon-money"></i> Logout</a></div>
+                  </li>
+               </ul>
+            </div>
+            <div class="container-fluid text-white">
+               <div class="row p-t-b-10 mt-15">
+			   <a href="#" data-toggle="offcanvas" class="paper-nav-toggle"><i></i></a> 
+                
+               </div>
+            </div>
+         </header>
+         
+
+   {% block content %}
+               {% endblock %}
+
+         </div>
+   <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog width-400" role="document">
+         <div class="modal-content no-r "><a href="#" data-dismiss="modal" aria-label="Close" class="paper-nav-toggle active"><i></i></a>
+            <div class="modal-body no-p">
+               <div class="text-center p-40 p-b-0"> <img src="assets/img/dummy/u4.png" alt="">
+                  <h3>Welcome Back</h3>
+                  <p class="p-t-b-20">Hey Soldier welcome back signin now there is lot of new stuff waiting for you</p>
+               </div>
+               <div class="light p-40 b-t-b">
+                  <form action="https://xvelopers.com/demos/html/paper-1.8.2/dashboard2.html">
+                     <div class="form-group has-icon"><i class="icon-envelope-o"></i>
+                        <input type="text" class="form-control form-control-lg" placeholder="Email Address">
+                     </div>
+                     <div class="form-group has-icon"><i class="icon-user-secret"></i>
+                        <input type="text" class="form-control form-control-lg" placeholder="Password">
+                     </div>
+                     <input type="submit" class="btn btn-primary btn-lg btn-block" value="Log In">
+                     <small class="forget-pass">Have you forgot your username or password ?</small>
+                  </form>
+               </div>
+               <div class="p-40"><a href="#" class="btn btn-lg btn-block btn-social facebook"><i class="icon-facebook"></i> Login with Facebook</a><a href="#" class="btn btn-lg btn-block btn-social twitter"><i class="icon-twitter"></i> Login with Twitter</a></div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="modal fade" id="modalSignUp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-lg" role="document">
+         <div class="modal-content no-r "><a href="#" data-dismiss="modal" aria-label="Close" class="paper-nav-toggle active"><i></i></a>
+            <div class="modal-body no-p">
+               <div class="row">
+                  <div class="col-lg-5 grid">
+                     <div class="p-40">
+                        <h5 class="p-t-40">Sign Up Using Social Account</h5>
+                        <p class="p-t-b-20">Hey Soldier welcome back signin now there is lot of new stuff waiting for you</p>
+                        <a href="#" class="btn btn-lg btn-block btn-social facebook"><i class="icon-facebook"></i> Login with Facebook</a><a href="#" class="btn btn-lg btn-block btn-social twitter"><i class="icon-twitter"></i> Login with Twitter</a></div>
+                  </div>
+                  <div class="col-lg-7">
+                     <div class="light p-t-b-40">
+                        <div class="p-40">
+                           <h5 class="p-b-20">Create New User Account</h5>
+                           <form action="https://xvelopers.com/demos/html/paper-1.8.2/dashboard2.html">
+                              <div class="form-group has-icon"><i class="icon-user-circle"></i>
+                                 <input type="text" class="form-control form-control-lg" placeholder="Your Name">
+                              </div>
+                              <div class="form-group has-icon"><i class="icon-envelope-o"></i>
+                                 <input type="text" class="form-control form-control-lg" placeholder="Email Address">
+                              </div>
+                              <div class="form-group has-icon"><i class="icon-user-secret"></i>
+                                 <input type="text" class="form-control form-control-lg" placeholder="Password">
+                              </div>
+                              <div class="form-group has-icon"><i class="icon-repeat"></i>
+                                 <input type="text" class="form-control form-control-lg" placeholder="Confirm Password">
+                              </div>
+                              <input type="submit" class="btn btn-primary btn-lg btn-block" value="Sign Up Now">
+                              <p class="forget-pass">A verification email wil be sent to you</p>
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+ <script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+ <script src='{% static "admin/assets/js/script.js" %}' ></script>
+ 
+ <script src='{% static "admin/assets/js/app.js" %}'></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
+<script src='{% static "admin/assets/js/script.js" %}' ></script>
+<script src='{% static "admin/assets/js/editable.js" %}' ></script>
+<script src='{% static "admin/assets/js/customjs.js" %}' ></script>
+
+
+ <script src='{% static "admin/assets/cropme/croppie.js" %}' ></script>
+  <!-- <script src='{% static "admin/assets/cropme/croppie_user_image.js" %}' ></script> -->
+<script>
+$(function () {
+        $("#chkPassport").click(function () {
+            if ($(this).is(":checked")) {
+                $("#dvPassport").show();
+              
+            } else {
+                $("#dvPassport").hide();
+                
+            }
+        });
+    });
+
+$(document).ready(function(){
+  $("#btnChangeOrderStatus").click(function(){
+    $("#pnlChangeOrderStatus").toggle();
+  });
+  
+  $("#btnCancelOrderStatus").click(function(){
+    $("#pnlChangeOrderStatus").hide();
+  });
+});
+</script>
+
+<script type="text/javascript">
+
+// $(document).ready(function() {
+//   $('#summernote').summernote({
+//         placeholder: 'Hello Bootstrap 4',
+//         tabsize: 2,
+//         height: 200
+//       });
+// });
+    
+	$(function () {
+  $("#datepicker").datepicker({ 
+        autoclose: true, 
+        todayHighlight: true
+  }).datepicker('update', new Date());
+});
+
+$(function () {
+  $("#datepicker1").datepicker({ 
+        autoclose: true, 
+        todayHighlight: true
+  }).datepicker('update', new Date());
+});
+
+$(document).ready(function(){
+                /** add active class and stay opened when selected */
+                var url = window.location;
+                // for sidebar menu entirely but not cover treeview
+                $('ul.sidebar-menu a').filter(function() {
+                     return this.href == url;
+                }).parent().addClass('active');
+
+                // for treeview
+                $('ul.treeview-menu a').filter(function() {
+                     return this.href == url;
+                }).parentsUntil(".sidebar-menu > .treeview-menu").addClass('active');
+            });
+$(document).ready(function() {
+	
+	
+	
+    $('#example').DataTable();
+} );
+
+
+    $(function () {
+        // add multiple select / deselect functionality
+        $("#selectall").click(function () {
+            $('.name').attr('checked', this.checked);
+        });
+ 
+        // if all checkbox are selected, then check the select all checkbox
+        // and viceversa
+        $(".name").click(function () {
+ 
+            if ($(".name").length == $(".name:checked").length) {
+                $("#selectall").attr("checked", "checked");
+            } else {
+                $("#selectall").removeAttr("checked");
+            }
+ 
+        });
+    });
+</script>
+
+<script type="text/javascript">
+   $('.count').each(function () {
+    $(this).prop('Counter',0).animate({
+        Counter: $(this).text()
+    }, {
+        duration: 4000,
+        easing: 'swing',
+        step: function (now) {
+            $(this).text(Math.ceil(now));
+        }
+    });
+});
+</script>
+
+<script>
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+            $('#imagePreview').hide();
+            $('#imagePreview').fadeIn(650);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("#imageUpload").change(function() {
+    readURL(this);
+});
+
+</script>
+
+
+      {% block script %}
+      {% endblock %}
+
+</body>
+</html>

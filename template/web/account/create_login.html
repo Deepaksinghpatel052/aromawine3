@@ -1,0 +1,245 @@
+{% extends 'web/base-template.html' %}
+
+   {% block cssstyle %}
+   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+      {% endblock %}
+{% block content %}
+{% load static %}
+
+<section class="content-main bg_login">
+<div class="container">
+<div class="row">
+ {% if messages %}
+  <div class="col-md-12">
+    {% for message in messages %}
+        
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger alert-dismissible" style="text-align: left;">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+                   {% else %}
+                    <div class="alert alert-success alert-dismissible" style="text-align: left;">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+                     {% endif %}
+      
+    {% endfor %}
+  </div>
+    {% endif %}
+</div>
+
+<div class="row">
+<div class="col-md-6">
+ 
+
+  <form method="post">
+  {% csrf_token %}
+<h3 class="title_h3 ">Create a new account</h3>
+<div class="loginbox">
+<div class="form-group">
+<label>First Name <span class="red_color">*</span></label>
+{{form.first_name}}
+{% for error in form.first_name.errors %}
+  <div class="alert alert-danger">
+    <strong>{{ error|escape }}</strong>
+  </div>
+{% endfor %}
+</div>
+
+<div class="form-group">
+<label> Last Name <span class="red_color">*</span></label>
+{{form.last_name}}
+{% for error in form.last_name.errors %}
+  <div class="alert alert-danger">
+    <strong>{{ error|escape }}</strong>
+  </div>
+{% endfor %}
+</div>
+<div class="form-group">
+<label> Username <span class="red_color">*</span></label>
+{{form.username}}
+{% for error in form.username.errors %}
+  <div class="alert alert-danger">
+    <strong>{{ error|escape }}</strong>
+  </div>
+{% endfor %}
+</div>
+<div class="form-group">
+<label> Email <span class="red_color">*</span></label>
+{{form.email}}
+{% for error in form.email.errors %}
+  <div class="alert alert-danger">
+    <strong>{{ error|escape }}</strong>
+  </div>
+{% endfor %}
+</div>
+
+<div class="form-group">
+<label> Password <span class="red_color">*</span></label>
+{{form.password1}}
+<p><small>Must be at least eight characters long, including both letters and numbers</small></p>
+{% for error in form.password1.errors %}
+  <div class="alert alert-danger">
+    <strong>{{ error|escape }}</strong>
+  </div>
+{% endfor %}
+
+</div>
+
+<div class="form-group">
+<label> Confirm password <span class="red_color">*</span></label>
+{{form.password2}}
+{% for error in form.password2.errors %}
+  <div class="alert alert-danger">
+    <strong>{{ error|escape }}</strong>
+  </div>
+{% endfor %}
+</div>
+
+<div class="form-group viaemail">
+
+<p><label>
+            <input name="" class="" type="checkbox" value="true">
+      <span>I do NOT want to receive updates on new products, offers and events from wine via email</span>
+        </label>
+    </p>
+    
+    
+</div>
+
+<div class="form-group">
+<div class="g-recaptcha" data-sitekey="6LffT64ZAAAAAJoLM3ubrBajFmLKSqmZvm3qkNSq"></div>
+      <br/>
+    </div>
+
+ <button type="submit" class="btn_achor btn-block">Register</button>
+
+</div>
+</form>
+</div>
+
+<div class="col-md-6">
+<h3 class="title_h3 ">I already have an account</h3>
+<div class="loginbox">
+
+
+<form method="post">
+  {% csrf_token %}
+<div class="form-group">
+<label> Username <span class="red_color">*</span></label>
+<input type="test" class="form-control" name="username" required="" placeholder="Username"> 
+</div>
+
+<div class="form-group">
+<label> Password <span class="red_color">*</span></label>
+<input type="password" class="form-control" name="password" required="" placeholder="Pasword">
+
+</div>
+
+
+
+
+
+<div class="form-group">
+<a href="" class="link" data-toggle="modal" data-target="#modal-default1">Forgotten your password</a>
+
+                            <!-- <button class="btn-success add-data" data-toggle="modal" data-target="#modal-default1">Add Role</button> -->
+
+</div>
+
+
+ <button type="submit" class="btn_achor btn-block" >Login</button>
+
+
+</form>
+</div>
+</div>
+
+
+</div>
+
+
+</div>
+</section>
+
+
+        <!---------2nd Modal Popup start----->
+<div class="modal fade in sp-map" id="modal-default1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+<h3 class="title_h3 ">Forgot Password</h3>
+
+                <!-- <h4 class="modal-title">Forgot password</h4> -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="font-size: 32px;">×</span></button>
+                
+              </div>
+              <div class="modal-body">
+
+
+                <div class="paper">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="container-fluid">
+                                   <!-- <div class="card no-b"> -->
+          <!-- <div class="login-form-card"> -->
+                     <div class="login-form-content">
+                                    <form  action="{% url 'account:send_forgate_password_link' %}" method="POST">
+                                      {% csrf_token %}
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                     <!-- start login -->
+                                    <div class="form-group">
+                                        <label>Enter your registered email ID</label>
+
+                                                                <input type="text" required="" name="email" class="form-control form-control-lg" placeholder="Email Address">
+<!--  -->
+                                       <!--  <select class="form-control" name="list" placeholder="select Team Member">
+                                 <option>select member product</option>
+                              </select> -->
+                                </div>
+
+
+
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <button class="btn-block btn all-btn" data-dismiss="modal">Cancel</button>
+                                  </div>
+                                  <div class="col-md-6">
+                                <div class="form-group">
+                                    <button type="submit" class="btn_achor btn-block">Add</button>
+                               </div>
+                             </div>
+                             </div>
+                        </form></div>
+             </div>
+          </div>
+                            </div>
+                        </div>
+                    </div>
+                            </div>
+                        
+                        </div>
+                </div>
+          </div>
+        </div>
+        <!----------------------2nd Modal Ends---------------->
+
+
+{% endblock %}
+
+
+     {% block script %}
+<script type="text/javascript">
+  var onloadCallback = function() {
+    // alert("grecaptcha is ready!");
+  };
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+    async defer>
+</script>
+      {% endblock %}

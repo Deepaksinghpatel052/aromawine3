@@ -1,0 +1,5 @@
+{% if get_product %}
+{% for item in get_product %}
+<div class="col-md-4"><ul id="myUL"><li><ul class="nested"><li><ul class="nested"><li><a href="{% url 'product_detail:product_detail' item.Product.Product_id item.Product.Product_slug  item.Vintage_Year %}">{{item.Product}}({{item}})</a></li></ul></li></ul></li></ul></div>
+{% endfor %}
+{% endif %}

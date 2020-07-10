@@ -1,0 +1,128 @@
+{% extends 'web/base-template.html' %}
+{% block content %}
+{% load static %}
+
+
+
+<main class="information">
+ 
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9 order-lg-last dashboard-content">
+                       <div class="card">
+                           <div class="card-header">Your Profile</div>
+<div class="profile-edit card-body">
+{% if messages %}
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+            <div class="alert alert-success alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+           {% endif %}   
+           
+           {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+           {% endif %}         
+      
+    {% endfor %}
+    {% endif %}
+<div class="update-password">
+<p>Please use this form to update your personal details</p>
+<p class="required">Fields marked * are required</p>
+<div class="hafldiv">
+<form method="post" action="">
+  {% csrf_token %}
+<div class="form-group">
+      <label for="profile.currentPassword">
+        * Title
+      </label>
+      
+        <select class="form-control" name="title" required="required">
+        <option value="" >Select  </option>
+              {% if title_dist %}
+               {% for item in title_dist %}
+                {% if user_info.Title == item %}
+              <option value="{{item}}" selected="" >{{item}}</option>
+                {% else %}
+                <option value="{{item}}">{{item}}</option>
+                 {% endif %}
+                {% endfor %}
+              {% endif %}
+              
+
+              
+              
+              </select>
+  </div>
+<div class="row">
+  <div class="col-md-6">
+  <div class="form-group">
+        
+      <label for="profile-newPassword">
+        
+          *
+          First Name
+      </label>
+      
+        <input name="first_name" placeholder="First Name" class="form-control" type="text" required="" value="{{user.first_name}}" >
+</div>
+</div>
+
+<div class="col-md-6">
+  <div class="form-group">
+        
+      <label for="profile-newPassword">
+        
+          *
+          Last name
+      </label>
+      
+        <input name="last_name" placeholder="Last Name" class="form-control" type="text" value="{{user.last_name}}" required="">
+</div>
+</div>
+</div>
+
+     <div class="form-group">
+        
+      <label for="profile-newPassword">
+        
+          *
+          Contact No.
+      </label>
+      
+        <input name="contact_no" placeholder="Contact No" class="form-control" type="number" value="{{user_info.Contact_no}}" required="">
+</div>   
+
+
+  <div class="form-actions form-change-details">
+        <a href="{% url 'profile_user:profile' %}"><button type="button" class="btn-secondary-action space-right" >Cancel</button></a>
+        <button class="btn-secondary-action" type="submit">Save Updates</button>
+        </div>
+    
+</form>
+</div>
+</div>
+
+</div>
+ </div>
+                    </div>
+
+
+
+
+
+
+                    <aside class="col-md-3">
+                        {% include 'web/user/include/user_sidebar.html' %}
+                    </aside>          
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+
+            <div class="mb-5"></div><!-- margin -->
+        </main>
+{% endblock %}

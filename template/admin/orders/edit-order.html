@@ -1,0 +1,995 @@
+{% extends 'admin/base-template.html' %}
+{% block content %}
+{% load static %}
+
+<section class="content-header">
+        
+        <div class="header-title">
+            <h1>{{Page_title}}</h1>
+			</div>
+<!-- 			<ol class="breadcrumb">
+                <li><a href="index.php"> Home</a></li>
+                <li><a href="index.php">Manage Order</a></li>
+                
+                <li class="active">Edit Orders</li>
+            </ol> -->
+    </section>
+            {% if messages %}
+    {% for message in messages %}
+<div class="alert alert-success alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+    {% endfor %}
+    {% endif %}
+
+<div class="container-fluid">
+  <div class="row p-t-b-20">
+    <div class="col-md-12">
+	
+      <!-- <div class="card no-b"> -->
+      <div class="login-form-card">
+       
+	   <div class="borderbox">
+	   
+	   <div class="panel panel-default sub-panel">
+	   
+	   <div class="panel-body">
+	   <h2>Information</h2>
+	   <div class="form-group">
+	   <div class="row">
+	   <div class="col-md-3">
+<div class="label-wrapper">
+<label class="control-label" for="CustomOrderNumber">Order #</label></div>
+</div>
+<div class="col-md-9">
+<div class="form-text-row">{{queryset.order_id}}</div>
+</div>
+	   </div>
+	   
+	   <div class="row">
+	   <div class="col-md-3">
+<div class="label-wrapper">
+<label class="control-label" for="CustomOrderNumber">Created on</label></div>
+</div>
+<div class="col-md-9">
+<div class="form-text-row">{{queryset.Order_Date}}</div>
+</div>
+	   </div>
+	   
+	   <div class="row">
+	   <div class="col-md-3">
+<div class="label-wrapper">
+<label class="control-label" for="CustomOrderNumber">Customer</label></div>
+</div>
+<div class="col-md-9">
+<div class="form-text-row"><a>{{queryset.User.first_name}}</a></div>
+</div>
+	   </div>
+	   
+	   <div class="row">
+
+
+<div class="col-md-3">
+<div class="label-wrapper"><label class="control-label" for="OrderStatus">Order status</label>
+</div>
+</div>
+<div class="col-md-9">
+<div class="input-group input-group-short">
+<div class="input-group-text">
+<strong>
+<div class="form-text-row">{{queryset.Order_Status}}</div>
+</strong>
+</div>
+<div class="input-group-btn">
+<button type="button" name="" id="cancelorder" class="btn btn_ce" style="margin-right: 3px;" data-toggle="modal" data-target="#cancelorder-action-confirmation">
+Cancel order
+</button>
+
+<div id="cancelorder-action-confirmation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="cancelorder-action-confirmation-title">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+
+<h4 class="modal-title" id="cancelorder-action-confirmation-title">Are you sure?</h4>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+</div>
+<div class="modal-body">
+<p>
+Are you sure you want to perform this action?
+</p>
+</div>
+<div class="modal-footer">
+
+<a href="{% url 'admin_manage_order:orders'  %}{{queryset.id}}/cancel-order" >
+
+<button id="cancelorder-action-confirmation-submit-button" class="btn btn_ce pull-right" name="cancelorder">
+<!-- <button type="submit" onclick="cancel_order()" id="cancelorder-action-confirmation-submit-button" class="btn btn_ce pull-right" name="cancelorder"> -->
+Yes
+</button></a>
+
+
+
+
+
+<span class="btn btn_ce pull-right margin-r-5" data-dismiss="modal">No, cancel</span>
+</div>
+</div>
+</div></div>
+
+<button type="submit" name="btnChangeOrderStatus" id="btnChangeOrderStatus" class="btn btn_ce" style="display: inline-block;">
+Change status
+</button>
+
+
+
+<div id="pnlChangeOrderStatus" style="margin-top: 8px; display: none;">
+<select class="form-control valid" data-val="true" data-val-required="The Order status field is required." id="OrderStatusId" name="OrderStatusId"><option value="Active">Active</option>
+<option value="Deactivate">Deactivate</option>
+<option selected="selected" value="Complete">Complete</option>
+<option value="Cancelled">Cancelled</option>
+<option value="Refunded">Refunded</option>
+<option value="Failled">Failled</option>
+
+
+
+</select>
+<button type="button" name="" id="btnSaveOrderStatus" class="btn btn_ce" style="margin-left: 3px" data-toggle="modal" data-target="#btnSaveOrderStatus-action-confirmation">
+Save
+</button>
+<div id="btnSaveOrderStatus-action-confirmation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="btnSaveOrderStatus-action-confirmation-title" style="display: none;">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+
+<h4 class="modal-title" id="btnSaveOrderStatus-action-confirmation-title">Are you sure?</h4>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+</div>
+<div class="modal-body">
+<p>
+Are you sure you want to perform this action?
+</p>
+</div>
+<div class="modal-footer">
+<button x id="btnSaveOrderStatus-action-confirmation-submit-button" data-status_url="{% url 'admin_manage_order:orders'  %}{{queryset.id}}/change-order-status" class="btn btn_ce pull-right change_order_status" name="btnSaveOrderStatus">
+<!-- <button type="submit" onclick="cancel_order()" id="btnSaveOrderStatus-action-confirmation-submit-button" class="btn btn_ce pull-right" name="btnSaveOrderStatus"> -->
+Yes
+
+</button>
+<span class="btn btn_ce pull-right margin-r-5" data-dismiss="modal">No, cancel</span>
+</div>
+</div>
+</div></div>
+<button type="submit" name="btnCancelOrderStatus" id="btnCancelOrderStatus" class="btn bg-teal btn_ce" style="margin-left: 3px">
+Cancel
+</button>
+<div class="input-group-btn-hint">
+<em>This option is only for advanced users (not recommended to change manually). All appropriate actions (such as inventory adjustment, sending notification emails, reward points, gift card activation/deactivation, etc) should be done manually in this case.</em>
+</div>
+</div>
+
+
+
+</div>
+</div>
+</div>
+
+	   </div>
+	   
+	   
+	   
+	   
+	   
+	   <div class="row">
+	   <div class="col-md-3">
+<div class="label-wrapper">
+<label class="control-label" for="CustomOrderNumber">Order subtotal</label></div>
+</div>
+<div class="col-md-9">
+<div class="form-text-row">$43.50 excl tax</div>
+</div>
+	   </div>
+	   
+	   <div class="row">
+	   <div class="col-md-3">
+<div class="label-wrapper">
+<label class="control-label" for="CustomOrderNumber">Order shipping	</label></div>
+</div>
+<div class="col-md-9">
+<div class="form-text-row">$0.00 excl tax</div>
+</div>
+	   </div>
+	   
+	   <div class="row">
+	   <div class="col-md-3">
+<div class="label-wrapper">
+<label class="control-label" for="CustomOrderNumber">Order tax	</label></div>
+</div>
+<div class="col-md-9">
+<div class="form-text-row">$0.00</div>
+</div>
+	   </div>
+	   <div class="row">
+	   <div class="col-md-3">
+<div class="label-wrapper">
+<label class="control-label" for="CustomOrderNumber">Order total</label></div>
+</div>
+<div class="col-md-9">
+<div class="form-text-row">$43.50</div>
+</div>
+	   </div>
+	   
+
+</div>
+	   </div>
+	   </div>
+	   
+	   <div class="borderbox">
+	  
+	   <div class="panel panel-default sub-panel">
+	    
+<div class="panel-body">
+<h2>Billing & shipping</h2>
+<div class="col-md-6">
+<div class="row">
+<table class="table table-hover table-bordered" style="max-width: 500px;">
+<thead>
+<tr>
+<th colspan="2">
+<strong>Billing address</strong>
+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>
+Full name
+</td>
+<td>
+	{{address_data.First_Name}}
+</td>
+</tr>
+<tr>
+<td>
+Email
+</td>
+<td>
+	{{address_data.Email}}
+</td>
+</tr>
+<tr>
+<td>
+Phone
+</td>
+<td>
+	{{address_data.Pnone_no}}
+</td>
+</tr>
+<tr>
+<td>
+Fax
+</td>
+<td>
+	{{address_data.fax}}
+</td>
+</tr>
+<tr>
+<td>
+Company
+</td>
+<td>
+	{{address_data.Conpany_Name}}
+</td>
+</tr>
+<tr>
+<td>
+Address 1
+</td>
+<td>
+	{{address_data.Address}}
+</td>
+</tr>
+<tr>
+<td>
+Address 2
+</td>
+<td>
+	{{address_data.Address_2}}
+</td>
+</tr>
+<tr>
+<td>
+City
+ </td>
+<td>
+	{{address_data.City}}
+</td>
+</tr>
+<tr>
+<td>
+State / province
+</td>
+<td>
+	{{address_data.State}}
+</td>
+</tr>
+<tr>
+<td>
+Zip / postal code
+</td>
+<td>
+	{{address_data.Postcode}}
+</td>
+</tr>
+<tr>
+<td>
+Country
+</td>
+<td>
+	{{address_data.Country}}
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="row">
+<div class="form-group">
+<div class="col-md-12">
+<a class="btn btn_ce" href="{% url 'admin_manage_order:orders'  %}{{address_data.id}}/edit-address">Edit</a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="row">
+<table class="table table-hover table-bordered" style="max-width: 500px;">
+<tbody><tr>
+<th colspan="2">
+<strong>Shipping address</strong>
+</th>
+</tr>
+<tr>
+<td>
+Full name
+</td>
+<td>
+	{{address_data.First_Name}}
+</td>
+</tr>
+<tr>
+<td>
+Email
+</td>
+<td>
+	{{address_data.Email}}
+</td>
+</tr>
+<tr>
+<td>
+Phone
+</td>
+<td>
+	{{address_data.Pnone_no}}
+</td>
+</tr>
+<tr>
+<td>
+Fax
+</td>
+<td>
+	{{address_data.fax}}
+</td>
+</tr>
+<tr>
+<td>
+Company
+</td>
+<td>
+	{{address_data.Conpany_Name}}
+</td>
+</tr>
+<tr>
+<td>
+Address 1
+</td>
+<td>
+	{{address_data.Address}}
+</td>
+</tr>
+<tr>
+<td>
+Address 2
+</td>
+<td>
+	{{address_data.Address_2}}
+</td>
+</tr>
+<tr>
+<td>
+City
+</td>
+<td>
+	{{address_data.City}}
+</td>
+</tr>
+<tr>
+<td>
+State / province
+</td>
+<td>
+	{{address_data.State}}
+</td>
+</tr>
+<tr>
+<td>
+Zip / postal code
+</td>
+<td>
+	{{address_data.Postcode}}
+</td>
+</tr>
+<tr>
+<td>
+Country
+</td>
+<td>
+	{{address_data.Country}}
+</td>
+</tr>
+
+</tbody></table>
+</div>
+<div class="row">
+<div class="form-group">
+<div class="col-md-12">
+<a class="btn btn_ce" href="edit-address.php">Edit</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div class="panel panel-default sub-panel">
+<div class="panel-body">
+<div class="form-group">
+<div class="col-md-3">
+<div class="label-wrapper"><label class="control-label" for="ShippingMethod">Shipping method</label></div>
+</div>
+<div class="col-md-9">
+<script>
+                                $(document).ready(function () {
+                                    toggleEditShippingMethod(false);
+                                });
+
+                                function toggleEditShippingMethod(editmode) {
+                                    if (editmode) {
+                                        $('#lblShippingMethod').hide();
+                                        $('#divShippingMethod').show();
+                                        $('#btnEditShippingMethod').hide();
+                                        $('#btnSaveShippingMethod').show();
+                                        $('#btnCancelShippingMethod').show();
+                                    } else {
+                                        $('#lblShippingMethod').show();
+                                        $('#divShippingMethod').hide();
+                                        $('#btnEditShippingMethod').show();
+                                        $('#btnSaveShippingMethod').hide();
+                                        $('#btnCancelShippingMethod').hide();
+                                    }
+                                }
+                            </script>
+<div class="input-group input-group-short">
+<div id="lblShippingMethod" class="input-group-text" style="display: block;">
+<div class="form-text-row">Ground</div>
+</div>
+<div id="divShippingMethod" style="display: none;">
+<input class="form-control text-box single-line" id="ShippingMethod" name="ShippingMethod" type="text" value="Ground" style="width: 140px;
+    height: 34px;">
+</div>
+<span class="input-group-btn">
+<button type="submit" onclick="toggleEditShippingMethod(true);return false;" id="btnEditShippingMethod" class="btn btn_ce" style="display: inline-block;">
+Edit
+</button>
+<button type="button" id="btnSaveShippingMethod" name="" class="btn btn_ce" data-toggle="modal" data-target="#btnSaveShippingMethod-action-confirmation" style="display: none;">
+Save
+</button>
+<div id="btnSaveShippingMethod-action-confirmation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="btnSaveShippingMethod-action-confirmation-title">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+
+<h4 class="modal-title" id="btnSaveShippingMethod-action-confirmation-title">Are you sure?</h4>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+</div>
+<div class="modal-body">
+<p>
+Are you sure you want to perform this action?
+</p>
+</div>
+<div class="modal-footer">
+<button type="submit" id="btnSaveShippingMethod-action-confirmation-submit-button" class="btn btn_ce pull-right" name="save-shipping-method">
+Yes
+</button>
+<span class="btn btn-default  pull-right margin-r-5" data-dismiss="modal">No, cancel</span>
+</div>
+</div>
+</div></div>
+<button type="submit" onclick="toggleEditShippingMethod(false);return false;" id="btnCancelShippingMethod" class="btn bg-teal" style="display: none;">
+ Cancel
+</button>
+</span>
+</div>
+</div>
+</div>
+<div class="form-group">
+<div class="col-md-3">
+<div class="label-wrapper"><label class="control-label" for="ShippingStatus">Order status</label></div>
+</div>
+<div class="col-md-9">
+<div class="form-text-row">Deactivate</div>
+</div>
+</div>
+</div>
+</div>
+	 </div>
+<div class="borderbox">
+
+<div class="panel panel-default sub-panel">
+
+<div class="panel-body">
+<h2>Products</h2>
+<div class="form-group">
+<div class="" style="overflow-x: auto;">
+<script>
+                    $(document).ready(function () {
+                        toggleOrderItemEdit12(false);
+                    });
+                </script>
+<script>
+                    function toggleOrderItemEdit12(editMode) {
+                        if (editMode) {
+                            $('#pnlEditPvUnitPrice12').show();
+                            $('#pnlEditPvQuantity12').show();
+                            $('#pnlEditPvDiscount12').show();
+							$('#pnlEditPvDiscountbond').show();
+							$('#pnlEditPvDiscountcaller').show();
+							$('#pnlEditPvDiscountretail').show();
+                            $('#pnlEditPvPrice12').show();
+                            $('#btnEditOrderItem12').hide();
+                            $('#btnDeleteOrderItem12').hide();
+                            $('#btnSaveOrderItem12').show();
+                            $('#btnCancelOrderItem12').show();
+                        } else {
+                            $('#pnlEditPvUnitPrice12').hide();
+                            $('#pnlEditPvQuantity12').hide();
+                            $('#pnlEditPvDiscount12').hide();
+							$('#pnlEditPvDiscountbond').hide();
+							$('#pnlEditPvDiscountcaller').hide();
+							$('#pnlEditPvDiscountretail').hide();
+                            $('#pnlEditPvPrice12').hide();
+                            $('#btnEditOrderItem12').show();
+                            $('#btnDeleteOrderItem12').show();
+                            $('#btnSaveOrderItem12').hide();
+                            $('#btnCancelOrderItem12').hide();
+                        }
+                    }
+                </script>
+<table class="table table-hover table-bordered producttablebox">
+<thead>
+    <tr style="cursor: pointer;">
+      <td class="text-center"><b>Images</b></td>
+      <td class="text-center"><b>Product</b></td>
+      <td class="text-center"><b>Quantity</b></td>
+	  <td class="text-center"><b>Type</b></td>
+	  <td class="text-center"><b>Case Size</b></td>
+      <td class="text-center"><b>Price</b></td>
+      <td class="text-center"><b>Amount</b></td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="cursor: pointer;">
+      <td class="text-center"><img src="http://203.190.153.20/wine/assets/image/shop/bo-3.png" alt="" style="height:50px;"></td>
+      <td class="text-center">Product Name</td>
+      <td class="text-center">1</td>
+      <td class="text-center">Bond</td>
+      <td class="text-center">6 Bottles</td>
+      <td class="text-center">200</td>
+      <td class="text-center">200</td>
+    </tr>
+ 
+ 
+	 
+	
+	
+
+    
+    
+  </tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<div class="borderbox">
+
+<div class="panel panel-default sub-panel">
+<div class="panel-body">
+<h2>Order notes</h2>
+<div class="table-responsive">
+            <!-- <button class="btn-success add-data">Add Iteration</button> -->
+            <!-- start Table -->
+            <table id="example" width="100%" border="1" class="table table-striped table-bordered newpage order-table" align="center" cellpadding="0" cellspacing="0" style=" font-size: 15px;">
+              <thead>
+                <tr>
+				
+                  <th align="left" valign="top">Created on</th>
+                  
+				  
+                  <th align="left" valign="top">Note</th>
+                  <th align="left" valign="top">Attached file</th>
+				  <th align="left" valign="top">Display to customer</th>
+                  <th align="left" valign="top">Delete</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+  <tr role="row" class="odd">
+    <td>03/13/2017 06:20:10</td>
+    <td>Order delivered</td>
+    <td class=" button-column">No file attached</td>
+    <td class=" text-center"><i class="fa fa-close false-icon" nop-value="false"></i></td>
+    <td class=" button-column"><a href="#" class="btn btn-default" onclick="table_deletedata_ordernotes_grid('11');return false;"><i class="fa fa-remove"></i>Delete</a></td>
+  </tr>
+  <tr role="row" class="even">
+    <td>03/13/2017 06:20:10</td>
+    <td>Order shipped</td>
+    <td class=" button-column">No file attached</td>
+    <td class=" text-center"><i class="fa fa-close false-icon" nop-value="false"></i></td>
+    <td class=" button-column"><a href="#" class="btn btn-default" onclick="table_deletedata_ordernotes_grid('10');return false;"><i class="fa fa-remove"></i>Delete</a></td>
+  </tr>
+  <tr role="row" class="odd">
+    <td>03/13/2017 06:20:10</td>
+    <td>Order paid</td>
+    <td class=" button-column">No file attached</td>
+    <td class=" text-center"><i class="fa fa-close false-icon" nop-value="false"></i></td>
+    <td class=" button-column"><a href="#" class="btn btn-default" onclick="table_deletedata_ordernotes_grid('9');return false;"><i class="fa fa-remove"></i>Delete</a></td>
+  </tr>
+  <tr role="row" class="even">
+    <td>03/13/2017 06:20:10</td>
+    <td>Order placed</td>
+    <td class=" button-column">No file attached</td>
+    <td class=" text-center"><i class="fa fa-close false-icon" nop-value="false"></i></td>
+    <td class=" button-column"><a href="#" class="btn btn-default" onclick="table_deletedata_ordernotes_grid('8');return false;"><i class="fa fa-remove"></i>Delete</a></td>
+  </tr>
+</tbody>
+
+
+    </table>
+                                     <!---Table Ends---->
+</div>
+</div>
+	
+</div>
+</div> 
+<div class="panel-body">
+<div class="form-group" style="
+    display: table;
+    width: 100%;
+">
+<div class="col-md-3">
+<div class="label-wrapper"><label class="control-label" for="AddOrderNoteMessage">Note</label></div>
+</div>
+<div class="col-md-9">
+<textarea class="form-control" rows="4" cols="20" id="AddOrderNoteMessage" name="AddOrderNoteMessage"></textarea>
+<span class="field-validation-valid" data-valmsg-for="AddOrderNoteMessage" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="form-group" style="
+    display: table;
+    width: 100%;
+">
+<div class="col-md-3">
+<div class="label-wrapper"><label class="control-label" for="AddOrderNoteDownloadId">Attached file</label></div>
+</div>
+<div class="col-md-9">
+<div class="checkbox" style="
+    margin: 0;
+">
+<label for="chkPassport">
+<input type="checkbox" id="chkPassport" onclick="ShowHideDiv(this)" />
+(check to upload file)
+</label>
+</div>
+<div id="dvPassport" style="display: none; margin:15px 0px;">
+    
+    <input type="file" id="txtPassportNumber" class="form-control" />
+</div>
+
+<script type="text/javascript">
+    function ShowHideDiv(chkPassport) {
+        var dvPassport = document.getElementById("dvPassport");
+        dvPassport.style.display = chkPassport.checked ? "block" : "none";
+    }
+</script>
+
+
+</div>
+</div>
+<div class="form-group" style="
+    display: table;
+    width: 100%;
+">
+<div class="col-md-3">
+<div class="label-wrapper"><label class="control-label" for="AddOrderNoteDisplayToCustomer">Display to customer</label></div>
+</div>
+<div class="col-md-9">
+<input class="check-box" data-val="true" data-val-required="The Display to customer field is required." id="AddOrderNoteDisplayToCustomer" name="AddOrderNoteDisplayToCustomer" type="checkbox" value="true">
+<span class="field-validation-valid" data-valmsg-for="AddOrderNoteDisplayToCustomer" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="form-group" style="
+    display: table;
+    width: 100%;
+">
+<div class="col-md-9 col-md-offset-3">
+<button type="button" id="addOrderNote" class="btn btn_ce">Add order note</button>
+</div>
+</div>
+</div>
+	   
+	   
+	   </div>
+	   
+             </div>
+          <!-- </div> -->
+               </div>
+      </div>
+         </div>
+      </div>
+   </div>
+   
+   <style>
+   
+
+.producttablebox .form-control {
+    height: 35px;
+    padding: 5px;
+}
+
+.producttablebox .form-group {
+    display: table;
+    width: 100%;
+}
+   .panel.panel-default.sub-panel i {
+    padding-right: 0px;
+}
+   .input-group.input-group-short .input-group-text {
+    margin-right: 10px;
+}
+
+.input-group.input-group-short {
+    display: table;
+	margin-bottom: 15px;
+}
+
+.input-group.input-group-short .input-group-btn {
+    width: 100%;
+}
+
+.input-group .input-group-btn .input-group-btn-hint {
+    font-size: 14px;
+    white-space: normal;
+    max-width: 330px;
+    margin-top: 26px;
+}
+
+
+.input-group.input-group-short select {
+    width: 320px;
+    height: 35px !important;
+    padding: 5px 12px;
+    border-radius: 3px;
+}
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 0px !important;
+    border-radius: 4px;
+    color: #fff ;
+    box-shadow:none !important;
+    outline:none;
+}
+.input-group.input-group-short .input-group-text {
+    font-weight: 600;
+    padding-top: 3px;
+}
+.btn-default {
+    color: #333;
+    background-color: #d4d4d4;
+    border-color: #8c8c8c;
+}
+   </style>
+   
+   <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog width-400" role="document">
+         <div class="modal-content no-r "><a href="#" data-dismiss="modal" aria-label="Close" class="paper-nav-toggle active"><i></i></a>
+                          <div class="modal-body no-p">
+                            <div class="text-center p-40 p-b-0">
+                              <img src="assets/img/dummy/u4.png" alt="">
+                              <h3>Welcome Back</h3>
+                              <p class="p-t-b-20">Hey Soldier welcome back signin now there is lot of new stuff waiting for you</p>
+                            </div>
+                            <div class="light p-40 b-t-b">
+                              <form action="https://xvelopers.com/demos/html/paper-1.8.2/dashboard2.html">
+                                <div class="form-group has-icon"><i class="icon-envelope-o"></i>
+                                  <input type="text" class="form-control form-control-lg" placeholder="Email Address">
+                                </div>
+                                <div class="form-group has-icon"><i class="icon-user-secret"></i>
+                                  <input type="text" class="form-control form-control-lg" placeholder="Password">
+                                </div>
+                                <input type="submit" class="btn btn_ce btn-lg btn-block" value="Log In"> <small class="forget-pass">Have you forgot your username or password ?</small>
+                              </form>
+                            </div>
+                            <div class="p-40"><a href="#" class="btn btn-lg btn-block btn-social facebook"><i class="icon-facebook"></i> Login with Facebook</a><a href="#" class="btn btn-lg btn-block btn-social twitter"><i class="icon-twitter"></i> Login with Twitter</a>
+                            </div>
+                          </div>
+          </div>
+      </div>
+    </div>
+    <div class="modal fade" id="modalSignUp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content no-r "><a href="#" data-dismiss="modal" aria-label="Close" class="paper-nav-toggle active"><i></i></a>
+          <div class="modal-body no-p">
+            <div class="row">
+              <div class="col-lg-5 grid">
+                <div class="p-40">
+                  <h5 class="p-t-40">Sign Up Using Social Account</h5>
+                  <p class="p-t-b-20">Hey Soldier welcome back signin now there is lot of new stuff waiting for you</p> <a href="#" class="btn btn-lg btn-block btn-social facebook"><i class="icon-facebook"></i> Login with Facebook</a><a href="#" class="btn btn-lg btn-block btn-social twitter"><i class="icon-twitter"></i> Login with Twitter</a>
+                </div>
+              </div>
+              <div class="col-lg-7">
+                <div class="light p-t-b-40">
+                  <div class="p-40">
+                    <h5 class="p-b-20">Create New User Account</h5>
+                    <form action="https://xvelopers.com/demos/html/paper-1.8.2/dashboard2.html">
+                      <div class="form-group has-icon"><i class="icon-user-circle"></i>
+                        <input type="text" class="form-control form-control-lg" placeholder="Your Name">
+                      </div>
+                      <div class="form-group has-icon"><i class="icon-envelope-o"></i>
+                        <input type="text" class="form-control form-control-lg" placeholder="Email Address">
+                      </div>
+                      <div class="form-group has-icon"><i class="icon-user-secret"></i>
+                        <input type="text" class="form-control form-control-lg" placeholder="Password">
+                      </div>
+                      <div class="form-group has-icon"><i class="icon-repeat"></i>
+                        <input type="text" class="form-control form-control-lg" placeholder="Confirm Password">
+                      </div>
+                      <input type="submit" class="btn btn_ce btn-lg btn-block" value="Sign Up Now">
+                      <p class="forget-pass">A verification email wil be sent to you</p>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!------------Modal Popup------->
+  <div class="modal fade in sp-map" id="modal-default">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">
+Add Product </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" style="font-size: 32px;">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="container-fluid">
+                  <!-- <div class="card no-b"> -->
+                  <!-- <div class="login-form-card"> -->
+                  <div class="login-form-content">
+                    <form action="javascript:(0);">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <!-- start login -->
+                          <div class="form-group">
+                            <label>Are Yyou sure to Cencel this order?</label>
+                            
+                          </div>
+                        
+                         
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <button type="submit" class="btn-block btn btn-white subbtn" data-dismiss="modal">Cancel</button>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <button type="submit" class="btn-block btn btn-white subbtn">Ok</button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </div>
+            </div> -->
+  <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+</div>
+<!---------------------------Modal Ends---------------->
+
+ {% endblock %}
+
+{% block script %}
+
+
+
+<script type="text/javascript">
+	var token = '{{csrf_token}}';
+  $(document).on("click",".change_order_status",function(){
+  	var get_urls = $(this).data("status_url");
+
+  	var selectedCountry = $('#OrderStatusId').children("option:selected").val();
+    // alert("You have selected the country - " + selectedCountry);
+    // alert("You have selected the country - " + get_urls);
+
+
+
+
+    // var get_urls = $(this).data("price_url");
+
+    $.ajax({
+      method:"GET",
+      headers: { "X-CSRFToken": token },
+      url:get_urls,
+      data:{'check':selectedCountry},
+      DataType:"json",
+      success:function(data)
+      {
+
+
+		window.location.reload();
+
+      }
+    });
+
+  });
+</script>
+
+
+
+{% endblock %}

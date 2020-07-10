@@ -1,0 +1,7 @@
+  <form method="get">
+        {{ filter.form.as_p }}
+        <input type="submit" />
+    </form>
+    {% for obj in filter.qs %}
+        {{ obj.Vintage_Year }} - ${{ obj.Retail_Cost }} - ${{ obj.Product.Color.all|join:"|" }}<br /><hr>
+    {% endfor %}

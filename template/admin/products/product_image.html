@@ -1,0 +1,6 @@
+{% load static %}
+{% if product_image %}
+<img src="{{product_image}}" class="fix-img" style="width: 100%;">
+{% else %}
+<img src= '{% static "admin/assets/img/dummy/bottle1.png" %}'  class="fix-img">
+{% endif %}

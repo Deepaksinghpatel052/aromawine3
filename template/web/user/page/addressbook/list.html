@@ -1,0 +1,93 @@
+{% extends 'web/base-template.html' %}
+{% block content %}
+{% load static %}
+
+
+
+<main class="information">
+ 
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9 order-lg-last dashboard-content">
+                       <div class="card">
+                           <div class="card-header">Address Book</div>
+<div class="profile-edit card-body">
+{% if messages %}
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+            <div class="alert alert-success alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+           {% endif %}   
+           
+           {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+           {% endif %}         
+      
+    {% endfor %}
+    {% endif %}
+<div class="update-password">
+
+  {% if object_list %}
+           {% for item in object_list %}
+<div class="row">
+<div class="col-md-6">
+<div class="addressDetails">
+                <p>
+                  {{item.First_Name}} {{item.Last_Name}} {% if item.Conpany_Name %} ({{item.Conpany_Name}}) {% endif %} <br>
+                  {{item.Country}} / {{item.City}} / {{item.Postcode}}<br>
+                  {{item.Address}}<br>
+                  {{item.Landark}}<br>
+                  {{item.Email}} ({{item.Pnone_no}})<br>
+                  </p>
+                  
+                </div>
+</div>
+
+<div class="col-md-6">
+<div class="buttons text-right btn_edit">
+<a class="btn-secondary-action space-right" href="{% url 'addressbook_user:update_address' item.id %}">Edit</a>
+              
+  <a href="javascript:;" class="btn-secondary-action removeAddressButton" onclick="remove_product('{{BASE_URL}}user/addressbook/{{item.id}}/remove-address','Do you want to remove this Address?','Address removed successfully.','Address not removed.');">Remove</a>
+                  
+                  </div>
+</div>
+
+
+</div>
+<hr>
+
+ {% endfor %}
+{% endif %}
+<div class="text-right">
+<a href="{% url 'addressbook_user:add_new_address' %}" class="btn-secondary-action space-top">Add new address</a>
+
+</div>
+    
+      
+      
+</div>
+
+</div>
+ </div>
+                    </div>
+
+
+
+
+
+
+                    <aside class="col-md-3">
+                        {% include 'web/user/include/user_sidebar.html' %}
+                    </aside>          
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+
+            <div class="mb-5"></div><!-- margin -->
+        </main>
+{% endblock %}

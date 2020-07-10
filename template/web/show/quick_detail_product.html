@@ -1,0 +1,67 @@
+{% load static %}	
+		<div class="row modal-content-product">
+  <div class="col-md-6 infoBloc">
+    <div class="name title mb-2">{{object.Product.Select_Type}} :  {{object.Product}} ({{object}})</div>
+    <div class="attribut mt-2">Veneto - Amarone della Valpolicella Classico<br>
+      {{object.Product.Color.all|join:" | "}} - <a aria-label="See details" href="{% url 'product_detail:product_detail' object.Product.Product_id object.Product.Product_slug  object   %}">See details</a></div>
+    <div class="product-img product-modal mt-4"><img src='{{object.Product|get_product_image_one}}' alt=""></div>
+  </div>
+  <div class="col-md-6 mb-md-0 contentBloc text-md-left">
+    <div class="promo-label">Special Prices</div>
+    <div class="product-price"><span class="list-price">SG${{object.Retail_Cost|floatformat:2}}&nbsp;<span>Incl. GST &amp; DP</span></span><span class="offer-price">SG{{object.Descount_Cost|get_product_price_with_gst_include:object.GST|floatformat:2}}&nbsp;<span class="taxSymbol">Incl. GST &amp; DP</span></span><span class="details mt-2"><span>{{object.Bottle}}</span><span class="d-none d-sm-inline-block mx-sm-1"> | </span><span> SG${{object.Retail_Cost|floatformat:2}}&nbsp;/&nbsp;Unit</span></span></div>
+    <div class="itemselector-container">
+      <ul class="itemselector list-group">
+        <li class="list-group-item">
+
+
+		{% if get_all_bottel_set_of_this_year %}
+<div id="guaranteed-stock-tip">Bottle/Case Format</div>
+
+<select class="quantity_select" style="width:100%;">
+			
+			{% for items in get_all_bottel_set_of_this_year  %}
+			<option>{{items.Bottle}}</option>
+			{% endfor %}
+			</select>
+			{% endif %}
+
+          
+           
+          </div>
+        </li>
+        <li class="d-flex justify-content-between align-items-center list-group-item">
+          <div class="label">Quantity</div>
+          <div class="dropdown">
+            <select class="quantity_select">
+			<option>1</option>
+			<option>2</option>
+			<option>3</option>
+			<option>4</option>
+			<option>5</option>
+			<option>6</option>
+			<option>7</option>
+			<option>8</option>
+			<option>9</option>
+			<option>10</option>
+			</select>
+          </div>
+        </li>
+      </ul>
+      <div class="promo-label">Special Prices</div>
+      <button class="add-cart btn btn-block btn-black">Add to my shopping cart</button>
+    </div>
+    <ul class="reassurance-list">
+      <li class="reassurance-item"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check" class="svg-inline--fa fa-check fa-w-16 reassurance-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <path fill="currentColor" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path>
+        </svg><span class="reassurance-text">Free delivery on order of SGD650 or more</span></li>
+      <li class="reassurance-item"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check" class="svg-inline--fa fa-check fa-w-16 reassurance-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <path fill="currentColor" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path>
+        </svg><span class="reassurance-text">100% Secure Payment</span></li>
+      <li class="reassurance-item"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check" class="svg-inline--fa fa-check fa-w-16 reassurance-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <path fill="currentColor" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path>
+        </svg><span class="reassurance-text">Guaranteed provenance</span></li>
+    </ul>
+    <ul class="mt-4 pl-0 ratingBloc">
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+{% extends 'web/base-template.html' %}
+{% block content %}
+{% load static %}
+
+
+
+<main class="information">
+ 
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9 order-lg-last dashboard-content">
+                       <div class="card">
+                           <div class="card-header">Your Profile</div>
+<div class="profile-edit card-body">
+{% if messages %}
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+            <div class="alert alert-success alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+           {% endif %}   
+           
+           {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+           {% endif %}         
+      
+    {% endfor %}
+    {% endif %}
+<div class="update-password">
+
+
+  <div class="profile_name">
+        <p><strong>Name:</strong>{{user.first_name}} {{user.last_name}}</p>
+        <p><strong>E-mail:</strong>{{user.email}}</p>
+          </div>
+
+        <a class="btn-secondary-action" href="{% url 'profile_user:password_chaneg' %}">Edit your password</a>
+        <a class="btn-secondary-action" href="{% url 'profile_user:presonaldetails' %}">Edit personal details</a>
+        <a class="btn-secondary-action" href="{% url 'profile_user:changeemail' %}">Edit your email</a>
+
+      
+</div>
+
+</div>
+ </div>
+                    </div>
+
+
+
+
+
+
+                    <aside class="col-md-3">
+                        {% include 'web/user/include/user_sidebar.html' %}
+                    </aside>          
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+
+            <div class="mb-5"></div><!-- margin -->
+        </main>
+{% endblock %}

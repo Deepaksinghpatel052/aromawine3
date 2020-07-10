@@ -1,0 +1,26 @@
+
+
+
+<div class="widget-dashboard">
+                            <h3 class="widget-title">My Account</h3>
+
+                           <ul class="list">
+               <li class=""><a href="{% url 'dashboard_user:dashboard' %}" {% if 'dashboard' in request.build_absolute_uri %} class="active"  {% endif %} >Your Dashboard</a></li>
+        <li><a href="{% url 'profile_user:profile' %}" {% if 'profile' in request.build_absolute_uri %} class="active"  {% endif %}>Your Profile</a></li>
+
+        <li class=""><a href="#">Your Preferences</a></li>
+
+        <li><a {% if 'addressbook' in request.build_absolute_uri %} class="active"  {% endif %} href="{% url 'addressbook_user:addressbooklist'  %}">Your Address Book</a></li>
+
+        <li><a href="#">Your Payment Details</a></li>
+
+        <li><a {% if 'orders' in request.build_absolute_uri %} class="active"  {% endif %} href="{% url 'orders:orders' %}">Your Order History</a></li>        
+  
+          <li><a href="#">Your Wines Ordered</a></li>
+        <li><a href="#">Your Wish List</a></li>
+        <li><a href="#" target="_blank">My Cellar</a></li>
+        <li><a href="{% url 'account:logout' %}" >Logout</a></li>
+        
+        
+        </ul>
+                        </div><!-- End .widget -->

@@ -1,0 +1,69 @@
+{% extends 'web/base-template.html' %}
+{% block content %}
+{% load static %}
+
+
+
+<section class="aboutus padding-small bg-4 text-center" {% if page_banner_image %} style="background-size:cover !important;  background: url({{page_banner_image.url}}) {% endif %}  no-repeat center top;">
+<div class="container ">
+
+<h1>{{Page_title}}</h1></div>
+</section>
+
+<section class="m-t-50">
+<div class="container">
+ {{page_content.Description|safe}}
+</div>
+</section>
+
+
+ {% if Products %}
+<section class="m-t-50">
+<div class="container">
+<div class="selling-area col-md-12" id="main">
+<h2>Wine of {{Page_title}}  {{type}} </h2>
+    <div class="selling-section">
+      <div class="selling-content">
+        <div class="row">
+          
+          {% for items in Products %}
+                 {% if items.Product|get_product_vintage_yera_one %}   
+                    <div class="col-md-3">
+                      <div class="single-productbox mb-3">
+                            <div class="single-product">
+                                
+                                <div class="product-thumb">
+                                    <!--<span class="label-pro-sale">-9%</span>
+                                    <span class="new">new</span>-->
+                                    <a href="{% url 'product_detail:product_detail' items.Product.Product_id items.Product.Product_slug  items  %}"><img src='{{items.Product|get_product_image_one}}' alt=""></a>
+                                </div>
+                                <div class="bottale-name pb-3">
+        <p>{{items.Product}} ({{items}})</p>
+        <div class="price-box">
+                                        <span class="normal-price">${{items.Descount_Cost|get_product_price_with_gst_include:items.GST|floatformat:2}}
+                                    </span></div>
+        <a href="{% url 'product_detail:product_detail' items.Product.Product_id items.Product.Product_slug  items  %}" class="product-story_info-btn">See Details</a>
+        </div>
+                            </div>
+                        </div>
+          </div>
+           {% endif %}
+
+          {% endfor %}
+
+          
+  
+                    
+             
+      </div>
+      
+      
+      
+    </div>
+  </div>
+  </div>
+</div>
+</section>
+   {% endif %}
+
+{% endblock %}
