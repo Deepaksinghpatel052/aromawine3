@@ -35,7 +35,7 @@ urlpatterns = [
     path('admin/color/', include(('admin_manage_color.urls','admin_manage_color'),namespace='admin_manage_color')),
 
     # ------------------------------------------------------------------------------------------------------------------
-    path('admin/admin-manage-order/', include(('admin_manage_order.urls','admin_manage_order'),namespace='admin_manage_order')),
+    path('admin/manage-order/', include(('admin_manage_order.urls','admin_manage_order'),namespace='admin_manage_order')),
     # ==================================================================================================================
     path('admin/country/', include(('admin_manage_country.urls','admin_manage_country'),namespace='admin_manage_country')),
 
@@ -55,11 +55,15 @@ urlpatterns = [
 
     path('admin/products/', include(('admin_manage_products.urls','admin_manage_products'),namespace='admin_manage_products')),
 
+    path('admin/customer/', include(('admin_manage_customer.urls','admin_manage_customer'),namespace='admin_manage_customer')),
+
 
     path('admin/categoryes/', include(('admin_manage_categoryes.urls','admin_manage_categoryes'),namespace='admin_manage_categoryes')),
     # path('admin/categoryes/', include(('admin_manage_categoryes.urls','admin_manage_categoryes'),namespace='admin_manage_categoryes')),
 
     path('admin/banners/', include(('admin_manage_banners.urls','admin_manage_banners'),namespace='admin_manage_banners')),
+    path('admin/membership/', include(('admin_mambership_setting.urls','admin_mambership_setting'),namespace='admin_mambership_setting')),
+    path('admin/dinner/', include(('admin_manage_dinner.urls','admin_manage_dinner'),namespace='admin_manage_dinner')),
     # path('admin/categoryes/', include(('admin_manage_banners.urls','admin_manage_banners'),namespace='admin_manage_banners')),
 
     # path('admin/login', include(('account.urls','account'),namespace='account')),
@@ -67,9 +71,13 @@ urlpatterns = [
     path('admin/login/', auth_login.LoginView.as_view(template_name='admin/login/index.html')),
     path('accounts/login/', auth_login.LoginView.as_view(template_name='admin/login/index.html')),
     path('admin/manage-custom-page/', include(('admin_manage_content_page.urls','admin_manage_content_page'),namespace='admin_manage_content_page')),
+    path('admin/manage-wine-testing/', include(('admin_manag_wine_testing.urls','admin_manag_wine_testing'),namespace='admin_manag_wine_testing')),
 
     path('summernote/', include('django_summernote.urls')),
 
+    path('admin/preferences/', include(('admin_manage_perferences.urls', 'admin_manage_perferences'), namespace='admin_manage_perferences')),
+
+    path('user/preferences/', include(('preferences_user.urls', 'preferences_user'), namespace='preferences_user')),
 
     # ====================================set url for web frentend START==============================================
     path('', include(('home.urls','home'),namespace='home')),
@@ -89,6 +97,8 @@ urlpatterns = [
     path('user/dashboard/', include(('dashboard_user.urls','dashboard_user'),namespace='dashboard_user')),
     path('user/addressbook/', include(('addressbook_user.urls','addressbook_user'),namespace='addressbook_user')),
     path('user/profile/', include(('profile_user.urls','profile_user'),namespace='profile_user')),
+
+    path('password/', include('django.contrib.auth.urls')),
     # ====================================set url for web frentend END==============================================
 
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -106,6 +106,24 @@
                 {% endif %}
               </tbody>
             </table>
+
+{% if order_note %}
+         <br>
+         <h3>Note:</h3>
+         <hr></br>   
+         {% for item in order_note %}
+        <table class="table table-bordered">
+          <tr><th>Date {{item.Date}}</th></tr>
+          <tr><th><p>{{item.Note}}</p>
+            
+          {% if item.Attachment %}
+     <a href="{{item.Attachment.url}}" target="_blank"> <img style="width: 30px;" src='{% static "web/assets/images.png" %}'></a>
+    {% endif %}
+          </th></tr>
+        </table> 
+         {% endfor %}
+        {% endif %}
+
 </div>   
       
 </div>
@@ -127,4 +145,6 @@
 
             <div class="mb-5"></div><!-- margin -->
         </main>
+
+
 {% endblock %}

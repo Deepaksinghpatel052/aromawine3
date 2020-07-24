@@ -1,0 +1,171 @@
+{% extends 'web/base-template.html' %}
+{% block content %}
+{% load static %}
+
+
+
+<main class="information">
+ 
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9 order-lg-last dashboard-content">
+                       <div class="card">
+                           <div class="card-header">Your Preferences</div>
+<div class="profile-edit card-body">
+{% if messages %}
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+            <div class="alert alert-success alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+           {% endif %}   
+           
+           {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+           {% endif %}         
+      
+    {% endfor %}
+    {% endif %}
+
+
+
+
+
+  <form action="{% url 'preferences_user:updateinterest'  %}" method="POST">
+    {% csrf_token %}  
+
+<div class="update-password">
+<p>We want all Berrys' communications to be <b>relevant and interesting to you</b> and avoid sending things which aren't! Help us offer a more <b>tailor-made service</b> by updating your wine and service interests below.</p>
+
+<div class="preferences">
+<div class="accountBox">
+				<h3>
+					Mailing Preferences
+					
+						<a href="#" class="modalinfo" data-toggle="modal" data-target="#myModal">
+							<i class="fa fa-info-circle" aria-hidden="true"></i>
+						</a>
+					
+				</h3>
+
+				<div class="accountBoxContent">
+					<div class="register_gdpr_collapse">
+						<p>
+							From time to time, we would like to tell you about offers, news, services and products which we think will be of interest to you. If you would prefer not to hear from Berry Bros. &amp; Rudd, then let us know <a class="register_gdpr_link"> here</a>.</p>
+						<p>
+							To find out more about how we keep your personal details safe, please read our<a href="privacy.php" target="_blank">Privacy Policy</a>
+						</p>
+					</div>
+					
+				</div>
+			</div>
+
+			<div class="intest">
+				<h2>
+					Service Interests
+						<a href="#" class="modalinfo" data-toggle="modal" data-target="#interested">
+							<i class="fa fa-info-circle" aria-hidden="true"></i>
+						</a>
+					
+				</h2>
+
+				<div class="accountBoxContent">
+					<h3>I'm interested in:</h3>
+
+
+                    <ul>
+   
+
+{% for data in object_list%}
+
+{% if data.Select_Type.Type == "Service Interests" %}
+{% if data.service_interests_name.all|join:" |<br>" != "" %}
+	<li class="delivery_method_item">
+	<input id="{{data.Service_interests_name}}" name="serviceInterests[]" type="checkbox" checked="" value="{{data.id}}"><label for="{{data.Service_interests_name}}">{{data.Service_interests_name}}</label>
+</li>
+
+{% else %}
+	<li class="delivery_method_item">
+	<input id="{{data.Service_interests_name}}" name="serviceInterests[]" type="checkbox"  value="{{data.id}}"><label for="{{data.Service_interests_name}}">{{data.Service_interests_name}}</label>
+</li>
+
+
+{% endif %}
+{% endif %}
+
+{% endfor %}
+</ul>
+</div>
+			</div>
+</div>
+
+<hr>
+<div class="intest">
+				<h2>
+					Wine Interests
+						<a href="#" class="modalinfo" data-toggle="modal" data-target="#wine-interested">
+							<i class="fa fa-info-circle" aria-hidden="true"></i>
+						</a>
+				</h2>
+				<div class="accountBoxContent">
+					<h3>I'm interested in:</h3>
+                    <ul>
+
+{% for data in object_list%}
+{% if data.Select_Type.Type == "Wine Interests" %}
+{% if data.service_interests_name.all|join:" |<br>" != "" %}
+	<li class="delivery_method_item">
+	<input id="{{data.Service_interests_name}}" name="serviceInterests[]" type="checkbox" checked="" value="{{data.id}}"><label for="{{data.Service_interests_name}}">{{data.Service_interests_name}}</label>
+</li>
+
+{% else %}
+	<li class="delivery_method_item">
+	<input id="{{data.Service_interests_name}}" name="serviceInterests[]" type="checkbox"  value="{{data.id}}"><label for="{{data.Service_interests_name}}">{{data.Service_interests_name}}</label>
+</li>
+
+
+{% endif %}
+{% endif %}
+{% endfor %}
+
+</ul>
+</div>
+			</div>
+			<hr>
+			<div class="text-right btn_savebx">
+			<button class="deliverCellaredWineButton" type="submit">Save Updates</button>
+			</div>
+</div>
+
+</form>
+
+
+
+
+
+
+
+
+</div>
+ </div>
+                    </div>
+
+
+
+
+
+
+                    <aside class="col-md-3">
+                        {% include 'web/user/include/user_sidebar.html' %}
+                    </aside>          
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+
+            <div class="mb-5"></div><!-- margin -->
+        </main>
+{% endblock %}

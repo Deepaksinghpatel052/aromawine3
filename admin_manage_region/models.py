@@ -30,6 +30,7 @@ class AwRegion(models.Model):
     Set_To = models.ManyToManyField(AwSetTo, blank=True, related_name='AwRegion_set_to')
     Region_Image = models.ImageField(upload_to=user_directory_path)
     Region_banner_Image = models.ImageField(upload_to=user_directory_path_banner,null=True,blank=True)
+    Short_Description = models.TextField(null=True, blank=True)
     Description = models.TextField(null=True, blank=True)
     Status = models.BooleanField(default=True)
     Created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwRegion_Created_by')

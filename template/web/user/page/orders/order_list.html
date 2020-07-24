@@ -53,15 +53,7 @@
                   <td>{{item.Order_Date}}</td>
                   <td>${{item.Amount}}</td>
                   <td>
-                  	{% if item.Order_Status == "Pending" %}
-                  	<span class="badge badge-info">Pending </span>
-                  	{% endif %}
-                  	{% if item.Order_Status == "Done" %}
-                  	<span class="badge badge-success">Done </span>
-                  	{% endif %}
-                  	{% if item.Order_Status == "Cancelled" %}
-                  	<span class="badge badge-danger">Cancelled </span>
-                  	{% endif %}
+                  	{{item.Order_Status}}
                   </td>
                   <td><a href="{% url 'orders:prodyuct_info' item.order_id  %}" class="btn btn-primary btn-sm">View</a></td>
                 </tr>

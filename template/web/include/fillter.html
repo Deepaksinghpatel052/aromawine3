@@ -98,6 +98,7 @@
           </div>
       {% endif %}   
 		   
+        {% if page_type_set != 'producer' %}
       {% if get_all_producers %} 
 		  <a class="article-title" href="javascript:void(0)" id="defaultOpen">Producer</a>
           <div class="accordion-content open" style="display: block;">
@@ -121,7 +122,7 @@
             </div>
           </div>
 		  {% endif %}
-		 
+		   {% endif %}
 		
 		  {% if get_all_classification %}  
 		  <a class="article-title" href="javascript:void(0)" id="defaultOpen">
@@ -215,7 +216,7 @@
 		  
 		  {% endif %}
 		 
-		  
+		 {% if page_type_set != 'region' %} 
           {% if get_all_region %}
 		  <a class="article-title" href="javascript:void(0)" id="defaultOpen">
       Regions</a>
@@ -238,7 +239,8 @@
               </ul>
             </div>
           </div>
-	   {% endif %}	  
+	    {% endif %}	  
+     {% endif %}    
   
 		  
 		  

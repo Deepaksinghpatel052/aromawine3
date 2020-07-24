@@ -1,4 +1,4 @@
-from django.shortcuts import render,HttpResponseRedirect, HttpResponse,get_object_or_404
+from django.shortcuts import render,HttpResponseRedirect, HttpResponse,get_object_or_404,redirect
 from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
@@ -11,11 +11,78 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from addressbook_user.forms import AwAddressBookFormUser,AwAddressBookForm
 from addressbook_user.models import AwAddressBook
-from .models import AwOrders,AwOrederItem
+from .models import AwOrders,AwOrederItem,AwOrderNote
 from django.urls import reverse
 from django.contrib import messages
 from django.db.models import Sum
+from django.http import HttpResponse, JsonResponse
+from wineproject import settings
+from admin_manage_cupon_code.models import AwCuponCode
+from datetime import datetime
+from datetime import date
 # Create your views here.
+
+
+
+@csrf_exempt
+def check_coupon_code(request):
+    status= "0"
+    message = "Check coupon"
+    data = {}
+    if request.method == "POST":
+        code = request.POST['coupon_code']
+        if AwCuponCode.objects.filter(CouponCode=code).exists():
+            get_code_ins = get_object_or_404(AwCuponCode,CouponCode=code)
+            if get_code_ins.Valid_from <= datetime.today().date():
+                if get_code_ins.Valid_to >= datetime.today().date():
+                    status = "1"
+                    data["type"]=get_code_ins.Type
+                    data["count"]=get_code_ins.Amount
+                    message = "Coupon Code applay successgurlly."
+                else:
+                    message = "Coupon Code is expayer."
+            else:
+                message = "This code is not usefull at this time."
+        else:
+            message = "Coupon code is incorrect."
+    return JsonResponse({"status": status, "message": message,"data":data})
+
+@csrf_exempt
+def update_card(request):
+    status = "0"
+    message = "Cupon Code is Card update."
+    if request.method == "POST":
+        ids_set = request.POST.getlist('ids_set[]')
+        que_set = request.POST.getlist('que_set[]')
+        for id in range(0,len(ids_set)):
+            AwAddToCard.objects.filter(id=ids_set[id]).update(Quentity=que_set[id])
+    return JsonResponse({"status": status, "message": message})
+
+
+def remove_product_from_card(request,pk):
+    if AwAddToCard.objects.filter(id=pk):
+        get_instance = get_object_or_404(AwAddToCard, id=pk)
+        get_instance.delete()
+        messages.info(request, 'Product remove from card successfully')
+    else:
+        messages.error(request, "Product is not remove.")
+    return redirect(settings.BASE_URL + "user/orders/my-card")
+
+@method_decorator(login_required , name="dispatch")
+class MyCardView(generic.TemplateView):
+    template_name = "web/user/page/orders/my_card.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(MyCardView, self).get_context_data(*args, **kwargs)
+        context['Page_title'] = "My-Card"
+        card_product  = None
+        if self.request.user.username != "":
+            user_ins = self.request.user
+            if AwAddToCard.objects.filter(User=user_ins).exists():
+                card_product = AwAddToCard.objects.filter(User=user_ins).order_by("-id")
+        context['card_product'] = card_product
+        context['BASE_URL'] = settings.BASE_URL
+        return context
 
 @method_decorator(login_required , name="dispatch")
 class CheckOutView(generic.TemplateView):
@@ -130,10 +197,14 @@ class ProoductInfoView(generic.TemplateView):
         print(order_id)
         get_product = None
         get_sum = None
+        order_note = None
         if AwOrederItem.objects.filter(User=self.request.user,Order_id__order_id=order_id).exists():
             get_product = AwOrederItem.objects.filter(User=self.request.user,Order_id__order_id=order_id)
             get_sum = AwOrederItem.objects.filter(User=self.request.user,Order_id__order_id=order_id).aggregate(Sum('Total_cost'))
             print(get_sum)
+        if AwOrderNote.objects.filter(Order_id__order_id=order_id).filter(Display_Status=True).exists():
+            order_note = AwOrderNote.objects.filter(Order_id__order_id=order_id).filter(Display_Status=True).order_by("-id")
+        context['order_note'] = order_note
         context['products'] = get_product
         context['total_cost'] = get_sum
         return context

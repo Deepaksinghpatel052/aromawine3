@@ -105,14 +105,25 @@
   <tr role="row" class="odd">
     <td><input type="checkbox" name="name" class="name"></td>
     <td>{{data.order_id}}</td>
-    
+    <td>{{data.Payment_Status}}</td>    
     {% if data.Order_Status == "Complete" %}
     <td><span class="grid-report-item green">{{data.Order_Status}}</span></td>
     {% endif %}
 
-    <td>Paid</td>
-    <td>Delivered</td>
-    <td><a href="#">victoria_victoria@wine.com</a></td>
+    {% if data.Order_Status == "Cancelled" %}
+    <td><span class="grid-report-item blue">{{data.Order_Status}}</span></td>
+    {% endif %}
+
+    {% if data.Order_Status == "Refunded" %}
+    <td><span class="grid-report-item yellow">{{data.Order_Status}}</span></td>
+    {% endif %}
+        {% if data.Order_Status == "Failled" %}
+    <td><span class="grid-report-item red">{{data.Order_Status}}</span></td>
+    {% endif %}
+
+
+    <td><a href="#">{{data.User.first_name}}</a></td>
+    <td><a href="#">{{data.User.email}}</a></td>
     <td>9977176962</td>
     <td>{{data.Order_Date}}</td>
     <td>${{data.Amount}}</td>
@@ -121,42 +132,6 @@
 
               {% endfor %}      
 
-  <tr role="row" class="even">
-    <td><input type="checkbox" name="name" class="name"></td>
-    <td>4</td>
-    <td><span class="grid-report-item blue">Processing</span></td>
-    <td>Paid</td>
-    <td>Shipped</td>
-    <td><a href="#">brenda_lindgren@wine.com</a></td>
-    <td>9977176962</td>
-    <td>03/13/2017 </td>
-    <td>$102.00</td>
-    <td class=" button-column"><a class="edit_btn" href="edit-order.php"><i class="fa fa-pencil"></i>Edit</a></td>
-  </tr>
-  <tr role="row" class="odd">
-    <td><input type="checkbox" name="name" class="name"></td>
-    <td>3</td>
-    <td><span class="grid-report-item yellow">Pending</span></td>
-    <td>Pending</td>
-    <td>Shipping not required</td>
-    <td><a href="#">james_pan@wine.com</a></td>
-    <td>9977176962</td>
-    <td>03/13/2017 </td>
-    <td>$8.80</td>
-    <td class=" button-column"><a class="edit_btn" href="edit-order.php"><i class="fa fa-pencil"></i>Edit</a></td>
-  </tr>
-  <tr role="row" class="even">
-    <td><input type="checkbox" name="name" class="name"></td>
-    <td>2</td>
-    <td><span class="grid-report-item yellow">Pending</span></td>
-    <td>Pending</td>
-    <td>Not yet shipped</td>
-    <td><a href="#">arthur_holmes@wine.com</a></td>
-    <td>9977176962</td>
-    <td>03/13/2017 </td>
-    <td>$2,460.00</td>
-    <td class=" button-column"><a class="edit_btn" href="edit-order.php"><i class="fa fa-pencil"></i>Edit</a></td>
-  </tr>
   
 </tbody>
 

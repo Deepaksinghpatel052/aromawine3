@@ -1,0 +1,118 @@
+{% extends 'admin/base-template.html' %}
+{% block content %}
+{% load static %}
+		 <div class="page-content">
+		 <section class="content-header">
+        
+        <div class="header-title">
+            <h1>Manage Dinner</h1>
+            
+            
+        </div>
+    </section>
+    {% if messages %}
+    {% for message in messages %}
+        
+<div class="alert alert-success alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+      
+    {% endfor %}
+    {% endif %}
+         <div class="container-fluid">
+  <div class="row p-t-b-20">
+  <div class="col-md-3">
+  <div class="">
+              <!-- <div class="select-some">
+                  <select class="form-control">
+                    <option disabled="" selected="" value="">--Selected--</option>
+                    <option>Grape Name</option>
+                    <option>Grape Image</option>
+                      <option>Description</option>
+                    <option>Product counter</option>
+                    <option>Action</option>
+                    
+               
+                  </select>&nbsp;
+                  <button class="View-btn">Apply</button>
+              </div> -->
+              
+          </div>
+        </div>
+    <div class="col-md-12">
+   <div class="add_button">
+
+   <a href="{% url 'admin_manage_dinner:add_dinner' %}">Add</a>
+   </div>
+      <!-- <div class="card no-b"> -->
+      <div class="login-form-card">
+        <!-- <div class="login-form-content"> -->
+        <form action="javascript:(0);">
+          <div class="table-responsive">
+            <!-- <button class="btn-success add-data">Add Iteration</button> -->
+            <!-- start Table -->
+            <table id="example" width="100%" border="1" class="table table-striped table-bordered newpage" align="center" cellpadding="0" cellspacing="0" style=" font-size: 15px;">
+              <thead>
+                <tr>
+            <th align="left" valign="top">
+              id
+              <!-- <input type="checkbox" id="selectall" /> -->
+            </th>
+                  <th align="left" valign="top">Dinner Name</th>
+                  <th align="left" valign="top">Image</th>
+          
+                  <th align="left" valign="top">Wines</th>
+                  <th align="left" valign="top">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+           {% if object_list %}
+           {% for item in object_list %}
+
+
+                <tr>
+            <td align="left" valign="top">
+              {{forloop.counter}}
+             <!--  <input type="checkbox" name="name" class="name"  value="{{item.id}}" /> -->
+              
+            </td>
+                  <td align="left" valign="top">{{item.Dinner_Name}}</td>
+                 <td align="center" valign="top">
+                  {% if item.Dinner_Image %}
+                  <img src='{{item.Dinner_Image.url}}' style="width:50px;">
+                    {% endif %}
+                </td>
+                  <td align="left" valign="top">{{item.Wine_With_Dienner.all|join:" | "}}</td>
+                  <td align="left" valign="top">
+                    <table width="100%" border="0" align="left" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td align="center" valign="top"><a href="{% url 'admin_manage_dinner:update_dinner'  item.id %}  "><i class="icon-pencil"></i></a>
+                        </td> 
+                        <td align="center" valign="top"><a href="{% url 'admin_manage_dinner:delete_dinner'  item.id %}"><i class="icon-delete"></i><a></td>
+                   </tr>
+                </table>
+                </td>
+            </tr>
+            {% endfor %}
+           {% endif %}
+           
+                </table>
+                </td>
+
+            </tr>
+            
+        </tbody>
+    </table>
+                                     <!---Table Ends---->
+</div>
+                                    
+                         </form>
+                     <!--  </div> -->
+             </div>
+          <!-- </div> -->
+               </div>
+      </div>
+         </div>
+      </div>
+ {% endblock %}

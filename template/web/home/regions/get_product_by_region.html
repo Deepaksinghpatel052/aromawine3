@@ -53,7 +53,7 @@
 														<ul class="nested">
 														{% if get_product %}
 												{% for item in get_product %}
-				<li><a href="{% url 'wine_shop:wine_shop' %}?producers={{item.Product.Producer.Slug}}">{{item.Product.Producer}}</a></li>
+				<li><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{item.Product.Producer.Slug}}">{{item.Product.Producer}}</a></li>
 											{% endfor %}
 										{% endif %}	
 				

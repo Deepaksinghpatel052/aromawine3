@@ -55,6 +55,49 @@
                </li>
 
 
+
+                 <li class="treeview" id="Dinner">
+           <a href="#"><span>Dinner</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview " id="Manage_Dinner"><a href="{% url 'admin_manage_dinner:dinner' %}">Manage Dinner</a></li>
+                      
+            <li class="treeview"  id="Add_Dinner"><a href="{% url 'admin_manage_dinner:add_dinner' %}">Add Dinner</a></li>
+      
+            
+                     
+           
+                  </ul>
+               </li>
+
+
+ <li class="treeview" id="Wine_Testing">
+           <a href="#"><span>Wine-Testing</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview " id="Manage_Wine_Testing"><a href="{% url 'admin_manag_wine_testing:testing_wine' %}">Manage Wine-Testing</a></li>
+                      
+            <li class="treeview"  id="Add_Wine_Testing"><a href="{% url 'admin_manag_wine_testing:add_testing' %}">Add Wine-Testing</a></li>
+      
+            
+                     
+           
+                  </ul>
+               </li>
+               <!-- -------------------------------------- -->
+                                     <li class="treeview" id="Preference">
+           <a href="#"><span>Preference</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview " id="Manage_Product"><a href="{% url 'admin_manage_perferences:perferences' %}">Manage Preferences</a></li>
+                      
+                  <li class="treeview"  id="Add_Product"><a href="{% url 'admin_manage_perferences:add_perferences' %}">Add Preferences</a></li>
+
+            
+                     
+           
+                  </ul>
+               </li>
+               <!-- -------------------------------------- -->
+
+
                <li class="treeview" id="Category">
                 <a href="#"><span>Category</span><i class="icon icon-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
@@ -69,39 +112,39 @@
                </li>
 					  
 					
-                   <li class="treeview">
+                   <li class="treeview" id="Customer">
 					 <a href="#"><span>Customer</span><i class="icon icon-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
-                      <li class="treeview">
-					  <a href="manage-customer.php">Manage Customer</a>
+                      <li class="treeview" id="Manage_Customer">
+					  <a href="{% url 'admin_manage_customer:customer' %}"  >Manage Customer</a>
 					  </li>
-                     <li class="treeview">
+                 <!--     <li class="treeview">
 					 <a href="add-customer.php">Add Customer</a>
-					 </li>
+					 </li> -->
                      
                   </ul>
                </li>
-			   <li class="treeview">
+			   <li class="treeview" id="Orders">
 					 <a href="#"><span>Orders</span><i class="icon icon-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
-                      <li class="treeview">
-					  <a href="{% url 'admin_manage_order:orders' %}">Manage Orders</a>
+                      <li class="treeview" id="Manage_Orders">
+					  <a href="{% url 'admin_manage_order:orders' %}" >Manage Orders</a>
 					  </li>
 					  <li class="treeview">
-					 <a href="{% url 'admin_manage_order:celler_order' %}">Celler Orders</a>
+					 <a href="#">Celler Orders</a>
 					 </li>
 					 <!--<li class="treeview">
 					  <a href="manage-shipping.php">Manage Delivery</a>
 					  </li>-->
                      
-                     <li class="treeview">
-					 <a href="{% url 'admin_manage_order:refunded_order' %}">Refunded Orders</a>
+                     <li class="treeview" id="Refunded_Orders">
+					 <a href="{% url 'admin_manage_order:orders_type' 'refunded' %}" >Refunded Orders</a>
 					 </li>
-					 <li class="treeview">
-					 <a href="{% url 'admin_manage_order:canclled_order' %}">Canclled orders</a>
+					 <li class="treeview"  id="Cancelled_orders">
+					 <a href="{% url 'admin_manage_order:orders_type' 'cancelled' %}">Cancelled Orders</a>
 					 </li>
-					 <li class="treeview">
-					 <a href="{% url 'admin_manage_order:failled_order' %}">Failled orders</a>
+					 <li class="treeview" id="Failled_orders">
+					 <a href="{% url 'admin_manage_order:orders_type' 'failled' %}">Failled Orders</a>
 					 </li>
 					 
 					 
@@ -141,16 +184,7 @@
 			   
 			   
                      
-			  
-			  
-			   
-                     
-           
-                     
-					
-                    
-					 
-			   
+			
 			   <li class="treeview" id="Manage_Filtters">
 					 <a href="#"><span>Manage Filtters</span><i class="icon icon-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
@@ -187,7 +221,7 @@
                      
                     <!-- <li><a href="manage-attributes.php">Manage Attributes</a></li>-->
                      <li><a href="notifications.php">Notifications</a></li>
-                     <li><a href="membership-settings.php">Membership Settings</a></li>
+                     <li><a href="{% url 'admin_mambership_setting:membership'  %}">Membership Settings</a></li>
                      <li><a href="source-wine-request.php">Source Wine requests</a></li>
                      
                      <li><a href="enqueries.php">Manage Enqueries</a></li>
@@ -374,7 +408,7 @@
 <script src='{% static "admin/assets/js/script.js" %}' ></script>
 <script src='{% static "admin/assets/js/editable.js" %}' ></script>
 <script src='{% static "admin/assets/js/customjs.js" %}' ></script>
-
+ <script src='{% static "web/assets/js/sweetalert.min.js" %}' ></script>
 
  <script src='{% static "admin/assets/cropme/croppie.js" %}' ></script>
   <!-- <script src='{% static "admin/assets/cropme/croppie_user_image.js" %}' ></script> -->
@@ -496,6 +530,41 @@ function readURL(input) {
 $("#imageUpload").change(function() {
     readURL(this);
 });
+
+  function remove_product(urls,message,done,fail)
+         {
+         swal({
+            title: message,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+             window.location.href = urls;           
+            } else {
+              swal(fail);
+            }
+          });
+         } 
+
+  function update_status(urls,message,done,fail)
+         {
+          var url_get = $("#OrderStatusId").val(); 
+         swal({
+            title: message,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+             window.location.href = urls+"/"+url_get;           
+            } else {
+              swal(fail);
+            }
+          });
+         } 
 
 </script>
 

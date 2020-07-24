@@ -6,9 +6,10 @@
       {{object.Product.Color.all|join:" | "}} - <a aria-label="See details" href="{% url 'product_detail:product_detail' object.Product.Product_id object.Product.Product_slug  object   %}">See details</a></div>
     <div class="product-img product-modal mt-4"><img src='{{object.Product|get_product_image_one}}' alt=""></div>
   </div>
+  <!-- {{object.Descount_Cost|get_product_price_with_gst_include:object.GST|floatformat:2}} -->
   <div class="col-md-6 mb-md-0 contentBloc text-md-left">
     <div class="promo-label">Special Prices</div>
-    <div class="product-price"><span class="list-price">SG${{object.Retail_Cost|floatformat:2}}&nbsp;<span>Incl. GST &amp; DP</span></span><span class="offer-price">SG{{object.Descount_Cost|get_product_price_with_gst_include:object.GST|floatformat:2}}&nbsp;<span class="taxSymbol">Incl. GST &amp; DP</span></span><span class="details mt-2"><span>{{object.Bottle}}</span><span class="d-none d-sm-inline-block mx-sm-1"> | </span><span> SG${{object.Retail_Cost|floatformat:2}}&nbsp;/&nbsp;Unit</span></span></div>
+    <div class="product-price"><span class="list-price">SG${{object.Retail_Cost|floatformat:2}}&nbsp;<span>Incl. GST &amp; DP</span></span><span class="offer-price">SG${{object.Retail_Cost|floatformat:2}}&nbsp;<span class="taxSymbol">Incl. GST &amp; DP</span></span><span class="details mt-2"><span>{{object.Bottle}}</span><span class="d-none d-sm-inline-block mx-sm-1"> | </span><span> SG${{object.Retail_Cost|floatformat:2}}&nbsp;/&nbsp;Unit</span></span></div>
     <div class="itemselector-container">
       <ul class="itemselector list-group">
         <li class="list-group-item">

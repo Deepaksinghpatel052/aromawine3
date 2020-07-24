@@ -6,6 +6,17 @@ def random_string_generator(size=10, chars=string.ascii_uppercase + string.digit
     return ''.join(random.choice(chars) for _ in range(size))
 
 
+def unique_id_generator_for_CouponCode(instance):
+    order_new_id= random_string_generator()
+
+    Klass= instance.__class__
+
+    qs_exists= Klass.objects.filter(CouponCode= order_new_id).exists()
+    if qs_exists:
+        return unique_id_generator_for_CouponCode(instance)
+    return order_new_id
+
+
 def unique_id_generator(instance):
     order_new_id= random_string_generator()
 
@@ -139,6 +150,32 @@ def slug_generator_for_AwClassification(instance,new_slug=None):
     if qs_exists:
         new_slug = "{Slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
         return slug_generator_for_AwClassification(instance,new_slug=new_slug)
+    return slug
+
+def slug_generator_for_AwTesting(instance,new_slug=None):
+    if new_slug is not None:
+        slug = new_slug
+    else:
+        slug = slugify(instance.Name)
+
+    Klass = instance.__class__
+    qs_exists = Klass.objects.filter(Slug=slug).exists()
+    if qs_exists:
+        new_slug = "{Slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
+        return slug_generator_for_AwTesting(instance,new_slug=new_slug)
+    return slug
+
+def slug_generator_for_AAwDinner(instance,new_slug=None):
+    if new_slug is not None:
+        slug = new_slug
+    else:
+        slug = slugify(instance.Dinner_Name)
+
+    Klass = instance.__class__
+    qs_exists = Klass.objects.filter(Slug=slug).exists()
+    if qs_exists:
+        new_slug = "{Slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
+        return slug_generator_for_AAwDinner(instance,new_slug=new_slug)
     return slug
 
 

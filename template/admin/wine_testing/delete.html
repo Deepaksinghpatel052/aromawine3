@@ -1,0 +1,40 @@
+{% extends 'admin/base-template.html' %}
+{% block content %}
+{% load static %}
+		 <div class="page-content">
+		 <section class="content-header">
+        
+        <div class="header-title">
+            <h1>{{Page_title}}</h1>
+            
+            
+        </div>
+    </section>
+
+         <div class="container-fluid">
+  <div class="row p-t-b-20">
+
+    <div class="col-md-12">
+
+      <!-- <div class="card no-b"> -->
+      <div class="login-form-card">
+        <!-- <div class="login-form-content"> -->
+<h2>Are you sure?</h2>
+        <form method="post">{% csrf_token %} 
+     <div class="alert alert-danger alert-dismissible">
+                     
+                      <strong> <p>Are you sure you want to delete "{{ object }}"?</p></strong> 
+                    </div>
+     <a href="{% url 'admin_manag_wine_testing:testing_wine' %}"><button type="button" class="tn btn-white subbtn" >Cancel</button></a>
+    <button class="btn btn-danger btn-lg" type="submit">Confirm</button>
+     
+</form>                        
+                      
+                     <!--  </div> -->
+             </div>
+          <!-- </div> -->
+               </div>
+      </div>
+         </div>
+      </div>
+ {% endblock %}

@@ -7,8 +7,18 @@ var case_formate = $("#case_formate_"+cost_type).val();
 var quentity = $("#quentyti_"+cost_type).val();
 var product_year = $("#product_year").val();
 var add_to_card_url = $("#add_to_card_url").val();
-
-$.ajax({
+if(quentity == '0')
+{
+    swal({
+            title: "Please Select quantity of product",
+            icon: "error",
+            buttons: true,
+            dangerMode: true,
+          });
+}
+else
+{
+  $.ajax({
    method:"POST",
    url:add_to_card_url,
    data:{'product_id':product_id,'Year':product_year,'Type':cost_type,'Case_Formate_id':case_formate,'Quentity_set':quentity},
@@ -17,7 +27,7 @@ $.ajax({
     get_card_product();
       if(data.status == "0")
       {
-      	swal({
+        swal({
             title: data.message,
             icon: "error",
             buttons: true,
@@ -32,14 +42,15 @@ $.ajax({
             buttons: true,
             dangerMode: true,
           });
-      	
+        
       }
    }
    });
+}
+
 
 
 });
-
 
 
 $(document).on('change','.select_case_formate',function(){

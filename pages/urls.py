@@ -3,5 +3,5 @@ from . import views
 
 
 urlpatterns = [
-    path('<slug:type>/<slug:page_slug>/', views.PageContentView.as_view(),name="page"),
+    path('<slug:type>/', views.PageContentView.as_view(),name="page"),
 ]

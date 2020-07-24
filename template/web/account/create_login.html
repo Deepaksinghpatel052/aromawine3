@@ -172,7 +172,6 @@
               <div class="modal-header">
 <h3 class="title_h3 ">Forgot Password</h3>
 
-                <!-- <h4 class="modal-title">Forgot password</h4> -->
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true" style="font-size: 32px;">×</span></button>
                 
@@ -184,10 +183,10 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="container-fluid">
-                                   <!-- <div class="card no-b"> -->
-          <!-- <div class="login-form-card"> -->
+
                      <div class="login-form-content">
-                                    <form  action="{% url 'account:send_forgate_password_link' %}" method="POST">
+                                    <!-- <form  action="{% url 'account:send_forgate_password_link' %}" method="POST"> -->
+                                    <form  action="http://3.133.12.113/password_reset/" method="POST">
                                       {% csrf_token %}
                                     <div class="row">
                                       <div class="col-md-12">
@@ -196,10 +195,6 @@
                                         <label>Enter your registered email ID</label>
 
                                                                 <input type="text" required="" name="email" class="form-control form-control-lg" placeholder="Email Address">
-<!--  -->
-                                       <!--  <select class="form-control" name="list" placeholder="select Team Member">
-                                 <option>select member product</option>
-                              </select> -->
                                 </div>
 
 

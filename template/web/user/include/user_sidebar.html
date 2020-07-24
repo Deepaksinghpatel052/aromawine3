@@ -8,7 +8,9 @@
                <li class=""><a href="{% url 'dashboard_user:dashboard' %}" {% if 'dashboard' in request.build_absolute_uri %} class="active"  {% endif %} >Your Dashboard</a></li>
         <li><a href="{% url 'profile_user:profile' %}" {% if 'profile' in request.build_absolute_uri %} class="active"  {% endif %}>Your Profile</a></li>
 
-        <li class=""><a href="#">Your Preferences</a></li>
+        <!-- <li class=""><a href="#">Your Preferences</a></li> -->
+
+        <li class=""><a {% if 'preferences' in request.build_absolute_uri %} class="active"  {% endif %} href="{% url 'preferences_user:preferenceslist'  %}">Your Preferences</a></li>
 
         <li><a {% if 'addressbook' in request.build_absolute_uri %} class="active"  {% endif %} href="{% url 'addressbook_user:addressbooklist'  %}">Your Address Book</a></li>
 

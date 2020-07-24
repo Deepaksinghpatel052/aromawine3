@@ -55,7 +55,7 @@
 													{% if get_region_for_fine_wine %}
 													{% for item in get_region_for_fine_wine %}
 													<li class="{% if forloop.counter == 1 %}active{% endif %}">
-<a href="#regin{{item.id}}" class="category_click" data-url="{% url 'wine_shop:wine_shop' %}?region={{item.Slug}}">{{item}}</a></li>
+<a href="#regin{{item.id}}" class="category_click" data-url="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{item.Slug}}">{{item}}</a></li>
 													{% endfor %}
 													{% endif %}
 													
@@ -146,7 +146,7 @@
 											<ul class="nested">
 												{% if aromawine_pattenre_country %}
 												 {% for item in aromawine_pattenre_country %}
-												<li><a href="{% url 'wine_shop:wine_shop' %}?country={{item.Country_Name}}">{{item}}</a>
+												<li><a href="{% url 'wine_shop:wine_shop' %}?page-type=country&page-name={{item.Slug}}">{{item}}</a>
 												</li>
 												 {% endfor %}
 												{% endif %}
@@ -164,7 +164,7 @@
 											<ul class="nested">
 												{% if aromawine_pattenre_winnery %}
 												 {% for item in aromawine_pattenre_winnery %}
-												<li><a href="{% url 'wine_shop:wine_shop' %}?producers={{item.Slug}}">{{item}}</a>
+												<li><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{item.Slug}}">{{item}}</a>
 												</li>
 												 {% endfor %}
 												{% endif %}
@@ -225,7 +225,7 @@
 											<ul class="nested">
 												{% if en_premier_vintage_winnery %}
 												 {% for item in en_premier_vintage_winnery %}
-												<li><a href="{% url 'wine_shop:wine_shop' %}?producers={{item.Slug}}">{{item}}</a>
+												<li><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{item.Slug}}">{{item}}</a>
 												</li>
 												 {% endfor %}
 												{% endif %}
@@ -317,8 +317,8 @@
 									<ul id="myUL">
 										<li><span class="caret ruby-list-heading">Wine Experiences</span>
 											<ul class="nested">
-												<li><a href="dinner.php">Dinners</a></li>
-												<li><a href="wine-tasting.php">Wine Tasting</a></li>
+												<li><a href="{% url 'pages:page' 'dinner' %}">Dinners</a></li>
+												<li><a href="{% url 'pages:page' 'wine-testing' %}">Wine Tasting</a></li>
 												
 												
 												
@@ -348,9 +348,10 @@
 									<ul id="myUL">
 										<li><span class="caret ruby-list-heading">Expertise</span>
 											<ul class="nested">
-												<li><a href="vintage-chart.php">Vintage Chart </a></li>
-												<li><a href="view-grape.php">Grapes </a></li>
-												<li><a href="region.php">Regions </a></li>
+												<!-- <li><a href="vintage-chart.php">Vintage Chart </a></li> -->
+												<li><a href="{% url 'pages:page' 'grape' %}">Grapes </a></li>
+												<li><a href="{% url 'pages:page' 'region' %}">Regions </a></li>
+												<li><a href="{% url 'pages:page' 'producer' %}">Winery </a></li>
 												
 												
 												

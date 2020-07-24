@@ -17,6 +17,10 @@ from django.views.decorators.csrf import csrf_exempt
 #         return get_object_or_404(AwProducts, Product_id=prodict_id)
 
 
+@register.filter(name='times')
+def times(number):
+    return range(1,number)
+
 
 class DetailView(generic.TemplateView):
     template_name = "web/product_detail/index.html"

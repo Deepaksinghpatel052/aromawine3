@@ -54,7 +54,14 @@ INSTALLED_APPS = [
     'admin_manage_products',
     'django_summernote',
     'admin_manage_banners',
+    'admin_manage_customer',
+    'admin_mambership_setting',
+    'admin_manage_dinner',
+    'admin_manag_wine_testing',
+    'admin_manage_cupon_code',
 
+    'admin_manage_perferences',
+    'preferences_user',
 
     'home',
     'dashboard_user',
@@ -168,3 +175,16 @@ BASE_URL = "http://3.133.12.113/"
 LOGIN_URL = BASE_URL+'admin/login'
 LOGIN_REDIRECT_URL = BASE_URL+'admin/dashboard'
 LOGOUT_REDIRECT_URL = BASE_URL+'account/'
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'praveen.vaidhya@digimonk.in'
+EMAIL_HOST_PASSWORD = '8871006808'
+
+
+
+

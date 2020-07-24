@@ -1,0 +1,25 @@
+	<h2>Service Interests</h2>
+<div class="row">
+     {% for item in  user_prefrence %}
+      {% if item.Service_interest.Select_Type.Type == 'Service Interests' %}
+	<div class="col-md-4">
+		<input id="{{item.Service_interest}}d" checked="" name="{{item.Service_interest}}" type="checkbox" value="true">{{item.Service_interest}}
+	</div>
+	 {% endif %}
+	{% endfor %}
+
+
+	
+</div>
+<hr>
+	<h2>Wine Interests</h2>
+<div class="row">
+{% for item in  user_prefrence %}
+	 {% if item.Service_interest.Select_Type.Type == 'Wine Interests' %}
+	<div class="col-md-4">
+		<input id="{{item.Service_interest}}" checked="" name="{{item.Service_interest}}" type="checkbox" value="true">{{item.Service_interest}}
+	</div>
+	 {% endif %}
+	{% endfor %}
+	
+</div>

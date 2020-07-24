@@ -94,15 +94,18 @@ We will only be able to deliver this product to a bonded account. But you can re
 			</div>
 </div>
 <div class="qtybox">
+
 <select name="qty" id="quentyti_Bond">
-<option>1</option>
-<option>2</option>
-<option>3</option>
-<option>4</option>
-<option>5</option>
-<option>6</option>
+{% for i in get_product_one_year.Bond_Stock|times %}
+    <option>{{i}}</option>
+{% endfor %}
 </select>
 
+{% if user.username == '' %}
+<a href="{% url 'account:account' %}"> <button type="button" title="Add To Order" d data-cost_type="Bond"  class="button btn-cart change-ib-db add_to_card">
+Buy
+</button></a>
+{% else %}
 {% if get_product_one_year.Bond_Cost > 0 %}
 <button type="button" id="Bond_buy" title="Add To Order" data-product_id="{{get_product_one_year.Product.Product_id}}" data-cost_type="Bond"  class="button btn-cart change-ib-db add_to_card">
 Buy
@@ -112,6 +115,10 @@ Buy
 Buy
 </button>
 {% endif %}
+
+{% endif %}
+
+
 </div>
  </div>
 </form>
@@ -151,19 +158,30 @@ Delivery to United Kingdom Storage: 25 Mar 2020</p> -->
 			</div>
 </div>
 <div class="qtybox">
+
 <select name="qty" id="quentyti_Retail">
-<option>1</option>
-<option>2</option>
-<option>3</option>
-<option>4</option>
-<option>5</option>
-<option>6</option>
+
+{% for i in get_product_one_year.Retail_Stock|times %}
+    <option>{{i}}</option>
+{% endfor %}
+
 </select>
+
+
+{% if user.username == '' %}
+
+<a href="{% url 'account:account' %}"> <button type="button" title="Add To Order" d data-cost_type="Bond"  class="button btn-cart change-ib-db add_to_card">
+Buy
+</button></a>
+{% else %}
+
 {% if get_product_one_year.Retail_Cost > 0 %}
 <button type="button" id="Retail_buy" title="Add To Order" data-product_id="{{get_product_one_year.Product.Product_id}}" data-cost_type="Retail" class="button btn-cart change-ib-db add_to_card">Buy</button>
 {% else %}
 <button type="button" id="Retail_buy"  disabled="true" data-product_id="{{get_product_one_year.Product.Product_id}}"data-cost_type="Retail" title="Add To Order" class="button btn-cart change-ib-db add_to_card">Buy</button>
 {% endif %}
+{% endif %}
+
 </div>
  </div>
 </form>
@@ -329,7 +347,7 @@ Delivery to United Kingdom Storage: 25 Mar 2020</p> -->
 <p>
 {{get_product_one_year.Product.Producer.Description | safe}}</p>
 <p>
-<a href="#" style="text-decoration: underline" title="Alvear" class="product-story_info-btn">
+<a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{get_product_one_year.Product.Producer.Slug}}" style="text-decoration: underline" title="Alvear" class="product-story_info-btn">
 See more products from Alvear </a>
 </p>
 
@@ -433,7 +451,7 @@ See more products from Alvear </a>
       <div class="col-md-6">
         <div class="newstylebox">
           <h2 class="title_h2">The Grape</h2>
-          <a href="{% url 'pages:page' 'grape' items.Slug %}">
+          <a href="{% url 'wine_shop:wine_shop' %}?page-type=grape&page-name={{items.Slug}}">
           {% if items.Grape_Image %}
            <img src='{{items.Grape_Image.url}}' alt=""/>
           {% else %}
@@ -444,7 +462,7 @@ See more products from Alvear </a>
           <h3 class="title_h3">{{items.Grape_Name}}</h3>
           <!-- <p>{{items.Description | safe|slice:"0:150"}}</p> -->
 
-          <div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'pages:page' 'grape' items.Slug %}">View Grape</a> </div>
+          <div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'wine_shop:wine_shop' %}?page-type=grape&page-name={{items.Slug}}">View Grape</a> </div>
         </div>
       </div>
        {% endfor %}
@@ -464,12 +482,12 @@ See more products from Alvear </a>
     </div>
     <div class="row">
       <div class="col-md-6">
-        <h3 class="title_h3"><a href="{% url 'pages:page' 'producer' get_product_one_year.Product.Producer.Slug %}"> {{ get_product_one_year.Product.Producer}}</h3></a>
+        <h3 class="title_h3"><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{get_product_one_year.Product.Producer.Slug}}"> {{ get_product_one_year.Product.Producer}}</h3></a>
         {{get_product_one_year.Product.Producer.Description | safe }}
-        <div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'pages:page' 'producer' get_product_one_year.Product.Producer.Slug %}">View Producer</a> </div>
+        <div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{get_product_one_year.Product.Producer.Slug}}">View Producer</a> </div>
       </div>
       <div class="col-md-6"> 
-        <a href="{% url 'pages:page' 'producer' get_product_one_year.Product.Producer.Slug %}">
+        <a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{get_product_one_year.Product.Producer.Slug}}">
 {% if get_product_one_year.Product.Producer.Producer_Image %}
            <img src='{{get_product_one_year.Product.Producer.Producer_Image.url}}' alt=""/>
           {% else %}
@@ -495,7 +513,7 @@ See more products from Alvear </a>
     <div class="row">
       
       <div class="col-md-6"> 
-<a href="{% url 'pages:page' 'region' get_product_one_year.Product.Regions.Slug  %}">
+<a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{get_product_one_year.Product.Regions.Slug}}">
 {% if get_product_one_year.Product.Regions.Region_Image %}
            <img src='{{get_product_one_year.Product.Regions.Region_Image.url}}' alt=""/>
           {% else %}
@@ -506,7 +524,7 @@ See more products from Alvear </a>
       	 <div class="col-md-6">
         <h3 class="title_h3">{{ get_product_one_year.Product.Regions}}</h3>
         {{get_product_one_year.Product.Regions.Description | safe }}
-        <div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'pages:page' 'region' get_product_one_year.Product.Regions.Slug  %}">View Region</a> </div>
+        <div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{get_product_one_year.Product.Regions.Slug}}">View Region</a> </div>
       </div>
     </div>
   </div>

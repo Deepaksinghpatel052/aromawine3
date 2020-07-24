@@ -5,6 +5,7 @@ from admin_manage_products.models import AwProducts,AwProductPrice
 from addressbook_user.models import AwAddressBook
 from wineproject.utils import  unique_id_generator_for_order
 from django.db.models.signals import pre_save
+from datetime import date
 
 # Create your models here.
 
@@ -38,6 +39,10 @@ class AwAddToCard(models.Model):
     class Meta:
         verbose_name_plural = "Aw Add To Card"
 
+
+
+
+
 class AwOrders(models.Model):
     User = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='User_Order')
     order_id = models.CharField(max_length=120,unique=True,null=True, blank=True)
@@ -45,6 +50,9 @@ class AwOrders(models.Model):
     Order_Type = models.CharField(max_length=120,null=True, blank=True)
     Notes = models.TextField(null=True,blank=True)
     Quentity = models.IntegerField(default=0)
+    order_amount = models.IntegerField(default=0)
+    Cupon = models.CharField(max_length=120,null=True, blank=True)
+    Cupon_Discount = models.IntegerField(default=0)
     Amount = models.IntegerField(default=0)
     Order_Status = models.CharField(max_length=120,null=True, blank=True,default="Pending",help_text="Status may be Pending, Celler, Refunded, Canclled, Failled")
     Payment_Status = models.BooleanField(default=False)
@@ -59,6 +67,9 @@ class AwOrders(models.Model):
     class Meta:
         verbose_name_plural = "Aw Orders"
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
 
 def pre_save_create_order_id(sender, instance, *args, **kwargs):
     if not instance.order_id:
@@ -66,6 +77,27 @@ def pre_save_create_order_id(sender, instance, *args, **kwargs):
 pre_save.connect(pre_save_create_order_id, sender=AwOrders)
 
 
+def user_directory_path(instance, filename):
+    producer_id_in_list = instance.Order_id.order_id.split(" ")
+    today_date = date.today()
+    producer_id_in_string = '_'.join([str(elem) for elem in producer_id_in_list])
+    return '{0}/{1}'.format(producer_id_in_string+"/order_image/"+str(today_date.year)+"/"+str(today_date.month)+"/"+str(today_date.day),filename)
+
+
+
+class AwOrderNote(models.Model):
+    User = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='User_AwOrderNote')
+    Order_id = models.ForeignKey(AwOrders, on_delete=models.SET_NULL, null=True, blank=True,related_name='orderId_AwOrderNote')
+    Note = models.TextField(null=True,blank=True)
+    Attachment = models.ImageField(upload_to=user_directory_path,null=True,blank=True)
+    Display_Status = models.BooleanField(default=False)
+    Date = models.DateTimeField(default=django.utils.timezone.now,blank=True,null=True)
+
+    def __str__(self):
+        return str(self.Note)
+
+    class Meta:
+        verbose_name_plural = "Aw Order Note"
 
 class AwOrederItem(models.Model):
     User = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='User_OrderItem')

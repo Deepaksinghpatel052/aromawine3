@@ -1,5 +1,6 @@
 from django.shortcuts import render,get_object_or_404
 from django.views import generic
+from django.http import HttpResponse,JsonResponse
 from admin_manage_products.models import AwProductPrice,AwProducts,AwProductImage,AwWineType
 from django.db.models import Count
 from django.template.defaulttags import register
@@ -79,6 +80,16 @@ def show_mega_menu(dummt_data):
     if AwProductPrice.objects.filter(Product__Select_Type__Type='Sprits').filter(Product__Status=True).filter(Vintage_Year__isnull=False).annotate(replies=Count('Vintage_Year') - 1).exists():
         sprit_product = AwProductPrice.objects.filter(Product__Select_Type__Type='Sprits').filter(Product__Status=True).filter(Vintage_Year__isnull=False).annotate(replies=Count('Vintage_Year') - 1)
     return render_to_string('web/home/mega_menu.html',{'sprit_product':sprit_product,'sprit_country':sprit_country,'en_premier_vintage_year':en_premier_vintage_year,'en_premier_vintage_winnery':en_premier_vintage_winnery,'en_premier_vintage_wine':en_premier_vintage_wine, "get_category":get_category,'get_region_for_fine_wine':get_region_for_fine_wine,'aromawine_pattenre_country':aromawine_pattenre_country,'aromawine_pattenre_winnery':aromawine_pattenre_winnery,'aromawine_pattenre_applicant':aromawine_pattenre_applicant})
+
+
+def get_product_image_one_by_product_id(request,product_id):
+    get_image = "/static/web/assets/image/shop/single-1.png "
+    if product_id:
+        if AwProductImage.objects.filter(Product__id=product_id).exists():
+            get_product_image = AwProductImage.objects.filter(Product__id=product_id).filter(Image_Type="Product_image")
+            if get_product_image:
+                get_image = get_product_image[0].Image.url
+    return HttpResponse(get_image)
 
 
 

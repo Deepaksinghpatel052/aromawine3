@@ -6,6 +6,15 @@ from admin_manage_producer.models import AwProducers
 from admin_manage_region.models import AwRegion
 from admin_manage_products.models import AwProductPrice,AwProducts,AwProductImage,AwWineType
 from admin_manage_country.models import AwCountry
+from admin_manage_color.models import AwColor
+from admin_manage_appellation.models import AwAppellation
+from admin_manage_size.models import AwSize
+from admin_manage_classification.models import AwClassification
+from admin_manage_Vintages.models import AwVintages
+from admin_manage_Vintages.models import AwVintages
+from admin_manage_varietals.models import AwVarietals
+from admin_manage_dinner.models import AwDinner
+from admin_manag_wine_testing.models import AwTesting
 # Create your views here.
 class PageContentView(generic.TemplateView):
 	template_name = "web/page/page_content.html"
@@ -13,76 +22,46 @@ class PageContentView(generic.TemplateView):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		page_content = None
-		page_title = None
+		page_title = self.kwargs.get("type")
 		page_banner_image = None
 		Products = None
 		type = self.kwargs.get("type")
 		page_slug = self.kwargs.get("page_slug")
 		# ======================================  FOR grape start ==================================
 		if type == 'grape':
-			if AwGrape.objects.filter(Slug=page_slug).exists():
-				page_content =  get_object_or_404(AwGrape,Slug=page_slug)
-				page_title = page_content.Grape_Name
-				page_banner_image = page_content.Grape_Image
-				if page_content.Grape_banner_Image:
-					page_banner_image = page_content.Grape_banner_Image
-				if AwProductPrice.objects.filter(Product__Grape__Slug=page_slug).exists():
-					Products = AwProductPrice.objects.filter(Product__Grape__Slug=page_slug).annotate(replies=Count('Vintage_Year') - 1)
+			if AwGrape.objects.filter(Status=True).exists():
+				page_content =  AwGrape.objects.filter(Status=True)
 		# ======================================  FOR grape end ==================================
 
 		# ======================================  FOR AwProducers start ==================================
 		if type == 'producer':
-			if AwProducers.objects.filter(Slug=page_slug).exists():
-				page_content =  get_object_or_404(AwProducers,Slug=page_slug)
-				page_title = page_content.Winnery_Name
-				page_banner_image = page_content.Producer_Image
-				if page_content.Producer_Banner_Image:
-					page_banner_image = page_content.Producer_Banner_Image
-				if AwProductPrice.objects.filter(Product__Producer__Slug=page_slug).exists():
-					Products = AwProductPrice.objects.filter(Product__Producer__Slug=page_slug).annotate(replies=Count('Vintage_Year') - 1)
+			if AwProducers.objects.filter(Status=True).exists():
+				page_content =  AwProducers.objects.filter(Status=True)
 		# ======================================  FOR grape end ==================================
 		# ======================================  FOR AwRegion start ==================================
 		if type == 'region':
-			if AwRegion.objects.filter(Slug=page_slug).exists():
-				page_content = get_object_or_404(AwRegion, Slug=page_slug)
-				page_title = page_content.Region_Name
-				page_banner_image = page_content.Region_Image
-				if page_content.Region_banner_Image:
-					page_banner_image = page_content.Region_banner_Image
-				if AwProductPrice.objects.filter(Product__Regions__Slug=page_slug).exists():
-					Products = AwProductPrice.objects.filter(Product__Regions__Slug=page_slug).annotate(
-						replies=Count('Vintage_Year') - 1)
-		# ======================================  FOR grape end ==================================
-
-		# ======================================  FOR AwRegion start ==================================
-		if type == 'region':
-			if AwRegion.objects.filter(Slug=page_slug).exists():
-				page_content = get_object_or_404(AwRegion, Slug=page_slug)
-				page_title = page_content.Region_Name
-				page_banner_image = page_content.Region_Image
-				if page_content.Region_banner_Image:
-					page_banner_image = page_content.Region_banner_Image
-				if AwProductPrice.objects.filter(Product__Regions__Slug=page_slug).exists():
-					Products = AwProductPrice.objects.filter(Product__Regions__Slug=page_slug).annotate(
-						replies=Count('Vintage_Year') - 1)
+			if AwRegion.objects.filter(Status=True).exists():
+				page_content = AwRegion.objects.filter(Status=True)
 		# ======================================  FOR grape end ==================================
 
 		# ======================================  FOR AwCountry start ==================================
 		if type == 'country':
-			if AwCountry.objects.filter(Slug=page_slug).exists():
-				page_content = get_object_or_404(AwCountry, Slug=page_slug)
-				page_title = page_content.Country_Name
-				page_banner_image = page_content.Country_Image
-				if page_content.Country_Banner_Image:
-					page_banner_image = page_content.Country_Banner_Image
-				if AwProductPrice.objects.filter(Product__Country__Slug=page_slug).exists():
-					Products = AwProductPrice.objects.filter(Product__Country__Slug=page_slug).annotate(
-						replies=Count('Vintage_Year') - 1)
+			if AwCountry.objects.filter(Status=True).exists():
+				page_content = AwCountry.objects.filter(Status=True)
 		# ======================================  FOR country end ==================================
+		# ======================================  FOR AwDinner start ==================================
+		if type == 'dinner':
+			if AwDinner.objects.filter(Status=True).exists():
+				page_content = AwDinner.objects.filter(Status=True)
+		# ======================================  FOR AwDinner end ==================================
+
+		# ======================================  FOR AwTesting start ==================================
+		if type == 'wine-testing':
+			if AwTesting.objects.filter(Status=True).exists():
+				page_content = AwTesting.objects.filter(Status=True)
+		# ======================================  FOR AwTesting end ==================================
 
 		context['page_content'] = page_content
 		context['Page_title'] = page_title
-		context['page_banner_image'] = page_banner_image
-		context['Products'] = Products
-		context['type'] = type
+
 		return context

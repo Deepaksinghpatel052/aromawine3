@@ -43,7 +43,7 @@
 <label class="control-label" for="CustomOrderNumber">Order #</label></div>
 </div>
 <div class="col-md-9">
-<div class="form-text-row">{{queryset.order_id}}</div>
+<div class="form-text-row">{{order_ins.order_id}}</div>
 </div>
 	   </div>
 	   
@@ -53,7 +53,7 @@
 <label class="control-label" for="CustomOrderNumber">Created on</label></div>
 </div>
 <div class="col-md-9">
-<div class="form-text-row">{{queryset.Order_Date}}</div>
+<div class="form-text-row">{{order_ins.Order_Date}}</div>
 </div>
 	   </div>
 	   
@@ -63,7 +63,7 @@
 <label class="control-label" for="CustomOrderNumber">Customer</label></div>
 </div>
 <div class="col-md-9">
-<div class="form-text-row"><a>{{queryset.User.first_name}}</a></div>
+<div class="form-text-row"><a>{{order_ins.User.first_name}}</a></div>
 </div>
 	   </div>
 	   
@@ -78,89 +78,47 @@
 <div class="input-group input-group-short">
 <div class="input-group-text">
 <strong>
-<div class="form-text-row">{{queryset.Order_Status}}</div>
+<div class="form-text-row">{{order_ins.Order_Status}}</div>
 </strong>
 </div>
 <div class="input-group-btn">
-<button type="button" name="" id="cancelorder" class="btn btn_ce" style="margin-right: 3px;" data-toggle="modal" data-target="#cancelorder-action-confirmation">
+<button type="button" name="" id="cancelorder" onclick="remove_product('{{BASE_URL}}admin/manage-order/update-order-status/{{order_ins.order_id}}/Cancelled','Do you want to update order status ?','Order Update successfully.','Status not Update.');" class="btn btn_ce">
 Cancel order
 </button>
 
-<div id="cancelorder-action-confirmation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="cancelorder-action-confirmation-title">
-<div class="modal-dialog">
-<div class="modal-content">
-<div class="modal-header">
-
-<h4 class="modal-title" id="cancelorder-action-confirmation-title">Are you sure?</h4>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-</div>
-<div class="modal-body">
-<p>
-Are you sure you want to perform this action?
-</p>
-</div>
-<div class="modal-footer">
-
-<a href="{% url 'admin_manage_order:orders'  %}{{queryset.id}}/cancel-order" >
-
-<button id="cancelorder-action-confirmation-submit-button" class="btn btn_ce pull-right" name="cancelorder">
-<!-- <button type="submit" onclick="cancel_order()" id="cancelorder-action-confirmation-submit-button" class="btn btn_ce pull-right" name="cancelorder"> -->
-Yes
-</button></a>
 
 
-
-
-
-<span class="btn btn_ce pull-right margin-r-5" data-dismiss="modal">No, cancel</span>
-</div>
-</div>
-</div></div>
-
-<button type="submit" name="btnChangeOrderStatus" id="btnChangeOrderStatus" class="btn btn_ce" style="display: inline-block;">
+<button type="button" name="btnChangeOrderStatus" id="btnChangeOrderStatus" class="btn btn_ce" style="display: inline-block;" >
 Change status
 </button>
 
 
 
 <div id="pnlChangeOrderStatus" style="margin-top: 8px; display: none;">
-<select class="form-control valid" data-val="true" data-val-required="The Order status field is required." id="OrderStatusId" name="OrderStatusId"><option value="Active">Active</option>
-<option value="Deactivate">Deactivate</option>
-<option selected="selected" value="Complete">Complete</option>
-<option value="Cancelled">Cancelled</option>
-<option value="Refunded">Refunded</option>
-<option value="Failled">Failled</option>
+<select class="form-control valid" data-val="true" data-val-required="The Order status field is required." id="OrderStatusId" name="OrderStatusId">
+
+{% if order_status_list %}
+{% for item in order_status_list %}
+
+  {% if  order_ins.Order_Status == item %}
+  <option value="{{item}}"  selected="">{{item}}</option>
+  {% else %}
+  <option value="{{item}}">{{item}}</option>
+  {% endif %}
+{% endfor %}
+{% endif %}
+
 
 
 
 </select>
-<button type="button" name="" id="btnSaveOrderStatus" class="btn btn_ce" style="margin-left: 3px" data-toggle="modal" data-target="#btnSaveOrderStatus-action-confirmation">
+<button type="button" name="" onclick="update_status('{{BASE_URL}}admin/manage-order/update-order-status/{{order_ins.order_id}}','Do you want to update order status ?','Order Update successfully.','Status not Update.');"  class="btn btn_ce" style="margin-left: 3px">
 Save
 </button>
-<div id="btnSaveOrderStatus-action-confirmation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="btnSaveOrderStatus-action-confirmation-title" style="display: none;">
-<div class="modal-dialog">
-<div class="modal-content">
-<div class="modal-header">
+&nbsp;
+&nbsp;
 
-<h4 class="modal-title" id="btnSaveOrderStatus-action-confirmation-title">Are you sure?</h4>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-</div>
-<div class="modal-body">
-<p>
-Are you sure you want to perform this action?
-</p>
-</div>
-<div class="modal-footer">
-<button x id="btnSaveOrderStatus-action-confirmation-submit-button" data-status_url="{% url 'admin_manage_order:orders'  %}{{queryset.id}}/change-order-status" class="btn btn_ce pull-right change_order_status" name="btnSaveOrderStatus">
-<!-- <button type="submit" onclick="cancel_order()" id="btnSaveOrderStatus-action-confirmation-submit-button" class="btn btn_ce pull-right" name="btnSaveOrderStatus"> -->
-Yes
-
-</button>
-<span class="btn btn_ce pull-right margin-r-5" data-dismiss="modal">No, cancel</span>
-</div>
-</div>
-</div></div>
-<button type="submit" name="btnCancelOrderStatus" id="btnCancelOrderStatus" class="btn bg-teal btn_ce" style="margin-left: 3px">
+<button type="button" id="btnCancelOrderStatus" class="btn bg-teal btn_ce" style="margin-left: 3px">
 Cancel
 </button>
 <div class="input-group-btn-hint">
@@ -186,7 +144,7 @@ Cancel
 <label class="control-label" for="CustomOrderNumber">Order subtotal</label></div>
 </div>
 <div class="col-md-9">
-<div class="form-text-row">$43.50 excl tax</div>
+<div class="form-text-row">${{order_ins.Amount}}</div>
 </div>
 	   </div>
 	   
@@ -215,7 +173,7 @@ Cancel
 <label class="control-label" for="CustomOrderNumber">Order total</label></div>
 </div>
 <div class="col-md-9">
-<div class="form-text-row">$43.50</div>
+<div class="form-text-row">${{order_ins.Amount}}</div>
 </div>
 	   </div>
 	   
@@ -245,7 +203,7 @@ Cancel
 Full name
 </td>
 <td>
-	{{address_data.First_Name}}
+	{{order_ins.User.first_name}} {{order_ins.User.last_name}}
 </td>
 </tr>
 <tr>
@@ -253,7 +211,7 @@ Full name
 Email
 </td>
 <td>
-	{{address_data.Email}}
+	{{order_ins.User.email}}
 </td>
 </tr>
 <tr>
@@ -261,23 +219,60 @@ Email
 Phone
 </td>
 <td>
-	{{address_data.Pnone_no}}
+	{{order_ins.User|get_user_number}}
+</td>
+</tr>
+
+</tr>
+</tbody></table>
+</div>
+<!-- <div class="row">
+<div class="form-group">
+<div class="col-md-12">
+<a class="btn btn_ce" href="{% url 'admin_manage_order:orders'  %}{{address_data.id}}/edit-address">Edit</a>
+</div>
+</div>
+</div> -->
+</div>
+<div class="col-md-6">
+<div class="row" >
+<table class="table table-hover table-bordered"  id="bil_info" style="max-width: 500px;">
+<tbody><tr>
+<th colspan="2">
+<strong>Shipping address</strong>
+</th>
+</tr>
+<tr>
+<td>
+Full name
+</td>
+<td>
+  {{order_ins.Order_address.First_Name}} {{order_ins.Order_address.Last_Name}}
 </td>
 </tr>
 <tr>
 <td>
-Fax
+Email
 </td>
 <td>
-	{{address_data.fax}}
+  {{order_ins.Order_address.Email}}
 </td>
 </tr>
+<tr>
+<td>
+Phone
+</td>
+<td>
+  {{order_ins.Order_address.Pnone_no}}
+</td>
+</tr>
+
 <tr>
 <td>
 Company
 </td>
 <td>
-	{{address_data.Conpany_Name}}
+  {{order_ins.Order_address.Conpany_Name}}
 </td>
 </tr>
 <tr>
@@ -285,7 +280,7 @@ Company
 Address 1
 </td>
 <td>
-	{{address_data.Address}}
+  {{order_ins.Order_address.Address}}
 </td>
 </tr>
 <tr>
@@ -293,15 +288,15 @@ Address 1
 Address 2
 </td>
 <td>
-	{{address_data.Address_2}}
+  {{order_ins.Order_address.Address_2}}
 </td>
 </tr>
 <tr>
 <td>
 City
- </td>
+</td>
 <td>
-	{{address_data.City}}
+  {{order_ins.Order_address.City}}
 </td>
 </tr>
 <tr>
@@ -309,7 +304,7 @@ City
 State / province
 </td>
 <td>
-	{{address_data.State}}
+  {{order_ins.Order_address.State}}
 </td>
 </tr>
 <tr>
@@ -317,7 +312,7 @@ State / province
 Zip / postal code
 </td>
 <td>
-	{{address_data.Postcode}}
+  {{order_ins.Order_address.Postcode}}
 </td>
 </tr>
 <tr>
@@ -325,21 +320,38 @@ Zip / postal code
 Country
 </td>
 <td>
-	{{address_data.Country}}
+  {{order_ins.Order_address.Country}}
 </td>
 </tr>
-</tbody></table>
-</div>
+<tr>
+<td>
+Landark
+</td>
+<td>
+  {{order_ins.Order_address.Landark}}
+</td>
+</tr>
+<tr>
+<td colspan="2">
 <div class="row">
 <div class="form-group">
 <div class="col-md-12">
-<a class="btn btn_ce" href="{% url 'admin_manage_order:orders'  %}{{address_data.id}}/edit-address">Edit</a>
+<button class="btn btn_ce show_form"  type="button">Edit</button>
 </div>
 </div>
 </div>
-</div>
-<div class="col-md-6">
-<div class="row">
+</td>
+
+</tr>
+
+</tbody></table>
+
+<!-- -------------------------- -->
+  <form method="POST" accept="" id="bil_update_form" style="display: none;">
+    {% csrf_token %}
+ <input type="hidden" name="id" value="{{order_ins.Order_address.id}}">   
+ <input type="hidden" name="order_id" value="{{order_ins.order_id}}">   
+ <input type="hidden" name="form_type" value="address_update">   
 <table class="table table-hover table-bordered" style="max-width: 500px;">
 <tbody><tr>
 <th colspan="2">
@@ -351,7 +363,11 @@ Country
 Full name
 </td>
 <td>
-	{{address_data.First_Name}}
+  <div class="row">
+    <div class="col-md-6">{{address_form.First_Name}}</div>
+    <div class="col-md-6">{{address_form.Last_Name}}</div>
+  </div>
+   
 </td>
 </tr>
 <tr>
@@ -359,7 +375,7 @@ Full name
 Email
 </td>
 <td>
-	{{address_data.Email}}
+  {{address_form.Email}}
 </td>
 </tr>
 <tr>
@@ -367,23 +383,16 @@ Email
 Phone
 </td>
 <td>
-	{{address_data.Pnone_no}}
+  {{address_form.Pnone_no}}
 </td>
 </tr>
-<tr>
-<td>
-Fax
-</td>
-<td>
-	{{address_data.fax}}
-</td>
-</tr>
+
 <tr>
 <td>
 Company
 </td>
 <td>
-	{{address_data.Conpany_Name}}
+  {{address_form.Conpany_Name}}
 </td>
 </tr>
 <tr>
@@ -391,7 +400,7 @@ Company
 Address 1
 </td>
 <td>
-	{{address_data.Address}}
+  {{address_form.Address}}
 </td>
 </tr>
 <tr>
@@ -399,7 +408,7 @@ Address 1
 Address 2
 </td>
 <td>
-	{{address_data.Address_2}}
+  {{address_form.Address_2}}
 </td>
 </tr>
 <tr>
@@ -407,7 +416,7 @@ Address 2
 City
 </td>
 <td>
-	{{address_data.City}}
+  {{address_form.City}}
 </td>
 </tr>
 <tr>
@@ -415,7 +424,7 @@ City
 State / province
 </td>
 <td>
-	{{address_data.State}}
+  {{address_form.State}}
 </td>
 </tr>
 <tr>
@@ -423,7 +432,7 @@ State / province
 Zip / postal code
 </td>
 <td>
-	{{address_data.Postcode}}
+  {{address_form.Postcode}}
 </td>
 </tr>
 <tr>
@@ -431,19 +440,33 @@ Zip / postal code
 Country
 </td>
 <td>
-	{{address_data.Country}}
+  {{address_form.Country}}
 </td>
 </tr>
+<tr>
+  <tr>
+<td>
+Landark
+</td>
+<td>
+  {{address_form.Landark}}
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<button type="submit" class="btn btn_ce">Update</button>
+<button type="button" class="btn btn_ce cancle_form">cancle</button>
+</td>
 
+</tr>
 </tbody></table>
+</form>
+<!-- -------------------------- -->
+
+
+
 </div>
-<div class="row">
-<div class="form-group">
-<div class="col-md-12">
-<a class="btn btn_ce" href="edit-address.php">Edit</a>
-</div>
-</div>
-</div>
+
 </div>
 </div>
 </div>
@@ -526,7 +549,7 @@ Yes
 <div class="label-wrapper"><label class="control-label" for="ShippingStatus">Order status</label></div>
 </div>
 <div class="col-md-9">
-<div class="form-text-row">Deactivate</div>
+<div class="form-text-row">{{order_ins.Order_Status}}</div>
 </div>
 </div>
 </div>
@@ -540,7 +563,7 @@ Yes
 <h2>Products</h2>
 <div class="form-group">
 <div class="" style="overflow-x: auto;">
-<script>
+<!-- <script>
                     $(document).ready(function () {
                         toggleOrderItemEdit12(false);
                     });
@@ -573,7 +596,7 @@ Yes
                             $('#btnCancelOrderItem12').hide();
                         }
                     }
-                </script>
+                </script> -->
 <table class="table table-hover table-bordered producttablebox">
 <thead>
     <tr style="cursor: pointer;">
@@ -587,15 +610,19 @@ Yes
     </tr>
   </thead>
   <tbody>
+    {% if order_items %}
+    {% for item in order_items %}
     <tr style="cursor: pointer;">
-      <td class="text-center"><img src="http://203.190.153.20/wine/assets/image/shop/bo-3.png" alt="" style="height:50px;"></td>
-      <td class="text-center">Product Name</td>
-      <td class="text-center">1</td>
-      <td class="text-center">Bond</td>
-      <td class="text-center">6 Bottles</td>
-      <td class="text-center">200</td>
-      <td class="text-center">200</td>
+      <td class="text-center"><img src="{{item.Product|get_product_image_one}}" alt="" style="height:50px;"></td>
+      <td class="text-center">{{item.Product}}({{item.Year}})</td>
+      <td class="text-center">{{item.Quentity}}</td>
+      <td class="text-center">{{item.Type}}</td>
+      <td class="text-center">{{item.Case_Formate}}</td>
+      <td class="text-center">${{item.Cost_of_product}}</td>
+      <td class="text-center">${{item.Total_cost}}</td>
     </tr>
+    {% endfor %}
+    {% endif %}
  
  
 	 
@@ -636,34 +663,29 @@ Yes
                 </tr>
               </thead>
               <tbody>
+  {% if order_notes %}
+  {% for item in order_notes %}
   <tr role="row" class="odd">
-    <td>03/13/2017 06:20:10</td>
-    <td>Order delivered</td>
-    <td class=" button-column">No file attached</td>
-    <td class=" text-center"><i class="fa fa-close false-icon" nop-value="false"></i></td>
-    <td class=" button-column"><a href="#" class="btn btn-default" onclick="table_deletedata_ordernotes_grid('11');return false;"><i class="fa fa-remove"></i>Delete</a></td>
+    <td>{{item.Date}}</td>
+    <td>{{item.Note}}</td>
+    <td class=" button-column">
+      {% if item.Attachment %}
+     <a href="{{item.Attachment.url}}" target="_blank"> <img style="width: 30px;" src='{% static "web/assets/images.png" %}'></a>
+    {% endif %}
+  </td>
+    <td class=" text-center">
+       {% if item.Display_Status %}
+      <i class="fa fa-close false-icon" nop-value="true"></i>
+      {% else %}
+      <i class="fa fa-close false-icon" nop-value="false"></i>
+      {% endif %}
+    </td> 
+    <td class=" button-column"><a href="javascript:;" class="btn btn-default" onclick="remove_product('{{BASE_URL}}admin/manage-order/delete-note/{{item.id}}/{{item.Order_id.order_id}}','Do you want to remove this Note ?','Note removed successfully.','Note not removed.');"><i class="fa fa-remove"></i>Delete</a></td>
   </tr>
-  <tr role="row" class="even">
-    <td>03/13/2017 06:20:10</td>
-    <td>Order shipped</td>
-    <td class=" button-column">No file attached</td>
-    <td class=" text-center"><i class="fa fa-close false-icon" nop-value="false"></i></td>
-    <td class=" button-column"><a href="#" class="btn btn-default" onclick="table_deletedata_ordernotes_grid('10');return false;"><i class="fa fa-remove"></i>Delete</a></td>
-  </tr>
-  <tr role="row" class="odd">
-    <td>03/13/2017 06:20:10</td>
-    <td>Order paid</td>
-    <td class=" button-column">No file attached</td>
-    <td class=" text-center"><i class="fa fa-close false-icon" nop-value="false"></i></td>
-    <td class=" button-column"><a href="#" class="btn btn-default" onclick="table_deletedata_ordernotes_grid('9');return false;"><i class="fa fa-remove"></i>Delete</a></td>
-  </tr>
-  <tr role="row" class="even">
-    <td>03/13/2017 06:20:10</td>
-    <td>Order placed</td>
-    <td class=" button-column">No file attached</td>
-    <td class=" text-center"><i class="fa fa-close false-icon" nop-value="false"></i></td>
-    <td class=" button-column"><a href="#" class="btn btn-default" onclick="table_deletedata_ordernotes_grid('8');return false;"><i class="fa fa-remove"></i>Delete</a></td>
-  </tr>
+  {% endfor %}
+  {% endif %}
+  
+
 </tbody>
 
 
@@ -674,17 +696,24 @@ Yes
 	
 </div>
 </div> 
+
 <div class="panel-body">
+  <form accept="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+ <input type="hidden" name="order_id" value="{{order_ins.order_id}}">   
+ <input type="hidden" name="form_type" value="order_note">   
 <div class="form-group" style="
     display: table;
     width: 100%;
 ">
+
 <div class="col-md-3">
 <div class="label-wrapper"><label class="control-label" for="AddOrderNoteMessage">Note</label></div>
 </div>
 <div class="col-md-9">
-<textarea class="form-control" rows="4" cols="20" id="AddOrderNoteMessage" name="AddOrderNoteMessage"></textarea>
-<span class="field-validation-valid" data-valmsg-for="AddOrderNoteMessage" data-valmsg-replace="true"></span>
+{{note_form.Note}}
+<!-- <textarea class="form-control" rows="4" cols="20" id="AddOrderNoteMessage" name="AddOrderNoteMessage"></textarea>
+<span class="field-validation-valid" data-valmsg-for="AddOrderNoteMessage" data-valmsg-replace="true"></span> -->
 </div>
 </div>
 <div class="form-group" style="
@@ -705,7 +734,8 @@ Yes
 </div>
 <div id="dvPassport" style="display: none; margin:15px 0px;">
     
-    <input type="file" id="txtPassportNumber" class="form-control" />
+    {{note_form.Attachment}}
+    <!-- <input type="file" id="txtPassportNumber" class="form-control" /> -->
 </div>
 
 <script type="text/javascript">
@@ -726,8 +756,9 @@ Yes
 <div class="label-wrapper"><label class="control-label" for="AddOrderNoteDisplayToCustomer">Display to customer</label></div>
 </div>
 <div class="col-md-9">
-<input class="check-box" data-val="true" data-val-required="The Display to customer field is required." id="AddOrderNoteDisplayToCustomer" name="AddOrderNoteDisplayToCustomer" type="checkbox" value="true">
-<span class="field-validation-valid" data-valmsg-for="AddOrderNoteDisplayToCustomer" data-valmsg-replace="true"></span>
+  {{note_form.Display_Status}}
+<!-- <input class="check-box" data-val="true" data-val-required="The Display to customer field is required." id="AddOrderNoteDisplayToCustomer" name="AddOrderNoteDisplayToCustomer" type="checkbox" value="true">
+<span class="field-validation-valid" data-valmsg-for="AddOrderNoteDisplayToCustomer" data-valmsg-replace="true"></span> -->
 </div>
 </div>
 <div class="form-group" style="
@@ -735,11 +766,12 @@ Yes
     width: 100%;
 ">
 <div class="col-md-9 col-md-offset-3">
-<button type="button" id="addOrderNote" class="btn btn_ce">Add order note</button>
+<button type="submit" id="addOrderNote" class="btn btn_ce">Add order note</button>
 </div>
 </div>
+</form>
 </div>
-	   
+
 	   
 	   </div>
 	   
@@ -990,6 +1022,24 @@ Add Product </h4>
   });
 </script>
 
+<script type="text/javascript">
+  $(document).ready(function(){
+  
+   $(".show_form").click(function(){
+    
+     $("#bil_info").css('display','none');
+    $("#bil_update_form").css('display','flex');
 
+   });
+
+   $(".cancle_form").click(function(){
+    
+     $("#bil_info").css('display','flex');
+    $("#bil_update_form").css('display','none');
+
+   });
+    
+  });
+</script>
 
 {% endblock %}

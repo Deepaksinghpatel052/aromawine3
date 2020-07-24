@@ -107,7 +107,7 @@
 }
 .cart-total h3 {
 	position: relative;
-	font-size: 30px;
+	font-size: 18px;
 	padding-bottom: 20px;
 	margin-bottom: 20px;
 }
@@ -115,7 +115,7 @@
 	position: absolute;
 	right: 0;
 	bottom: 5px;
-	width: 200px;
+	width: 100%;
 	height: 1px;
 	background: #d7d7d7;
 	content: "";
@@ -129,10 +129,10 @@
 	font-size: 18px;
 }
 .cart-total ul li:last-child span {
-	font-size: 30px;
+	font-size: 18px;
 }
 .cart-total ul li:last-child {
-	font-size: 24px;
+	font-size: 18px;
 }
 .cart-total a {
 	display: inline-block;
@@ -166,7 +166,7 @@
  *  A mobile and touch friendly input spinner component for Bootstrap 3.
  *  https://www.virtuosoft.eu/code/bootstrap-touchspin/
  *
- *  Made by IstvÃ¡n Ujj-MÃ©szÃ¡ros
+ *  Made by IstvÃƒÂ¡n Ujj-MÃƒÂ©szÃƒÂ¡ros
  *  Under Apache License v2.0 License
  */
 
@@ -3182,4 +3182,49 @@ ul.choices li:before {
 
 .shopping-borde.shopping-cart-header {
     padding-top: 15px;
+}
+ul#result {
+    position: absolute;
+    z-index: 1;
+    width: 93.5%;
+    left: 0;
+    top: 80%;
+    margin: 0px;
+    padding: 0;
+    /* overflow-y: scroll; */
+    background: #fff;
+    margin-left: 17px;
+    /* height: 300px; */
+}
+
+ul#result li {
+    border-radius: 0px;
+    padding: 5px;
+}
+
+ul#result li:before {
+    display: none;
+}
+ul#result li a {
+    display: flex;
+    align-items: center;
+}
+
+ul#result li a img {
+    margin-right: 10px;
+}
+
+ul#result li:hover {
+    background: #f7f7f7;
+}
+
+ul#result li.list-group-item.viewall-box a {
+    display: inline-block;
+}
+
+ul#result li.list-group-item.viewall-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 20px;
 }

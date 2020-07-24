@@ -62,6 +62,7 @@ class CreateProductView(SuccessMessageMixin,generic.View):
             # ========================== add images CODE START================================
             if "product_images[]" in request.POST:
                 if request.POST["product_images[]"]:
+                    i=0
                     for items in request.POST.getlist('product_images[]'):
                         format, imgstr = items.split(';base64,')
                         ext = format.split('/')[-1]
@@ -70,8 +71,15 @@ class CreateProductView(SuccessMessageMixin,generic.View):
                         set_file_name = str(today_date.day) + "_" + str(today_date.month) + "_" + str(today_date.year) + "_" + str(dateTimeObj.microsecond)
                         file_name = set_file_name + "." + ext
                         data = ContentFile(base64.b64decode(imgstr), name=file_name)
-                        add_image = AwProductImage(Product=product_ins,Image_Type="Product_image",Image=data)
-                        add_image.save()
+                        if i == 0:
+                            product_ins.Product_image.delete(save=False)
+                            product_ins.Product_image = data
+                            product_ins.save()
+                        else:
+                            add_image = AwProductImage(Product=product_ins, Image_Type="Product_image", Image=data)
+                            add_image.save()
+                        i = i + 1
+
             if request.POST["product_banner_image"]:
                 format_banner, imgstr_banner = request.POST["product_banner_image"].split(';base64,')
                 ext_banner = format_banner.split('/')[-1]
@@ -154,6 +162,12 @@ class UpdateProductView(SuccessMessageMixin,generic.View):
         get_product_banner_image = None
         if AwProductImage.objects.filter(Product=get_product_ins).exists():
             get_product_image = AwProductImage.objects.filter(Product=get_product_ins)
+            product_image = AwProductImage.objects.filter(Image_Type="Product_image").filter(Product=get_product_ins)
+            add_image=""
+            for data in product_image:
+                add_image = data.Image
+            AwProducts.objects.filter(id=get_product_ins.id).update(Product_image=add_image)
+
         if AwProductImage.objects.filter(Product=get_product_ins).filter(Image_Type="Product_Banner_image").exists():
             get_product_banner_image = get_object_or_404(AwProductImage,Product=get_product_ins,Image_Type="Product_Banner_image")
         get_price_and_cost = None
@@ -187,6 +201,7 @@ class UpdateProductView(SuccessMessageMixin,generic.View):
 
             if "product_images[]" in request.POST:
                 if request.POST["product_images[]"]:
+                    i = 0
                     for items in request.POST.getlist('product_images[]'):
                         format, imgstr = items.split(';base64,')
                         ext = format.split('/')[-1]
@@ -195,8 +210,14 @@ class UpdateProductView(SuccessMessageMixin,generic.View):
                         set_file_name = str(today_date.day) + "_" + str(today_date.month) + "_" + str(today_date.year) + "_" + str(dateTimeObj.microsecond)
                         file_name = set_file_name + "." + ext
                         data = ContentFile(base64.b64decode(imgstr), name=file_name)
-                        add_image = AwProductImage(Product=product_ins,Image_Type="Product_image",Image=data)
-                        add_image.save()
+                        if i==0:
+                            product_ins.Product_image.delete(save=False)
+                            product_ins.Product_image = data
+                            product_ins.save()
+                        else:
+                            add_image = AwProductImage(Product=product_ins,Image_Type="Product_image",Image=data)
+                            add_image.save()
+                        i = i+1
             print(request.POST["product_banner_image"])
             if request.POST["product_banner_image"]:
                 AwProductImage.objects.filter(Product=product_ins).filter(Image_Type='Product_Banner_image').delete()

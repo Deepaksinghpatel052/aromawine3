@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AwOrders,AwAddToCard,AwOrederItem
+from .models import AwOrders,AwAddToCard,AwOrederItem,AwOrderNote
 from import_export.admin import ImportExportModelAdmin
 # Register your models here.
 
@@ -17,3 +17,7 @@ admin.site.register(AwAddToCard,AwAddToCardAdmin)
 class AwOrederItemAdmin(ImportExportModelAdmin):
     list_display = ('User','Order_id', 'Product', 'Year','Type','Case_Formate','Cost_of_product','Quentity','Total_cost')
 admin.site.register(AwOrederItem,AwOrederItemAdmin)
+
+class AwOrderNoteAdmin(ImportExportModelAdmin):
+    list_display = ('User','Order_id', 'Display_Status','Note','Attachment', 'Date')
+admin.site.register(AwOrderNote,AwOrderNoteAdmin)

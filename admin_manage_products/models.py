@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import django
+from autoslug import AutoSlugField
 from django.urls import reverse
 from admin_manage_producer.models import AwProducers
 from admin_manage_categoryes.models import AwCategory
@@ -34,12 +35,19 @@ class AwWineType(models.Model):
     class Meta:
         verbose_name_plural = "Aw Wine Type"
 
+def user_directory_path_for_product(instance, filename):
+    producer_id_in_list = instance.Product_name.split(" ")
+    today_date = date.today()
+    producer_id_in_string = '_'.join([str(elem) for elem in producer_id_in_list])
+    return '{0}/{1}'.format(producer_id_in_string+"/product_image/"+str(today_date.year)+"/"+str(today_date.month)+"/"+str(today_date.day),filename)
+
+
 
 class AwProducts(models.Model):
     Product_id = models.CharField(max_length=120,unique=True)
     Select_Type = models.ForeignKey(AwWineType, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwProducts_Created_by')
     Product_name  = models.CharField(max_length=120,unique=True)
-    Product_slug  = models.CharField(max_length=120,unique=True)
+    Product_slug  = AutoSlugField(populate_from='Product_name', always_update=True,unique_with='Created_date__month',null=True, blank=True)
     Producer = models.ForeignKey(AwProducers, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwProducts_Producer')
     Category = models.ManyToManyField(AwCategory, related_name='AwProducts_Category')
     Color = models.ForeignKey(AwColor, on_delete=models.SET_NULL,null=True, blank=True,  related_name='AwProducts_Color')
@@ -56,6 +64,8 @@ class AwProducts(models.Model):
     Meta_Title = models.CharField(max_length=120,null=True,blank=True)
     Meta_Keyword = models.CharField(max_length=120,null=True,blank=True)
     Meta_Description = models.TextField(null=True,blank=True)
+    Product_image = models.ImageField(upload_to=user_directory_path_for_product,null=True,blank=True)
+
     Created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwProducts_Created_by')
     Created_date = models.DateTimeField(default=django.utils.timezone.now)
     Updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwProducts_Updated_by')

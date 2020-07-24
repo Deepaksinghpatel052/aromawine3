@@ -18,8 +18,29 @@
     </nav>
   </div>
 </section> -->
-<br><br>
 
+{% if page_banner_image %}
+<section class="aboutus padding-small bg-4 text-center" {% if page_banner_image %} style="background-size:cover !important;  background: url({{page_banner_image.url}}) {% endif %}  no-repeat center top;">
+<div class="container ">
+
+<h1>{{Page_title}}</h1></div>
+</section>
+
+<section class="m-t-50">
+<div class="container">
+ {{page_content.Description|safe}}
+</div>
+</section>
+
+<section class="m-t-50">
+<div class="container">
+<h2>Wine of {{Page_title}}  {{type}} </h2>
+</div>
+</section>
+
+{% else %}
+<br><br>
+{% endif %}
 
 
 <section class="fluid-container p-l-r-50 cat-section">
@@ -36,7 +57,6 @@
 	<div class="yellow_bg text-center">
 	<h1>{{category_info.Category_name}}</h1>
 	<p>{{category_info.Title}}</p>
-	<a href="#" class="product-story_info-btn">Read More</a>
 	</div>
 	</div>
   {% endif %}
@@ -57,7 +77,7 @@
       </div>
     </div>
 	
-	{% if object_list %}
+  {% if object_list %}
 
     {% for get_item_wine in object_list %}
 	<div class="product-card product-card-list mb-4">
@@ -75,10 +95,11 @@
     <hr>
     <div class="product-info-content">
       <div class="product-price">
-      <span class="list-price">SG${{get_item_wine.Retail_Cost}}&nbsp;<span>Incl. GST &amp; DP</span></span>
+      <span class="list-price">SG${{get_item_wine.Retail_Cost}} &nbsp;<span>Incl. GST &amp; DP</span></span>
       
       <span class="offer-price">
-   SG${{get_item_wine.Descount_Cost|get_product_price_with_gst_include:get_item_wine.GST|floatformat:2}}&nbsp;<span class="taxSymbol">Incl. GST &amp; DP</span></span>
+        <!-- {{get_item_wine.Descount_Cost|get_product_price_with_gst_include:get_item_wine.GST|floatformat:2}} -->
+   SG${{get_item_wine.Retail_Cost}}&nbsp;<span class="taxSymbol">Incl. GST &amp; DP</span></span>
       
       <span class="details mt-2"><span>{{get_item_wine.Bottle}}</span>
       <span class="d-none d-sm-inline-block mx-sm-1"> | </span><span> SG${{get_item_wine.Retail_Cost}}&nbsp;/&nbsp;Unit</span>
@@ -88,7 +109,7 @@
         <button class="mb-2 product-story_info-btn cick_to_view_product" data-toggle="modal" data-target="#listing-add-to-cart-modal" data-quick_view_url="{% url 'wine_shop:quick_view_product' get_item_wine.id  %}">Quick View</button>
         <a class="product-story_info-btn" href="{% url 'product_detail:product_detail' get_item_wine.Product.Product_id get_item_wine.Product.Product_slug  get_item_wine   %}">See details</a></div>
     </div>
-    <div class="product-brand-link"><a href="{% url 'product_detail:product_detail' get_item_wine.Product.Product_id get_item_wine.Product.Product_slug  get_item_wine   %}" aria-label="All Masi wines">All {{get_item_wine.Product.Producer}} wines</a></div>
+    <div class="product-brand-link"><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{get_item_wine.Product.Producer.Slug}}" aria-label="All Masi wines">All {{get_item_wine.Product.Producer}} wines</a></div>
   </div>
   <div class="options">
     <div class="promo-label">Special Prices  {{get_item_wine.Product.Bottel_Size.all|join:" | "}}</div>
@@ -104,7 +125,7 @@
 <nav aria-label="Page navigation example">
   <ul class="pagination">
     {% if page_obj.has_previous %}
-    <li class="page-item "><a class="page-link active" href="?{% if country_set %}country={{country_set}}&{% endif %}{% if category_set %}category={{category_set}}&{% endif %}{% if min_price_set%}min-price={{min_price_set}}&{% endif %}{% if max_price_set%}max-price={{max_price_set}}&{% endif %}{% if keyword_set%}keyword={{keyword_set}}&{% endif %}{% if color_set %}{% for item in color_set %}color={{item}}&{% endfor %}{% endif %}{% if appellation_set %}{% for item in appellation_set %}appellation={{item}}&{% endfor %}{% endif %}{% if size_set %}{% for item in size_set %}bottel-size={{item}}&{% endfor %}{% endif %}{% if producers_set %}{% for item in producers_set %}producers={{item}}&{% endfor %}{% endif %}{% if classification_set %}{% for item in classification_set %}classification={{item}}&{% endfor %}{% endif %}{% if vintage_set %}{% for item in vintage_set %}vintage={{item}}&{% endfor %}{% endif %}{% if varietal_set %}{% for item in varietal_set %}varietal={{item}}&{% endfor %}{% endif %}{% if region_set %}{% for item in region_set %}region={{item}}&{% endfor %}{% endif %}page={{page_obj.previous_page_number}}"><</a></li>
+    <li class="page-item "><a class="page-link active" href="?{% if page_type_set %}page-type={{page_type_set}}&{% endif %}{% if page_slug_set %}page-name={{page_slug_set}}&{% endif %}{% if country_set %}country={{country_set}}&{% endif %}{% if category_set %}category={{category_set}}&{% endif %}{% if min_price_set%}min-price={{min_price_set}}&{% endif %}{% if max_price_set%}max-price={{max_price_set}}&{% endif %}{% if keyword_set%}keyword={{keyword_set}}&{% endif %}{% if color_set %}{% for item in color_set %}color={{item}}&{% endfor %}{% endif %}{% if appellation_set %}{% for item in appellation_set %}appellation={{item}}&{% endfor %}{% endif %}{% if size_set %}{% for item in size_set %}bottel-size={{item}}&{% endfor %}{% endif %}{% if producers_set %}{% for item in producers_set %}producers={{item}}&{% endfor %}{% endif %}{% if classification_set %}{% for item in classification_set %}classification={{item}}&{% endfor %}{% endif %}{% if vintage_set %}{% for item in vintage_set %}vintage={{item}}&{% endfor %}{% endif %}{% if varietal_set %}{% for item in varietal_set %}varietal={{item}}&{% endfor %}{% endif %}{% if region_set %}{% for item in region_set %}region={{item}}&{% endfor %}{% endif %}page={{page_obj.previous_page_number}}"><</a></li>
     {% else %}
     <li class="page-item "><a class="page-link active" href="#"><</a></li>
     {% endif %}
@@ -112,12 +133,12 @@
       {% if page_obj.number == page_no %}
       <li class="page-item active"><a class="page-link" href="#">{{page_no}}</a></li>
       {% else %}
-      <li class="page-item"><a class="page-link" href="?{% if country_set %}country={{country_set}}&{% endif %}{% if category_set %}category={{category_set}}&{% endif %}{% if min_price_set%}min-price={{min_price_set}}&{% endif %}{% if max_price_set%}max-price={{max_price_set}}&{% endif %}{% if keyword_set%}keyword={{keyword_set}}&{% endif %}{% if color_set %}{% for item in color_set %}color={{item}}&{% endfor %}{% endif %}{% if appellation_set %}{% for item in appellation_set %}appellation={{item}}&{% endfor %}{% endif %}{% if size_set %}{% for item in size_set %}bottel-size={{item}}&{% endfor %}{% endif %}{% if producers_set %}{% for item in producers_set %}producers={{item}}&{% endfor %}{% endif %}{% if classification_set %}{% for item in classification_set %}classification={{item}}&{% endfor %}{% endif %}{% if vintage_set %}{% for item in vintage_set %}vintage={{item}}&{% endfor %}{% endif %}{% if varietal_set %}{% for item in varietal_set %}varietal={{item}}&{% endfor %}{% endif %}{% if region_set %}{% for item in region_set %}region={{item}}&{% endfor %}{% endif %}page={{page_no}}">{{page_no}}</a></li>
+      <li class="page-item"><a class="page-link" href="?{% if page_type_set %}page-type={{page_type_set}}&{% endif %}{% if page_slug_set %}page-name={{page_slug_set}}&{% endif %}{% if country_set %}country={{country_set}}&{% endif %}{% if category_set %}category={{category_set}}&{% endif %}{% if min_price_set%}min-price={{min_price_set}}&{% endif %}{% if max_price_set%}max-price={{max_price_set}}&{% endif %}{% if keyword_set%}keyword={{keyword_set}}&{% endif %}{% if color_set %}{% for item in color_set %}color={{item}}&{% endfor %}{% endif %}{% if appellation_set %}{% for item in appellation_set %}appellation={{item}}&{% endfor %}{% endif %}{% if size_set %}{% for item in size_set %}bottel-size={{item}}&{% endfor %}{% endif %}{% if producers_set %}{% for item in producers_set %}producers={{item}}&{% endfor %}{% endif %}{% if classification_set %}{% for item in classification_set %}classification={{item}}&{% endfor %}{% endif %}{% if vintage_set %}{% for item in vintage_set %}vintage={{item}}&{% endfor %}{% endif %}{% if varietal_set %}{% for item in varietal_set %}varietal={{item}}&{% endfor %}{% endif %}{% if region_set %}{% for item in region_set %}region={{item}}&{% endfor %}{% endif %}page={{page_no}}">{{page_no}}</a></li>
       {% endif %}
     {% endfor %}
 
     {% if page_obj.has_next %}
-    <li class="page-item "><a class="page-link active" href="?{% if country_set %}country={{country_set}}&{% endif %}{% if category_set %}category={{category_set}}&{% endif %}{% if min_price_set%}min-price={{min_price_set}}&{% endif %}{% if max_price_set%}max-price={{max_price_set}}&{% endif %}{% if keyword_set%}keyword={{keyword_set}}&{% endif %}{% if color_set %}{% for item in color_set %}color={{item}}&{% endfor %}{% endif %}{% if appellation_set %}{% for item in appellation_set %}appellation={{item}}&{% endfor %}{% endif %}{% if size_set %}{% for item in size_set %}bottel-size={{item}}&{% endfor %}{% endif %}{% if producers_set %}{% for item in producers_set %}producers={{item}}&{% endfor %}{% endif %}{% if classification_set %}{% for item in classification_set %}classification={{item}}&{% endfor %}{% endif %}{% if vintage_set %}{% for item in vintage_set %}vintage={{item}}&{% endfor %}{% endif %}{% if varietal_set %}{% for item in varietal_set %}varietal={{item}}&{% endfor %}{% endif %}{% if region_set %}{% for item in region_set %}region={{item}}&{% endfor %}{% endif %}page={{page_obj.next_page_number}}">></a></li>
+    <li class="page-item "><a class="page-link active" href="?{% if page_type_set %}page-type={{page_type_set}}&{% endif %}{% if page_slug_set %}page-name={{page_slug_set}}&{% endif %}{% if country_set %}country={{country_set}}&{% endif %}{% if category_set %}category={{category_set}}&{% endif %}{% if min_price_set%}min-price={{min_price_set}}&{% endif %}{% if max_price_set%}max-price={{max_price_set}}&{% endif %}{% if keyword_set%}keyword={{keyword_set}}&{% endif %}{% if color_set %}{% for item in color_set %}color={{item}}&{% endfor %}{% endif %}{% if appellation_set %}{% for item in appellation_set %}appellation={{item}}&{% endfor %}{% endif %}{% if size_set %}{% for item in size_set %}bottel-size={{item}}&{% endfor %}{% endif %}{% if producers_set %}{% for item in producers_set %}producers={{item}}&{% endfor %}{% endif %}{% if classification_set %}{% for item in classification_set %}classification={{item}}&{% endfor %}{% endif %}{% if vintage_set %}{% for item in vintage_set %}vintage={{item}}&{% endfor %}{% endif %}{% if varietal_set %}{% for item in varietal_set %}varietal={{item}}&{% endfor %}{% endif %}{% if region_set %}{% for item in region_set %}region={{item}}&{% endfor %}{% endif %}page={{page_obj.next_page_number}}">></a></li>
     {% else %}
     <li class="page-item "><a class="page-link active" href="#">></a></li>
     {% endif %}
@@ -134,42 +155,30 @@
   </div>
   <div class="clearfix"></div>
 </section>
+{% if category_info %}
 <section class="description-bottom">
 <div class="container">
 <div class="row">
 <div class="col-md-6">
 <div class="long-description-modal">
-<h2>Description</h2>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-<p>
+{{category_info.Description|safe}}
 </div>
 </div>
 <div class="col-md-6">
+  {% if category_info.Image  %}
+<img src='{{category_info.Image.url}}' >
+  {% else %}
 <img src='{% static "web/assets/image/offer3.jpg" %}' >
+  {% endif %}
+
 </div>
 
 
 </div>
 </div>
 </section>
-<section class="keypoint">
-<div class="container">
-<div class="row">
-<div class="col-md-12">
-<div class="long-description-modal">
-<h2>Key Points</h2>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-<p>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-<p>
-</div>
-</div>
-</div>
-</div>
-</section>
+{% endif %}
+
 
 <!-- Modal -->
 <div class="modal right fade" id="listing-add-to-cart-modal" tabindex="-1" role="dialog" aria-labelledby="listing-add-to-cart-modal">
@@ -194,6 +203,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 	<input type="hidden" name="" value="{{category_set}}" id="category_set">
   <input type="hidden" name="" value="{{country_set}}" id="country_set">
+
+  <input type="hidden" name="" value="{{page_type_set}}" id="page_type_set">
+  <input type="hidden" name="" value="{{page_slug_set}}" id="page_slug_set">
 {% endblock %}
 
 
@@ -297,6 +309,14 @@ if($("#country_set").val())
 {
   setfilterURL = setfilterURL+"country="+$("#country_set").val()+"&";
 }
+
+
+if($("#page_type_set").val() && $("#page_slug_set").val())
+{
+  setfilterURL = setfilterURL+"page-type="+$("#page_type_set").val()+"&"+"page-name="+$("#page_slug_set").val()+"&";
+}
+
+
 // --------------------------
 if(pric){ setfilterURL = setfilterURL+pric; }
 if(color){  setfilterURL = setfilterURL+color; }

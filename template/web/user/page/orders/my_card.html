@@ -1,0 +1,367 @@
+{% extends 'web/base-template.html' %}
+{% block content %}
+{% load static %}
+
+<div class="container cart-area">
+  {% if messages %}
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+            <div class="alert alert-success alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+           {% endif %}   
+           
+           {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+           {% endif %}         
+      
+    {% endfor %}
+    {% endif %}
+
+
+
+
+<div class="cart-area ptb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                        <table class="cart-wrap">
+                            <thead>
+                                <tr>
+                                    <th align="left" valign="middle" class="first-td-width">Image</th>
+                                    <th align="left" valign="middle">Product</th>
+                                    <th align="left" valign="middle">Type & Case Size</th>
+                                    <th align="center" valign="middle">Price</th>
+                                    <th align="center" valign="middle">Quantity</th>
+                                    <th align="center" valign="middle">Total</th>
+                                    <th align="center" valign="middle">Remove</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {% if card_product %}
+
+                            {% for item in card_product %}
+<tr>
+                                    <td align="left" valign="middle" class="first-td-width">
+                    
+                    <img src='{{item.Product|get_product_image_one}}' >
+                  </td>
+                                    <td align="left" valign="middle">
+<input type="hidden" class="card_product_id" value="{{item.id}}">
+                                      <a href="{% url 'product_detail:product_detail' item.Product.Product_id item.Product.Product_slug  item.Year %}">{{item.Product.Product_name}}<br>{{item.Year}} </a></td>
+                                    <td align="center" valign="middle">
+                                      {{item.Type}}/({{item.Case_Formate.Bottle}})
+                                    </td>
+                                    <td align="center" valign="middle">
+{% if item.Type == 'Bond' %}
+${{item.Case_Formate.Bond_Cost}}
+
+{% endif %} 
+{% if item.Type == 'Retail' %}
+  ${{item.Case_Formate.Retail_Cost}}
+ {% endif %}
+                                    </td>
+                                    <td align="center" valign="middle">
+                                        <!-- <div class="input-group bootstrap-touchspin">
+                                          <span class="input-group-addon bootstrap-touchspin-prefix quentity_set" style="display: none;" data-product_id="{{item.id}}" data-Type="minus"></span>
+                                          {% if item.Type == 'Bond' %}
+                                          <input id="demo1" type="text" data-max_val="{{item.Case_Formate.Bond_Stock}}" value="{{item.Quentity}}" class="dollar-spin comma-format form-control" style="display: block;">
+                                          {% endif %}
+                                          {% if item.Type == 'Retail' %}
+                                          <input id="demo1" type="text" value="{{item.Quentity}}" data-max_val="item.Case_Formate.Retail_Stock" class="dollar-spin comma-format form-control" style="display: block;">
+                                          {% endif %}
+                                          <span class="input-group-addon bootstrap-touchspin-postfix quentity_set" data-product_id="{{item.id}}" data-Type="plus" style="display: none;"></span></div> -->
+
+                                          <div class="input-group bootstrap-touchspin" style="width: 38%;">
+                                        <span class="input-group-addon bootstrap-touchspin-prefix quentity_set" style="display: none;" data-product_id="23" data-type="minus"></span>
+                                        
+                                        
+                                        <span class="input-group-btn"><button class="btn btn-default bootstrap-touchspin-down quentity_set" data-product_id="{{item.id}}" data-Type="minus" type="button">-</button></span><span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+
+                                       {% if item.Type == 'Bond' %}
+                                          <input id="quentuty_{{item.id}}" type="text" data-max_val="{{item.Case_Formate.Bond_Stock}}" data-product_price="{{item.Case_Formate.Bond_Cost}}" value="{{item.Quentity}}" class="dollar-spin comma-format form-control" style="display: block;">
+                                          {% endif %}
+                                          {% if item.Type == 'Retail' %}
+                                          <input id="quentuty_{{item.id}}" type="text" value="{{item.Quentity}}" data-product_price="{{item.Case_Formate.Retail_Cost}}" data-max_val="{{item.Case_Formate.Retail_Stock}}" class="dollar-spin comma-format form-control" style="display: block;">
+                                          {% endif %}
+
+                                        <span class="input-group-addon bootstrap-touchspin-postfix" style="display: none;"></span><span class="input-group-btn"><button class="btn btn-default bootstrap-touchspin-up quentity_set" data-product_id="{{item.id}}" data-Type="plus" type="button">+</button></span>
+                                        
+                                        <span class="input-group-addon bootstrap-touchspin-postfix quentity_set" data-product_id="23" data-type="plus" style="display: none;"></span></div>
+
+
+
+
+
+
+
+<!--                                     <div class="dec qtybutton">-</div><div class="inc qtybutton">+</div>
+ -->                                </td>
+                                    <td align="center" valign="middle">
+{% if item.Type == 'Bond' %}
+<input type="hidden" class="total" id="input_price_show_{{item.id}}" value="{% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}">
+$<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}</span>
+
+{% endif %} 
+{% if item.Type == 'Retail' %}
+<input type="hidden"  class="total" id="input_price_show_{{item.id}}" value="{% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}">
+  $<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}</span>
+ {% endif %}
+                                    </td>
+                                    <td align="center" valign="middle">
+                                     <a href="javascript:;" onclick="remove_product('{{BASE_URL}}user/orders/{{item.id}}/remove-product-from-card','Do you want to remove this Product?','Product removed successfully.','Product not removed.');" > <i class="fa fa-times-circle"></i></a>
+                                    </td>
+                              </tr>
+                            {% endfor %}
+                            {% endif %}
+                            </tbody>
+                        </table>
+                        <div class="row mt-60 cart-area">
+                            <div class="col-md-4 ">
+                                <div class="cartcupon-wrap">
+                                    <ul class="d-flex">
+                                        <li>
+                                            <button id="update_card" type="button" data-card_update_url="{% url 'orders:update_card' %}">Update Cart</button>
+                                        </li>
+                                        <li><a href="{% url 'wine_shop:wine_shop' %}">Continue Shopping</a></li>
+                                    </ul>
+                                    <h3>Cupon <span id="show_error_message" style="color:red;"></span></h3>
+                                    <p id="clear_str">Enter Your Cupon Code if You Have One</p>
+                                    <div class="cupon-wrap" id="show_success_message">
+                                        <input type="text" placeholder="Cupon Code" id="enter_coupon_code">
+                                        <button type="button" onclick="check_cupon_code('{{BASE_URL}}user/orders/check-coupon-code');">Apply Cupon</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="offset-4 col-md-4">
+                                <div class="cart-total text-right">
+                                    <h3>Cart Totals</h3>
+                                    <input type="hidden" name="" id="set_coupon_code" value="">
+                                    <input type="hidden" name="" id="set_coupon_type" value="">
+                                    <input type="hidden" name="" id="set_coupon_count" value="">
+                                    <ul>
+                                        <li><span class="pull-left">Subtotal </span>$<span class="show_sub_total_ampount">00.0</span></li>
+                                      
+                                    </ul>
+                                    <ul id="show_descount_amount">
+                                        
+                                    </ul>
+                                    <ul>
+                                       
+                                       <li><span class="pull-left"> Total </span>$<span class="show_total_ampount">00.0</span></li>
+                                    </ul>
+                                    <a href="checkout.php">Proceed to Checkout</a>
+                                </div> 
+                            </div>
+                        </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+{% endblock %}
+
+
+
+{% block script %}
+
+<script type="text/javascript">
+
+function set_total_amount_of_card_product()
+{
+  var total_amount = 0.00;
+  $(".total").each(function(){
+ 
+ total_amount = total_amount +  parseFloat($(this).val());
+
+});
+
+var coupon_type = $("#set_coupon_type").val();
+if(coupon_type)
+{
+  var count = parseFloat($("#set_coupon_count").val());
+    if(coupon_type=="P")
+    {
+      var type = "%";
+      var get_persenteg_amoint = (total_amount*count)/100;
+      total_amount = total_amount - get_persenteg_amoint;
+    }
+    if(coupon_type=="A")
+    {
+      var type = "Amount";
+      var get_persenteg_amoint = count;
+      total_amount = total_amount - count;
+    }
+    $("#show_descount_amount").html('<li><span class="pull-left">discount('+type+')</span>$<span >'+get_persenteg_amoint+'</span></li>');
+}
+
+  return total_amount;
+}
+
+
+function check_cupon_code(url_set){
+ 
+ var cupon_code = $("#enter_coupon_code").val();
+ $("#show_error_message").text("");
+ if(cupon_code)
+ {
+   
+    $.ajax({
+        method:"POST",
+           url:url_set,
+           data:{"coupon_code":cupon_code},
+           dataType:"JSON",
+           success:function(data)
+           {
+             if(data.status=="0")
+             {
+              $("#show_error_message").text(data.message);
+             }
+             else
+             {
+              console.log(data.data);
+              $("#set_coupon_code").val(cupon_code);
+              $("#set_coupon_type").val(data.data.type);
+              $("#set_coupon_count").val(data.data.count);
+              $("#clear_str").html('');
+              $("#show_success_message").html('<span class="badge badge-success" >'+data.message+'</span>');
+              $(".show_total_ampount").text(set_total_amount_of_card_product());
+             }
+           } 
+        });
+ }
+ else
+ {
+  $("#show_error_message").text("Enter coupon code.");
+ }
+
+}
+
+$(document).on("click",".quentity_set",function(){
+
+var type = $(this).data("type");
+var prodict_id = $(this).data("product_id");
+var current_val = $("#quentuty_"+prodict_id).val();
+var last_val = $("#quentuty_"+prodict_id).data("max_val");
+var product_price = $("#quentuty_"+prodict_id).data("product_price");
+
+if(type=='plus')
+{
+  current_val =parseInt(current_val)+1;
+  if(current_val <= parseInt(last_val))
+  {
+     $("#quentuty_"+prodict_id).val(current_val);
+  }
+  else
+  {
+    current_val =parseInt(current_val)-1;
+  }
+}
+
+if(type=='minus')
+{
+  current_val =parseInt(current_val)-1;
+  if(current_val > 0)
+  {
+     $("#quentuty_"+prodict_id).val(current_val);
+  }
+  else
+  {
+    current_val =parseInt(current_val)+1;
+  }
+}
+
+var get_total_price = parseInt(product_price)*current_val;
+$("#price_show_"+prodict_id).text(get_total_price);
+$("#input_price_show_"+prodict_id).val(get_total_price);
+
+$(".show_total_ampount").text(set_total_amount_of_card_product());
+$(".show_sub_total_ampount").text(set_total_amount_of_card_product());
+});
+
+
+ // ===================UPDATE CARD START=================
+ $(document).on("click","#update_card",function(){
+
+
+swal({
+            title: "Are you sure to update your card.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+                $(".se-pre-con").css("display","block");
+            var url_set  = $(this).data("card_update_url");
+              var ids_set = new Array();
+              var que_set = new Array();
+
+                $(".card_product_id").each(function(){
+                      var card_product_id = $(this).val();
+                        ids_set.push(card_product_id); 
+                        que_set.push($("#quentuty_"+card_product_id).val()); 
+                    });
+
+
+              
+                $.ajax({
+                   method:"POST",
+                   url:url_set,
+                   data:{"ids_set":ids_set,"que_set":que_set},
+                   dataType:"JSON",
+                   success:function(data)
+                   {
+                    get_card_product();
+                   swal("Card update sueccessfully.");
+                   } 
+                });
+            } 
+          });
+
+
+
+ });
+ // ===================UPDATE CARD END =================
+
+
+  $(document).ready(function(){
+
+$(".show_total_ampount").text(set_total_amount_of_card_product());
+$(".show_sub_total_ampount").text(set_total_amount_of_card_product());
+
+
+
+
+
+
+
+
+ $("#toggle2").change(function(){
+   if($(this).prop("checked")==false)
+    {
+      $("#address_obj").css('display','none');
+      $("#address_form").css('display','flex');
+    }
+    if($(this).prop("checked")==true)
+    {
+      $("#address_form").css('display','none');
+      $("#address_obj").css('display','flex');
+    }
+
+
+ });
+
+  });
+</script>
+      {% endblock %}

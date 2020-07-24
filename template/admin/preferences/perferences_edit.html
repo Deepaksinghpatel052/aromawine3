@@ -1,0 +1,97 @@
+{% extends 'admin/base-template.html' %}
+{% block content %}
+{% load static %}
+		 <div class="page-content">
+		 <section class="content-header">
+        
+        <div class="header-title">
+            <h1>{{Page_title}}</h1>
+            
+            
+        </div>
+    </section>
+       {% if messages %}
+    {% for message in messages %}
+        
+<div class="alert alert-success alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+      
+    {% endfor %}
+    {% endif %}
+<div class="container-fluid">
+  <div class="row p-t-b-20">
+    <div class="col-md-12">
+      <!-- <div class="card no-b"> -->
+      {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{field.title}}  {{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+<div class="login-form-content">
+  <form action="" method="POST" enctype='multipart/form-data'>
+    {% csrf_token %}  
+      <div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="accordion-toggle" id="first_tab" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+          
+          Add Information
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse show in">
+      <div class="panel-body">
+       <div class="row">
+        <div class="col-md-12">   
+              <label class="age">Select*  <span id="show_error_message_Select_Type" style="color:red;"> </span></label>
+                       {{form.Select_Type}}
+                        </div>
+      <div class="col-md-12">
+        <div class="form-group">
+                   <label class="age">Service Interests Name* <span id="show_error_message_Product_name" style="color:red;"> </span></label>
+                   {{form.Service_interests_name}}
+
+        </div>
+      </div>
+            <div class="col-md-6">
+    <button type="submit" class="btn-block btn btn-white subbtn" data-dismiss="modal">Cancel</button>
+  </div>
+    <div class="col-md-6">
+    <div class="form-group">
+      <button type="submit" class="btn-block btn btn-white subbtn" >Update</button>
+    </div>
+  </div>
+       <div class="row">
+</div>
+
+
+     </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+</div>
+
+
+
+          <!-- </div> -->
+               </div>
+      </div>
+         </div>
+      </div>
+
+
+ {% endblock %}

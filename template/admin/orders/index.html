@@ -29,7 +29,7 @@
   <div class="row p-t-b-20">
     <div class="col-md-12">
 
-	<div class="login-form-content" style="margin-bottom:25px;">
+<!-- 	<div class="login-form-content" style="margin-bottom:25px;">
 	<div class="row ">
 	<div class="col-md-4">
 	<div class="form-group">
@@ -84,7 +84,7 @@
 	</div>
 	
 	</div>
-	</div>
+	</div> -->
       <!-- <div class="card no-b"> -->
       <div class="login-form-card">
         <!-- <div class="login-form-content"> -->
@@ -100,7 +100,7 @@
                   
 				  
                   <th align="left" valign="top">Payment status</th>
-                  <th align="left" valign="top">Shipping status</th>
+                  <th align="left" valign="top">Order status</th>
 				  <th align="left" valign="top">Customer Name</th>
                   <th align="left" valign="top">Customer Email Id </th>
                   <th align="left" valign="top">Phone Number </th>
@@ -124,13 +124,36 @@
 
     <td><span class="grid-report-item green">{{data.Payment_Status}}</span></td>
 
-    <td>{{data.Order_Status}}</td>
+    <td>
+
+  {% if data.Order_Status == 'Pending' %}
+<span class="grid-report-item blue">{{data.Order_Status}}</span>
+{% endif %}
+{% if data.Order_Status == 'Complete' %}
+<span class="grid-report-item green">{{data.Order_Status}}</span>
+  {% endif %}
+  {% if data.Order_Status == 'Celler' %}
+<span class="grid-report-item yellow">{{data.Order_Status}}</span>
+  {% endif %}
+  {% if data.Order_Status == 'Refunded' %}
+<span class="grid-report-item red">{{data.Order_Status}}</span>
+  {% endif %}
+   {% if data.Order_Status == 'Cancelled' %}
+<span class="grid-report-item red">{{data.Order_Status}}</span>
+  {% endif %}
+  {% if data.Order_Status == 'Failled' %}
+<span class="grid-report-item red">{{data.Order_Status}}</span>
+  {% endif %}
+  {% if data.Order_Status == 'Deactivate' %}
+<span class="grid-report-item red">{{data.Order_Status}}</span>
+  {% endif %}
+</td>
     <td>{{data.User.first_name}}</td>
-    <td><a href="#">{{data.User.email}}</a></td>
-    <td>9977176962</td>
+    <td><a href="#">{{data.Order_address.Email}}</a></td>
+    <td>{{data.Order_address.Pnone_no}}</td>
     <td>{{data.Order_Date}}</td>
     <td>${{data.Amount}}</td>
-    <td class="button-column"><a class="edit_btn" href="{% url 'admin_manage_order:orders'  %}{{data.id}}"><i class="fa fa-pencil"></i>Edit</a></td>
+    <td class="button-column"><a class="edit_btn" href="{% url 'admin_manage_order:edit_order' data.order_id   %}"><i class="fa fa-pencil"></i>Edit</a></td>
   </tr>
 {% endfor %}
 

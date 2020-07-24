@@ -10,60 +10,360 @@
 <h1>{{Page_title}}</h1></div>
 </section>
 
-<section class="m-t-50">
+
+
+
+
+
+<!-- ============================== GRAPE START==================== -->
+ {% if Page_title == 'grape' %}
+ {% if page_content %}
+ {% for items in page_content %}
+              
+        {% if forloop.counter|divisibleby:2 %}
+
+ <section class="content-main bg-color">
 <div class="container">
- {{page_content.Description|safe}}
+
+<div class="row">
+<div class="col-md-6">
+    <a href="{% url 'wine_shop:wine_shop' %}?page-type=grape&page-name={{items.Slug}}">
+  {% if items.Grape_Image %}
+<img src='{{items.Grape_Image.url}}' alt="">
+  {% else %}
+<img src='{% static "web/assets/image/shop/bodega-clos-floridene-banner.jpg" %}' alt="">
+  {% endif %}
+</a>
+</div>
+<div class="col-md-6">
+<h3 class="title_h3"><a href="{% url 'wine_shop:wine_shop' %}?page-type=grape&page-name={{items.Slug}}">{{items.Grape_Name}}</a></h3>
+{{items.Short_Description|slice:"0:800" }}
+<div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'wine_shop:wine_shop' %}?page-type=grape&page-name={{items.Slug}}">View All Wines</a> </div>
+
+</div>
+
+
+
+</div>
+
+
+
 </div>
 </section>
-
-
- {% if Products %}
-<section class="m-t-50">
+        {% else %}
+<section class="content-main">
 <div class="container">
-<div class="selling-area col-md-12" id="main">
-<h2>Wine of {{Page_title}}  {{type}} </h2>
-    <div class="selling-section">
-      <div class="selling-content">
-        <div class="row">
-          
-          {% for items in Products %}
-                 {% if items.Product|get_product_vintage_yera_one %}   
-                    <div class="col-md-3">
-                      <div class="single-productbox mb-3">
-                            <div class="single-product">
-                                
-                                <div class="product-thumb">
-                                    <!--<span class="label-pro-sale">-9%</span>
-                                    <span class="new">new</span>-->
-                                    <a href="{% url 'product_detail:product_detail' items.Product.Product_id items.Product.Product_slug  items  %}"><img src='{{items.Product|get_product_image_one}}' alt=""></a>
-                                </div>
-                                <div class="bottale-name pb-3">
-        <p>{{items.Product}} ({{items}})</p>
-        <div class="price-box">
-                                        <span class="normal-price">${{items.Descount_Cost|get_product_price_with_gst_include:items.GST|floatformat:2}}
-                                    </span></div>
-        <a href="{% url 'product_detail:product_detail' items.Product.Product_id items.Product.Product_slug  items  %}" class="product-story_info-btn">See Details</a>
-        </div>
-                            </div>
-                        </div>
-          </div>
-           {% endif %}
+
+<div class="row m-t-50">
+<div class="col-md-6">
+<h3 class="title_h3"><a href="{% url 'wine_shop:wine_shop' %}?page-type=grape&page-name={{items.Slug}}">{{items.Grape_Name}}</a></h3>
+{{items.Short_Description|slice:"0:800" }}
+<div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'wine_shop:wine_shop' %}?page-type=grape&page-name={{items.Slug}}">View All Wines</a> </div>
+</div>
+<div class="col-md-6">
+  <a href="{% url 'wine_shop:wine_shop' %}?page-type=grape&page-name={{items.Slug}}">
+  {% if items.Grape_Image %}
+<img src='{{items.Grape_Image.url}}' alt="">
+  {% else %}
+<img src='{% static "web/assets/image/shop/bodega-clos-floridene-banner.jpg" %}' alt="">
+  {% endif %}
+</a>
+</div>
+</div>
+</div>
+</section>
+        {% endif %}     
 
           {% endfor %}
+   {% endif %}
+{% endif %}
+<!-- ============================== GRAPE END ==================== -->
 
-          
-  
-                    
-             
-      </div>
-      
-      
-      
-    </div>
-  </div>
-  </div>
+
+
+<!-- ============================== PRODUCER START==================== -->
+  {% if Page_title == 'producer' %}
+ {% if page_content %}
+ {% for items in page_content %}
+              
+        {% if forloop.counter|divisibleby:2 %}
+
+ <section class="content-main bg-color">
+<div class="container">
+
+<div class="row">
+<div class="col-md-6">
+    <a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{items.Slug}}">
+  {% if items.Producer_Image %}
+<img src='{{items.Producer_Image.url}}' alt="">
+  {% else %}
+<img src='{% static "web/assets/image/shop/bodega-clos-floridene-banner.jpg" %}' alt="">
+  {% endif %}
+</a>
+</div>
+<div class="col-md-6">
+<h3 class="title_h3"><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{items.Slug}}">{{items.Winnery_Name}}</a></h3>
+{{items.Short_Description|slice:"0:800" }}
+<div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{items.Slug}}">View All Wines</a> </div>
+
+</div>
+
+
+
+</div>
+
+
+
 </div>
 </section>
-   {% endif %}
+        {% else %}
+<section class="content-main">
+<div class="container">
 
+<div class="row m-t-50">
+<div class="col-md-6">
+<h3 class="title_h3"><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{items.Slug}}">{{items.Winnery_Name}}</a></h3>
+{{items.Short_Description|slice:"0:800" }}
+<div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{items.Slug}}">View All Wines</a> </div>
+</div>
+<div class="col-md-6">
+  <a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{items.Slug}}">
+  {% if items.Producer_Image %}
+<img src='{{items.Producer_Image.url}}' alt="">
+  {% else %}
+<img src='{% static "web/assets/image/shop/bodega-clos-floridene-banner.jpg" %}' alt="">
+  {% endif %}
+</a>
+</div>
+</div>
+</div>
+</section>
+        {% endif %}     
+
+          {% endfor %}
+   {% endif %}
+{% endif %}
+<!-- ============================== PRODUCER END ==================== -->
+
+
+
+
+<!-- ============================== region START==================== -->
+  {% if Page_title == 'region' %}
+ {% if page_content %}
+ {% for items in page_content %}
+              
+        {% if forloop.counter|divisibleby:2 %}
+
+ <section class="content-main bg-color">
+<div class="container">
+
+<div class="row">
+<div class="col-md-6">
+    <a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}">
+  {% if items.Region_Image %}
+<img src='{{items.Region_Image.url}}' alt="">
+  {% else %}
+<img src='{% static "web/assets/image/shop/bodega-clos-floridene-banner.jpg" %}' alt="">
+  {% endif %}
+</a>
+</div>
+<div class="col-md-6">
+<h3 class="title_h3"><a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}">{{items.Region_Name}}</a></h3>
+{{items.Short_Description|slice:"0:800" }}
+<div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}">View All Wines</a> </div>
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+</section>
+        {% else %}
+<section class="content-main">
+<div class="container">
+
+<div class="row m-t-50">
+<div class="col-md-6">
+<h3 class="title_h3"><a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}">{{items.Region_Name}}</a></h3>
+{{items.Short_Description|slice:"0:800" }}
+<div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}">View All Wines</a> </div>
+</div>
+<div class="col-md-6">
+  <a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}">
+  {% if items.Region_Image %}
+<img src='{{items.Region_Image.url}}' alt="">
+  {% else %}
+<img src='{% static "web/assets/image/shop/bodega-clos-floridene-banner.jpg" %}' alt="">
+  {% endif %}
+</a>
+</div>
+</div>
+</div>
+</section>
+        {% endif %}     
+
+          {% endfor %}
+   {% endif %}
+{% endif %}
+<!-- ============================== region END ==================== -->
+
+
+
+
+<!-- ============================== dinner START==================== -->
+  {% if Page_title == 'dinner' %}
+   <section class="content-main bg-color">
+<div class="container">
+  <h2 class="title_h2">Lucky Dip Dinner</h2>
+  <p>As am hastily invited settled at limited civilly fortune me. Really spring in extent an by. <br>Judge but built party world. Of so am he remember although required. Bachelor unpacked be advanced at. Confined in declared marianne is vicinity.</p>
+</div>
+</section>
+ {% if page_content %}
+ {% for items in page_content %}
+              
+        {% if forloop.counter|divisibleby:2 %}
+
+ <section class="content-main bg-color">
+<div class="container">
+
+<div class="row">
+<div class="col-md-6">
+    <!-- <a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}"></a>-->
+  {% if items.Dinner_Image %}
+<img src='{{items.Dinner_Image.url}}' alt="">
+  {% else %}
+<img src='{% static "web/assets/image/shop/bodega-clos-floridene-banner.jpg" %}' alt="">
+  {% endif %}
+
+</div>
+<div class="col-md-6">
+  <!-- <a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}"></a> -->
+<h3 class="title_h3">
+  {{items.Dinner_Name}}</h3>
+{{items.Short_Description|slice:"0:800" }}
+<!-- <div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}">View All Wines</a> </div> -->
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+</section>
+        {% else %}
+<section class="content-main">
+<div class="container">
+
+<div class="row m-t-50">
+  <!-- <a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}"></a> -->
+<div class="col-md-6">
+<h3 class="title_h3">{{items.Dinner_Name}}</a></h3>
+{{items.Short_Description|slice:"0:800" }}
+<!-- <div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}">View All Wines</a> </div> -->
+</div>
+<div class="col-md-6">
+  <!-- <a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}"></a> -->
+  {% if items.Dinner_Image %}
+<img src='{{items.Dinner_Image.url}}' alt="">
+  {% else %}
+<img src='{% static "web/assets/image/shop/bodega-clos-floridene-banner.jpg" %}' alt="">
+  {% endif %}
+
+</div>
+</div>
+</div>
+</section>
+        {% endif %}     
+
+          {% endfor %}
+   {% endif %}
+{% endif %}
+<!-- ============================== dinner END ==================== -->
+
+
+
+
+<!-- ============================== wine-testing START==================== -->
+  {% if Page_title == 'wine-testing' %}
+
+ <section class="content-main bg-color">
+<div class="container">
+  <h2 class="title_h2">Introduction to Wine Tasting</h2>
+  <p>As am hastily invited settled at limited civilly fortune me. Really spring in extent an by.
+Judge but built party world. Of so am he remember although required. Bachelor unpacked be advanced at. Confined in declared marianne is vicinity.</p>
+</div>
+</section>
+
+ {% if page_content %}
+ {% for items in page_content %}
+              
+        {% if forloop.counter|divisibleby:2 %}
+
+ <section class="content-main bg-color">
+<div class="container">
+
+<div class="row">
+<div class="col-md-6">
+    <!-- <a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}"></a>-->
+  {% if items.Testing_Image %}
+<img src='{{items.Testing_Image.url}}' alt="">
+  {% else %}
+<img src='{% static "web/assets/image/shop/bodega-clos-floridene-banner.jpg" %}' alt="">
+  {% endif %}
+
+</div>
+<div class="col-md-6">
+  <!-- <a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}"></a> -->
+<h3 class="title_h3">
+  {{items.Name}}</h3>
+{{items.Short_Description|slice:"0:800" }}
+<!-- <div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}">View All Wines</a> </div> -->
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+</section>
+        {% else %}
+<section class="content-main">
+<div class="container">
+
+<div class="row m-t-50">
+  <!-- <a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}"></a> -->
+<div class="col-md-6">
+<h3 class="title_h3">{{items.Name}}</a></h3>
+{{items.Short_Description|slice:"0:800" }}
+<!-- <div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}">View All Wines</a> </div> -->
+</div>
+<div class="col-md-6">
+  <!-- <a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}"></a> -->
+  {% if items.Testing_Image %}
+<img src='{{items.Testing_Image.url}}' alt="">
+  {% else %}
+<img src='{% static "web/assets/image/shop/bodega-clos-floridene-banner.jpg" %}' alt="">
+  {% endif %}
+
+</div>
+</div>
+</div>
+</section>
+        {% endif %}     
+
+          {% endfor %}
+   {% endif %}
+{% endif %}
+<!-- ============================== wine-testing END ==================== -->
 {% endblock %}

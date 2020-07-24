@@ -31,6 +31,66 @@ if(jQuery.inArray("add-product", url_in_array) != -1)
 	$("#Products").addClass("active");
 }
 
+if(jQuery.inArray("dinner", url_in_array) != -1 && jQuery.inArray("add-dinner", url_in_array) == -1)
+{
+	$("#Manage_Dinner").addClass("active_dsp");
+	$("#Dinner").addClass("active");
+}
+
+if(jQuery.inArray("add-dinner", url_in_array) != -1)
+{
+	$("#Add_Dinner").addClass("active_dsp");
+	$("#Dinner").addClass("active");
+}
+
+
+
+if(jQuery.inArray("manage-wine-testing", url_in_array) != -1 && jQuery.inArray("add-testing-wine", url_in_array) == -1)
+{
+	$("#Manage_Wine_Testing").addClass("active_dsp");
+	$("#Wine_Testing").addClass("active");
+}
+
+if(jQuery.inArray("add-testing-wine", url_in_array) != -1)
+{
+	$("#Add_Wine_Testing").addClass("active_dsp");
+	$("#Wine_Testing").addClass("active");
+}
+
+
+
+
+if(jQuery.inArray("manage-order", url_in_array) != -1 && jQuery.inArray("refunded", url_in_array) == -1 && jQuery.inArray("cancelled", url_in_array) == -1 && jQuery.inArray("failled", url_in_array) == -1)
+{
+	$("#Manage_Orders").addClass("active_dsp");
+	$("#Orders").addClass("active");
+}
+
+if(jQuery.inArray("edit-order", url_in_array) != -1 && jQuery.inArray("refunded", url_in_array) == -1 && jQuery.inArray("cancelled", url_in_array) == -1 && jQuery.inArray("failled", url_in_array) == -1)
+{
+	$("#Manage_Orders").addClass("active_dsp");
+	$("#Orders").addClass("active");
+}
+
+if(jQuery.inArray("refunded", url_in_array) != -1)
+{
+	$("#Refunded_Orders").addClass("active_dsp");
+	$("#Orders").addClass("active");
+}
+if(jQuery.inArray("cancelled", url_in_array) != -1)
+{
+	$("#Cancelled_orders").addClass("active_dsp");
+	$("#Orders").addClass("active");
+}
+
+if(jQuery.inArray("failled", url_in_array) != -1)
+{
+	$("#Failled_orders").addClass("active_dsp");
+	$("#Orders").addClass("active");
+}
+
+
+
 
 if(jQuery.inArray("region", url_in_array) != -1 && jQuery.inArray("add-region", url_in_array) == -1)
 {
@@ -112,6 +172,12 @@ if(jQuery.inArray("color", url_in_array) != -1)
 {
 	$("#Color").addClass("active_dsp");
 	$("#Manage_Filtters").addClass("active");
+}
+
+if(jQuery.inArray("customer", url_in_array) != -1)
+{
+	$("#Customer").addClass("active_dsp");
+	$("#Manage_Customer").addClass("active");
 }
 
 

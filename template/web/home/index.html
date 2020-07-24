@@ -226,7 +226,7 @@
     </tr>
 {% for items in get_filan_vintage_year %}
   <tr>
-    <td><a href="single-product.php" rel="tag">{{items.Product.Regions}}</a></td>
+    <td><a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Product.Regions.Slug}}" rel="tag">{{items.Product.Regions}}</a></td>
     <td>{{items.Vintage_Year}} </td>
     <td><a href="{% url 'product_detail:product_detail' items.Product.Product_id items.Product.Product_slug  items.Product|get_product_vintage_yera_one   %}">{{items.Product}}</a></td>
     <td> {{items.Product.Color.all|join:" | "}} </td>
@@ -235,7 +235,7 @@
     <td> 0 </td>
     <td> 0 </td>
     <td> ${{items.Retail_Cost}} </td>
-    <td><a style="height: 35px!important;background: transparent;border: 0px solid; font-size: 18px;" href="#"><i class="fa fa-cart-plus"></i></a></td>
+    <td><a style="height: 35px!important;background: transparent;border: 0px solid; font-size: 18px;" href="{% url 'product_detail:product_detail' items.Product.Product_id items.Product.Product_slug  items.Product|get_product_vintage_yera_one   %}"><i class="fa fa-cart-plus"></i></a></td>
   </tr>
   {%  endfor %}
   </tbody>
@@ -283,7 +283,7 @@
           <div id="carousel1" class="owl-carousel">
             {% for item in get_region %}
             <div class="item">
-              <a href="{% url 'pages:page' 'region' item.Slug  %}">
+              <a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{item.Slug}}">
               {% if item.Region_Image %}	
               <img src='{{item.Region_Image.url}}'>
               {% else %}
