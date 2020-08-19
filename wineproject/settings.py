@@ -59,10 +59,10 @@ INSTALLED_APPS = [
     'admin_manage_dinner',
     'admin_manag_wine_testing',
     'admin_manage_cupon_code',
-
     'admin_manage_perferences',
+    'manage_event',
     'preferences_user',
-
+    'manage_cellar',
     'home',
     'dashboard_user',
     'addressbook_user',
@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'admin_manage_content_page',
     'admin_manage_order',
     'profile_user',
+    'event',
     'pages',
 ]
 

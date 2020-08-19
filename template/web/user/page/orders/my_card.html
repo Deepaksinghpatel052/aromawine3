@@ -140,9 +140,13 @@ $<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Bond_Cost 1 i
                             <div class="offset-4 col-md-4">
                                 <div class="cart-total text-right">
                                     <h3>Cart Totals</h3>
-                                    <input type="hidden" name="" id="set_coupon_code" value="">
-                                    <input type="hidden" name="" id="set_coupon_type" value="">
-                                    <input type="hidden" name="" id="set_coupon_count" value="">
+                                    <form accept="" method="POST">
+                                      {% csrf_token %}
+                                    <input type="hidden" name="set_coupon_code" id="set_coupon_code" value="">
+                                    <input type="hidden" name="set_coupon_type" id="set_coupon_type" value="">
+                                    <input type="hidden" name="set_coupon_count" id="set_coupon_count" value="">
+                                     <input type="hidden" name="order_type" value="Caller">
+                                    
                                     <ul>
                                         <li><span class="pull-left">Subtotal </span>$<span class="show_sub_total_ampount">00.0</span></li>
                                       
@@ -154,7 +158,9 @@ $<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Bond_Cost 1 i
                                        
                                        <li><span class="pull-left"> Total </span>$<span class="show_total_ampount">00.0</span></li>
                                     </ul>
-                                    <a href="checkout.php">Proceed to Checkout</a>
+                                    <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
+                                    
+                                    </form>
                                 </div> 
                             </div>
                         </div>
@@ -176,6 +182,21 @@ $<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Bond_Cost 1 i
 {% block script %}
 
 <script type="text/javascript">
+
+$(document).ready(function(){
+
+  $(".go_to_checkout").click(function(){
+     var url_ser = "{% url 'orders:checkout' %}";
+     var coupon_code = $("#set_coupon_code").val();
+     if(coupon_code)
+     {
+       url_ser = url_ser+"?coupon-code="+coupon_code;
+     } 
+        // alert(url_ser); 
+        window.location.href = url_ser; 
+  });
+
+});
 
 function set_total_amount_of_card_product()
 {

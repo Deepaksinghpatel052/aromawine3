@@ -73,6 +73,10 @@ urlpatterns = [
     path('admin/manage-custom-page/', include(('admin_manage_content_page.urls','admin_manage_content_page'),namespace='admin_manage_content_page')),
     path('admin/manage-wine-testing/', include(('admin_manag_wine_testing.urls','admin_manag_wine_testing'),namespace='admin_manag_wine_testing')),
 
+    # path('admin/manage-event', include(('manage_event.urls','manage_event'),namespace='manage_event')),
+    path('admin/manage-event/', include(('manage_event.urls','manage_event'),namespace='manage_event')),
+    path('event/', include(('event.urls','event'),namespace='event')),
+
     path('summernote/', include('django_summernote.urls')),
 
     path('admin/preferences/', include(('admin_manage_perferences.urls', 'admin_manage_perferences'), namespace='admin_manage_perferences')),
@@ -97,6 +101,7 @@ urlpatterns = [
     path('user/dashboard/', include(('dashboard_user.urls','dashboard_user'),namespace='dashboard_user')),
     path('user/addressbook/', include(('addressbook_user.urls','addressbook_user'),namespace='addressbook_user')),
     path('user/profile/', include(('profile_user.urls','profile_user'),namespace='profile_user')),
+    path('user/cellar/', include(('manage_cellar.urls','manage_cellar'),namespace='manage_cellar')),
 
     path('password/', include('django.contrib.auth.urls')),
     # ====================================set url for web frentend END==============================================

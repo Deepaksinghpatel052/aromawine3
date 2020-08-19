@@ -31,6 +31,20 @@ if(jQuery.inArray("add-product", url_in_array) != -1)
 	$("#Products").addClass("active");
 }
 
+
+if(jQuery.inArray("manage-event", url_in_array) != -1 && jQuery.inArray("add-event", url_in_array) == -1)
+{
+	$("#Manage_Event").addClass("active_dsp");
+	$("#Event").addClass("active");
+}
+
+if(jQuery.inArray("add-event", url_in_array) != -1)
+{
+	$("#Add_Event").addClass("active_dsp");
+	$("#Event").addClass("active");
+}
+
+
 if(jQuery.inArray("dinner", url_in_array) != -1 && jQuery.inArray("add-dinner", url_in_array) == -1)
 {
 	$("#Manage_Dinner").addClass("active_dsp");

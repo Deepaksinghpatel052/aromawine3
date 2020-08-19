@@ -1,0 +1,171 @@
+  
+{% extends 'web/base-template.html' %}
+{% block content %}
+{% load static %}
+
+<!-----------Page Content Start------------->
+<style type="text/css">
+</style>
+<section>
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Event Details</li>
+      </ol>
+    </nav>
+  </div>
+</section>
+<section class="p-l-r-50 details-page">
+  <div class="container">
+  
+  <div class="row">
+  <div class="col-md-4">
+
+      {% if event_data.Event_Image %}
+      
+<img src="{{event_data.Event_Image.url}}" alt="" height="250">
+      {% else %}
+      <img src="https://media.bbr.com/s/bbr/90068000117-ms?img404=Default_Events&amp;$deskPDP$" alt="" height="250">
+      {% endif %}
+  
+  </div>
+  <div class="col-md-8">
+  <div class="commentMin">
+  <div class="summary">
+  <h2>{{event_data.Event_name}}</h2>
+  <p>Ticket Price: $ {{event_data.ticket_price}} Per person</p>
+  <div class="ticket-box">
+  <h3>{{event_data.Event_name}} {{event_data.Start_Date}}</h3>
+  
+  <div class="row d-flex align-items-center ticket-icon">
+  <div class="col-md-4">
+  <span><i class="fa fa-ticket"></i></span> X <span>$ {{event_data.ticket_price}}</span>
+  </div>
+  
+  <div class="col-md-4">
+  <select class="form-control">
+ {% for i in event_data.ticket_pr_person|times %}
+  <option>{{i}} ticket</option>
+{% endfor %}
+  </select>
+  </div>
+  
+  <div class="col-md-4 text-right">
+  <button type="button" title="Add To Cart" class="button btn-cart">
+Add to cart
+
+</button>
+  </div>
+  
+  </div>
+  </div>
+  
+  </div>
+  </div>
+  
+  <div class="review-box scores">
+<div class="">
+
+  <ul class="tabs product-tabs">
+    <li class="tab-link current" data-tab="tab-1">Description</li>
+    
+    <li class="tab-link" data-tab="tab-2">Event details</li>
+    <li class="tab-link" data-tab="tab-3">Producer Notes</li>
+    
+  </ul>
+
+  <div id="tab-1" class="tab-content current">
+    <p>{{event_data.Short_Description}}</p>
+    <p><span class="read-more-show"><a class="more-link golden" style="font-weight:600;">Learn More</a></span><p>
+    <div class="details" style="display: none;">
+   <p>{{event_data.Description|safe}}</p>
+  <span class="read-less"> 
+  <a class="less-link golden">Show Less</a>
+  </span>
+  </div>
+  </div>
+  
+<div id="tab-2" class="tab-content">
+  
+<div class="event-det">
+
+  <p><span>Event Host –&nbsp;Sophie Thorpe</span></p>
+  <p><span>Date –&nbsp;{{event_data.Start_Date}}<br>
+ </p>
+  <p><span>{{event_data.Location|safe}}</span>
+</p>
+
+<p><span>Maximum tickets –&nbsp;{{event_data.ticket_pr_person}}</span></p>
+<p><span>
+                          Availability – waiting list only</span></p>
+</div>
+
+  </div>
+  <div id="tab-3" class="tab-content">
+    <p>{{event_data.Producer_Notes|safe}}</p>
+    
+
+
+  </div>
+  
+    
+
+</div>
+</div>
+  
+  
+  
+  
+  
+  </div>
+  
+  </div>
+  </div>
+  
+  <div class="clearfix"></div>
+</section>
+
+
+ {% if trending_wines %}
+<div class="fluid-container" style="border-top:1px solid rgba(204, 204, 204, 0.7)">
+    <div class="popular p-t-b-20">
+      <div class="container">
+   <h2 class="palate">Wine inspired by your palate</h2>
+        
+        <div class="owl-slider">
+    
+    
+    
+          <div id="releted-product" class="owl-carousel">
+            
+
+{% for items in trending_wines %}
+{% if items|get_product_vintage_yera_one %}
+            <div class="item"> <a href="{% url 'product_detail:product_detail' items.Product_id items.Product_slug  items|get_product_vintage_yera_one %}"><img src="{{items|get_product_image_one}}" alt="" /></a>
+              <div class="bottale-name">
+        <p>{{items.Product_name}} ({{items|get_product_vintage_yera_one}})</p>
+        <a href="{% url 'product_detail:product_detail' items.Product_id items.Product_slug  items|get_product_vintage_yera_one %}" class="product-story_info-btn">See Details</a>
+        </div>
+            </div>
+{% endif %}
+
+{% endfor %}
+
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+ 
+<!------------Page Content End--------------->
+
+
+{% endblock %}
+{% block script %}
+
+{% endblock %}

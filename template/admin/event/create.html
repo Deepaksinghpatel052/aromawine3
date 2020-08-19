@@ -1,0 +1,281 @@
+{% extends 'admin/base-template.html' %}
+{% block content %}
+{% load static %}
+		 <div class="page-content">
+		 <section class="content-header">
+        
+        <div class="header-title">
+            <h1>{{Page_title}}</h1>
+            
+            
+        </div>
+    </section>
+<div class="container-fluid">
+  <div class="row p-t-b-20">
+    <div class="col-md-12">
+      <!-- <div class="card no-b"> -->
+      {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{field.title}}  {{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+<div class="login-form-content">
+  <form action="" method="post" enctype='multipart/form-data'>
+      
+{% csrf_token %}
+
+
+    <div class="row">
+     <div class="col-md-4">
+      <div class="form-group">
+                   <label class="age">Event Name</label>
+                   {{form.Event_name}}
+                
+        </div>
+    
+
+     </div>
+<div class="col-md-4">
+      <div class="form-group">
+                   <label class="age">Event Host</label>
+                {{form.Event_Host}}     
+                 
+<!-- <input type="hidden" name="event_Image" id="Grape_Image" value=""> -->
+        </div>
+    
+
+     </div>
+
+     <div class="col-md-4">
+      <div class="form-group">
+                   <label class="age">Event Type</label>
+                {{form.Event_Type}}     
+
+        </div>
+    
+
+     </div>
+   
+     
+</div>
+
+    <div class="row">
+     <div class="col-md-6">
+      <div class="form-group">
+                   <label class="age">Start Date</label>
+                   {{form.Start_Date}}
+                
+        </div>
+    
+
+     </div>
+
+   
+     <div class="col-md-6">
+    <div class="form-group">
+                   <label class="age">End Date</label>
+                   {{form.End_Date}}
+                
+        </div>
+    
+
+     </div>
+</div>      
+
+ <div class="row">
+     <div class="col-md-6">
+      <div class="form-group">
+                   <label class="age">Ticket/person</label>
+                   {{form.ticket_pr_person}}
+                
+        </div>
+    
+
+     </div>
+
+   
+     <div class="col-md-6">
+    <div class="form-group">  
+                   <label class="age">Ticket price</label>
+                   {{form.ticket_price}}
+                
+        </div>
+    
+
+     </div>
+</div> 
+
+<div class="row">
+  <div class="col-md-12">
+      <div class="form-group">
+                   <label class="age">Event images</label>
+         <input type="file" name="Event_Image" accept="image/*" {% if object %} {% else %} required="" {% endif %}  id="id_Grape_Image" class="form-control">      
+                 
+<input type="hidden" name="event_Image" id="Grape_Image" value="">
+        </div>
+    
+
+     </div>
+      <div class="col-md-12">
+        <div class="form-group">
+  <div class="imagebanner" id="show_croped_image">
+  {% if object.Event_Image %}
+  <img src="{{object.Event_Image.url}}">
+  {% else %}
+<img src="http://203.190.153.20/wine/assets/image/bg-2.jpg" alt="">
+  {% endif %}
+ 
+</div>
+
+        </div>
+      </div>
+    </div>
+   
+
+    <!-- <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+                   <label class="age">Description</label>
+                   <input type="text" class="form-control" placeholder="Description">
+        </div>
+      </div>
+    </div>
+ -->
+<div class="col-md-12">
+        <div class="form-group">
+                   <label class="age">Short Description</label>
+           <div class="summernote">
+           {{form.Short_Description}}
+           <!-- <textarea id="" class="form-control des summernote_text"></textarea> -->
+           </div>
+                  
+
+        </div>
+      </div>
+
+<div class="col-md-12">
+        <div class="form-group">
+                   <label class="age">Description</label>
+           <div class="summernote">
+           {{form.Description}}
+           <!-- <textarea id="" class="form-control des summernote_text"></textarea> -->
+           </div>
+                  
+
+        </div>
+      </div>
+
+  <div class="col-md-12">
+        <div class="form-group">
+                   <label class="age">Producer Notes</label>
+           <div class="summernote">
+           {{form.Producer_Notes}}
+           <!-- <textarea id="" class="form-control des summernote_text"></textarea> -->
+           </div>
+                  
+
+        </div>
+      </div>  
+        <div class="col-md-12">
+        <div class="form-group">
+                   <label class="age">Location</label>
+           <div class="summernote">
+           {{form.Location}}
+           <!-- <textarea id="" class="form-control des summernote_text"></textarea> -->
+           </div>
+                  
+
+        </div>
+      </div>    
+<div class="col-md-12">
+        <div class="form-group">
+                   <label class="age">{{form.Status}} Active Status</label>
+        </div>
+      </div>
+
+<div class="row">
+  <div class="col-md-2">
+    <button type="reset" class="btn-block btn btn-white subbtn" data-dismiss="modal">Cancel</button>
+  </div>
+  <div class="col-md-2">
+    <div class="form-group">
+      <button type="submit" class="btn-block btn btn-white subbtn">Save</button>
+    </div>
+  </div>
+</div>
+</form>
+</div>
+
+
+
+
+          <!-- </div> -->
+               </div>
+      </div>
+         </div>
+      </div>
+
+
+
+<div id="uploadimageModal_edit" class="modal" role="dialog">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Upload & Crop Image</h4>
+         </div>
+         <div class="modal-body">
+            <div class="row">
+               <div class="col-md-8 text-center">
+                  <div id="image_demo_edit" style="width:350px; margin-top:30px"></div>
+               </div>
+               <div class="col-md-4" style="padding-top:30px;">
+                  <br />
+                  <br />
+                  <br/>
+                  <div class="row">
+                     <div class="col-md-12 set_loader"></div>
+                  </div>
+                  <!--<button class="btn btn-success crop_image_edit">Crop Image</button>-->
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+             <button class="btn btn-success crop_image_edit">Save Image</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+ {% endblock %}
+
+
+   {% block script %}
+
+     <script src='{% static "admin/assets/cropme/croppie_grape_image.js" %}' ></script>
+    <script type="text/javascript">
+   $(document).ready(function() {
+
+
+  $("#id_Start_Date").addClass("form-control");
+  $("#id_End_Date").addClass("form-control");
+  $("#id_Producer_Image").addClass("form-control");
+  $('.summernote_text').summernote({
+        placeholder: 'Description',
+        tabsize: 2,
+        height: 200
+      });
+});
+ </script>
+      {% endblock %}

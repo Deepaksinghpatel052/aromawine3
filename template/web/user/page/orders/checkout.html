@@ -28,7 +28,7 @@
 {% if card_product %}
 
             <div class="row">
-                <div class="col-lg-5">
+                <div class="col-lg-5" style="display: none;">
                     <div class="checkout-form form-style">
                         <h3>Billing Details</h3>
                        
@@ -106,7 +106,7 @@
                         
                     </div>
                 </div>
-                <div class="col-lg-7">
+                <div class="col-lg-12">
                     <div class="order-area">
                         <h3>Your Order</h3>
 						<div class="table-product">
@@ -141,37 +141,37 @@
       <td class="text-left"><a href="{% url 'product_detail:product_detail' item.Product.Product_id item.Product.Product_slug  item.Year %}">{{item.Product}}({{item.Year}})</a></td>
       <td class="text-center">{{item.Quentity}}</td>
       <td class="text-center">{{item.Type}}</td>
-      <td class="text-center">{{item.Case_Formate.Bottle}}</td>
+      <td class="text-center">{{item.Case_Formate}}</td>
       <td class="text-center">10%</td>
       <td class="text-center">18%</td>
       <td class="text-center">5%</td>
       <td class="text-center">
-        {% if item.Type == 'Bond' %}
-  ${{item.Case_Formate.Bond_Cost}}*{{item.Quentity}}
-{% endif %} 
-{% if item.Type == 'Retail' %}
-  ${{item.Case_Formate.Retail_Cost}}*{{item.Quentity}}
-{% endif %}
+        ${{item.Cost_of_product}}*{{item.Quentity}}
       </td>
       <td class="text-center">
-{% if item.Type == 'Bond' %}
-<input type="hidden" class="total" value="{% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}">
-  ${% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}
-{% endif %} 
-{% if item.Type == 'Retail' %}
-<input type="hidden" class="total" value="{% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}">
-  ${% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}
-{% endif %}
+<input type="hidden" class="total" value="{% widthratio item.Cost_of_product 1 item.Quentity %}">
+  ${% widthratio item.Cost_of_product 1 item.Quentity %}
       </td>
     </tr>
      {% endfor %}
     {% endif %}
+    	
  <tr>
+ {% if get_order_ins.Use_coupon %}
+   <th  colspan="7"></th>
+   <th  colspan="2">Descount</th>
+   <th>
+<input type="hidden" class="descount" value="{{get_order_ins.Cupon_Discount|floatformat:2}}">
+   ${{get_order_ins.Cupon_Discount|floatformat:2}}</th>
+ </tr>
+ {% endif %}
+ <tr>
+
    <th  colspan="5">
-    <select class="form-control" name="order_type">
-                            <option>Delivery</option>
-                            <option>Caller</option>
-                            <option>Bond</option>
+    <select class="form-control" name="order_type" disabled="true" >
+        <option {% if get_order_ins.Order_Type == "Delivery" %} selected="tyrue" {% endif %} >Delivery</option>
+      <option {% if get_order_ins.Order_Type == "Caller" %} selected="tyrue" {% endif %}>Caller</option>
+     <option {% if get_order_ins.Order_Type == "Bond" %} selected="tyrue" {% endif %}>Bond</option>
                           </select></th>
    <th  colspan="4">Total</th>
    <th>$<span id="show_total_ampount">0.00</span></th>
@@ -219,7 +219,7 @@
             </div>
                          <div class="cart-total text-right">
                                    
-                          <button type="submit" class="btn btn-warning">PLASE ORDER</button>
+                          <button type="submit" class="btn btn-warning">PLACE ORDER</button>
                                 </div> 
                     </div>
                 </div>
@@ -250,6 +250,12 @@ function set_total_amount_of_card_product()
  total_amount = total_amount +  parseFloat($(this).val());
 
 });
+
+  var get_descount = $(".descount").val();
+  if(get_descount)
+  {
+  	total_amount = total_amount - parseFloat(get_descount);
+  }
   return total_amount;
 }
 

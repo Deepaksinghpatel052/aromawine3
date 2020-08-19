@@ -17,6 +17,35 @@ def unique_id_generator_for_CouponCode(instance):
     return order_new_id
 
 
+
+def slug_generator_for_eventType(instance,new_slug=None):
+    if new_slug is not None:
+        slug = new_slug
+    else:
+        slug = slugify(instance.Type)
+
+    Klass = instance.__class__
+    qs_exists = Klass.objects.filter(Slug=slug).exists()
+    if qs_exists:
+        new_slug = "{Slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
+        return slug_generator_for_eventType(instance,new_slug=new_slug)
+    return slug
+
+
+def slug_generator_for_event(instance,new_slug=None):
+    if new_slug is not None:
+        slug = new_slug
+    else:
+        slug = slugify(instance.Event_name)
+
+    Klass = instance.__class__
+    qs_exists = Klass.objects.filter(Slug=slug).exists()
+    if qs_exists:
+        new_slug = "{Slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
+        return slug_generator_for_event(instance,new_slug=new_slug)
+    return slug
+
+
 def unique_id_generator(instance):
     order_new_id= random_string_generator()
 
@@ -49,7 +78,7 @@ def slug_generator_for_color(instance,new_slug=None):
     qs_exists = Klass.objects.filter(Slug=slug).exists()
     if qs_exists:
         new_slug = "{Slug}-{rendstr}".format(Slug=slug,rendstr=random_string_generator(size=4))
-        return slug_generator_for_product(instance,new_slug=new_slug)
+        return slug_generator_for_color(instance,new_slug=new_slug)
     return slug
 
 

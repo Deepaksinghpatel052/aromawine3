@@ -1,5 +1,5 @@
 from django.shortcuts import render
-# from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.views import generic
 from django.urls import reverse_lazy
 from account.forms import SignUpForm
@@ -16,7 +16,16 @@ import smtplib
 from django.http import HttpResponseRedirect,JsonResponse
 import json
 import requests
-# Create your views here. # 
+# Create your views here. #
+
+
+def test_data(request):
+	text = "this is test messsage for {name} and it's screen chhange"
+	message = text.replace("{name}", "apples")
+	return HttpResponse(message)
+
+
+
 class AccountCraetLoginView(generic.TemplateView):
 	form_class = SignUpForm
 	template_name = "web/account/create_login.html"

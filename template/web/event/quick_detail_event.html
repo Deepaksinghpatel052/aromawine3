@@ -1,0 +1,52 @@
+
+
+<div class="row modal-content-product">
+  <div class="col-md-12 infoBloc mb-4">
+    
+    
+    <div class="product-img product-modal mt-4">
+      {% if object.Event_Image %}
+      
+<img src="{{object.Event_Image.url}}" alt="" height="250">
+      {% else %}
+    	<img src="https://media.bbr.com/s/bbr/90068000117-ms?img404=Default_Events&amp;$deskPDP$" alt="" height="250">
+    	{% endif %}
+    </div>
+  </div>
+  <div class="col-md-12 mb-md-0 text-md-left">
+    
+    <div class="event-r">
+  <h2>{{object.Event_name}}</h2>
+  <p>{{object.Short_Description}}</p>
+  <p>Ticket Price: $ {{object.ticket_price}} Per person</p>
+  <div class="ticket-box">
+  <h3>{{object.Event_name}}</h3>
+  
+  <div class="row d-flex align-items-center ticket-icon">
+  <div class="col-md-4">
+  <span><i class="fa fa-ticket"></i></span> X <span>$ {{object.ticket_price}}</span>
+  </div>
+  
+  <div class="col-md-4">
+  <select class="form-control">
+  {% for i in object.ticket_pr_person|times %}
+  <option>{{i}} ticket</option>
+{% endfor %}
+  </select>
+  </div>
+  
+  <div class="col-md-4 text-right">
+  <button type="button" title="Add To Cart" class="button btn-cart">
+Add to cart
+
+</button>
+  </div>
+  
+  </div>
+  </div>
+  
+  </div>
+    
+    
+  </div>
+</div>

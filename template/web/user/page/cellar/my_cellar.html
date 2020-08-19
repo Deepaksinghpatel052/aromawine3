@@ -1,0 +1,260 @@
+{% extends 'web/base-template.html' %}
+{% block content %}
+{% load static %}
+<section>
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+		
+        <li class="breadcrumb-item active" aria-current="page">Cellar </li>
+      </ol>
+    </nav>
+  </div>
+</section>
+<section class="fluid-container p-l-r-50 cat-section">
+<div class="container">
+<div class="product-name">
+			<h2>Your Cellared Wines</h2>
+			</div>
+
+<div class="row">
+    {% include 'web/include/fillter.html' %}
+
+      <div class="selling-area col-md-9" id="main">      
+<div class="newStyleContent large-9 columns white-bg no-bottom">
+    
+    
+			<h3>Cellar Summary - Totals/Costs/Valuations</h3>	
+				<div id="BBXyourCellarValutionBlock">
+			<table cellspacing="0" cellpadding="0">
+				<tbody><tr>
+					<td>
+						<p>Number of Unique Wines:</p>
+					</td>
+					<td>
+					<p>31</p>
+						</td>
+				</tr>
+				<tr>
+					<td>
+						<p>Number of Unique Products:</p>
+					</td>
+					<td>
+						<p>33</p>
+							</td>
+				</tr>
+				<tr>
+					<td>
+						<p>Number of Units:</p>
+					</td>
+					<td>
+						<p>273</p>
+							</td>
+				</tr>
+				<tr>
+						<td>
+							<p>What Your Cellar Cost:</p>
+						</td>
+						<td>
+							<p>$ 43,842.92</p>
+								</td>
+					</tr>
+				<tr>
+						<td>
+							<p>Your Valued Cellar Cost: *</p>
+						</td>
+						<td>
+							<p>$ 40,666.92</p>
+								</td>
+					</tr>
+				<tr>
+					<td>
+						<p>Approx Cellar Value: *</p>
+					</td>
+					<td>
+						<p>$ 37,107.50</p>
+							</td>
+				</tr>
+				<tr>
+						<td>
+							<p>Approx Decrease:</p>
+									</td>
+						<td>
+							<p>$ 3,559.42</p>
+								</td>
+					</tr>
+				</tbody></table>
+			<table cellpadding="0" cellspacing="0" id="cellarPlanTable">
+				<tbody><tr>
+						<td>
+							<p>Approx % Decrease:</p>
+									</td>
+						<td>
+							<p>8.75%</p>
+								</td>
+					</tr>
+				<tr>
+							<td>
+								<p>NumberFor laying down:</p>
+							</td>
+							<td>
+								<p><a href="#">188&nbsp;Wines</a></p>
+							</td>
+						</tr>
+				<tr>
+							<td>
+								<p>NumberReady, but will improve:</p>
+							</td>
+							<td>
+								<p><a href="#">54&nbsp;Wines</a></p>
+							</td>
+						</tr>
+				<tr>
+							<td>
+								<p>NumberReady, but will keep:</p>
+							</td>
+							<td>
+								<p><a href="#">31&nbsp;Wines</a></p>
+							</td>
+						</tr>
+				</tbody></table>
+			</div>
+			
+
+
+				
+<!--<div class="siteSearch">
+					<form id="searchCellarWines">
+						<h3>Search Cellared Wines</h3>
+						<div id="bam_keywords_FWrap">
+							<input type="text" id="cs_keywords_F" size="50" value="" name="text" class="search-input-field">
+							<button id="bam-keyword-btn" href="#">Search</button>
+							</div>
+						 </form>
+				</div>-->
+
+			</div>
+ {% if object_list %}
+ {% for item in object_list %}
+
+    <div class="product-card product-card-list mb-4">
+  <div class="img"><a href="{% url 'product_detail:product_detail' item.Product.Product_id item.Product.Product_slug  item.Year  %}"><img src='{{item.Product|get_product_image_one}}'  alt="{{item.Product.Select_Type}} : {{item.Product}} ({{item.Year}})"></a></div>
+  <div class="product-info">
+    <div class="product-info-header">
+      <div><a class="productname" href="#">
+        <h2 class="title">{{item.Product.Select_Type}} : {{item.Product}} {{item.Year}}</h2>
+        </a>
+        <div class="product-attributes"><a href="#">Veneto</a> - <a href="#">Amarone della Valpolicella Classico</a> - {{item.Product.Color.all|join:" | "}}</div>
+      </div>
+    </div>
+    <hr>
+    <div class="product-info-content">
+      <div class="product-price">
+      <span class="list-price">SG${{item.Cost_of_product}}&nbsp;<span>Incl. GST &amp; DP</span></span>
+      
+      <span class="offer-price">SG${{item.Cost_of_product}}&nbsp;<span class="taxSymbol">Incl. GST &amp; DP</span></span>
+      
+      <span class="details mt-2"><span>{{item.Case_Formate}}</span>
+      <span class="d-none d-sm-inline-block mx-sm-1"> | </span><span> SG${{item.Cost_of_product}}&nbsp;/&nbsp;Unit</span>
+      </span>
+      </div>
+      <div class="product-info-content-cta">
+        <button class="mb-2 product-story_info-btn cick_to_view_product" data-toggle="modal" data-target="#listing-add-to-cart-modal" data-quick_view_url="{% url 'wine_shop:quick_view_product' item.Case_Formate.id  %}">Quick View</button>
+        
+        <a class="product-story_info-btn btn-cart change-ib-db delever_product"  title="Add To Order" data-product_id="{{item.id}}">Get Delivery</a></div>
+    </div>
+    <div class="product-brand-link"><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{item.Product.Producer.Slug}}" aria-label="All {{item.Product.Producer}} wines">All {{item.Product.Producer}} wines</a></div>
+  </div>
+  <div class="options">
+    <div class="promo-label">Special Prices  {{item.Product.Bottel_Size.all|join:" | "}}</div>
+    <div><span>Available</span></div>
+  </div>
+</div>
+
+{% endfor %}
+ {% endif %}
+
+	
+{% if is_paginated %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="page-item "><a class="page-link active" href="?{% if page_type_set %}page-type={{page_type_set}}&{% endif %}{% if page_slug_set %}page-name={{page_slug_set}}&{% endif %}{% if country_set %}country={{country_set}}&{% endif %}{% if category_set %}category={{category_set}}&{% endif %}{% if min_price_set%}min-price={{min_price_set}}&{% endif %}{% if max_price_set%}max-price={{max_price_set}}&{% endif %}{% if keyword_set%}keyword={{keyword_set}}&{% endif %}{% if color_set %}{% for item in color_set %}color={{item}}&{% endfor %}{% endif %}{% if appellation_set %}{% for item in appellation_set %}appellation={{item}}&{% endfor %}{% endif %}{% if size_set %}{% for item in size_set %}bottel-size={{item}}&{% endfor %}{% endif %}{% if producers_set %}{% for item in producers_set %}producers={{item}}&{% endfor %}{% endif %}{% if classification_set %}{% for item in classification_set %}classification={{item}}&{% endfor %}{% endif %}{% if vintage_set %}{% for item in vintage_set %}vintage={{item}}&{% endfor %}{% endif %}{% if varietal_set %}{% for item in varietal_set %}varietal={{item}}&{% endfor %}{% endif %}{% if region_set %}{% for item in region_set %}region={{item}}&{% endfor %}{% endif %}page={{page_obj.previous_page_number}}"><</a></li>
+    {% else %}
+    <li class="page-item "><a class="page-link active" href="#"><</a></li>
+    {% endif %}
+    {% for page_no in paginator.page_range %}
+      {% if page_obj.number == page_no %}
+      <li class="page-item active"><a class="page-link" href="#">{{page_no}}</a></li>
+      {% else %}
+      <li class="page-item"><a class="page-link" href="?{% if page_type_set %}page-type={{page_type_set}}&{% endif %}{% if page_slug_set %}page-name={{page_slug_set}}&{% endif %}{% if country_set %}country={{country_set}}&{% endif %}{% if category_set %}category={{category_set}}&{% endif %}{% if min_price_set%}min-price={{min_price_set}}&{% endif %}{% if max_price_set%}max-price={{max_price_set}}&{% endif %}{% if keyword_set%}keyword={{keyword_set}}&{% endif %}{% if color_set %}{% for item in color_set %}color={{item}}&{% endfor %}{% endif %}{% if appellation_set %}{% for item in appellation_set %}appellation={{item}}&{% endfor %}{% endif %}{% if size_set %}{% for item in size_set %}bottel-size={{item}}&{% endfor %}{% endif %}{% if producers_set %}{% for item in producers_set %}producers={{item}}&{% endfor %}{% endif %}{% if classification_set %}{% for item in classification_set %}classification={{item}}&{% endfor %}{% endif %}{% if vintage_set %}{% for item in vintage_set %}vintage={{item}}&{% endfor %}{% endif %}{% if varietal_set %}{% for item in varietal_set %}varietal={{item}}&{% endfor %}{% endif %}{% if region_set %}{% for item in region_set %}region={{item}}&{% endfor %}{% endif %}page={{page_no}}">{{page_no}}</a></li>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+    <li class="page-item "><a class="page-link active" href="?{% if page_type_set %}page-type={{page_type_set}}&{% endif %}{% if page_slug_set %}page-name={{page_slug_set}}&{% endif %}{% if country_set %}country={{country_set}}&{% endif %}{% if category_set %}category={{category_set}}&{% endif %}{% if min_price_set%}min-price={{min_price_set}}&{% endif %}{% if max_price_set%}max-price={{max_price_set}}&{% endif %}{% if keyword_set%}keyword={{keyword_set}}&{% endif %}{% if color_set %}{% for item in color_set %}color={{item}}&{% endfor %}{% endif %}{% if appellation_set %}{% for item in appellation_set %}appellation={{item}}&{% endfor %}{% endif %}{% if size_set %}{% for item in size_set %}bottel-size={{item}}&{% endfor %}{% endif %}{% if producers_set %}{% for item in producers_set %}producers={{item}}&{% endfor %}{% endif %}{% if classification_set %}{% for item in classification_set %}classification={{item}}&{% endfor %}{% endif %}{% if vintage_set %}{% for item in vintage_set %}vintage={{item}}&{% endfor %}{% endif %}{% if varietal_set %}{% for item in varietal_set %}varietal={{item}}&{% endfor %}{% endif %}{% if region_set %}{% for item in region_set %}region={{item}}&{% endfor %}{% endif %}page={{page_obj.next_page_number}}">></a></li>
+    {% else %}
+    <li class="page-item "><a class="page-link active" href="#">></a></li>
+    {% endif %}
+    
+  
+  </ul>
+</nav>
+
+{% endif %}
+	
+  </div>
+  </div>
+  </div>
+  <div class="clearfix"></div>
+</section>
+
+
+
+<div class="modal right fade" id="listing-add-to-cart-modal" tabindex="-1" role="dialog" aria-labelledby="listing-add-to-cart-modal">
+		<div class="modal-dialog listing-add-to-cart-modal" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					
+					<h4 class="modal-title" id="listing-add-to-cart-modal">Select the desired format and quantity</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				</div>
+
+				<div class="modal-body">
+			
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript">
+
+$(document).on('click','.delever_product',function(){
+
+var id = $(this).data('product_id');
+alert(id);
+
+});
+
+
+
+		$(document).on("click",".cick_to_view_product",function(){
+		$.ajax({
+          method:"GET",
+          url:$(this).data("quick_view_url"),
+          dataType:"html",
+          success:function(data){
+          	$("#listing-add-to-cart-modal .modal-body").html(data);
+          }
+		});
+	});
+</script>
+
+{% endblock %}

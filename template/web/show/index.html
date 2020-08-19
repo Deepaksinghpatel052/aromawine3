@@ -109,7 +109,7 @@
         <button class="mb-2 product-story_info-btn cick_to_view_product" data-toggle="modal" data-target="#listing-add-to-cart-modal" data-quick_view_url="{% url 'wine_shop:quick_view_product' get_item_wine.id  %}">Quick View</button>
         <a class="product-story_info-btn" href="{% url 'product_detail:product_detail' get_item_wine.Product.Product_id get_item_wine.Product.Product_slug  get_item_wine   %}">See details</a></div>
     </div>
-    <div class="product-brand-link"><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{get_item_wine.Product.Producer.Slug}}" aria-label="All Masi wines">All {{get_item_wine.Product.Producer}} wines</a></div>
+    <div class="product-brand-link"><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{get_item_wine.Product.Producer.Slug}}" aria-label="All {{get_item_wine.Product.Producer}} wines">All {{get_item_wine.Product.Producer}} wines</a></div>
   </div>
   <div class="options">
     <div class="promo-label">Special Prices  {{get_item_wine.Product.Bottel_Size.all|join:" | "}}</div>
