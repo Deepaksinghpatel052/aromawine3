@@ -1,0 +1,176 @@
+{% extends 'web/base-template.html' %}
+{% block content %}
+{% load static %}
+
+
+
+<main class="information">
+ 
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9 order-lg-last dashboard-content">
+          <div class="card">
+              <div class="card-header">Address Details</div>
+              
+              
+        <div class="profile-edit card-body">
+        
+          <div class="update-password">
+            
+            {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{field.title}}  {{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
+            <p>Please use this form to add/edit an address</p>
+            <p class="required">Fields marked * are required</p>
+            <!-- hafldiv -->
+            <div class="">
+              <form id="addressForm" method="post">
+               {% csrf_token %}
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                <label for="address.name"> *
+                  First Name</label>
+                {{form.First_Name}}
+              </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                <label for="address.name"> *
+                  Last Name</label>
+                {{form.Last_Name}}
+              </div>
+                  </div>
+                </div>
+
+                 <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                <label for="address.name"> *
+                  Email</label>
+                {{form.Email}}
+              </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                <label for="address.name"> *
+                  Pnone no</label>
+                {{form.Pnone_no}}
+              </div>
+                  </div>
+                </div>
+
+
+<div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                <label for="address.name">
+                  Conpany Name</label>
+                {{form.Conpany_Name}}
+              </div>
+                  </div>
+                 
+                </div>
+
+
+<div class="row">
+   <div class="col-md-4">
+                    <div class="form-group">
+                <label for="address.name"> *
+                  Country</label>
+                {{form.Country}}
+              </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                <label for="address.name"> *
+                  State</label>
+                {{form.State}}
+              </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                <label for="address.name"> *
+                  Town/City</label>
+                {{form.City}}
+              </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                <label for="address.name"> *
+                  Postcode</label>
+                {{form.Postcode}}
+              </div>
+                  </div>
+                 
+                </div>
+
+                <div class="row">
+   <div class="col-md-12">
+                    <div class="form-group">
+                <label for="address.name"> *
+                  Address</label>
+                {{form.Address}}
+              </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                <label for="address.name">
+                  Address 2</label>
+                {{form.Address_2}}
+              </div>
+                  </div>
+
+                  <div class="col-md-12">
+                    <div class="form-group">
+                <label for="address.name"> *
+                  Landark</label>
+                {{form.Landark}}
+              </div>
+                  </div>
+                 
+                </div>
+
+            
+                <!-- defaultAddressForm.tag -->
+               <div class="form-actions form-change-details">
+        <a href="{% url 'addressbook_user:addressbooklist' %}"><button type="button" class="btn-secondary-action space-right">Cancel</button></a>
+        <button class="btn-secondary-action" type="submit">Submit</button>
+        </div>
+               
+              
+            </form></div>
+            
+       
+        </div>
+      </div>
+    </div>
+        </div>
+
+
+
+
+
+
+                    <aside class="col-md-3">
+                        {% include 'web/user/include/user_sidebar.html' %}
+                    </aside>          
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+
+            <div class="mb-5"></div><!-- margin -->
+        </main>
+{% endblock %}x

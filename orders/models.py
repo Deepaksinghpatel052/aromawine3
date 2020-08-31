@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 import django
 from admin_manage_products.models import AwProducts,AwProductPrice
 from addressbook_user.models import AwAddressBook
+from manage_event.models import AwEvent
 from wineproject.utils import  unique_id_generator_for_order
 from django.db.models.signals import pre_save
 from datetime import date
@@ -23,21 +24,7 @@ from datetime import date
 #     class Meta:
 #         verbose_name_plural = "Aw Orders"
 
-class AwAddToCard(models.Model):
-    User = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='User_AwAddToCard')
-    Product = models.ForeignKey(AwProducts, on_delete=models.CASCADE, null=True, blank=True,related_name='AwProducts_AwAddToCard')
-    Year = models.CharField(max_length=120)
-    Type = models.CharField(max_length=120)
-    Case_Formate = models.ForeignKey(AwProductPrice, on_delete=models.SET_NULL, null=True, blank=True, related_name='Case_Formate_AwProductPrice')
-    Quentity = models.IntegerField(default=0)
-    Date = models.DateTimeField(default=django.utils.timezone.now)
 
-
-    def __str__(self):
-        return str(self.User)
-
-    class Meta:
-        verbose_name_plural = "Aw Add To Card"
 
 
 
@@ -56,6 +43,7 @@ class AwOrders(models.Model):
     Cupon_Discount = models.FloatField(default=0)
     Amount = models.IntegerField(default=0)
     Order_Status = models.BooleanField(default=False)
+    Order_Status_Set = models.CharField(default='Active',max_length=120)
     Payment_Status = models.BooleanField(default=False)
     Payment_Method = models.CharField(max_length=120,null=True, blank=True)
     Order_Date = models.DateTimeField(default=django.utils.timezone.now)
@@ -89,6 +77,7 @@ def user_directory_path(instance, filename):
 class AwOrderNote(models.Model):
     User = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='User_AwOrderNote')
     Order_id = models.ForeignKey(AwOrders, on_delete=models.SET_NULL, null=True, blank=True,related_name='orderId_AwOrderNote')
+    Order_For = models.CharField(max_length=120,null=True, blank=True) #  # Like Cellar Delivered & Tickets
     Note = models.TextField(null=True,blank=True)
     Attachment = models.ImageField(upload_to=user_directory_path,null=True,blank=True)
     Display_Status = models.BooleanField(default=False)
@@ -103,9 +92,11 @@ class AwOrderNote(models.Model):
 class AwOrederItem(models.Model):
     User = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='User_OrderItem')
     Order_id = models.ForeignKey(AwOrders, on_delete=models.SET_NULL, null=True, blank=True, related_name='orderId_OrderItem')
-    Product = models.ForeignKey(AwProducts, on_delete=models.CASCADE, null=True, blank=True,related_name='Product_OrderItem')
-    Year = models.CharField(max_length=120)
-    Type = models.CharField(max_length=120)
+    Product_Cellar = models.ForeignKey(AwProducts, on_delete=models.CASCADE, null=True, blank=True,related_name='AwProducts_AwOrederItem')
+    Product_Delivered = models.ForeignKey(AwProducts, on_delete=models.CASCADE, null=True, blank=True,related_name='AwProducts_AwOrederItem_Delivered')
+    Event_Ticket = models.ForeignKey(AwEvent, on_delete=models.CASCADE, null=True, blank=True,related_name='AwEvent_AwOrederItem')
+    Year = models.CharField(max_length=120,null=True, blank=True,)
+    Type = models.CharField(max_length=120,null=True, blank=True,)
     Case_Formate_text = models.CharField(max_length=120,null=True, blank=True)
     Case_Formate = models.ForeignKey(AwProductPrice, on_delete=models.SET_NULL, null=True, blank=True, related_name='Case_Formate_AwOrderitem')
     Cost_of_product = models.FloatField(default=0)
@@ -117,3 +108,25 @@ class AwOrederItem(models.Model):
 
     class Meta:
         verbose_name_plural = "Aw Order Items"
+
+
+class AwAddToCard(models.Model):
+    User = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='User_AwAddToCard')
+    Order_Type = models.CharField(max_length=120,default='Cellar')    # Like Cellar Delivered & Tickets
+    Product_Cellar = models.ForeignKey(AwProducts, on_delete=models.CASCADE, null=True, blank=True,related_name='AwProducts_AwAddToCard')
+    Product_Delivered = models.ForeignKey(AwProducts, on_delete=models.CASCADE, null=True, blank=True,related_name='AwProducts_AwAddToCard_Delivered')
+    order_item_id = models.ForeignKey(AwOrederItem, on_delete=models.CASCADE, null=True, blank=True,related_name='AwProducts_AwAddToCard_Delivered')
+    Event_Ticket = models.ForeignKey(AwEvent, on_delete=models.CASCADE, null=True, blank=True,related_name='AwEvent_AwAddToCard')
+    Year = models.CharField(max_length=120,null=True, blank=True,)
+    Type = models.CharField(max_length=120,null=True, blank=True,)
+    Old_Cost = models.FloatField(default=0)
+    Case_Formate = models.ForeignKey(AwProductPrice, on_delete=models.SET_NULL, null=True, blank=True, related_name='Case_Formate_AwProductPrice')
+    Quentity = models.IntegerField(default=0)
+    Date = models.DateTimeField(default=django.utils.timezone.now)
+
+
+    def __str__(self):
+        return str(self.User)
+
+    class Meta:
+        verbose_name_plural = "Aw Add To Card"

@@ -13,6 +13,7 @@ from addressbook_user.forms import AwAddressBookFormUser,AwAddressBookForm
 from addressbook_user.models import AwAddressBook
 from .models import AwOrders,AwOrederItem,AwOrderNote
 from django.urls import reverse
+from manage_event.models import AwEvent
 from django.contrib import messages
 from django.db.models import Sum
 from django.http import HttpResponse, JsonResponse
@@ -20,6 +21,7 @@ from wineproject import settings
 from admin_manage_cupon_code.models import AwCuponCode
 from datetime import datetime
 from datetime import date
+from django.db.models import Q
 # Create your views here.
 
 
@@ -97,10 +99,18 @@ class MyCardView(generic.TemplateView):
             order_data = AwAddToCard.objects.filter(User=self.request.user)
             quent = len(order_data)
             for item in order_data:
-                if item.Type == 'Bond':
-                    Amount = Amount + (item.Case_Formate.Bond_Cost * item.Quentity)
-                if item.Type == 'Retail':
-                    Amount = Amount + (item.Case_Formate.Retail_Cost * item.Quentity)
+                if item.Order_Type == "Cellar":
+                    if item.Type == 'Bond':
+                        Amount = Amount + (item.Case_Formate.Bond_Cost * item.Quentity)
+                    if item.Type == 'Retail':
+                        Amount = Amount + (item.Case_Formate.Retail_Cost * item.Quentity)
+                elif item.Order_Type == "Delivered":
+                    if item.order_item_id.Order_id.Payment_Status:
+                        Amount  = Amount + 0.0
+                    else:
+                        Amount = Amount + (item.Old_Cost * item.Quentity)
+                else:
+                    Amount = Amount + (item.Event_Ticket.ticket_price * item.Quentity)
         else:
             messages.error(request, "No Item avelabel in your card.")
             return HttpResponseRedirect(reverse('orders:my_card'))
@@ -114,14 +124,30 @@ class MyCardView(generic.TemplateView):
             else:
                 Cupon_Discount_amount = float(Amount) - float(set_coupon_count)
             AwOrders.objects.filter(order_id=add_order.order_id).update(Use_coupon=True,Cupon_Code=set_coupon_code,Cupon_Discount=get_persenteg_amoint,Amount=Cupon_Discount_amount)
+
         for item in order_data:
-            if item.Type == 'Bond':
-                cost_of_product = item.Case_Formate.Bond_Cost
-                total_cost = (item.Case_Formate.Bond_Cost * item.Quentity)
-            if item.Type == 'Retail':
-                cost_of_product = item.Case_Formate.Retail_Cost
-                total_cost = (item.Case_Formate.Retail_Cost * item.Quentity)
-            add_item = AwOrederItem(User=request.user, Order_id=add_order, Product=item.Product, Year=item.Year,Type=item.Type, Case_Formate_text=item.Case_Formate.Bottle,Case_Formate=item.Case_Formate,Cost_of_product=cost_of_product, Quentity=item.Quentity, Total_cost=total_cost)
+            if item.Order_Type == "Cellar":
+                if item.Type == 'Bond':
+                    cost_of_product = item.Case_Formate.Bond_Cost
+                    total_cost = (item.Case_Formate.Bond_Cost * item.Quentity)
+                if item.Type == 'Retail':
+                    cost_of_product = item.Case_Formate.Retail_Cost
+                    total_cost = (item.Case_Formate.Retail_Cost * item.Quentity)
+            elif item.Order_Type == "Delivered":
+                if item.order_item_id.Order_id.Payment_Status:
+                    cost_of_product = 0.0
+                    total_cost = 0
+                else:
+                    cost_of_product = item.Old_Cost
+                    total_cost = (item.Old_Cost * item.Quentity)
+            else:
+                cost_of_product = item.Event_Ticket.ticket_price
+                total_cost = (item.Event_Ticket.ticket_price * item.Quentity)
+
+            Case_Formate_text_set = None
+            if item.Case_Formate:
+                Case_Formate_text_set = item.Case_Formate.Bottle
+            add_item = AwOrederItem(User=request.user, Order_id=add_order, Product_Cellar=item.Product_Cellar,Product_Delivered=item.Product_Delivered,Event_Ticket=item.Event_Ticket, Year=item.Year,Type=item.Type, Case_Formate_text=Case_Formate_text_set,Case_Formate=item.Case_Formate,Cost_of_product=cost_of_product, Quentity=item.Quentity, Total_cost=total_cost)
             add_item.save()
         AwAddToCard.objects.filter(User=self.request.user).delete()
         # messages.info(request, "Order Plase successfully.")
@@ -146,13 +172,84 @@ class CheckOutView(generic.TemplateView):
                 get_acre_product = AwOrederItem.objects.filter(User=self.request.user).filter(Order_id__order_id=order_id)
         context['card_product'] = get_acre_product
         context['get_order_ins'] = get_order_ins
+
+        context['address_form'] = AwAddressBookFormUser
+        my_address = None
+        if AwAddressBook.objects.filter(User=self.request.user).exists():
+            my_address = AwAddressBook.objects.filter(User=self.request.user)
+        context['my_address'] = my_address
         return context
 
     def post(self, request, *args, **kwargs):
         order_id = self.kwargs.get("order_id")
+        order_data = get_object_or_404(AwOrders, order_id=order_id)
+        get_address_ins = None
+        if order_data.Order_Type == 'Delivered':
+            if 'old_address' in request.POST:
+                if request.POST["address_id"]:
+                    addres_id = request.POST["address_id"]
+                    if AwAddressBook.objects.filter(id=addres_id).exists():
+                        get_address_ins = get_object_or_404(AwAddressBook, id=addres_id)
+                    else:
+                        messages.error(request, "Address is incorrect.")
+                        return HttpResponseRedirect(reverse('orders:checkout'))
+                else:
+                    messages.error(request, "Address is incorrect.")
+                    return HttpResponseRedirect(reverse('orders:checkout'))
+            else:
+                form = AwAddressBookForm(request.POST)
+                if form.is_valid():
+                    self.object = form.save(commit=False)
+                    self.object.User = request.user
+                    self.object.save()
+                    form.save()
+                    get_address_ins = AwAddressBook.objects.filter(User=request.user).order_by('-id')[0]
+                else:
+                    messages.error(request, form.errors)
+                    context = {}
+                    context['Page_title'] = "Checkout"
+                    my_address = None
+                    if AwAddressBook.objects.filter(User=request.user).exists():
+                        my_address = AwAddressBook.objects.filter(User=request.user)
+                    context['my_address'] = my_address
+                    context['address_form'] = form
+
+                    get_order_ins = None
+                    get_acre_product = None
+                    if AwOrders.objects.filter(order_id=order_id).filter(Order_Status=False).exists():
+                        get_order_ins = get_object_or_404(AwOrders, order_id=order_id, Order_Status=False)
+
+                        if AwOrederItem.objects.filter(User=self.request.user).filter(Order_id=get_order_ins).exists():
+                            get_acre_product = AwOrederItem.objects.filter(User=self.request.user).filter(
+                                Order_id__order_id=order_id)
+                    context['card_product'] = get_acre_product
+                    context['get_order_ins'] = get_order_ins
+                    # ================
+                    return render(request, self.template_name, context)
+
+        message = request.POST["massage"]
         payment_type = request.POST["payment_type"]
-        AwOrders.objects.filter(order_id=order_id).update(Order_Status=True,Payment_Status=True,Payment_Method=payment_type,Payment_Date=datetime.now())
-        messages.info(request, "Order Place successfully.")
+        AwOrders.objects.filter(order_id=order_id).update(Order_Status=True,Payment_Status=True,Payment_Method=payment_type,Payment_Date=datetime.now(),Order_address=get_address_ins)
+
+        # ==========================remive product from caller when order is develover===================================
+        get_product = AwOrederItem.objects.filter(User=self.request.user).filter(Order_id__order_id=order_id)
+
+        if AwOrders.objects.filter(User=self.request.user).filter(Order_Type='Caller').exists():
+            get_old_caller_order = AwOrders.objects.filter(User=self.request.user).filter(Order_Type='Caller')
+
+            for items in get_product:
+                if AwOrederItem.objects.filter(Order_id__in=get_old_caller_order).filter(Product_Cellar=items.Product_Delivered).exists():
+                    get_caller = AwOrederItem.objects.filter(Order_id__in=get_old_caller_order).filter(Product_Cellar=items.Product_Delivered)
+                    for item_get in get_caller:
+                        quentity = item_get.Quentity - items.Quentity
+                        if quentity <= 0:
+                            quentity = 0
+                        AwOrederItem.objects.filter(id=item_get.id).update(Quentity=quentity)
+        # ==========================remive product from caller when order is develover===================================
+        messages.info(request, "Order done successfully.")
+        # if AwOrders.objects.filter(User=request.user).filter(Order_Type='Caller')
+
+
         return HttpResponseRedirect(reverse('orders:checkout',args=(order_id,)))
 
 @method_decorator(login_required , name="dispatch")
@@ -241,28 +338,120 @@ def add_to_card(request):
         Type = request.POST['Type']
         Case_Formate_id = request.POST['Case_Formate_id']
         Quentity_set = request.POST['Quentity_set']
-        if AwProducts.objects.filter(Product_id=product_id).exists():
-            product_ins = get_object_or_404(AwProducts , Product_id=product_id)
-            if AwProductPrice.objects.filter(id=Case_Formate_id).exists():
-                Case_Formate_ins =get_object_or_404(AwProductPrice , id=Case_Formate_id)
-                if  AwAddToCard.objects.filter(User=user_ins).filter(Product=product_ins).filter(Year=Year).filter(Type=Type).filter(Case_Formate=Case_Formate_ins).exists():
-                    status = 0
-                    message = "This product is already add in your bucket."
-                else:
-                    add_in_card = AwAddToCard(User=user_ins,Product=product_ins,Year=Year,Type=Type,Case_Formate=Case_Formate_ins,Quentity=Quentity_set)
-                    add_in_card.save()
+        order_type = request.POST['order_type']
+
+        order_id = request.POST['order_id']
+        event_id = request.POST['event_id']
+        # =========================== Set Order Type Start ===================
+        order_type_set = "Cellar"
+        set_item_type = "Product"
+        if order_type == "c":
+            order_type_set = "Cellar"
+        if order_type == "d":
+            order_type_set = "Delivered"
+
+        if order_type == "t":
+            set_item_type = "tickets"
+            order_type_set = "Tickets"
+        # =========================== Set Order Type End ===================
+        Order_Type = order_type_set
+
+
+        product_ins = None
+        product_order_item_ins = None
+        event_ins = None
+        Case_Formate_ins = None
+        product_order_item_ins_all_data = None
+        Cost = 0
+        if order_type == "c":
+            if AwProducts.objects.filter(Product_id=product_id).exists():
+                product_ins = get_object_or_404(AwProducts, Product_id=product_id)
+                if AwProductPrice.objects.filter(id=Case_Formate_id).exists():
+                    Case_Formate_ins = get_object_or_404(AwProductPrice, id=Case_Formate_id)
                     status = 1
-                    message = "Product add in your bucket."
+                else:
+                    status = 0
+                    message = "Case_Formate_id is incorrect caller"
             else:
                 status = 0
-                message = "Case_Formate_id is incorrect"
-        else:
+                message = "product_id is incorrect caller"
+
+        if order_type == "d":
+            if AwOrederItem.objects.filter(Product_Cellar__Product_id=product_id).filter(Order_id__id=order_id).exists():
+                product_order_item_ins_all_data= get_object_or_404(AwOrederItem, Product_Cellar__Product_id=product_id, Order_id__id=order_id)
+                product_order_item_ins = product_order_item_ins_all_data.Product_Cellar
+                Cost = product_order_item_ins_all_data.Cost_of_product
+                if AwProductPrice.objects.filter(id=Case_Formate_id).exists():
+                    Case_Formate_ins = get_object_or_404(AwProductPrice, id=Case_Formate_id)
+                    status = 1
+                else:
+                    status = 0
+                    message = "Case_Formate_id is incorrect caller"
+            else:
+                status = 0
+                message = "product_id is incorrect deleverd"
+
+        if order_type == "t":
+            if AwEvent.objects.filter(id=event_id).exists():
+                event_ins = get_object_or_404(AwEvent, id=event_id)
+
+                Cost = event_ins.ticket_price
+                status = 1
+            else:
+                status = 0
+                message = "event_id is incorrect deleverd"
+
+        if status == 1:
             status = 0
-            message = "product_id is incorrect"
+            if AwAddToCard.objects.filter(User=user_ins).exists():
+                get_filst_item_ins = AwAddToCard.objects.filter(User=user_ins).first()
+                if get_filst_item_ins.Order_Type == order_type_set:
+                    if  AwAddToCard.objects.filter(User=user_ins).filter(Product_Cellar=product_ins).filter(Product_Delivered=product_order_item_ins).filter(Event_Ticket=event_ins).filter(Year=Year).filter(Type=Type).filter(Case_Formate=Case_Formate_ins).exists():
+                        status = 0
+                        message = "This "+set_item_type+" is already add in your bucket."
+                    else:
+                        add_in_card = AwAddToCard(User=user_ins, order_item_id=product_order_item_ins_all_data, Old_Cost=Cost, Product_Cellar=product_ins,
+                                                  Product_Delivered=product_order_item_ins, Event_Ticket=event_ins,
+                                                  Year=Year, Type=Type, Case_Formate=Case_Formate_ins,
+                                                  Quentity=Quentity_set, Order_Type=order_type_set)
+                        add_in_card.save()
+                        status = 1
+                        message = str(Order_Type)+" add in your bucket."
+                else:
+                    status = 0
+                    message = "You can add only ont type "+set_item_type+" ("+str(get_filst_item_ins.Order_Type)+")."
+            else:
+                add_in_card = AwAddToCard(User=user_ins,Old_Cost=Cost,order_item_id=product_order_item_ins_all_data, Product_Cellar=product_ins,Product_Delivered=product_order_item_ins,Event_Ticket=event_ins, Year=Year, Type=Type,Case_Formate=Case_Formate_ins, Quentity=Quentity_set, Order_Type=order_type_set)
+                add_in_card.save()
+                status = 1
+                message = str(Order_Type)+" add in your bucket."
     else:
         status = 0
         message = "Method is incorrect."
-    return JsonResponse({"status": status,"message":message})
+    return JsonResponse({"status": status, "message": message})
+
+    #     if AwProducts.objects.filter(Product_id=product_id).exists():
+    #         product_ins = get_object_or_404(AwProducts , Product_id=product_id)
+    #         if AwProductPrice.objects.filter(id=Case_Formate_id).exists():
+    #             Case_Formate_ins =get_object_or_404(AwProductPrice , id=Case_Formate_id)
+    #             if  AwAddToCard.objects.filter(User=user_ins).filter(Product=product_ins).filter(Year=Year).filter(Type=Type).filter(Case_Formate=Case_Formate_ins).exists():
+    #                 status = 0
+    #                 message = "This product is already add in your bucket."
+    #             else:
+    #                 add_in_card = AwAddToCard(User=user_ins,Product=product_ins,Year=Year,Type=Type,Case_Formate=Case_Formate_ins,Quentity=Quentity_set,order_type='')
+    #                 add_in_card.save()
+    #                 status = 1
+    #                 message = "Product add in your bucket."
+    #         else:
+    #             status = 0
+    #             message = "Case_Formate_id is incorrect"
+    #     else:
+    #         status = 0
+    #         message = "product_id is incorrect"
+    # else:
+    #     status = 0
+    #     message = "Method is incorrect."
+    # return JsonResponse({"status": status,"message":message})
 
 
 

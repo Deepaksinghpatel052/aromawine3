@@ -138,14 +138,17 @@
  {% if object_list %}
  {% for item in object_list %}
 
+{% if item.Quentity > 0 %}
+
+{{item.Quentity}}
     <div class="product-card product-card-list mb-4">
-  <div class="img"><a href="{% url 'product_detail:product_detail' item.Product.Product_id item.Product.Product_slug  item.Year  %}"><img src='{{item.Product|get_product_image_one}}'  alt="{{item.Product.Select_Type}} : {{item.Product}} ({{item.Year}})"></a></div>
+  <div class="img"><a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year  %}"><img src='{{item.Product_Cellar|get_product_image_one}}'  alt="{{item.Product_Cellar.Select_Type}} : {{item.Product_Cellar}} ({{item.Year}})"></a></div>
   <div class="product-info">
     <div class="product-info-header">
       <div><a class="productname" href="#">
-        <h2 class="title">{{item.Product.Select_Type}} : {{item.Product}} {{item.Year}}</h2>
+        <h2 class="title">{{item.Product_Cellar.Select_Type}} : {{item.Product_Cellar}} {{item.Year}}</h2>
         </a>
-        <div class="product-attributes"><a href="#">Veneto</a> - <a href="#">Amarone della Valpolicella Classico</a> - {{item.Product.Color.all|join:" | "}}</div>
+        <div class="product-attributes"><a href="#">Veneto</a> - <a href="#">Amarone della Valpolicella Classico</a> - {{item.Product_Cellar.Color.all|join:" | "}}</div>
       </div>
     </div>
     <hr>
@@ -159,18 +162,31 @@
       <span class="d-none d-sm-inline-block mx-sm-1"> | </span><span> SG${{item.Cost_of_product}}&nbsp;/&nbsp;Unit</span>
       </span>
       </div>
+
+<select name="qty" id="quentyti_{{item.Type}}" style="display: none;">
+    <option value="1" >1</option>
+</select>
+
+<select data-type="{{item.Type}}" style="width:100%; display: none;" id="case_formate_{{item.Type}}">
+			<option value="{{item.Case_Formate.id}}">{{item.Case_Formate.Bottle}}</option>
+			</select>
+
+<input type="hidden" id="product_year_{{item.Product_Cellar.Product_id}}" name="" value="{{item.Year}}">
+
       <div class="product-info-content-cta">
         <button class="mb-2 product-story_info-btn cick_to_view_product" data-toggle="modal" data-target="#listing-add-to-cart-modal" data-quick_view_url="{% url 'wine_shop:quick_view_product' item.Case_Formate.id  %}">Quick View</button>
         
-        <a class="product-story_info-btn btn-cart change-ib-db delever_product"  title="Add To Order" data-product_id="{{item.id}}">Get Delivery</a></div>
+        <a class="product-story_info-btn btn-cart change-ib-db add_to_card"  data-order_type="d" data-event_id="" data-cost_type="{{item.Type}}"  data-order_id="{{item.Order_id.id}}"  data-product_id="{{item.Product_Cellar.Product_id}}"   >Get Delivery</a></div>
     </div>
-    <div class="product-brand-link"><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{item.Product.Producer.Slug}}" aria-label="All {{item.Product.Producer}} wines">All {{item.Product.Producer}} wines</a></div>
+    <div class="product-brand-link"><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{item.Product_Cellar.Producer.Slug}}" aria-label="All {{item.Product_Cellar.Producer}} wines">All {{item.Product_Cellar.Producer}} wines</a></div>
   </div>
   <div class="options">
-    <div class="promo-label">Special Prices  {{item.Product.Bottel_Size.all|join:" | "}}</div>
+    <div class="promo-label">Special Prices  {{item.Product_Cellar.Bottel_Size.all|join:" | "}}</div>
     <div><span>Available</span></div>
   </div>
 </div>
+ 
+ {% endif %}
 
 {% endfor %}
  {% endif %}
@@ -230,19 +246,18 @@
 			</div>
 		</div>
 	</div>
+
+
+
+
+<input type="hidden" id="get_product_price_page" name="" value="{% url 'orders:get_product_price' %}">
+<input type="hidden" id="add_to_card_url" name="" value="{% url 'orders:add_to_card' %}">
+
 {% endblock %}
 
 {% block script %}
 
 <script type="text/javascript">
-
-$(document).on('click','.delever_product',function(){
-
-var id = $(this).data('product_id');
-alert(id);
-
-});
-
 
 
 		$(document).on("click",".cick_to_view_product",function(){

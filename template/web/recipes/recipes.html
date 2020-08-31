@@ -1,0 +1,337 @@
+{% extends 'web/base-template.html' %}
+
+   {% block cssstyle %}
+   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+      {% endblock %}
+{% block content %}
+{% load static %}
+
+
+
+
+<!-----------Page Content Start------------->
+<style type="text/css">
+</style>
+<section>
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Recipe</li>
+      </ol>
+    </nav>
+  </div>
+</section>
+<section class="fluid-container p-l-r-50">
+<div class="container">
+<div class="row">
+  <div class="filter-area col-md-3" id="sidebarWrap">
+    <div id="sidebar">
+      <div class="heading-content">
+        <p class="heading-content">Filters By</p>
+      </div>
+      <div class="filter-section">
+        <div id="accordion" class="accordion-container"> 
+		
+          
+        
+		  
+		  
+		  <a class="article-title" href="javascript:void(0)" id="defaultOpen">
+      Wine Pairng - Recipes</a>
+          <div class="accordion-content open" style="display: block;">
+		 
+            <div class="content filter-bottle-size active checkbox-color-change">
+              <ul class="bottolebox">
+                <li>
+                  <input type="Checkbox" name="" id="barsac">
+                  <label for="barsac"><span class="filletr-text">Haut-Medoc</span> 
+                  </label>
+                </li>
+               
+        
+        <li>
+                  <input type="Checkbox" name="" id="fronsac">
+                  <label for="fronsac"><span class="filletr-text">Pauillac</span> 
+                  </label>
+                </li>
+        <li>
+                  <input type="Checkbox" name="" id="graves">
+                  <label for="graves"><span class="filletr-text">Pomerol</span> 
+                  </label>
+                </li>
+        <li>
+                  <input type="Checkbox" name="" id="haut">
+                  <label for="haut"><span class="filletr-text">Haut-Medoc</span> 
+                  </label>
+                </li>
+        <li>
+                  <input type="Checkbox" name="" id="listrac">
+                  <label for="listrac"><span class="filletr-text">Margaux</span>
+                  </label>
+                </li>
+        <li>
+                  <input type="Checkbox" name="" id="margaux">
+                  <label for="margaux"><span class="filletr-text">St Estephe</span> 
+                  </label>
+                </li>
+        <li>
+                  <input type="Checkbox" name="" id="saint">
+                  <label for="saint"><span class="filletr-text">St Julien</span> 
+                  </label>
+                </li>
+         <li>
+                  <input type="Checkbox" name="" id="dry">
+                  <label id="dry"><span class="filletr-text">Bordeaux dry white wines</span> 
+                  </label>
+                </li>
+                <li>
+                  <input type="Checkbox" name="" id="Cotes">
+                  <label for="Cotes"><span class="filletr-text">Castillon Cotes de Bordeaux</span> 
+                  </label>
+                </li>
+                <li>
+                  <input type="Checkbox" name="" id="provence">
+                  <label for="provence"><span class="filletr-text">Coteaux d'Aix-en-Provence<span> 
+                  </label>
+                </li>
+                <li>
+                  <input type="Checkbox" name="" id="ermitage">
+                  <label for="ermitage"><span class="filletr-text">Crozes-Ermitage<span>
+                  </label>
+                </li>
+        
+        
+              </ul>
+            </div>
+          </div>
+
+        </div>
+        <!--/#accordion-->
+      </div>
+    </div>
+  </div>
+  <div class="selling-area col-md-9" id="main">
+    <!-- <div class="selling-section"> -->
+    <div class="row">
+
+  <div class="col-md-12">
+  <div class="yellow_bg text-center">
+  <h1>Wine Pairng - Recipes</h1>
+  <p>The following is a selection of Wine Spectator and Wine Advocates 90+ rated wines. The rating systems of these two prolific publications have for many become the benchmark of quality in the wine...</p>
+  <a href="#" class="product-story_info-btn">Read More</a>
+  </div>
+  </div>
+      
+   
+
+      <div class="col-md-3">
+        
+ <select id="short_by_product">
+          <option>Sort By</option>
+          <option {% if short_by_set == 'asc' %} selected="" {% endif %} value="short-by=asc">ASC</option>
+          <option {% if short_by_set == 'name' %} selected="" {% endif %} value="short-by=name" >Name</option>
+        </select>
+     
+      </div>
+      <div class="col-md-4"></div>
+      <div class="col-md-5">
+        <div class="show-entry"> <span>{{page_obj.paginator.count}} results for <span class="ruby-list-heading2">All Recipes</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="event-main">
+    
+
+
+
+  {% if page_obj %}
+
+   {% for item in page_obj %}
+    <div class="product-card mb-4 event-list">
+  
+
+  <div class="row">
+
+
+  	<div class="col-md-4"><div class="img"><a href="#">
+
+ {% if item.Image %}
+      
+<img src="{{item.Image.url}}" alt="" height="250">
+      {% else %}
+    	<img src="https://media.bbr.com/s/bbr/90068000117-ms?img404=Default_Events&amp;$deskPDP$" alt="" height="250">
+    	{% endif %}
+  		</a></div></div>
+  	<div class="col-md-8">
+  		
+  		<div class="product-info">
+    <div class="product-info-header text-left">
+      <a class="productname" href="#">
+        <h2 class="title">{{item.Name}}</h2>
+        </a>
+        
+     
+    </div>
+    <hr>
+    <div class="product-info-content">
+      <div class="product-event">
+	  <p>{{item.Short_Description|slice:"0:200"}}</p>
+	  
+	  </div>
+	  
+	  
+	  
+      <div class="product-info-content-cta">
+        <button class="mb-2 product-story_info-btn  cick_to_view_event" data-toggle="modal" data-target="#listing-add-to-cart-modal" data-quick_view_url="{% url 'recipes_for_web:quick_view_recipe' item.id  %}">Quick View</button>
+        <a class="product-story_info-btn" href="{% url 'recipes_for_web:recipe_detail' item.id item.Slug %}">See details</a></div>
+    </div>
+    
+  </div>
+  	</div>
+  </div>
+ 
+  
+  
+</div>
+	
+	      {% endfor %}
+   {% endif %} 
+
+
+
+
+	{% if is_paginated %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="page-item "><a class="page-link active" href="?{% if event_type_set %}{% for item in event_type_set %}event-type={{item}}&{% endfor %}{% endif %}{% if short_by_set %}short-by={{short_by_set}}&{% endif %}page={{page_obj.previous_page_number}}"><</a></li>
+    {% else %}
+    <li class="page-item "><a class="page-link active" href="#"><</a></li>
+    {% endif %}
+    {% for page_no in paginator.page_range %}
+      {% if page_obj.number == page_no %}
+      <li class="page-item active"><a class="page-link" href="#">{{page_no}}</a></li>
+      {% else %}
+      <li class="page-item"><a class="page-link" href="?{% if event_type_set %}{% for item in event_type_set %}event-type={{item}}&{% endfor %}{% endif %}{% if short_by_set %}short-by={{short_by_set}}&{% endif %}page={{page_no}}">{{page_no}}</a></li>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+    <li class="page-item "><a class="page-link active" href="?{% if event_type_set %}{% for item in event_type_set %}event-type={{item}}&{% endfor %}{% endif %}{% if short_by_set %}short-by={{short_by_set}}&{% endif %}page={{page_obj.next_page_number}}">></a></li>
+    {% else %}
+    <li class="page-item "><a class="page-link active" href="#">></a></li>
+    {% endif %}
+    
+  
+  </ul>
+</nav>
+
+{% endif %}
+	 
+	 
+	
+      
+      
+      
+    </div>
+  </div>
+  </div>
+  </div>
+  <div class="clearfix"></div>
+</section>
+
+<!-- Modal -->
+<div class="modal right fade" id="listing-add-to-cart-modal" tabindex="-1" role="dialog" aria-labelledby="listing-add-to-cart-modal">
+		<div class="modal-dialog listing-add-to-cart-modal" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					
+					<h4 class="modal-title" id="listing-add-to-cart-modal">Wine Recipe</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				</div>
+
+				<div class="modal-body">
+					
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+<!------------Page Content End--------------->
+
+
+
+{% endblock %}
+
+
+     {% block script %}
+<script type="text/javascript">
+  var onloadCallback = function() {
+    // alert("grecaptcha is ready!");
+  };
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+    async defer>
+</script>
+
+<script type="text/javascript">
+	$(document).on('change',"#short_by_product",function(){
+var short_by = $(this).val();
+// alert(short_by);
+// window.location.href = short_by;
+set_short_filter(short_by);
+
+});
+
+
+
+$(document).on("change","input[type=Checkbox]",function(){
+set_short_filter();
+});
+
+function set_short_filter(set_filter="")
+{
+var setfilterURL = "?";
+
+
+
+
+var types = "";
+$(".eventType:checked").each(function(){
+    types = types+"event-type="+$(this).val()+"&";
+});
+// ================color End================
+
+if(types){  setfilterURL = setfilterURL+types; }
+if(set_filter){ setfilterURL = setfilterURL+set_filter; }
+// --------------------------
+
+
+// console.log(color);
+// console.log(setfilterURL);
+// ================color================
+
+
+
+window.location.href = setfilterURL;
+}
+
+
+$(document).on("click",".cick_to_view_event",function(){
+		$.ajax({
+          method:"GET",
+          url:$(this).data("quick_view_url"),
+          dataType:"html",
+          success:function(data){
+          	$("#listing-add-to-cart-modal .modal-body").html(data);
+          }
+		});
+	});
+
+</script>
+      {% endblock %}

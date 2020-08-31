@@ -5,17 +5,17 @@ from import_export.admin import ImportExportModelAdmin
 
 
 class AwOrdersAdmin(ImportExportModelAdmin):
-    list_display = ('User','order_id', 'Order_address', 'Order_Type','Quentity','order_amount','Use_coupon','Cupon_Code','Cupon_Discount','Amount','Payment_Status','Payment_Method','Order_Date','delivery_Date','Payment_Date')
+    list_display = ('User','order_id', 'Order_address', 'Order_Type','Quentity','order_amount','Use_coupon','Cupon_Code','Cupon_Discount','Amount','Payment_Status','Order_Status_Set','Payment_Method','Order_Date','delivery_Date','Payment_Date')
 admin.site.register(AwOrders,AwOrdersAdmin)
 
 class AwAddToCardAdmin(ImportExportModelAdmin):
-    list_display = ('User','Product', 'Year', 'Type','Case_Formate','Quentity','Date')
-    list_filter = ('User','Product','Date','Year',)
+    list_display = ('User','Order_Type','Product_Cellar','Product_Delivered','Event_Ticket','Case_Formate','Quentity','Old_Cost','Date')
+    # list_filter = ('User','Event_Ticket','Product_Cellar','Product_Delivered','Date','Year',)
 admin.site.register(AwAddToCard,AwAddToCardAdmin)
 
 
 class AwOrederItemAdmin(ImportExportModelAdmin):
-    list_display = ('User','Order_id', 'Product', 'Year','Type','Case_Formate_text','Case_Formate','Cost_of_product','Quentity','Total_cost')
+    list_display = ('User','Order_id', 'Product_Cellar','Product_Delivered','Event_Ticket','Year','Case_Formate_text','Case_Formate','Cost_of_product','Quentity','Total_cost')
 admin.site.register(AwOrederItem,AwOrederItemAdmin)
 
 class AwOrderNoteAdmin(ImportExportModelAdmin):

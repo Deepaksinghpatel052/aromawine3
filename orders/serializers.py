@@ -29,5 +29,5 @@ class AwAddToCardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model =  AwAddToCard
-        fields = ('id','User','Product','Year','Type','Case_Formate','Quentity','Date','AwProductImage_Product')
+        fields = ('id','User','Order_Type','Product_Cellar','Product_Delivered','Event_Ticket','Year','Type','Old_Cost','Case_Formate','Quentity','Date','AwProductImage_Product')
         depth = 3

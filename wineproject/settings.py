@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'admin_manage_cupon_code',
     'admin_manage_perferences',
     'manage_event',
+    'manage_wine_recipes',
     'preferences_user',
     'manage_cellar',
     'home',
@@ -75,7 +76,9 @@ INSTALLED_APPS = [
     'admin_manage_order',
     'profile_user',
     'event',
+    'recipes_for_web',
     'pages',
+    'payment_method',
 ]
 
 MIDDLEWARE = [

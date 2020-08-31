@@ -60,8 +60,13 @@ class ManageOrdersAccordingToTypeView(SuccessMessageMixin,generic.ListView):
             type = 'Refunded'
         if type == 'cancelled':
             type = 'Cancelled'
-        queryset = AwOrders.objects.filter(Order_Status=type).order_by("-id")
+        if type == 'active':
+            type = 'Active'
+        queryset = None
+        if AwOrders.objects.filter(Order_Status_Set=type).exists():
+            queryset = AwOrders.objects.filter(Order_Status_Set=type).order_by("-id")
         return render(request, self.template_name, { 'Page_title': "Manage Orders "+type, 'queryset': queryset})
+
 
 @method_decorator(login_required , name="dispatch")
 class ManageOrdersView(SuccessMessageMixin,generic.ListView):
@@ -77,7 +82,7 @@ class ManageOrdersView(SuccessMessageMixin,generic.ListView):
 
 def order_status_update(request,order_id,status):
     if AwOrders.objects.filter(order_id=order_id).exists():
-        AwOrders.objects.filter(order_id=order_id).update(Order_Status=status)
+        AwOrders.objects.filter(order_id=order_id).update(Order_Status_Set=status)
         messages.info(request, "Order update successfully !")
     else:
         messages.error(request, "order_id is incorreect!")

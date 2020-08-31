@@ -45,6 +45,24 @@ if(jQuery.inArray("add-event", url_in_array) != -1)
 }
 
 
+// =====================Recipes styart=============
+if(jQuery.inArray("wine-recipes", url_in_array) != -1 && jQuery.inArray("add-recipe", url_in_array) == -1)
+{
+	$("#Manage_Recipes").addClass("active_dsp");
+	$("#Recipes").addClass("active");
+}
+
+if(jQuery.inArray("add-recipe", url_in_array) != -1)
+{
+	$("#Add_Recipe").addClass("active_dsp");
+	$("#Recipes").addClass("active");
+}
+// =====================Recipes end=============
+
+
+
+
+
 if(jQuery.inArray("dinner", url_in_array) != -1 && jQuery.inArray("add-dinner", url_in_array) == -1)
 {
 	$("#Manage_Dinner").addClass("active_dsp");
@@ -74,7 +92,7 @@ if(jQuery.inArray("add-testing-wine", url_in_array) != -1)
 
 
 
-if(jQuery.inArray("manage-order", url_in_array) != -1 && jQuery.inArray("refunded", url_in_array) == -1 && jQuery.inArray("cancelled", url_in_array) == -1 && jQuery.inArray("failled", url_in_array) == -1)
+if(jQuery.inArray("manage-order", url_in_array) != -1 && jQuery.inArray("refunded", url_in_array) == -1 && jQuery.inArray("cancelled", url_in_array) == -1 && jQuery.inArray("failled", url_in_array) == -1 && jQuery.inArray("active", url_in_array) == -1)
 {
 	$("#Manage_Orders").addClass("active_dsp");
 	$("#Orders").addClass("active");
@@ -83,6 +101,12 @@ if(jQuery.inArray("manage-order", url_in_array) != -1 && jQuery.inArray("refunde
 if(jQuery.inArray("edit-order", url_in_array) != -1 && jQuery.inArray("refunded", url_in_array) == -1 && jQuery.inArray("cancelled", url_in_array) == -1 && jQuery.inArray("failled", url_in_array) == -1)
 {
 	$("#Manage_Orders").addClass("active_dsp");
+	$("#Orders").addClass("active");
+}
+
+if(jQuery.inArray("active", url_in_array) != -1)
+{
+	$("#Active_Orders").addClass("active_dsp");
 	$("#Orders").addClass("active");
 }
 
@@ -117,6 +141,22 @@ if(jQuery.inArray("add-region", url_in_array) != -1)
 	$("#Add_Region").addClass("active_dsp");
 	$("#Region").addClass("active");
 }
+
+
+
+if(jQuery.inArray("coupons", url_in_array) != -1 && jQuery.inArray("add-coupon", url_in_array) == -1)
+{
+	$("#Manage_Coupons").addClass("active_dsp");
+	$("#Coupons").addClass("active");
+}
+
+if(jQuery.inArray("add-coupon", url_in_array) != -1)
+{
+	$("#Add_Coupon").addClass("active_dsp");
+	$("#Coupons").addClass("active");
+}
+
+
 
 
 

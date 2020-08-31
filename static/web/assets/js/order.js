@@ -2,11 +2,25 @@
 $(document).on('click',".add_to_card",function(){
 
 var product_id = $(this).data("product_id");
+// alert(product_id);
 var cost_type = $(this).data("cost_type");
 var case_formate = $("#case_formate_"+cost_type).val();
 var quentity = $("#quentyti_"+cost_type).val();
-var product_year = $("#product_year").val();
+if(product_id)
+{
+var product_year = $("#product_year_"+product_id.toString( )).val();	
+}
+else
+{
+	var product_year = "";
+}
+
+// alert(product_year);
 var add_to_card_url = $("#add_to_card_url").val();
+var order_type = $(this).data("order_type");
+
+var order_id = $(this).data("order_id");
+var event_id = $(this).data("event_id");
 if(quentity == '0')
 {
     swal({
@@ -21,7 +35,7 @@ else
   $.ajax({
    method:"POST",
    url:add_to_card_url,
-   data:{'product_id':product_id,'Year':product_year,'Type':cost_type,'Case_Formate_id':case_formate,'Quentity_set':quentity},
+   data:{'product_id':product_id,'Year':product_year,'Type':cost_type,'Case_Formate_id':case_formate,'Quentity_set':quentity,"order_type":order_type,"order_id":order_id,"event_id":event_id},
    dataType:"json",
    success:function(data){
     get_card_product();

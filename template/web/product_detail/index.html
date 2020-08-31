@@ -52,7 +52,7 @@
   </div>
   
 <!-- add to card barival start-->
-<input type="hidden" id="product_year" name="" value="{{get_product_one_year}}">
+<input type="hidden" id="product_year_{{get_product_one_year.Product.Product_id}}" name="" value="{{get_product_one_year}}">
 <input type="hidden" id="get_product_price_page" name="" value="{% url 'orders:get_product_price' %}">
 <input type="hidden" id="add_to_card_url" name="" value="{% url 'orders:add_to_card' %}">
 <input type="hidden" id="product_id" name="" value="{{get_product_one_year.Product.Product_id}}">
@@ -102,16 +102,16 @@ We will only be able to deliver this product to a bonded account. But you can re
 </select>
 
 {% if user.username == '' %}
-<a href="{% url 'account:account' %}"> <button type="button" title="Add To Order" d data-cost_type="Bond"  class="button btn-cart change-ib-db add_to_card">
+<a href="{% url 'account:account' %}"> <button data-order_type="c"  data-order_id="" data-event_id="" type="button" title="Add To Order" d data-cost_type="Bond"  class="button btn-cart change-ib-db add_to_card">
 Buy
 </button></a>
 {% else %}
 {% if get_product_one_year.Bond_Cost > 0 %}
-<button type="button" id="Bond_buy" title="Add To Order" data-product_id="{{get_product_one_year.Product.Product_id}}" data-cost_type="Bond"  class="button btn-cart change-ib-db add_to_card">
+<button type="button" id="Bond_buy" data-order_type="c" data-order_id="" data-event_id="" title="Add To Order" data-product_id="{{get_product_one_year.Product.Product_id}}" data-cost_type="Bond"  class="button btn-cart change-ib-db add_to_card">
 Buy
 </button>
 {% else %}
-<button type="button" id="Bond_buy" disabled="true" data-cost_type="Bond" data-product_id="{{get_product_one_year.Product.Product_id}}" title="Add To Order" class="add_to_card button btn-cart change-ib-db">
+<button type="button" id="Bond_buy" disabled="true" data-cost_type="Bond" data-order_type="c" data-order_id="" data-event_id=""  data-product_id="{{get_product_one_year.Product.Product_id}}" title="Add To Order" class="add_to_card button btn-cart change-ib-db">
 Buy
 </button>
 {% endif %}
@@ -170,15 +170,15 @@ Delivery to United Kingdom Storage: 25 Mar 2020</p> -->
 
 {% if user.username == '' %}
 
-<a href="{% url 'account:account' %}"> <button type="button" title="Add To Order" d data-cost_type="Bond"  class="button btn-cart change-ib-db add_to_card">
+<a href="{% url 'account:account' %}"> <button type="button" title="Add To Order" d data-cost_type="Bond"  class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">
 Buy
 </button></a>
 {% else %}
 
 {% if get_product_one_year.Retail_Cost > 0 %}
-<button type="button" id="Retail_buy" title="Add To Order" data-product_id="{{get_product_one_year.Product.Product_id}}" data-cost_type="Retail" class="button btn-cart change-ib-db add_to_card">Buy</button>
+<button type="button" id="Retail_buy" title="Add To Order" data-product_id="{{get_product_one_year.Product.Product_id}}" data-cost_type="Retail" class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">Buy</button>
 {% else %}
-<button type="button" id="Retail_buy"  disabled="true" data-product_id="{{get_product_one_year.Product.Product_id}}"data-cost_type="Retail" title="Add To Order" class="button btn-cart change-ib-db add_to_card">Buy</button>
+<button type="button" id="Retail_buy"  disabled="true" data-product_id="{{get_product_one_year.Product.Product_id}}"data-cost_type="Retail" title="Add To Order" class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">Buy</button>
 {% endif %}
 {% endif %}
 

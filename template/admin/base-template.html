@@ -69,6 +69,19 @@
                </li>
 
 
+<li class="treeview" id="Recipes">
+           <a href="#"><span>Recipes</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview " id="Manage_Recipes"><a href="{% url 'manage_wine_recipes:recipes' %}">Manage Recipes</a></li>
+                      
+            <li class="treeview"  id="Add_Recipe"><a href="{% url 'manage_wine_recipes:add_recipe' %}">Add Recipe</a></li>
+      
+            
+                     
+           
+                  </ul>
+               </li>
+
 
                  <li class="treeview" id="Dinner">
            <a href="#"><span>Dinner</span><i class="icon icon-angle-left pull-right"></i></a>
@@ -144,8 +157,9 @@
                       <li class="treeview" id="Manage_Orders">
 					  <a href="{% url 'admin_manage_order:orders' %}" >Manage Orders</a>
 					  </li>
-					  <li class="treeview">
-					 <a href="#">Celler Orders</a>
+
+					  <li class="treeview"  id="Active_Orders">
+					 <a href="{% url 'admin_manage_order:orders_type' 'active' %}">Active Orders</a>
 					 </li>
 					 <!--<li class="treeview">
 					  <a href="manage-shipping.php">Manage Delivery</a>
@@ -165,7 +179,22 @@
                   </ul>
                </li>
 			   <li class="treeview"><a href="disocunt-coupons.php">Disocunt Coupons</a></li>
-			   <li class="treeview" id="Countries">
+			   
+         <li class="treeview" id="Coupons">
+           <a href="#"><span>Coupons</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview"  id="Manage_Coupons"><a href="{% url 'admin_manage_cupon_code:admin_manage_cupon_code' %}">Manage Coupons</a></li>
+                     <li class="treeview" id="Add_Coupon">
+           <a href="{% url 'admin_manage_cupon_code:add_coupon' %}">Add Coupon</a>
+           </li>
+                     
+                  </ul>
+               </li>
+
+
+
+
+         <li class="treeview" id="Countries">
 					 <a href="#"><span>Countries</span><i class="icon icon-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
                       <li class="treeview"  id="Manage_Countries"><a href="{% url 'admin_manage_country:country' %}">Manage Countries</a></li>

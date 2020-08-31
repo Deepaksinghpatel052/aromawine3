@@ -47,6 +47,17 @@
 </div>
 	   </div>
 	   
+
+ <div class="row">
+     <div class="col-md-3">
+<div class="label-wrapper">
+<label class="control-label" for="CustomOrderNumber">Order Type #</label></div>
+</div>
+<div class="col-md-9">
+<div class="form-text-row">{{order_ins.Order_Type}}</div>
+</div>
+     </div>
+
 	   <div class="row">
 	   <div class="col-md-3">
 <div class="label-wrapper">
@@ -78,7 +89,7 @@
 <div class="input-group input-group-short">
 <div class="input-group-text">
 <strong>
-<div class="form-text-row">{{order_ins.Order_Status}}</div>
+<div class="form-text-row">{{order_ins.Order_Status_Set}}</div>
 </strong>
 </div>
 <div class="input-group-btn">
@@ -182,6 +193,8 @@ Cancel
 	   </div>
 	   </div>
 	   
+{% if order_ins.Order_Type == 'Delivered' %}
+
 	   <div class="borderbox">
 	  
 	   <div class="panel panel-default sub-panel">
@@ -198,7 +211,9 @@ Cancel
 </th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+
+  <tr>
 <td>
 Full name
 </td>
@@ -206,6 +221,7 @@ Full name
 	{{order_ins.User.first_name}} {{order_ins.User.last_name}}
 </td>
 </tr>
+
 <tr>
 <td>
 Email
@@ -214,6 +230,7 @@ Email
 	{{order_ins.User.email}}
 </td>
 </tr>
+
 <tr>
 <td>
 Phone
@@ -223,8 +240,8 @@ Phone
 </td>
 </tr>
 
-</tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <!-- <div class="row">
 <div class="form-group">
@@ -344,7 +361,8 @@ Landark
 
 </tr>
 
-</tbody></table>
+</tbody>
+</table>
 
 <!-- -------------------------- -->
   <form method="POST" accept="" id="bil_update_form" style="display: none;">
@@ -554,58 +572,31 @@ Yes
 </div>
 </div>
 </div>
+
 	 </div>
+
+  {% endif %}
+
+
 <div class="borderbox">
 
 <div class="panel panel-default sub-panel">
 
 <div class="panel-body">
-<h2>Products</h2>
+
+
+{% if order_ins.Order_Type == 'Tickets'  %}
+
+
+<h2>{{order_ins.Order_Type}}</h2>
 <div class="form-group">
 <div class="" style="overflow-x: auto;">
-<!-- <script>
-                    $(document).ready(function () {
-                        toggleOrderItemEdit12(false);
-                    });
-                </script>
-<script>
-                    function toggleOrderItemEdit12(editMode) {
-                        if (editMode) {
-                            $('#pnlEditPvUnitPrice12').show();
-                            $('#pnlEditPvQuantity12').show();
-                            $('#pnlEditPvDiscount12').show();
-							$('#pnlEditPvDiscountbond').show();
-							$('#pnlEditPvDiscountcaller').show();
-							$('#pnlEditPvDiscountretail').show();
-                            $('#pnlEditPvPrice12').show();
-                            $('#btnEditOrderItem12').hide();
-                            $('#btnDeleteOrderItem12').hide();
-                            $('#btnSaveOrderItem12').show();
-                            $('#btnCancelOrderItem12').show();
-                        } else {
-                            $('#pnlEditPvUnitPrice12').hide();
-                            $('#pnlEditPvQuantity12').hide();
-                            $('#pnlEditPvDiscount12').hide();
-							$('#pnlEditPvDiscountbond').hide();
-							$('#pnlEditPvDiscountcaller').hide();
-							$('#pnlEditPvDiscountretail').hide();
-                            $('#pnlEditPvPrice12').hide();
-                            $('#btnEditOrderItem12').show();
-                            $('#btnDeleteOrderItem12').show();
-                            $('#btnSaveOrderItem12').hide();
-                            $('#btnCancelOrderItem12').hide();
-                        }
-                    }
-                </script> -->
 <table class="table table-hover table-bordered producttablebox">
 <thead>
     <tr style="cursor: pointer;">
       <td class="text-center"><b>Images</b></td>
-      <td class="text-center"><b>Product</b></td>
+      <td class="text-center"><b>Event name</b></td>
       <td class="text-center"><b>Quantity</b></td>
-	  <td class="text-center"><b>Type</b></td>
-	  <td class="text-center"><b>Case Size</b></td>
-      <td class="text-center"><b>Price</b></td>
       <td class="text-center"><b>Amount</b></td>
     </tr>
   </thead>
@@ -613,13 +604,10 @@ Yes
     {% if order_items %}
     {% for item in order_items %}
     <tr style="cursor: pointer;">
-      <td class="text-center"><img src="{{item.Product|get_product_image_one}}" alt="" style="height:50px;"></td>
-      <td class="text-center">{{item.Product}}({{item.Year}})</td>
+      <td class="text-center"><img src="{{item.Event_Ticket.Event_Image.url}}" alt="" style="height:50px;"></td>
+      <td >{{item.Event_Ticket}}({{item.Event_Ticket.Event_Type}})</td>
       <td class="text-center">{{item.Quentity}}</td>
-      <td class="text-center">{{item.Type}}</td>
-      <td class="text-center">{{item.Case_Formate}}</td>
-      <td class="text-center">${{item.Cost_of_product}}</td>
-      <td class="text-center">${{item.Total_cost}}</td>
+      <td class="text-center">${{item.Total_cost|stringformat:".2f"}}</td>
     </tr>
     {% endfor %}
     {% endif %}
@@ -637,7 +625,62 @@ Yes
 </div>
 </div>
 
+{% else %}
+
+
+<h2>Products</h2>
+<div class="form-group">
+<div class="" style="overflow-x: auto;">
+<table class="table table-hover table-bordered producttablebox">
+<thead>
+    <tr style="cursor: pointer;">
+      <td class="text-center"><b>Images</b></td>
+      <td class="text-center"><b>Product</b></td>
+      <td class="text-center"><b>Quantity</b></td>
+    <td class="text-center"><b>Type</b></td>
+    <td class="text-center"><b>Case Size</b></td>
+      <td class="text-center"><b>Price</b></td>
+      <td class="text-center"><b>Amount</b></td>
+    </tr>
+  </thead>
+  <tbody>
+    {% if order_items %}
+    {% for item in order_items %}
+    <tr style="cursor: pointer;">
+      <td class="text-center"><img src="{{item.Product|get_product_image_one}}" alt="" style="height:50px;"></td>
+      <td > {% if item.Product_Cellar %} {{item.Product_Cellar}} {% endif %} {% if item.Product_Delivered %} {{item.Product_Delivered}} {% endif %} ({{item.Year}})</td>
+      <td class="text-center">{{item.Quentity}}</td>
+      <td class="text-center">{{item.Type}}</td>
+      <td class="text-center">{{item.Case_Formate}}</td>
+      <td class="text-center">${{item.Cost_of_product|stringformat:".2f"}}</td>
+      <td class="text-center">${{item.Total_cost|stringformat:".2f"}}</td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+ 
+ 
+   
+  
+  
+
+    
+    
+  </tbody>
+
+</table>
 </div>
+</div>
+
+{% endif %}
+
+
+
+</div>
+
+
+
+
+
 </div>
 </div>
 <div class="borderbox">

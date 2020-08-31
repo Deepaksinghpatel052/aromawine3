@@ -2,7 +2,11 @@
 
 {% if get_product %}
 {% for item in get_product %}
-<li class="clearfix"> <img src="{{item.Product|get_product_image_one}}" ><div class="cart_shopping"><div class="item-name"><a href="{% url 'product_detail:product_detail' item.Product.Product_id item.Product.Product_slug  item.Year %}">{{item.Product.Product_name}}({{item.Year}})</a></div><div class="itemshipping"> <span class="item-quantity">Qty: {{item.Quentity}}</span><span class="item-price">
+
+
+<!-- ======================================= Code for cellar start =========================-->
+{% if item.Order_Type == "Cellar" %}
+<li class="clearfix"> <img src="{{item.Product_Cellar|get_product_image_one}}" ><div class="cart_shopping"><div class="item-name"><a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year %}">{{item.Product_Cellar.Product_name}}({{item.Year}})</a></div><div class="itemshipping"> <span class="item-quantity">Qty: {{item.Quentity}}</span><span class="item-price">
 {% if item.Type == 'Bond' %}
 ${% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}
 
@@ -10,6 +14,33 @@ ${% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}
 {% if item.Type == 'Retail' %}
   ${% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}{% endif %}
 </span> </div></div></li>
+{% endif %}
+<!-- ======================================= Code for cellar End =========================-->
+
+
+<!-- ======================================= Code for Delivered start =========================-->
+{% if item.Order_Type == "Delivered" %}
+<li class="clearfix"> <img src="{{item.Product_Delivered|get_product_image_one}}" ><div class="cart_shopping"><div class="item-name"><a href="{% url 'product_detail:product_detail' item.Product_Delivered.Product_id item.Product_Delivered.Product_slug  item.Year %}">{{item.Product_Delivered.Product_name}}({{item.Year}})</a></div><div class="itemshipping"> <span class="item-quantity">Qty: {{item.Quentity}}</span><span class="item-price">
+
+${% widthratio item.Old_Cost 1 item.Quentity %}
+
+</span> </div></div></li>
+{% endif %}
+<!-- ======================================= Code for Delivered End =========================-->
+
+
+
+<!-- ======================================= Code for Tickets start =========================-->
+{% if item.Order_Type == "Tickets" %}
+<li class="clearfix"> <img src="{{item.Event_Ticket.Event_Image.url}}" ><div class="cart_shopping"><div class="item-name"><a href="{% url 'event:event_detail' item.Event_Ticket.id item.Event_Ticket.Slug %}">{{item.Event_Ticket.Event_name}}</a></div><div class="itemshipping"> <span class="item-quantity">Qty: {{item.Quentity}}</span><span class="item-price">
+
+${% widthratio item.Event_Ticket.ticket_price 1 item.Quentity %}
+
+</span> </div></div></li>
+{% endif %}
+<!-- ======================================= Code for Tickets End =========================-->
+
+
 {% endfor %}
 
 {% else %}

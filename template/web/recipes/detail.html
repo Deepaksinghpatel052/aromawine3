@@ -1,0 +1,103 @@
+  
+{% extends 'web/base-template.html' %}
+{% block content %}
+{% load static %}
+
+<!-----------Page Content Start------------->
+<div class="breadcrumbs">
+<div class="container">
+
+<a href="{% url 'home:home' %}" title="Go to Home Page"><i class="fa fa-home"></i></a>
+<span>/ </span>
+<a href="{% url 'recipes_for_web:revipe' %}" title="Go to Home Page">Wine Pairng - Recipes</a>
+<span>/ </span>
+<strong>Wine Pairng - Recipes Details</strong>
+
+</div>
+</div>
+<section class="single-product-main">
+<div class="container">
+<div class="row">
+
+<div class="col-lg-5 col-sm-12 col-xs-12">
+<div class="recipesdestails">
+
+
+{% if recipe_data.Image %}
+      
+<img src="{{recipe_data.Image.url}}" >
+      {% else %}
+   <img src="assets/image/shop/spcial-wine-1.jpg"> 
+      {% endif %}
+ 
+  
+  </div>
+</div>
+<div class="col-lg-7 col-sm-12 col-xs-12">
+  <div class="page-single-product-desc">
+  <div class="product-name">
+    <h2>{{recipe_data.Name}}</h2>
+  </div>
+    <div class="sin-product-shot-desc">
+     
+      {{recipe_data.Short_Description}}
+    </div>
+    <div class="add_casebottle">
+      {{recipe_data.Description|safe}}
+      
+   
+    
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+</section>
+
+
+
+
+
+<section>
+  <div class="fluid-container" style="border-top:1px solid rgba(204, 204, 204, 0.7)">
+    <div class="popular p-t-b-20">
+      <div class="container">
+   <h2 class="palate">Wine Pairng - Recipes</h2>
+        
+        <div class="owl-slider">
+    
+    <!--<div class="product-carousel-title-holder">
+    <p>By the same winery</p></div>-->
+    
+          <div id="releted-product" class="owl-carousel">
+            {% for item in recipe_data.Wine_With_Recipes.all %}
+            {% if item|get_product_vintage_yera_one %}
+            <div class="item"> <a href="{% url 'product_detail:product_detail' item.Product_id item.Product_slug  item|get_product_vintage_yera_one %}"><img src="{{item|get_product_image_one}}" alt="" /></a>
+              <div class="bottale-name">
+        <p>{{item}}</p>
+        <a href="{% url 'product_detail:product_detail' item.Product_id item.Product_slug  item|get_product_vintage_yera_one %}" class="product-story_info-btn">See Details</a>
+        </div>
+            </div>
+             {% endif %}
+            {% endfor %}
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+{% endblock %}
+{% block script %}
+
+{% endblock %}

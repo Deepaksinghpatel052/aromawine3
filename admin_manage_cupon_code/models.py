@@ -2,6 +2,7 @@ from django.db import models
 import django
 from wineproject.utils import  unique_id_generator_for_CouponCode
 from django.db.models.signals import pre_save
+from django.urls import reverse
 # Create your models here.
 class AwCuponCode(models.Model):
     CouponCode = models.CharField(max_length=120, unique=True)
@@ -19,6 +20,10 @@ class AwCuponCode(models.Model):
         return self.CouponCode
     class Meta:
         verbose_name_plural = "LS Cupon Code"
+
+
+    def get_absolute_url(self):
+        return reverse('admin_manage_cupon_code:admin_manage_cupon_code')
 
 def pre_save_create_CouponCode(sender, instance, *args, **kwargs):
     if not instance.CouponCode:

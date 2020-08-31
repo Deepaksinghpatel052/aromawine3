@@ -14,7 +14,7 @@
 
         <li><a {% if 'addressbook' in request.build_absolute_uri %} class="active"  {% endif %} href="{% url 'addressbook_user:addressbooklist'  %}">Your Address Book</a></li>
 
-        <li><a href="#">Your Payment Details</a></li>
+        <li><a {% if 'payment-details' in request.build_absolute_uri %} class="active"  {% endif %}  href="{% url 'payment_method:payment_method'%}">Your Payment Details</a></li>
 
         <li><a {% if 'orders' in request.build_absolute_uri %} class="active"  {% endif %} href="{% url 'orders:orders' %}">Your Order History</a></li>        
   

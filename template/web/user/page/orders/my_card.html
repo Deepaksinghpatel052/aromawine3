@@ -23,152 +23,19 @@
     {% endif %}
 
 
+{% if card_product.0.Order_Type == "Cellar" %}
+{% include 'web/user/page/orders/mycard_include/for_cellar.html' %}
+{% endif %}
+
+{% if card_product.0.Order_Type == "Delivered" %}
+{% include 'web/user/page/orders/mycard_include/for_delivered.html' %}
+{% endif %}
 
 
-<div class="cart-area ptb-100">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                        <table class="cart-wrap">
-                            <thead>
-                                <tr>
-                                    <th align="left" valign="middle" class="first-td-width">Image</th>
-                                    <th align="left" valign="middle">Product</th>
-                                    <th align="left" valign="middle">Type & Case Size</th>
-                                    <th align="center" valign="middle">Price</th>
-                                    <th align="center" valign="middle">Quantity</th>
-                                    <th align="center" valign="middle">Total</th>
-                                    <th align="center" valign="middle">Remove</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                            {% if card_product %}
+{% if card_product.0.Order_Type == "Tickets" %}
+{% include 'web/user/page/orders/mycard_include/for_tickets.html' %}
+{% endif %}
 
-                            {% for item in card_product %}
-<tr>
-                                    <td align="left" valign="middle" class="first-td-width">
-                    
-                    <img src='{{item.Product|get_product_image_one}}' >
-                  </td>
-                                    <td align="left" valign="middle">
-<input type="hidden" class="card_product_id" value="{{item.id}}">
-                                      <a href="{% url 'product_detail:product_detail' item.Product.Product_id item.Product.Product_slug  item.Year %}">{{item.Product.Product_name}}<br>{{item.Year}} </a></td>
-                                    <td align="center" valign="middle">
-                                      {{item.Type}}/({{item.Case_Formate.Bottle}})
-                                    </td>
-                                    <td align="center" valign="middle">
-{% if item.Type == 'Bond' %}
-${{item.Case_Formate.Bond_Cost}}
-
-{% endif %} 
-{% if item.Type == 'Retail' %}
-  ${{item.Case_Formate.Retail_Cost}}
- {% endif %}
-                                    </td>
-                                    <td align="center" valign="middle">
-                                        <!-- <div class="input-group bootstrap-touchspin">
-                                          <span class="input-group-addon bootstrap-touchspin-prefix quentity_set" style="display: none;" data-product_id="{{item.id}}" data-Type="minus"></span>
-                                          {% if item.Type == 'Bond' %}
-                                          <input id="demo1" type="text" data-max_val="{{item.Case_Formate.Bond_Stock}}" value="{{item.Quentity}}" class="dollar-spin comma-format form-control" style="display: block;">
-                                          {% endif %}
-                                          {% if item.Type == 'Retail' %}
-                                          <input id="demo1" type="text" value="{{item.Quentity}}" data-max_val="item.Case_Formate.Retail_Stock" class="dollar-spin comma-format form-control" style="display: block;">
-                                          {% endif %}
-                                          <span class="input-group-addon bootstrap-touchspin-postfix quentity_set" data-product_id="{{item.id}}" data-Type="plus" style="display: none;"></span></div> -->
-
-                                          <div class="input-group bootstrap-touchspin" style="width: 38%;">
-                                        <span class="input-group-addon bootstrap-touchspin-prefix quentity_set" style="display: none;" data-product_id="23" data-type="minus"></span>
-                                        
-                                        
-                                        <span class="input-group-btn"><button class="btn btn-default bootstrap-touchspin-down quentity_set" data-product_id="{{item.id}}" data-Type="minus" type="button">-</button></span><span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
-
-                                       {% if item.Type == 'Bond' %}
-                                          <input id="quentuty_{{item.id}}" type="text" data-max_val="{{item.Case_Formate.Bond_Stock}}" data-product_price="{{item.Case_Formate.Bond_Cost}}" value="{{item.Quentity}}" class="dollar-spin comma-format form-control" style="display: block;">
-                                          {% endif %}
-                                          {% if item.Type == 'Retail' %}
-                                          <input id="quentuty_{{item.id}}" type="text" value="{{item.Quentity}}" data-product_price="{{item.Case_Formate.Retail_Cost}}" data-max_val="{{item.Case_Formate.Retail_Stock}}" class="dollar-spin comma-format form-control" style="display: block;">
-                                          {% endif %}
-
-                                        <span class="input-group-addon bootstrap-touchspin-postfix" style="display: none;"></span><span class="input-group-btn"><button class="btn btn-default bootstrap-touchspin-up quentity_set" data-product_id="{{item.id}}" data-Type="plus" type="button">+</button></span>
-                                        
-                                        <span class="input-group-addon bootstrap-touchspin-postfix quentity_set" data-product_id="23" data-type="plus" style="display: none;"></span></div>
-
-
-
-
-
-
-
-<!--                                     <div class="dec qtybutton">-</div><div class="inc qtybutton">+</div>
- -->                                </td>
-                                    <td align="center" valign="middle">
-{% if item.Type == 'Bond' %}
-<input type="hidden" class="total" id="input_price_show_{{item.id}}" value="{% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}">
-$<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}</span>
-
-{% endif %} 
-{% if item.Type == 'Retail' %}
-<input type="hidden"  class="total" id="input_price_show_{{item.id}}" value="{% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}">
-  $<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}</span>
- {% endif %}
-                                    </td>
-                                    <td align="center" valign="middle">
-                                     <a href="javascript:;" onclick="remove_product('{{BASE_URL}}user/orders/{{item.id}}/remove-product-from-card','Do you want to remove this Product?','Product removed successfully.','Product not removed.');" > <i class="fa fa-times-circle"></i></a>
-                                    </td>
-                              </tr>
-                            {% endfor %}
-                            {% endif %}
-                            </tbody>
-                        </table>
-                        <div class="row mt-60 cart-area">
-                            <div class="col-md-4 ">
-                                <div class="cartcupon-wrap">
-                                    <ul class="d-flex">
-                                        <li>
-                                            <button id="update_card" type="button" data-card_update_url="{% url 'orders:update_card' %}">Update Cart</button>
-                                        </li>
-                                        <li><a href="{% url 'wine_shop:wine_shop' %}">Continue Shopping</a></li>
-                                    </ul>
-                                    <h3>Cupon <span id="show_error_message" style="color:red;"></span></h3>
-                                    <p id="clear_str">Enter Your Cupon Code if You Have One</p>
-                                    <div class="cupon-wrap" id="show_success_message">
-                                        <input type="text" placeholder="Cupon Code" id="enter_coupon_code">
-                                        <button type="button" onclick="check_cupon_code('{{BASE_URL}}user/orders/check-coupon-code');">Apply Cupon</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="offset-4 col-md-4">
-                                <div class="cart-total text-right">
-                                    <h3>Cart Totals</h3>
-                                    <form accept="" method="POST">
-                                      {% csrf_token %}
-                                    <input type="hidden" name="set_coupon_code" id="set_coupon_code" value="">
-                                    <input type="hidden" name="set_coupon_type" id="set_coupon_type" value="">
-                                    <input type="hidden" name="set_coupon_count" id="set_coupon_count" value="">
-                                     <input type="hidden" name="order_type" value="Caller">
-                                    
-                                    <ul>
-                                        <li><span class="pull-left">Subtotal </span>$<span class="show_sub_total_ampount">00.0</span></li>
-                                      
-                                    </ul>
-                                    <ul id="show_descount_amount">
-                                        
-                                    </ul>
-                                    <ul>
-                                       
-                                       <li><span class="pull-left"> Total </span>$<span class="show_total_ampount">00.0</span></li>
-                                    </ul>
-                                    <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
-                                    
-                                    </form>
-                                </div> 
-                            </div>
-                        </div>
-                   
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 

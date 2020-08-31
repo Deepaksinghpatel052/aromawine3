@@ -57,6 +57,8 @@ urlpatterns = [
 
     path('admin/customer/', include(('admin_manage_customer.urls','admin_manage_customer'),namespace='admin_manage_customer')),
 
+    path('admin/coupons/', include(('admin_manage_cupon_code.urls','admin_manage_cupon_code'),namespace='admin_manage_cupon_code')),
+
 
     path('admin/categoryes/', include(('admin_manage_categoryes.urls','admin_manage_categoryes'),namespace='admin_manage_categoryes')),
     # path('admin/categoryes/', include(('admin_manage_categoryes.urls','admin_manage_categoryes'),namespace='admin_manage_categoryes')),
@@ -75,15 +77,24 @@ urlpatterns = [
 
     # path('admin/manage-event', include(('manage_event.urls','manage_event'),namespace='manage_event')),
     path('admin/manage-event/', include(('manage_event.urls','manage_event'),namespace='manage_event')),
-    path('event/', include(('event.urls','event'),namespace='event')),
+
 
     path('summernote/', include('django_summernote.urls')),
 
     path('admin/preferences/', include(('admin_manage_perferences.urls', 'admin_manage_perferences'), namespace='admin_manage_perferences')),
+    path('admin/wine-recipes/', include(('manage_wine_recipes.urls', 'manage_wine_recipes'), namespace='manage_wine_recipes')),
+
+
+
+# ====================================set url for web frentend START==============================================
 
     path('user/preferences/', include(('preferences_user.urls', 'preferences_user'), namespace='preferences_user')),
 
-    # ====================================set url for web frentend START==============================================
+    path('event/', include(('event.urls','event'),namespace='event')),
+    path('wine-pairng-recipes/', include(('recipes_for_web.urls','recipes_for_web'),namespace='recipes_for_web')),
+
+
+
     path('', include(('home.urls','home'),namespace='home')),
     path('<slug:product_id>/product-detail/<slug:product_slug>/<slug:vintage_year>', include(('product_detail.urls','product_detail'),namespace='product_detail')),
     path('shop/', include(('wine_shop.urls','wine_shop'),namespace='wine_shop')),
@@ -102,6 +113,7 @@ urlpatterns = [
     path('user/addressbook/', include(('addressbook_user.urls','addressbook_user'),namespace='addressbook_user')),
     path('user/profile/', include(('profile_user.urls','profile_user'),namespace='profile_user')),
     path('user/cellar/', include(('manage_cellar.urls','manage_cellar'),namespace='manage_cellar')),
+    path('user/payment-details/', include(('payment_method.urls','payment_method'),namespace='payment_method')),
 
     path('password/', include('django.contrib.auth.urls')),
     # ====================================set url for web frentend END==============================================

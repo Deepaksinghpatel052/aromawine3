@@ -32,39 +32,33 @@
     {% endfor %}
     {% endif %}
 <div class="update-password">
-<h3>Order Id #{{products.0.Order_id}}</h3>
+<h3>Order Id : #{{products.0.Order_id}}</h3>
+<h3>Order Type : {{products.0.Order_id.Order_Type}}</h3>
    <div class="paymentItem newPaymentItem">
 		
+{% if products.0.Order_id.Order_Type == 'Tickets' %}
 <table class="table table-bordered">
               <thead>
                 <tr>
                   <th>Image</th>
-                  <th>Product</th>
-                  <th>Type</th>
-                  <th>Case Size</th>
-                  <th>Price</th>
+                  <th>Event</th>
                   <th>Quantity</th>
                   <th>Amount</th>
                 </tr>
               </thead>
               <tbody>
-              	{% if products %}
-              	{% for item in products %}
+                {% if products %}
+                {% for item in products %}
                 <tr>
-                  <th><img src="{{item.Product|get_product_image_one}}" style="height: 50px;"></th>
-                  <td><a href="{% url 'product_detail:product_detail' item.Product.Product_id item.Product.Product_slug  item.Year %}">{{item.Product}}({{item.Year}})</a></td>
-                  <td>
-                  	{{item.Type}}
-                  </td>
-                  <td>
-                    {{item.Case_Formate}}
-                  </td>
-                  <td>${{item.Cost_of_product}}</td>
+                  
+               <th><img src="{{item.Event_Ticket.Event_Image.url}}" style="height: 50px;"></th>
+                  <td><a href="{% url 'event:event_detail' item.Event_Ticket.id item.Event_Ticket.Slug %}">{{item.Event_Ticket}}({{item.Event_Ticket.Event_Type}})</a></td>
                   <td>{{item.Quentity}}</td>
                   <td>${{item.Total_cost}}</td>
             
                 </tr>
                  {% endfor %}
+                
                  {% if get_order_ins.Use_coupon %}
                 <tr>
                    <th colspan="6" style="text-align: right;">Descount :</th>
@@ -73,10 +67,10 @@
                  {% endif %} 
 
                  <tr>
-                   <th colspan="6" style="text-align: right;">Grand Total :</th>
+                   <th colspan="3" style="text-align: right;">Grand Total :</th>
                    <th >${{total_cost}}</th>
                  </tr>
-                 {% if get_order_ins.Order_Type != 'Caller' %}
+                 {% if get_order_ins.Order_Type == 'Delivered' %}
                  <tr>
                    <th colspan="3" >Customer Order Details </th>
                    <th colspan="4" style="text-align: right;">Date {{products.0.Order_id.Order_Date}}</th>
@@ -116,6 +110,102 @@
               </tbody>
             </table>
 
+
+
+{% else %}
+
+
+
+<table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Product</th>
+                  <th>Type</th>
+                  <th>Case Size</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+              	{% if products %}
+              	{% for item in products %}
+                <tr>
+                  
+                  {% if item.Product_Delivered %}
+                  <th><img src="{{item.Product_Delivered|get_product_image_one}}" style="height: 50px;"></th>
+                  <td><a href="{% url 'product_detail:product_detail' item.Product_Delivered.Product_id item.Product_Delivered.Product_slug  item.Year %}">{{item.Product_Delivered}}({{item.Year}})</a></td>
+                  {% endif %}
+
+                  {% if item.Product_Cellar %}
+                  <th><img src="{{item.Product_Cellar|get_product_image_one}}" style="height: 50px;"></th>
+                  <td><a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year %}">{{item.Product_Cellar}}({{item.Year}})</a></td>
+                  {% endif %}
+
+                  <td>
+                  	{{item.Type}}
+                  </td>
+                  <td>
+                    {{item.Case_Formate}}
+                  </td>
+                  <td>${{item.Cost_of_product}}</td>
+                  <td>{{item.Quentity}}</td>
+                  <td>${{item.Total_cost}}</td>
+            
+                </tr>
+                 {% endfor %}
+                 {% if get_order_ins.Use_coupon %}
+                <tr>
+                   <th colspan="6" style="text-align: right;">Descount :</th>
+                   <th >${{get_order_ins.Cupon_Discount|floatformat:2}}</th>
+                 </tr>
+                 {% endif %} 
+
+                 <tr>
+                   <th colspan="6" style="text-align: right;">Grand Total :</th>
+                   <th >${{total_cost}}</th>
+                 </tr>
+                 {% if get_order_ins.Order_Type == 'Delivered' %}
+                 <tr>
+                   <th colspan="3" >Customer Order Details </th>
+                   <th colspan="4" style="text-align: right;">Date {{products.0.Order_id.Order_Date}}</th>
+                   
+                 </tr>
+                 <tr>
+                   <th colspan="3" >
+                    <address style="  margin-bottom: 0px;">
+                            <strong>{{user.username}}</strong><br>
+                            </address>
+                            <br>
+                            <b>Address:</b> 13/25 New Avenue
+                    New Heaven
+                    45Y 73J<br>
+                    England
+                    Great Britain<br>
+                            <b>Telephone</b> 9617279518<br>
+                            <b>E-Mail</b> jitendra.n@digimonk.in<br>
+                            <b>Payment Method</b> Cash On Delivery<br>
+                  </th>
+                   <th colspan="4" >
+                    <strong>Billing Address</strong>
+       
+    <br>
+        <address>
+        {{products.0.Order_id.Order_address.First_Name}} {{products.0.Order_id.Order_address.Last_Name}} <br>
+        {{products.0.Order_id.Order_address.Address}}, {{products.0.Order_id.Order_address.Country}} ({{products.0.Order_id.Order_address.City}}) <br>
+        Pincode:- {{products.0.Order_id.Order_address.Postcode}} <br>
+        Email Id:- {{products.0.Order_id.Order_address.Email}} <br>
+        Mobile Number:- {{products.0.Order_id.Order_address.Pnone_no}}
+        </address>
+                   </th>
+                   
+                 </tr>
+                 {% endif %}
+                {% endif %}
+              </tbody>
+            </table>
+{% endif %}
 {% if order_note %}
          <br>
          <h3>Note:</h3>

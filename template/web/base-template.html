@@ -543,16 +543,32 @@ var total_amount = 0.00;
           var product_amount = 0.00;
            var type = data.data[i].Type;
            var Quentity_set = data.data[i].Quentity;
-           if(data.data[i].Type == 'Bond')
+           if(data.data[i].Order_Type == "Cellar")
            {
-            total_amount += data.data[i].Case_Formate.Bond_Cost*Quentity_set;
-            product_amount = data.data[i].Case_Formate.Bond_Cost*Quentity_set;
+             if(data.data[i].Type == 'Bond')
+             {
+              total_amount += data.data[i].Case_Formate.Bond_Cost*Quentity_set;
+              product_amount = data.data[i].Case_Formate.Bond_Cost*Quentity_set;
+             }
+             if(data.data[i].Type == 'Retail')
+             {
+              total_amount +=data.data[i].Case_Formate.Retail_Cost*Quentity_set;
+              product_amount = data.data[i].Case_Formate.Retail_Cost*Quentity_set;
+             } 
            }
-           if(data.data[i].Type == 'Retail')
+           if(data.data[i].Order_Type == "Delivered")
            {
-            total_amount +=data.data[i].Case_Formate.Retail_Cost*Quentity_set;
-            product_amount = data.data[i].Case_Formate.Retail_Cost*Quentity_set;
+             product_amount = data.data[i].Old_Cost*Quentity_set
+             total_amount += data.data[i].Old_Cost*Quentity_set
            }
+
+
+          if(data.data[i].Order_Type == "Tickets")
+           {
+             product_amount = data.data[i].Event_Ticket.ticket_price*Quentity_set
+             total_amount += data.data[i].Event_Ticket.ticket_price*Quentity_set
+           }
+           
          }
          
          $(".badge_item").text(total_product);

@@ -116,10 +116,10 @@
 
   <div class="row">
 
-  	<div class="col-md-4"><div class="img"><a href="#">
+  	<div class="col-md-4"><div class="img"> <a href="{% url 'event:event_detail' item.id item.Slug %}">
 
  {% if item.Event_Image %}
-      
+     
 <img src="{{item.Event_Image.url}}" alt="" height="250">
       {% else %}
     	<img src="https://media.bbr.com/s/bbr/90068000117-ms?img404=Default_Events&amp;$deskPDP$" alt="" height="250">
@@ -130,7 +130,7 @@
   		<div class="product-info">
     <div class="product-info-header text-left">
       <a class="productname" href="#">
-        <h2 class="title">{{item.Event_name}}</h2>
+        <h2 class="title"> <a href="{% url 'event:event_detail' item.id item.Slug %}">{{item.Event_name}}</a></h2>
         </a>
         
      
@@ -138,7 +138,7 @@
     <hr>
     <div class="product-info-content">
       <div class="product-event">
-	  <p>{{item.Short_Description|slice:"0:200"}}</p>
+	  <p> <a href="{% url 'event:event_detail' item.id item.Slug %}">{{item.Short_Description|slice:"0:200"}}</a></p>
 	  <p>Ticket Price: $ {{item.ticket_price}}</p>
 	  <select class="form-control width-130">
   
