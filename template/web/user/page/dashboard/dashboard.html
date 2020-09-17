@@ -15,14 +15,13 @@
 
 
 
-                        
 
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
 
                                     <div class="card-header">
-                                       Simon Sall Esq., - S20653 
+                                      {{user_info.Title}} {{user.first_name}} {{user.last_name}} - {{user.id}} 
                      <!--<button class="deliverCellaredWineButton" style="margin-left:20px;">
                     
                     <span class="product-button-info">Set Default Account</span>
@@ -32,42 +31,67 @@
                                     </div><!-- End .card-header -->
 
                                     <div class="card-body">
+
+
+                        {% if messages %}
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+            <div class="alert alert-success alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+           {% endif %}   
+           
+           {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+           {% endif %}         
+      
+    {% endfor %}
+    {% endif %}
+                                      
                   <div class="row">
                   <div class="col-md-9">
                   <h5>Your Account Manager</h5>
                                         <p>
-                                          Simon Herriot<br>Tel: 020 3301 7531
+                                         {{user_info.Title}} {{user.first_name}} {{user.last_name}}<br>Tel: {{user_info.Contact_no}}
                       <br>
-                      Email: <a href="#">simon.herriot@bbr.com</a>
+                      Email: <a href="#">{{user.email}}</a>
                                         </p>
                     </div>
-                    <div class="col-md-3">
-                    <img src='{% static "web/assets/image/cm1.png" %}'>
+                    <div class="col-md-3" style="background-color: #000;">
+                    <img src='{{"demo"|get_logo}}'>
                     </div>
                     </div>
                     
                     <div class="row">
                     <div class="col-md-12 order-detailtext">
                     
-                    <table cellspacing="0" cellpadding="0" class="accountTable">
-            <tbody><tr>
+                   <!--  <table cellspacing="0" cellpadding="0" class="accountTable">
+            <tbody>
+              <tr>
               <td>
                 Account Balance:&nbsp;£3,999.00&nbsp; DR
               </td>
         <td><a class="btn-secondary-action right" href="#">Add Funds</a></td>
             </tr>
-          </tbody></table>
+          </tbody>
+        </table> -->
           
+          {% if letest_order %}
           <table cellspacing="0" cellpadding="0" class="accountTable">
             <tbody><tr>
               <td>
-                Latest Order 13th Jan 2020 00:00am,<a href="#">Order Number: 06229572</a>
+                Latest Order {{letest_order.Order_Date}},<a href="{% url 'orders:prodyuct_info' letest_order.order_id  %}">Order Number: 0{{letest_order.order_id}}</a>
               </td>
               <td>
-                <a class="btn-secondary-action right" href="#">View Your Order History</a>
+                <a class="btn-secondary-action right" href="{% url 'orders:orders' %}">View Your Order History</a>
                 </td>
             </tr>
           </tbody></table>
+          {% endif %}
           
                     </div>
                     </div>
@@ -79,23 +103,8 @@
                             <!-- End .col-md-6 -->
                        
 
-<div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                Your dashboard
-                              
-                            </div><!-- End .card-header -->
-
-                            <div class="card-body">
-                               
-                                        <a href="#">Manage Your Wine</a>
-                                       
-                                    
-                            </div><!-- End .card-body -->
-                        </div><!-- End .card -->
-            </div>
             
-            <div class="col-md-6">
+            <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
                                Your Wish List
@@ -118,49 +127,58 @@
                         <div class="card">
                             <div class="card-header">
                                 Your Cellared Wines
-                              
+                                
+
+                                <a href="{% url 'orders:orders' %}"><u>View More</u></a> 
                             </div><!-- End .card-header -->
 
                             <div class="card-body">
                                <div class="col-md-12 order-detailtext">
                     
-                    <table cellspacing="0" cellpadding="0" class="accountTable">
-            <tbody><tr>
-              <td>
-                <a href="#">View Your Cellared Wines</a>
-              </td>
-        <td><a class="btn-secondary-action right" href="#">Download List</a></td>
-            </tr>
-          </tbody></table>
-          
-          <table cellspacing="0" cellpadding="0" class="accountTable">
-            <tbody><tr>
-              <td>
-                <a href="customer-cellar-valuation.php">View Your Cellar Valuation</a>
-              </td>
-              <td>
-                
-                </td>
-            </tr>
-          </tbody>
-          </table>
-          
-          <div class="callerplan">
-          <h3>Your Cellar Plan</h3>
-          <table cellspacing="0" cellpadding="0" class="accountTable">
-            <tbody><tr>
-              <td>
-                You pay £0 per month
-              </td>
-              <td>
-                <a href="#" class="btn-secondary-action right">View Your Cellar Plan</a>
-                </td>
-            </tr>
-          </tbody>
-          </table>
-          </div>
-          
-          
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                 <th>Image</th>
+                                  <th>Product</th>
+                                  <th>Type</th>
+                                  <th>Case Size</th>
+                                  <th>Price</th>
+                                  <th>Quantity</th>
+                                  <th>Amount</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% if celler_item %}
+                                {% for item in celler_item %}
+                                <tr>
+                                  
+                                  {% if item.Product_Delivered %}
+                                  <th><img src="{{item.Product_Delivered|get_product_image_one}}" style="height: 50px;"></th>
+                                  <td><a href="{% url 'product_detail:product_detail' item.Product_Delivered.Product_id item.Product_Delivered.Product_slug  item.Year %}">{{item.Product_Delivered}}({{item.Year}})</a></td>
+                                  {% endif %}
+
+                                  {% if item.Product_Cellar %}
+                                  <th><img src="{{item.Product_Cellar|get_product_image_one}}" style="height: 50px;"></th>
+                                  <td><a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year %}">{{item.Product_Cellar}}({{item.Year}})</a></td>
+                                  {% endif %}
+
+                                  <td>
+                                    {{item.Type}}
+                                  </td>
+                                  <td>
+                                    {{item.Case_Formate}}
+                                  </td>
+                                  <td>${{item.Cost_of_product}}</td>
+                                  <td>{{item.Quentity}}</td>
+                                  <td>${{item.Total_cost}}</td>
+                            
+                                </tr>
+                 {% endfor %}
+                 {% endif %}
+                              </tbody>
+                            </table>
+
+
                     </div>
                                        
                                     

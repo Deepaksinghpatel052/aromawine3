@@ -155,7 +155,7 @@
   <div class="row">
 
 
-  	<div class="col-md-4"><div class="img"><a href="#">
+  	<div class="col-md-4"><div class="img"><a href="{% url 'recipes_for_web:recipe_detail' item.id item.Slug %}">
 
  {% if item.Image %}
       
@@ -169,7 +169,7 @@
   		<div class="product-info">
     <div class="product-info-header text-left">
       <a class="productname" href="#">
-        <h2 class="title">{{item.Name}}</h2>
+        <h2 class="title"><a href="{% url 'recipes_for_web:recipe_detail' item.id item.Slug %}">{{item.Name}}</a></h2>
         </a>
         
      
@@ -177,7 +177,7 @@
     <hr>
     <div class="product-info-content">
       <div class="product-event">
-	  <p>{{item.Short_Description|slice:"0:200"}}</p>
+	  <p><a href="{% url 'recipes_for_web:recipe_detail' item.id item.Slug %}">{{item.Short_Description|slice:"0:200"}}</a></p>
 	  
 	  </div>
 	  
@@ -313,12 +313,12 @@ if(set_filter){ setfilterURL = setfilterURL+set_filter; }
 
 
 // console.log(color);
-// console.log(setfilterURL);
+console.log(setfilterURL);
 // ================color================
 
 
 
-window.location.href = setfilterURL;
+// window.location.href = setfilterURL;
 }
 
 

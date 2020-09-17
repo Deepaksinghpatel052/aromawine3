@@ -6,8 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="icon" href='{% static "web/assets/image/logo.png" %}' type="image/x-icon">
-<title>{{Page_title}} | aroma-wine</title>
+<link rel="icon" href='{{"demo"|get_favicon}}' type="image/x-icon">
+<title>{{Page_title}} | {{"demo"|get_project_name}}</title>
 <link rel="stylesheet" href='{% static "web/assets/css/style.css" %}' >
 <link rel="stylesheet" href='{% static "web/assets/css/mobile.css" %}'>
 <link rel="stylesheet" href='{% static "web/assets/css/megamenu.css" %}' >
@@ -29,6 +29,9 @@
 height: 269px;    
 }
    </style>
+
+   {{"menu"|get_analytics}}
+   
    {% block cssstyle %}
       {% endblock %}
 </head>
@@ -38,8 +41,10 @@ height: 269px;
   <nav class="mainnav navbar navbar-default justify-content-between">
     <div class="container relative"> 
       <!-- <a class="offcanvas dl-trigger paper-nav-toggle" type="button" data-toggle="offcanvas" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><i></i></a>  --> 
-      <a class="navbar-brand" href="{% url 'home:home' %}"> <img class="d-inline-block align-top" alt="" src='{% static "web/assets/image/wine-logo.svg" %}' > </a>
-      <div class="col-md-6">
+
+
+      <a class="navbar-brand" href="{% url 'home:home' %}"> <img class="d-inline-block align-top" alt="" src='{{"demo"|get_logo}}' > </a>
+      <div class="col-md-5">
         <div class="search-box">
           <input class="" type="search" name='quick_search' value="{% if category_set %}{{category_set}}{% endif %}{% if keyword_set %}{{keyword_set}}{% endif %}{% if country_set %}{{country_set}}{% endif %}" placeholder="Search Wines And Spirits">
           <button><i class="fa fa-search"></i> </button>
@@ -79,7 +84,12 @@ height: 269px;
                     <a href="{% url 'orders:checkout' %}" class="btn_achor">Checkout</a>
                   </div> -->
                   <div class="col-md-12">
+                   
+                   {% if user.username == '' %}
+                   <a href="{% url 'account:account' %}" class="btn_achor">Go to cart</a>
+                   {% else %}
                     <a href="{% url 'orders:my_card' %}" class="btn_achor">Go to cart</a>
+                    {% endif %} 
                   </div>
                 </div>
                  </div>
@@ -471,6 +481,7 @@ height: 269px;
       </div>
     </div>
   </div>
+
   <script src='{% static "web/assets/js/jquery.min.js" %}' ></script>
    <script src='{% static "web/assets/js/popper.min.js" %}' ></script>
   <script src='{% static "web/assets/js/bootstrap.min.js" %}' ></script>
@@ -632,10 +643,14 @@ jQuery(document).ready(function($) {
         $(".region_tabs li").removeClass('active');                  
         $(this).addClass("active");                 
         var selected_tab = $(this).find("a").attr("href");
+		
         $(selected_tab).show();
+		
         return false;
     });
 });
+
+
 
 
 jQuery(document).ready(function($) {
@@ -670,6 +685,15 @@ jQuery(document).ready(function($) {
         $(selected_tab).show();
         return false;
     });
+});
+
+$('.region_tabs li a').click( function(e) {
+     e.preventDefault();
+
+});
+$('.region_tabs_w li a').click( function(e) {
+     e.preventDefault();
+
 });
 
 
@@ -1707,6 +1731,45 @@ window.location = "/shop/?keyword="+data.Product.Product_slug;
     window.location.href  = $(this).data("url");
   });
 </script>
+
+<script type="text/javascript">
+  $(document).on('click','.wishlist',function(){
+   
+   var url_get  = $(this).data('wishlist_url');
+
+   $.ajax({
+      method:"GET",
+      url:url_get,
+      dataType:"json",
+      success:function(data)
+      {
+        if(data.status=="0")
+        {
+          swal({
+            title: data.message,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          });
+        }
+        else
+        {
+        swal({
+            title: data.message,
+            icon: "success",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+             location.reload();
+          });
+        }
+      }
+   });
+    
+  });
+</script>
+
 
       {% block script %}
       {% endblock %}

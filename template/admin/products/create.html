@@ -28,6 +28,11 @@
         </div>
     {% endfor %}
 {% endif %}
+
+
+<input type="hidden" id="duti_set" value="{{''|get_duty}}">
+<input type="hidden" id="gst_set" value="{{''|get_GST}}">
+
 <div class="login-form-content">
   <form action="" method="POST" enctype='multipart/form-data'>
     {% csrf_token %}  

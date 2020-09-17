@@ -12,14 +12,16 @@
 
         <li class=""><a {% if 'preferences' in request.build_absolute_uri %} class="active"  {% endif %} href="{% url 'preferences_user:preferenceslist'  %}">Your Preferences</a></li>
 
+		<li><a  href="{% url 'wine_palate:wine_palate'  %}" target="_blank">Wine Palet Profile</a></li>
+        
         <li><a {% if 'addressbook' in request.build_absolute_uri %} class="active"  {% endif %} href="{% url 'addressbook_user:addressbooklist'  %}">Your Address Book</a></li>
 
-        <li><a {% if 'payment-details' in request.build_absolute_uri %} class="active"  {% endif %}  href="{% url 'payment_method:payment_method'%}">Your Payment Details</a></li>
+        <!-- <li><a {% if 'payment-details' in request.build_absolute_uri %} class="active"  {% endif %}  href="{% url 'payment_method:payment_method'%}">Your Payment Details</a></li> -->
 
         <li><a {% if 'orders' in request.build_absolute_uri %} class="active"  {% endif %} href="{% url 'orders:orders' %}">Your Order History</a></li>        
   
           <li><a href="#">Your Wines Ordered</a></li>
-        <li><a href="#">Your Wish List</a></li>
+        <li><a {% if 'wishlist' in request.build_absolute_uri %} class="active"  {% endif %}  href="{% url 'user_wishlist:user_wishlist' %}">Your Wish List</a></li>
         <li><a href="{% url 'manage_cellar:manage_cellar' %}" target="_blank">My Cellar</a></li>
         <li><a href="{% url 'account:logout' %}" >Logout</a></li>
         

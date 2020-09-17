@@ -7,9 +7,9 @@ enableExif: true,
 
     viewport: {
 
-      width:508,
+      width:900,
 
-      height:318,
+      height:418,
 
       type:'square' 
 
@@ -17,9 +17,9 @@ enableExif: true,
 
     boundary:{
 
-      width:600,
+      width:980,
 
-      height:400
+      height:440
 
     }
 
@@ -40,7 +40,7 @@ var set_status = true;
            var height = this.height;
            var width = this.width;
 
-            if(height >= 318 && width >= 508)
+            if(height >= 418 && width >= 900)
           {
              $image_crop.croppie('bind', {
 

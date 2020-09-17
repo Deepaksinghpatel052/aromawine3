@@ -33,7 +33,15 @@
     {% endif %}
 <div class="update-password">
 <h3>Order Id : #{{products.0.Order_id}}</h3>
-<h3>Order Type : {{products.0.Order_id.Order_Type}}</h3>
+<h3>Order Type :{% if products.0.Order_id.Order_Type == 'Delivered' %} Delivery {% else %}
+                    {{products.0.Order_id.Order_Type}}{% endif %}
+</h3>
+
+<h3>Created on :{{products.0.Order_id.Order_Date}}
+</h3>
+<h3>Order status :{{products.0.Order_id.Order_Status_Set}}</h3>
+<h3>Order subtotal :{{products.0.Order_id.Amount}}</h3>
+<h3>Order total :{{products.0.Order_id.Amount}}</h3>
    <div class="paymentItem newPaymentItem">
 		
 {% if products.0.Order_id.Order_Type == 'Tickets' %}
@@ -106,6 +114,8 @@
                    
                  </tr>
                  {% endif %}
+
+
                 {% endif %}
               </tbody>
             </table>
@@ -123,8 +133,10 @@
                   <th>Product</th>
                   <th>Type</th>
                   <th>Case Size</th>
+                  <th>Tax</th>
+                  <th>GST</th>
                   <th>Price</th>
-                  <th>Quantity</th>
+                  <th>Qty</th>
                   <th>Amount</th>
                 </tr>
               </thead>
@@ -147,8 +159,17 @@
                   	{{item.Type}}
                   </td>
                   <td>
-                    {{item.Case_Formate}}
+                    {{item.Case_Formate.Bottle}}
                   </td>
+                  {% if item.Product_Delivered %}
+                  <th>{{item.Case_Formate.Duty}}%</th>
+                  <td>{{item.Case_Formate.GST}}%</td>
+                  {% endif %}
+
+                  {% if item.Product_Cellar %}
+                  <th>{{item.Case_Formate.Duty}}%</th>
+                  <td>{{item.Case_Formate.GST}}%</td>
+                  {% endif %}
                   <td>${{item.Cost_of_product}}</td>
                   <td>{{item.Quentity}}</td>
                   <td>${{item.Total_cost}}</td>
@@ -163,32 +184,27 @@
                  {% endif %} 
 
                  <tr>
-                   <th colspan="6" style="text-align: right;">Grand Total :</th>
+                   <th colspan="8" style="text-align: right;">Grand Total :</th>
                    <th >${{total_cost}}</th>
                  </tr>
-                 {% if get_order_ins.Order_Type == 'Delivered' %}
+                
                  <tr>
-                   <th colspan="3" >Customer Order Details </th>
-                   <th colspan="4" style="text-align: right;">Date {{products.0.Order_id.Order_Date}}</th>
+                   <th colspan="4" >Customer Order Details </th>
+                   <th colspan="5" style="text-align: right;">Date {{products.0.Order_id.Order_Date}}</th>
                    
                  </tr>
                  <tr>
-                   <th colspan="3" >
+                   <th colspan="4" >
                     <address style="  margin-bottom: 0px;">
                             <strong>{{user.username}}</strong><br>
                             </address>
-                            <br>
-                            <b>Address:</b> 13/25 New Avenue
-                    New Heaven
-                    45Y 73J<br>
-                    England
-                    Great Britain<br>
-                            <b>Telephone</b> 9617279518<br>
-                            <b>E-Mail</b> jitendra.n@digimonk.in<br>
-                            <b>Payment Method</b> Cash On Delivery<br>
+                            <b>Telephone</b> {{user_info.Contact_no}}<br>
+                            <b>E-Mail</b> {{user_info.User.email}}<br>
+                            <b>Payment Method</b> {{products.0.Order_id.Order_address.Payment_Method}}<br>
                   </th>
-                   <th colspan="4" >
-                    <strong>Billing Address</strong>
+                   <th colspan="5" >
+                     {% if get_order_ins.Order_Type == 'Delivered' %}
+                    <strong>Shipping Address</strong>
        
     <br>
         <address>
@@ -198,10 +214,11 @@
         Email Id:- {{products.0.Order_id.Order_address.Email}} <br>
         Mobile Number:- {{products.0.Order_id.Order_address.Pnone_no}}
         </address>
+          {% endif %}
                    </th>
                    
                  </tr>
-                 {% endif %}
+               
                 {% endif %}
               </tbody>
             </table>

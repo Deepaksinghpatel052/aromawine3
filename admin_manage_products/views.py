@@ -3,7 +3,7 @@ from django.views import generic
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .models import AwProducts,AwProductImage,AwProductPrice
+from .models import AwProducts,AwProductImage,AwProductPrice,AwProductImageFullView
 from .forms import AwProductsForm
 from admin_manage_Vintages.models import AwVintages
 from django.contrib import messages
@@ -123,6 +123,44 @@ class CreateProductView(SuccessMessageMixin,generic.View):
             return HttpResponseRedirect(reverse('admin_manage_products:products'))
         else:
             return render(request, self.template_name, {'form': form,'Page_title':"Add Product"})
+
+@method_decorator(login_required , name="dispatch")
+class ManagProducFullImagtView(SuccessMessageMixin,generic.TemplateView):
+    template_name ='admin/products/product_full_image.html'
+
+    def get_context_data(self, *args,**kwargs):
+        context  = super(ManagProducFullImagtView,self).get_context_data(*args,**kwargs)
+        context['Page_title'] = "Manage Product"
+        prodict_id = self.kwargs.get("prodict_id")
+        get_product_ins = get_object_or_404(AwProducts, Product_id=prodict_id)
+        image_list = []
+        if AwProductImageFullView.objects.filter(Product=get_product_ins).exists():
+            image_list = AwProductImageFullView.objects.filter(Product=get_product_ins).order_by('id')
+
+        context['image_list'] = image_list
+        context['product_ins'] = get_product_ins
+        print(context)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        prodict_id = self.kwargs.get("prodict_id")
+        get_product_ins = get_object_or_404(AwProducts, Product_id=prodict_id)
+        if AwProductImageFullView.objects.filter(Product=get_product_ins).exists():
+            AwProductImageFullView.objects.filter(Product=get_product_ins).delete()
+            message_set = "Images update successfully."
+        else:
+            message_set = "Images add successfully."
+        for item in request.FILES.getlist('images', False):
+            add_image = AwProductImageFullView(Product=get_product_ins,Image=item)
+            add_image.save()
+        messages.info(request, message_set)
+        return HttpResponseRedirect(reverse('admin_manage_products:products'))
+        image_list = []
+        if AwProductImageFullView.objects.filter(Product=get_product_ins).exists():
+            image_list = AwProductImageFullView.objects.filter(Product=get_product_ins).order_by('id')
+        return render(request, self.template_name, {'image_list': image_list, 'product_ins': get_product_ins})
+
+
 
 @method_decorator(login_required , name="dispatch")
 class ManageProductCostView(SuccessMessageMixin,generic.DetailView):

@@ -1,0 +1,328 @@
+{% extends 'admin/base-template.html' %}
+{% block content %}
+{% load static %}
+		 <div class="page-content">
+		 <section class="content-header">
+        
+        <div class="header-title">
+            <h1>{{Page_title}}</h1>
+            
+            
+        </div>
+    </section>
+    {% if messages %}
+    {% for message in messages %}
+        
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+                   {% else %}
+                    <div class="alert alert-success alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+                     {% endif %}
+      
+    {% endfor %}
+    {% endif %}
+
+       {% if form_class.errors %}
+    {% for field in form_class %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{field.title}}  {{ error|escape }}</strong>
+                    </div>
+
+        {% endfor %}
+    {% endfor %}
+    {% for error in form_class.non_field_errors %}
+       
+ <div class="alert alert-danger alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                     <strong>{{ error|escape }}</strong>
+                    </div>
+
+    {% endfor %}
+{% endif %}
+         <div class="container-fluid">
+  <div class="row p-t-b-20">
+  <div class="col-md-3">
+  <div class="">
+              <!-- <div class="select-some">
+                  <select class="form-control">
+                    <option disabled="" selected="" value="">--Selected--</option>
+                    <option>Grape Name</option>
+                    <option>Grape Image</option>
+                      <option>Description</option>
+                    <option>Product counter</option>
+                    <option>Action</option>
+                    
+               
+                  </select>&nbsp;
+                  <button class="View-btn">Apply</button>
+              </div> -->
+              
+          </div>
+        </div>
+    <div class="col-md-12">
+   <div class="add_button">
+   <a href="javascript:void(0);" data-toggle="modal" data-target="#modal-default">Add</a>
+   </div>
+      <!-- <div class="card no-b"> -->
+      <div class="login-form-card">
+        <!-- <div class="login-form-content"> -->
+        <form action="{% url 'admin_manage_setting:shipping_update' %}" method="POST">
+          {% csrf_token %}
+          <div class="table-responsive">
+            <!-- <button class="btn-success add-data">Add Iteration</button> -->
+            <!-- start Table -->
+            <table id="example" width="100%" border="1" class="table table-striped table-bordered newpage" align="center" cellpadding="0" cellspacing="0" style=" font-size: 15px;">
+              <thead>
+                <tr>
+          
+                  <th align="left" valign="top">Country</th>
+                  <th align="left" valign="top">Free Shipping Amount</th>
+                  <th align="left" valign="top">Free Flat Shipping</th>
+                  <th align="left" valign="top">Action</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+           {% if object %}
+           {% for item in object %}
+
+
+                <tr>
+          
+                  <td align="left" valign="top">
+                <input type="hidden" name="ids[]" value="{{item.id}}">
+                  {{item.Country}}
+                </td>
+                 
+                  <td align="left" valign="top">
+<input class="fee_formcontrol" type="number" name="Free_Shipping_Amount[]" placeholder="Free Shipping Amount" value="{{item.Free_Shipping_Amount}}">
+                  </td>
+                  <td align="left" valign="top">
+<input class="fee_formcontrol" type="number" name="Free_Flat_Shipping[]" placeholder="Free Flat Shipping" value="{{item.Free_Flat_Shipping}}">
+</td>
+                
+                  <td align="left" valign="top">
+                    <table width="100%" border="0" align="left" cellpadding="0" cellspacing="0">
+                      <tr>
+                       
+                        <td align="center" valign="top"><a href="{% url 'admin_manage_setting:delete_shipping'  item.id %}  "><i class="icon-delete"></i><a></td>
+
+                   </tr>
+                </table>
+                </td>
+            </tr>
+            {% endfor %}
+           {% endif %}
+           
+                </table>
+                </td>
+
+            </tr>
+            
+        </tbody>
+    </table>
+                                     <!---Table Ends---->
+</div>
+                        
+
+<div class="row">
+    
+              <div class="col-md-2">
+
+        <div class="form-group">
+        <button type="submit" class="btn-block btn btn-white subbtn">Save</button>
+        </div>
+      </div>
+      
+    </div>
+
+                         </form>
+                     <!--  </div> -->
+             </div>
+          <!-- </div> -->
+               </div>
+      </div>
+         </div>
+      </div>
+
+
+
+
+
+ 
+  <!------------Modal Popup------->
+  <div class="modal fade in sp-map" id="modal-default">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Manage Shipping</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" style="font-size: 32px;">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="login-form-content">
+  <form action="" method="post">
+      
+{% csrf_token %}
+
+
+    <div class="row">
+     <div class="col-md-12">
+      <div class="form-group">
+                   <label class="age">Select Country</label>
+                   {{form_class.Country}}
+                   <!-- <input type="text" class="form-control" placeholder="Enter your winery name"> -->
+        </div>
+     </div>
+    </div>
+
+    <div class="row">
+     <div class="col-md-6">
+      <div class="form-group">
+                   <label class="age">Free Shipping Amount</label>
+                   {{form_class.Free_Shipping_Amount}}
+                   <!-- <input type="text" class="form-control" placeholder="Enter your winery name"> -->
+        </div>
+     </div>
+     <div class="col-md-6">
+      <div class="form-group">
+                   <label class="age">Free Flat Shipping</label>
+                   {{form_class.Free_Flat_Shipping}}
+                   <!-- <input type="text" class="form-control" placeholder="Enter your winery name"> -->
+        </div>
+     </div>
+    </div>
+
+    
+
+
+<div class="row">
+ 
+  <div class="col-md-4">
+    <div class="form-group">
+      <button type="submit" class="btn-block btn btn-white subbtn">Save</button>
+    </div>
+  </div>
+</div>
+</form>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+
+
+    <!------------Modal Popup------->
+  <div class="modal fade in sp-map" id="modal-default-edit">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Manage Notification</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" style="font-size: 32px;">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+     
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </div>
+            </div> -->     
+ {% endblock %}
+
+
+   {% block script %}
+   
+<script type="text/javascript">
+$(document).ready(function() {
+
+
+
+  $('.summernote_text').summernote({
+        placeholder: 'Description',
+        tabsize: 2,
+        height: 200
+      });
+});
+
+
+
+
+$(document).on("click",".send_data",function(){
+
+   $.ajax({
+     method:"GET",
+     url:$(this).data("url_set"),
+     dataType:"json",
+     success:function(data)
+     {
+    
+      if(data.status=="1")
+      {
+          swal({
+            title: data.message,
+            icon: "success",
+            buttons: true,
+            dangerMode: true,
+          });
+      }
+      else
+      {
+          swal({
+            title: data.message,
+            icon: "error",
+            buttons: true,
+            dangerMode: true,
+          });
+      }
+   
+       location.reload();
+     }
+   });
+
+  });
+
+
+  $(document).on("click",".edit_data",function(){
+
+   $.ajax({
+     method:"GET",
+     url:$(this).data("url_set"),
+     dataType:"html",
+     success:function(data)
+     {
+
+       $("#modal-default-edit .modal-body").html(data);
+       $("#modal-default-edit").modal('show');
+
+  $('.summernote_text').summernote({
+        placeholder: 'Description',
+        tabsize: 2,
+        height: 200
+      });
+
+       $('select').multiselect({
+        includeSelectAllOption: true,
+      });  
+     }
+   });
+
+  });
+
+
+
+
+</script>
+      {% endblock %}

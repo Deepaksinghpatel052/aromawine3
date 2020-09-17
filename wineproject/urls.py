@@ -61,6 +61,7 @@ urlpatterns = [
 
 
     path('admin/categoryes/', include(('admin_manage_categoryes.urls','admin_manage_categoryes'),namespace='admin_manage_categoryes')),
+
     # path('admin/categoryes/', include(('admin_manage_categoryes.urls','admin_manage_categoryes'),namespace='admin_manage_categoryes')),
 
     path('admin/banners/', include(('admin_manage_banners.urls','admin_manage_banners'),namespace='admin_manage_banners')),
@@ -84,6 +85,10 @@ urlpatterns = [
     path('admin/preferences/', include(('admin_manage_perferences.urls', 'admin_manage_perferences'), namespace='admin_manage_perferences')),
     path('admin/wine-recipes/', include(('manage_wine_recipes.urls', 'manage_wine_recipes'), namespace='manage_wine_recipes')),
 
+    path('admin/notifications/', include(('admin_manage_notification.urls', 'admin_manage_notification'), namespace='admin_manage_notification')),
+
+    path('admin/settings/', include(('admin_manage_setting.urls', 'admin_manage_setting'), namespace='admin_manage_setting')),
+
 
 
 # ====================================set url for web frentend START==============================================
@@ -106,6 +111,7 @@ urlpatterns = [
 
     path('account/', include(('account.urls','account'),namespace='account')),
     path('page/', include(('pages.urls','pages'),namespace='pages')),
+    path('wine-palate/', include(('wine_palate.urls','wine_palate'),namespace='wine_palate')),
 
 
     path('user/orders/', include(('orders.urls','orders'),namespace='orders')),
@@ -114,6 +120,7 @@ urlpatterns = [
     path('user/profile/', include(('profile_user.urls','profile_user'),namespace='profile_user')),
     path('user/cellar/', include(('manage_cellar.urls','manage_cellar'),namespace='manage_cellar')),
     path('user/payment-details/', include(('payment_method.urls','payment_method'),namespace='payment_method')),
+    path('user/wishlist/', include(('user_wishlist.urls','user_wishlist'),namespace='user_wishlist')),
 
     path('password/', include('django.contrib.auth.urls')),
     # ====================================set url for web frentend END==============================================

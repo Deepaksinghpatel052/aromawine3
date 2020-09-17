@@ -14,6 +14,7 @@ from admin_manage_region.models import AwRegion
 from django.template.defaulttags import register
 from admin_manage_categoryes.models import AwCategory
 import operator
+from django.db.models import Sum
 from django.db.models import Q,Subquery
 from admin_manage_country.models import AwCountry
 from admin_manage_grape.models import AwGrape
@@ -25,7 +26,7 @@ class CellarVidw(generic.ListView):
     model = AwOrederItem
     template_name = "web/user/page/cellar/my_cellar.html"
     queryset = None
-    paginate_by = 3
+    # paginate_by = 3
 
     def get_queryset(self, **kwargs):
         get_order_items = None
@@ -41,6 +42,26 @@ class CellarVidw(generic.ListView):
         context['Page_title'] = "My-Cellar"
         context['short_by'] =  self.kwargs.get("short_by")
         get_order_items = None
+        # ====================================
+        total_unique_wine =  0
+        total_unite =  0
+        total_cost_of_caller =  0
+        if AwOrederItem.objects.filter(Order_id__Order_Type='Caller').filter(Quentity__gt=0).filter(Order_id__Payment_Status=True).exists():
+            product_quantity_info = (AwOrederItem.objects.values('Product_Cellar', 'Year','Quentity').filter(Quentity__gt=0).filter(User=self.request.user).filter(Order_id__Order_Type='Caller').filter(Order_id__Payment_Status=True).annotate(
+            total=Count('id')))
+            total_unique_wine = len(product_quantity_info)
+            for item in product_quantity_info:
+                total_unite = total_unite + item['Quentity']
+
+            total_omount_of_caller_products = AwOrederItem.objects.filter(Quentity__gt=0).filter(User=self.request.user).filter(Order_id__Order_Type='Caller').filter(Order_id__Payment_Status=True)
+          
+            for caller_amounrt in total_omount_of_caller_products:
+                total_cost_of_caller = total_cost_of_caller + (caller_amounrt.Quentity * caller_amounrt.Cost_of_product)
+
+        context['total_unique_wine'] = total_unique_wine
+        context['total_unite'] = total_unite
+        context['total_cost_of_caller'] = total_cost_of_caller
+        # ====================================
 
         context['get_order_items'] = get_order_items
         # ======================================================================

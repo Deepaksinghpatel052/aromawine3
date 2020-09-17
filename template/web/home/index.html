@@ -15,6 +15,7 @@
 
      {% for tiems in get_slider  %}
      <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}">
+	 
       <img class="" src='{{tiems.Image.url}}' alt="">
     </div>
      {% endfor %}
@@ -60,6 +61,13 @@
              {% if items|get_product_vintage_yera_one %}
             <div class="item">
               <div class="fare-deal__col">
+			  <span class="heartbox">
+              {% if user.username == "" %}
+              <a href="javascript:;"><i class="fa fa-heart-o"></i> </a>
+              {% else %}
+              <a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' items.id items|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:items}}" >{% if user|check_in_wish_list:items == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
+              {% endif %}
+			  	</span>
   <a href="{% url 'product_detail:product_detail' items.Product_id items.Product_slug  items|get_product_vintage_yera_one   %}" class="fare-deal__item">
  <div class="blurcontain fare-deal__blur-image" style="background-image: url({{items|get_product_image_one}});">
                   </div>
@@ -106,6 +114,14 @@
                             <div class="single-product">
                                 
                                 <div class="product-thumb">
+								<span class="heartbox">
+			{% if user.username == "" %}
+              <a href="javascript:;"><i class="fa fa-heart-o"></i> </a>
+              {% else %}
+									<a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' items.id items|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:items}}"> {% if user|check_in_wish_list:items == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
+</a>
+{% endif %}
+								</span>
                                     <!--<span class="label-pro-sale">-9%</span>
                                     <span class="new">new</span>-->
                                     <a href="{% url 'product_detail:product_detail' items.Product_id items.Product_slug  items|get_product_vintage_yera_one   %}"><img src='{{items|get_product_image_one}}' alt="" /></a>

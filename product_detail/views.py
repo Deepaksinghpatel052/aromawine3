@@ -1,6 +1,6 @@
 from django.shortcuts import render,get_object_or_404
 from django.views import generic
-from admin_manage_products.models import AwProductPrice,AwProducts,AwProductImage,AwWineType
+from admin_manage_products.models import AwProductPrice,AwProducts,AwProductImage,AwWineType,AwProductImageFullView
 from django.db.models import Count
 from django.template.defaulttags import register
 from admin_manage_region.models import AwRegion
@@ -20,6 +20,7 @@ from django.views.decorators.csrf import csrf_exempt
 @register.filter(name='times')
 def times(number):
     return range(1,number)
+
 
 
 class DetailView(generic.TemplateView):
@@ -67,4 +68,8 @@ class DetailView(generic.TemplateView):
         context['get_product_all_years'] = get_product_all_years
         context['get_product_image'] = get_product_image
         context['Page_title'] = product_ins.Product_slug
+        image_of_full_view = None
+        if AwProductImageFullView.objects.filter(Product=product_ins).exists():
+            image_of_full_view = AwProductImageFullView.objects.filter(Product=product_ins)
+        context['image_of_full_view'] = image_of_full_view
         return context

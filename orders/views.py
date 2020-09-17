@@ -7,6 +7,7 @@ from orders.serializers import ProductPriceSeriSerializer,AwAddToCardSerializer
 from orders.models import AwAddToCard
 from django.template.defaulttags import register
 from django.template.loader import render_to_string
+from profile_user.models import AwUserInfo
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from addressbook_user.forms import AwAddressBookFormUser,AwAddressBookForm
@@ -68,7 +69,7 @@ def remove_product_from_card(request,pk):
         messages.info(request, 'Product remove from card successfully')
     else:
         messages.error(request, "Product is not remove.")
-    return redirect(settings.BASE_URL + "user/orders/my-card")
+    return redirect(settings.BASE_URL + "user/orders/my-cart")
 
 @method_decorator(login_required , name="dispatch")
 class MyCardView(generic.TemplateView):
@@ -183,20 +184,30 @@ class CheckOutView(generic.TemplateView):
     def post(self, request, *args, **kwargs):
         order_id = self.kwargs.get("order_id")
         order_data = get_object_or_404(AwOrders, order_id=order_id)
+        payment_type = request.POST["payment_type"]
         get_address_ins = None
+
+        context = {}
+        context['Page_title'] = "Checkout"
+        my_address = None
+        if AwAddressBook.objects.filter(User=request.user).exists():
+            my_address = AwAddressBook.objects.filter(User=request.user)
+        context['my_address'] = my_address
+        context['address_form'] = AwAddressBookFormUser
+
+        get_order_ins = None
+        get_acre_product = None
+        if AwOrders.objects.filter(order_id=order_id).filter(Order_Status=False).exists():
+            get_order_ins = get_object_or_404(AwOrders, order_id=order_id, Order_Status=False)
+
+            if AwOrederItem.objects.filter(User=self.request.user).filter(Order_id=get_order_ins).exists():
+                get_acre_product = AwOrederItem.objects.filter(User=self.request.user).filter(
+                    Order_id__order_id=order_id)
+        context['card_product'] = get_acre_product
+        context['get_order_ins'] = get_order_ins
         if order_data.Order_Type == 'Delivered':
+            payment_type = "Payment Done By Caller"
             if 'old_address' in request.POST:
-                if request.POST["address_id"]:
-                    addres_id = request.POST["address_id"]
-                    if AwAddressBook.objects.filter(id=addres_id).exists():
-                        get_address_ins = get_object_or_404(AwAddressBook, id=addres_id)
-                    else:
-                        messages.error(request, "Address is incorrect.")
-                        return HttpResponseRedirect(reverse('orders:checkout'))
-                else:
-                    messages.error(request, "Address is incorrect.")
-                    return HttpResponseRedirect(reverse('orders:checkout'))
-            else:
                 form = AwAddressBookForm(request.POST)
                 if form.is_valid():
                     self.object = form.save(commit=False)
@@ -206,29 +217,21 @@ class CheckOutView(generic.TemplateView):
                     get_address_ins = AwAddressBook.objects.filter(User=request.user).order_by('-id')[0]
                 else:
                     messages.error(request, form.errors)
-                    context = {}
-                    context['Page_title'] = "Checkout"
-                    my_address = None
-                    if AwAddressBook.objects.filter(User=request.user).exists():
-                        my_address = AwAddressBook.objects.filter(User=request.user)
-                    context['my_address'] = my_address
-                    context['address_form'] = form
-
-                    get_order_ins = None
-                    get_acre_product = None
-                    if AwOrders.objects.filter(order_id=order_id).filter(Order_Status=False).exists():
-                        get_order_ins = get_object_or_404(AwOrders, order_id=order_id, Order_Status=False)
-
-                        if AwOrederItem.objects.filter(User=self.request.user).filter(Order_id=get_order_ins).exists():
-                            get_acre_product = AwOrederItem.objects.filter(User=self.request.user).filter(
-                                Order_id__order_id=order_id)
-                    context['card_product'] = get_acre_product
-                    context['get_order_ins'] = get_order_ins
                     # ================
+                    return render(request, self.template_name, context)
+            else:
+                if request.POST["address_id"]:
+                    addres_id = request.POST["address_id"]
+                    if AwAddressBook.objects.filter(id=addres_id).exists():
+                        get_address_ins = get_object_or_404(AwAddressBook, id=addres_id)
+                    else:
+                        messages.error(request, "Address is incorrect.")
+                        return render(request, self.template_name, context)
+                else:
+                    messages.error(request, "Address is incorrect.")
                     return render(request, self.template_name, context)
 
         message = request.POST["massage"]
-        payment_type = request.POST["payment_type"]
         AwOrders.objects.filter(order_id=order_id).update(Order_Status=True,Payment_Status=True,Payment_Method=payment_type,Payment_Date=datetime.now(),Order_address=get_address_ins)
 
         # ==========================remive product from caller when order is develover===================================
@@ -246,11 +249,13 @@ class CheckOutView(generic.TemplateView):
                             quentity = 0
                         AwOrederItem.objects.filter(id=item_get.id).update(Quentity=quentity)
         # ==========================remive product from caller when order is develover===================================
-        messages.info(request, "Order done successfully.")
+        messages.info(request, "Your Order has placed Successfully.")
+
         # if AwOrders.objects.filter(User=request.user).filter(Order_Type='Caller')
 
 
-        return HttpResponseRedirect(reverse('orders:checkout',args=(order_id,)))
+        # return HttpResponseRedirect(reverse('orders:orders',args=(order_id,)))
+        return HttpResponseRedirect(reverse('orders:orders'))
 
 @method_decorator(login_required , name="dispatch")
 class OrederVidw(generic.TemplateView):
@@ -294,6 +299,10 @@ class ProoductInfoView(generic.TemplateView):
         context['products'] = get_product
         context['total_cost'] = get_sum
         context['get_order_ins'] = get_order_ins
+        user_info = None
+        if AwUserInfo.objects.filter(User=self.request.user).exists():
+            user_info = get_object_or_404(AwUserInfo, User=self.request.user)
+        context['user_info'] = user_info
         return context
 
 
@@ -416,7 +425,13 @@ def add_to_card(request):
                                                   Quentity=Quentity_set, Order_Type=order_type_set)
                         add_in_card.save()
                         status = 1
-                        message = str(Order_Type)+" add in your bucket."
+                        # message =
+                        if Order_Type == 't':
+                            message = str(Order_Type)+" add in your bucket."
+                        else:
+                            if order_type_set == 'Delivered':
+                                order_type_set = 'Delivery'
+                            message = "Wine added for " + order_type_set + ", to the basket"
                 else:
                     status = 0
                     message = "You can add only ont type "+set_item_type+" ("+str(get_filst_item_ins.Order_Type)+")."
@@ -424,7 +439,12 @@ def add_to_card(request):
                 add_in_card = AwAddToCard(User=user_ins,Old_Cost=Cost,order_item_id=product_order_item_ins_all_data, Product_Cellar=product_ins,Product_Delivered=product_order_item_ins,Event_Ticket=event_ins, Year=Year, Type=Type,Case_Formate=Case_Formate_ins, Quentity=Quentity_set, Order_Type=order_type_set)
                 add_in_card.save()
                 status = 1
-                message = str(Order_Type)+" add in your bucket."
+                if Order_Type == 't':
+                    message = str(Order_Type) + " add in your bucket."
+                else:
+                    if order_type_set == 'Delivered':
+                        order_type_set = 'Delivery'
+                    message = "Wine added for " + order_type_set + ", to the basket"
     else:
         status = 0
         message = "Method is incorrect."

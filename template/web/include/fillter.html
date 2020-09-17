@@ -13,7 +13,9 @@
             <div class="filter-color checkbox-color-change">
               <ul>
                 {% for item_color in get_all_colors %}
-                <li>
+
+
+                <li  data-count_set="{% get_product_count item_color.Slug 'color' %}" class="set_lenght">
                   {% if item_color.Slug in color_set %}
                   <input type="Checkbox" class="color" name="" checked="" value="color={{item_color.Slug}}" id="{{item_color}}">
                   {% else %}
@@ -51,7 +53,7 @@
             <div class="content filter-bottle-size active style-4 checkbox-color-change">
               <ul class="bottolebox">
                 {% for get_item_appellation in get_all_appellation %}
-                <li>
+                <li data-count_set="{% get_product_count get_item_appellation.Slug 'appellation' %}" class="set_lenght">
                   {% if get_item_appellation.Slug in appellation_set %}
                   <input type="Checkbox" name="" checked="" class="appellation" value="appellation={{get_item_appellation.Slug}}" id="{{get_item_appellation.Slug}}">
                   {% else %}
@@ -83,7 +85,7 @@
             <div class="content filter-bottle-size active style-4 checkbox-color-change">
               <ul class="bottolebox">
                {% for get_size in get_all_size  %}
-               <li>
+               <li  data-count_set="{% get_product_count get_size.Slug 'size' %}" class="set_lenght">
                  {% if get_size.Slug in size_set %}
                   <input type="Checkbox" class="size" checked="" value="bottel-size={{get_size.Slug}}" id="{{get_size.Slug}}">
                   {% else %}
@@ -107,7 +109,7 @@
               <ul class="bottolebox">
                
                 {% for get_item_producers in get_all_producers %}  
-                <li>
+                <li  data-count_set="{% get_product_count get_item_producers.Slug 'producer' %}" class="set_lenght">
                   {% if get_item_producers.Slug in producers_set %}
                   <input type="Checkbox" name="" class="producers" value="producers={{get_item_producers.Slug}}" checked="" id="{{get_item_producers.Slug}}">
                   {% else %}
@@ -133,7 +135,7 @@
               <ul class="bottolebox">
              
              {% for item_classification in get_all_classification %}
-                <li>
+                <li data-count_set="{% get_product_count item_classification.Slug 'classification' %}" class="set_lenght">
                   {% if item_classification.Slug in classification_set %}
                   <input type="Checkbox" name="" class="classification" checked="" value="classification={{item_classification.Slug}}" id="{{item_classification.Slug}}"> 
                   {% else %}
@@ -176,7 +178,7 @@
             <div class="content filter-vintage style-4 checkbox-color-change">
               <ul>
                 {% for item_vintage in get_all_vintages %}
-                <li>
+                <li data-count_set="{% get_product_count item_vintage.Slug 'vintage' %}" class="set_lenght">
                   {% if item_vintage.Slug in vintage_set %}
                   <input type="Checkbox" name="" checked="" class="vintage" value="vintage={{item_vintage.Slug}}" id="{{item_vintage.Slug}}">
                   {% else %}
@@ -198,7 +200,7 @@
             <div class="content filter-vintage style-4 checkbox-color-change">
               <ul>
                 {% for item_varietals in get_all_varietals %}
-                <li>
+                <li data-count_set="{% get_product_count item_varietals.Slug 'varietals' %}" class="set_lenght">
                   {% if item_varietals.Slug in varietal_set %}
                   <input type="Checkbox" name="" checked="" class="varietal" value="varietal={{item_varietals.Slug}}" id="{{item_varietals.Slug}}">
                   {% else %}
@@ -225,7 +227,7 @@
             <div class=" filter-case-size style-4 checkbox-color-change">
               <ul>
                 {% for item_region in get_all_region  %}
-                <li>
+                <li data-count_set="{% get_product_count item_region.Slug 'regions' %}" class="set_lenght">
                   {% if item_region.Slug in region_set %}
                   <input type="Checkbox" name="" checked="" class="region" value="region={{item_region.Slug}}" id="{{item_region.Slug}}">
                   {% else %}

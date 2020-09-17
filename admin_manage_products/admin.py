@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AwWineType,AwProducts , AwProductImage , AwProductPrice
+from .models import AwWineType,AwProducts , AwProductImage , AwProductPrice,AwProductImageFullView
 from import_export.admin import ImportExportModelAdmin
 # Register your models here.
 
@@ -26,3 +26,10 @@ class AwProductsAdmin(ImportExportModelAdmin):
     list_filter = ('Select_Type','Producer','Created_date','Updated_date',)
     readonly_fields = ["Product_id", 'Product_slug']
 admin.site.register(AwProducts,AwProductsAdmin)
+
+
+
+class AwProductImageFullViewAdmin(ImportExportModelAdmin):
+    list_display = ('Product', 'Image','Create_date')
+    list_filter = ('Product','Create_date',)
+admin.site.register(AwProductImageFullView,AwProductImageFullViewAdmin)

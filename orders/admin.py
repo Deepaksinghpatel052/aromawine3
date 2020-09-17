@@ -6,6 +6,7 @@ from import_export.admin import ImportExportModelAdmin
 
 class AwOrdersAdmin(ImportExportModelAdmin):
     list_display = ('User','order_id', 'Order_address', 'Order_Type','Quentity','order_amount','Use_coupon','Cupon_Code','Cupon_Discount','Amount','Payment_Status','Order_Status_Set','Payment_Method','Order_Date','delivery_Date','Payment_Date')
+    list_filter = ('User','Order_Type','Order_Type')
 admin.site.register(AwOrders,AwOrdersAdmin)
 
 class AwAddToCardAdmin(ImportExportModelAdmin):
@@ -16,6 +17,7 @@ admin.site.register(AwAddToCard,AwAddToCardAdmin)
 
 class AwOrederItemAdmin(ImportExportModelAdmin):
     list_display = ('User','Order_id', 'Product_Cellar','Product_Delivered','Event_Ticket','Year','Case_Formate_text','Case_Formate','Cost_of_product','Quentity','Total_cost')
+    list_filter = ('User','Order_id','Product_Cellar','Quentity','Year',)
 admin.site.register(AwOrederItem,AwOrederItemAdmin)
 
 class AwOrderNoteAdmin(ImportExportModelAdmin):

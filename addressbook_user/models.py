@@ -16,7 +16,7 @@ class AwAddressBook(models.Model):
     City = models.CharField(max_length=120)
     State = models.CharField(max_length=120,default="" ,null=True,blank=True)
     Postcode = models.IntegerField(default=0)
-    Landark = models.CharField(max_length=120,null=True,blank=True)
+    Landmark = models.CharField(max_length=120,null=True,blank=True)
     Create_Date = models.DateTimeField(default=django.utils.timezone.now)
     Update_Date = models.DateTimeField(default=django.utils.timezone.now)
 

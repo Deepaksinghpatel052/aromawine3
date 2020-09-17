@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework.views import APIView
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -10,6 +11,8 @@ from django.core.files.base import ContentFile
 import base64
 from .models import AwCategory
 from django.urls import reverse_lazy
+from .serializear import DfCategorySerializers
+from rest_framework.response import Response
 # Create your views here.
 
 @method_decorator(login_required , name="dispatch")
@@ -112,3 +115,19 @@ class CategoryDeleteView(SuccessMessageMixin,generic.DeleteView):
     def get_success_message(self, cleaned_data):
         print(cleaned_data)
         return "Categorye remove successfully."
+
+
+
+
+
+# API START================
+class ApiCategoryView(APIView):
+
+    def get(self,request):
+        user_data = {}
+        if AwCategory.objects.all().exists():
+            get_cate_ins = AwCategory.objects.all().order_by('Category_name')
+            get_cate_ins_sri = DfCategorySerializers(get_cate_ins, many=True,context={"request": request})
+            user_data = get_cate_ins_sri.data
+        return Response({"data":user_data},status=200)
+# API END================

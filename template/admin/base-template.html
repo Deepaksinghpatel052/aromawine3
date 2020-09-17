@@ -26,6 +26,11 @@
       background:#cca261;
     color: #fff;
    }
+   ul.multiselect-container {
+    height: 200px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
 </style>
 
 </head>
@@ -157,14 +162,17 @@
                       <li class="treeview" id="Manage_Orders">
 					  <a href="{% url 'admin_manage_order:orders' %}" >Manage Orders</a>
 					  </li>
-
-					  <li class="treeview"  id="Active_Orders">
-					 <a href="{% url 'admin_manage_order:orders_type' 'active' %}">Active Orders</a>
+					
+					<li class="treeview"  id="Caller_Orders">
+					 <a href="{% url 'admin_manage_order:caller'  %}">Caller Orders</a>
 					 </li>
-					 <!--<li class="treeview">
-					  <a href="manage-shipping.php">Manage Delivery</a>
-					  </li>-->
-                     
+					 <li class="treeview"  id="Delivery_Orders">
+					 <a href="{% url 'admin_manage_order:delivery' %}">Delivery Orders</a>
+					 </li>
+				 	 <li class="treeview" id="Complete_Orders">
+					 <a href="{% url 'admin_manage_order:orders_type' 'complete' %}" >Complate Orders</a>
+					 </li>
+
                      <li class="treeview" id="Refunded_Orders">
 					 <a href="{% url 'admin_manage_order:orders_type' 'refunded' %}" >Refunded Orders</a>
 					 </li>
@@ -178,7 +186,7 @@
 					 
                   </ul>
                </li>
-			   <li class="treeview"><a href="disocunt-coupons.php">Disocunt Coupons</a></li>
+			  
 			   
          <li class="treeview" id="Coupons">
            <a href="#"><span>Coupons</span><i class="icon icon-angle-left pull-right"></i></a>
@@ -263,13 +271,13 @@
 					 
                      
                     <!-- <li><a href="manage-attributes.php">Manage Attributes</a></li>-->
-                     <li><a href="notifications.php">Notifications</a></li>
+                     <li><a href="{% url 'admin_manage_notification:notification' %}">Notifications</a></li>
                      <li><a href="{% url 'admin_mambership_setting:membership'  %}">Membership Settings</a></li>
                      <li><a href="source-wine-request.php">Source Wine requests</a></li>
                      
                      <li><a href="enqueries.php">Manage Enqueries</a></li>
                      
-                     <li><a href="manage-event.php">Manage Events</a></li>
+                     <!-- <li><a href="manage-event.php">Manage Events</a></li> -->
                      
                      
                      <!--<li><a href="manage-review.php">Manage Reviews</a></li>
@@ -278,13 +286,13 @@
 					 
 					 
                      
-					 <li class="treeview" >
+					 <li class="treeview" id="Banner">
 					 <a href="#"><span>Manage Banners</span><i class="icon icon-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
-                      <li class="treeview">
+                      <li class="treeview" id="Manage_Banner">
 					  <a href="{% url 'admin_manage_banners:banners' %}">Manage Banner</a>
 					  </li>
-                     <li class="treeview">
+                     <li class="treeview" id="Add_Banner">
 					 <a href="{% url 'admin_manage_banners:add_banners' %}">Add Banner</a>
 					
 					 <!--<li class="treeview"><a href="manage-s.e.o.php">Manage S.E.O.</a></li>-->
@@ -308,12 +316,10 @@
                      <li><a href="manage-vintage-chart-data.php">Manage Vintage Chart data</a></li>
 					 
 					 
-					 <li class="treeview"><a href="#"><span>Manage Admin Setting</span><i class="icon icon-angle-left pull-right"></i></a>
+					 <li class="treeview" id="Setting"><a href="#"><span>Manage Admin Setting</span><i class="icon icon-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
-                      <li><a href="manage-admin-setting.php">General Setting</a></li>
-					  <li><a href="Fee-shipping.php">Manage Shipping</a></li>
-                     <li><a href="social-media.php">Social Media</a></li>
-                     <li><a href="email-setting.php">Email Setting</a></li>
+                      <li  id="General_Setting"><a href="{% url 'admin_manage_setting:general' %}">General Setting</a></li>
+					  <li id="Manage_Shipping"><a href="{% url 'admin_manage_setting:shipping' %}">Manage Shipping</a></li>
 					 
                   </ul>
                </li>
@@ -536,8 +542,10 @@ $(document).ready(function() {
  
             if ($(".name").length == $(".name:checked").length) {
                 $("#selectall").attr("checked", "checked");
+				
             } else {
                 $("#selectall").removeAttr("checked");
+				
             }
  
         });

@@ -32,6 +32,47 @@ if(jQuery.inArray("add-product", url_in_array) != -1)
 }
 
 
+
+
+
+
+if(jQuery.inArray("settings", url_in_array) != -1 && jQuery.inArray("fee-shipping", url_in_array) == -1)
+{
+	$("#General_Setting").addClass("active_dsp");
+	$("#Setting").addClass("active");
+}
+
+if(jQuery.inArray("fee-shipping", url_in_array) != -1)
+{
+	$("#Manage_Shipping").addClass("active_dsp");
+	$("#Setting").addClass("active");
+}
+
+
+
+
+
+
+
+if(jQuery.inArray("banners", url_in_array) != -1 && jQuery.inArray("add-banner", url_in_array) == -1)
+{
+	$("#Manage_Banner").addClass("active_dsp");
+	$("#Banner").addClass("active");
+}
+
+if(jQuery.inArray("add-banner", url_in_array) != -1)
+{
+	$("#Add_Banner").addClass("active_dsp");
+	$("#Banner").addClass("active");
+}
+
+
+
+
+
+
+
+
 if(jQuery.inArray("manage-event", url_in_array) != -1 && jQuery.inArray("add-event", url_in_array) == -1)
 {
 	$("#Manage_Event").addClass("active_dsp");
@@ -92,23 +133,30 @@ if(jQuery.inArray("add-testing-wine", url_in_array) != -1)
 
 
 
-if(jQuery.inArray("manage-order", url_in_array) != -1 && jQuery.inArray("refunded", url_in_array) == -1 && jQuery.inArray("cancelled", url_in_array) == -1 && jQuery.inArray("failled", url_in_array) == -1 && jQuery.inArray("active", url_in_array) == -1)
+if(jQuery.inArray("manage-order", url_in_array) != -1 && jQuery.inArray("refunded", url_in_array) == -1 && jQuery.inArray("cancelled", url_in_array) == -1 && jQuery.inArray("failled", url_in_array) == -1 && jQuery.inArray("active", url_in_array) == -1 && jQuery.inArray("caller", url_in_array) == -1 && jQuery.inArray("delivery", url_in_array) == -1 && jQuery.inArray("complete", url_in_array) == -1)
 {
 	$("#Manage_Orders").addClass("active_dsp");
 	$("#Orders").addClass("active");
 }
 
-if(jQuery.inArray("edit-order", url_in_array) != -1 && jQuery.inArray("refunded", url_in_array) == -1 && jQuery.inArray("cancelled", url_in_array) == -1 && jQuery.inArray("failled", url_in_array) == -1)
+if(jQuery.inArray("edit-order", url_in_array) != -1 && jQuery.inArray("refunded", url_in_array) == -1 && jQuery.inArray("cancelled", url_in_array) == -1 && jQuery.inArray("failled", url_in_array) == -1 && jQuery.inArray("caller", url_in_array) == -1 && jQuery.inArray("delivery", url_in_array) == -1 && jQuery.inArray("complete", url_in_array) == -1)
 {
 	$("#Manage_Orders").addClass("active_dsp");
 	$("#Orders").addClass("active");
 }
 
-if(jQuery.inArray("active", url_in_array) != -1)
+if(jQuery.inArray("caller", url_in_array) != -1)
 {
-	$("#Active_Orders").addClass("active_dsp");
+	$("#Caller_Orders").addClass("active_dsp");
 	$("#Orders").addClass("active");
 }
+
+if(jQuery.inArray("delivery", url_in_array) != -1)
+{
+	$("#Delivery_Orders").addClass("active_dsp");
+	$("#Orders").addClass("active");
+}
+
 
 if(jQuery.inArray("refunded", url_in_array) != -1)
 {
@@ -127,6 +175,11 @@ if(jQuery.inArray("failled", url_in_array) != -1)
 	$("#Orders").addClass("active");
 }
 
+if(jQuery.inArray("complete", url_in_array) != -1)
+{
+	$("#Complete_Orders").addClass("active_dsp");
+	$("#Orders").addClass("active");
+}
 
 
 

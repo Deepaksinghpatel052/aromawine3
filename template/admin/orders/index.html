@@ -125,7 +125,8 @@
 </td>
 
     <td>{{data.User}}</td>
-    <td>{{data.Order_Type}}</td>
+    <td>{% if data.Order_Type == 'Delivered' %} Delivery {% else %}
+                    {{data.Order_Type}}{% endif %}</td>
     <td>{{data.Quentity}}</td>
     <td>${{data.order_amount}}</td>
     <td>${{data.order_amount}}</td>

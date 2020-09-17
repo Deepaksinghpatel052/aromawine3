@@ -43,8 +43,26 @@ def get_user_number(user_ins):
         contact_no = get_user_info.Contact_no
     return contact_no
 
+@method_decorator(login_required , name="dispatch")
+class ManageOrdersDeliveryView(SuccessMessageMixin,generic.ListView):
+    template_name = 'admin/orders/delivery_order_list.html'
+
+    def get(self, request, *args, **kwargs):
+        queryset = None
+        if AwOrders.objects.filter(~Q(Order_Type='Caller')).exists():
+            queryset = AwOrders.objects.filter(~Q(Order_Type='Caller')).order_by("-id")
+        return render(request, self.template_name, { 'Page_title': "Manage Delivery Orders", 'queryset': queryset})
 
 
+@method_decorator(login_required , name="dispatch")
+class ManageOrdersCallerView(SuccessMessageMixin,generic.ListView):
+    template_name = 'admin/orders/caller_order_list.html'
+
+    def get(self, request, *args, **kwargs):
+        queryset = None
+        if AwOrders.objects.filter(Order_Type='Caller').exists():
+            queryset = AwOrders.objects.filter(Order_Type='Caller').order_by("-id")
+        return render(request, self.template_name, { 'Page_title': "Manage Caller Orders", 'queryset': queryset})
 
 
 
@@ -62,6 +80,8 @@ class ManageOrdersAccordingToTypeView(SuccessMessageMixin,generic.ListView):
             type = 'Cancelled'
         if type == 'active':
             type = 'Active'
+        if type == 'complete':
+            type = 'Complete'
         queryset = None
         if AwOrders.objects.filter(Order_Status_Set=type).exists():
             queryset = AwOrders.objects.filter(Order_Status_Set=type).order_by("-id")
@@ -122,7 +142,7 @@ class EditOrdersView(SuccessMessageMixin,generic.TemplateView):
             order_notes = AwOrderNote.objects.filter(Order_id__order_id = order_id).order_by('-id')
         context['order_notes'] = order_notes
         context['BASE_URL'] = settings.BASE_URL
-        order_status_list = ['Active','Deactivate','Complete','Cancelled','Refunded','Failled','Pending','Process']
+        order_status_list = ['Complete','Cancelled','Refunded','Failled','Pending']
         context['order_status_list'] = order_status_list
         return context
 

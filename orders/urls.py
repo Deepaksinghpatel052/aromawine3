@@ -6,7 +6,7 @@ urlpatterns = [
     path('<slug:order_id>/product-info', views.ProoductInfoView.as_view(),name="prodyuct_info"),
     path('checkout', views.CheckOutView.as_view(),name="checkout"),
     path('checkout/<slug:order_id>', views.CheckOutView.as_view(),name="checkout"),
-    path('my-card', views.MyCardView.as_view(),name="my_card"),
+    path('my-cart', views.MyCardView.as_view(),name="my_card"),
     path('update-card', views.update_card,name="update_card"),
     path('check-coupon-code', views.check_coupon_code,name="check_coupon_code"),
 

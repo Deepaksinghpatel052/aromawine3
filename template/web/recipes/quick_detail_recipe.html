@@ -5,26 +5,22 @@
     
     
     <div class="product-img product-modal mt-4">
+      <a href="{% url 'recipes_for_web:recipe_detail' object.id object.Slug %}">
       {% if object.Image %}
       
 <img src="{{object.Image.url}}" alt="" height="250">
       {% else %}
     	<img src="https://media.bbr.com/s/bbr/90068000117-ms?img404=Default_Events&amp;$deskPDP$" alt="" height="250">
     	{% endif %}
+    </a>
     </div>
   </div>
   <div class="col-md-12 mb-md-0 text-md-left">
     
     <div class="event-r">
-  <h2>{{object.Name}}</h2>
-  <p>{{object.Short_Description}}</p>
-  <div class="ticket-box">
-  <h3>{{object.Name}}</h3>
-  
-  
+  <h2><a href="{% url 'recipes_for_web:recipe_detail' object.id object.Slug %}">{{object.Name}}</a></h2>
+  <p><a href="{% url 'recipes_for_web:recipe_detail' object.id object.Slug %}">{{object.Short_Description}}</a></p>
 
-  
-  </div>
   </div>
   
   </div>

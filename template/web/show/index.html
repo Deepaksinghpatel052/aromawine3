@@ -28,12 +28,6 @@
 
 <section class="m-t-50">
 <div class="container">
- {{page_content.Description|safe}}
-</div>
-</section>
-
-<section class="m-t-50">
-<div class="container">
 <h2>Wine of {{Page_title}}  {{type}} </h2>
 </div>
 </section>
@@ -101,15 +95,24 @@
         <!-- {{get_item_wine.Descount_Cost|get_product_price_with_gst_include:get_item_wine.GST|floatformat:2}} -->
    SG${{get_item_wine.Retail_Cost}}&nbsp;<span class="taxSymbol">Incl. GST &amp; DP</span></span>
       
-      <span class="details mt-2"><span>{{get_item_wine.Bottle}}</span>
-      <span class="d-none d-sm-inline-block mx-sm-1"> | </span><span> SG${{get_item_wine.Retail_Cost}}&nbsp;/&nbsp;Unit</span>
+      <span class="details mt-2"><span>{{get_item_wine.Bottle}} | SG${{get_item_wine.Retail_Cost}}</span>
+      
       </span>
       </div>
       <div class="product-info-content-cta">
         <button class="mb-2 product-story_info-btn cick_to_view_product" data-toggle="modal" data-target="#listing-add-to-cart-modal" data-quick_view_url="{% url 'wine_shop:quick_view_product' get_item_wine.id  %}">Quick View</button>
         <a class="product-story_info-btn" href="{% url 'product_detail:product_detail' get_item_wine.Product.Product_id get_item_wine.Product.Product_slug  get_item_wine   %}">See details</a></div>
     </div>
-    <div class="product-brand-link"><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{get_item_wine.Product.Producer.Slug}}" aria-label="All {{get_item_wine.Product.Producer}} wines">All {{get_item_wine.Product.Producer}} wines</a></div>
+    <div class="product-brand-link"><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{get_item_wine.Product.Producer.Slug}}" aria-label="All {{get_item_wine.Product.Producer}} wines">All {{get_item_wine.Product.Producer}} wines</a>
+	<span class="heart_show">
+		{% if user.username == '' %}
+		<i class="fa fa-heart"></i>
+        {% else %}
+		<a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' get_item_wine.Product.id get_item_wine.Product|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:get_item_wine.Product}}" >{% if user|check_in_wish_list:get_item_wine.Product == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
+		{% endif %}
+	</span>
+	
+	</div>
   </div>
   <div class="options">
     <div class="promo-label">Special Prices  {{get_item_wine.Product.Bottel_Size.all|join:" | "}}</div>
@@ -155,6 +158,30 @@
   </div>
   <div class="clearfix"></div>
 </section>
+
+
+ 
+
+{% if page_content %}
+<section class="description-bottom">
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+<div class="long-description-modal">
+{{page_content.Description|safe}}
+</div>
+</div>
+
+
+
+</div>
+</div>
+</section>
+{% endif %}
+
+
+
+
 {% if category_info %}
 <section class="description-bottom">
 <div class="container">
@@ -345,6 +372,22 @@ $(document).on("change","input[type=Checkbox]",function(){
 set_short_filter();
 });
 
+
+
+$(document).ready(function(){
+
+$(".set_lenght").each(function(){
+
+console.log($(this).data("count_set") == 0);
+if($(this).data("count_set") == 0)
+{
+	$(this).css('display','none');
+}
+
+});
+
+
+});
 
 </script>
 {% endblock %}

@@ -36,7 +36,7 @@ class AwWineType(models.Model):
         verbose_name_plural = "Aw Wine Type"
 
 def user_directory_path_for_product(instance, filename):
-    producer_id_in_list = instance.Product_name.split(" ")
+    producer_id_in_list = instance.Product_slug.split(" ")
     today_date = date.today()
     producer_id_in_string = '_'.join([str(elem) for elem in producer_id_in_list])
     return '{0}/{1}'.format(producer_id_in_string+"/product_image/"+str(today_date.year)+"/"+str(today_date.month)+"/"+str(today_date.day),filename)
@@ -95,7 +95,7 @@ pre_save.connect(pre_save_create_slug, sender=AwProducts)
 
 
 def user_directory_path(instance, filename):
-    producer_id_in_list = instance.Product.Product_name.split(" ")
+    producer_id_in_list = instance.Product.Product_slug.split(" ")
     today_date = date.today()
     producer_id_in_string = '_'.join([str(elem) for elem in producer_id_in_list])
     return '{0}/{1}'.format(producer_id_in_string+"/product_image/"+str(today_date.year)+"/"+str(today_date.month)+"/"+str(today_date.day),filename)
@@ -144,3 +144,23 @@ class AwProductPrice(models.Model):
 
     class Meta:
         verbose_name_plural = "Aw Product Price & Stock"
+
+
+def user_directory_path_for_image_full(instance, filename):
+    producer_id_in_list = instance.Product.Product_slug.split(" ")
+    today_date = date.today()
+    producer_id_in_string = '_'.join([str(elem) for elem in producer_id_in_list])
+    return '{0}/{1}'.format("product_360/"+producer_id_in_string+"/"+str(today_date.year)+"/"+str(today_date.month)+"/"+str(today_date.day),filename)
+
+
+
+class AwProductImageFullView(models.Model):
+    Product = models.ForeignKey(AwProducts, on_delete=models.CASCADE, null=True, blank=True,related_name='AwProductImageFullView_Product')
+    Image =  models.ImageField(upload_to=user_directory_path_for_image_full)
+    Create_date = models.DateTimeField(default=django.utils.timezone.now)
+
+    def __str__(self):
+        return str(self.Product)
+
+    class Meta:
+        verbose_name_plural = "Aw Product Image 360"

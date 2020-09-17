@@ -33,23 +33,23 @@
 						<p>Number of Unique Wines:</p>
 					</td>
 					<td>
-					<p>31</p>
+					<p>{{total_unique_wine}}</p>
 						</td>
 				</tr>
-				<tr>
+				<!-- <tr>
 					<td>
 						<p>Number of Unique Products:</p>
 					</td>
 					<td>
 						<p>33</p>
 							</td>
-				</tr>
+				</tr> -->
 				<tr>
 					<td>
 						<p>Number of Units:</p>
 					</td>
 					<td>
-						<p>273</p>
+						<p>{{total_unite}}</p>
 							</td>
 				</tr>
 				<tr>
@@ -57,7 +57,7 @@
 							<p>What Your Cellar Cost:</p>
 						</td>
 						<td>
-							<p>$ 43,842.92</p>
+							<p>$ {{total_cost_of_caller}}</p>
 								</td>
 					</tr>
 				<tr>
@@ -140,15 +140,15 @@
 
 {% if item.Quentity > 0 %}
 
-{{item.Quentity}}
+
     <div class="product-card product-card-list mb-4">
-  <div class="img"><a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year  %}"><img src='{{item.Product_Cellar|get_product_image_one}}'  alt="{{item.Product_Cellar.Select_Type}} : {{item.Product_Cellar}} ({{item.Year}})"></a></div>
+  <div class="img"><a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year  %}" target="_blank"><img src='{{item.Product_Cellar|get_product_image_one}}'  alt="{{item.Product_Cellar.Select_Type}} : {{item.Product_Cellar}} ({{item.Year}})"></a></div>
   <div class="product-info">
     <div class="product-info-header">
-      <div><a class="productname" href="#">
+      <div><a class="productname" target="_blank" href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year  %}">
         <h2 class="title">{{item.Product_Cellar.Select_Type}} : {{item.Product_Cellar}} {{item.Year}}</h2>
         </a>
-        <div class="product-attributes"><a href="#">Veneto</a> - <a href="#">Amarone della Valpolicella Classico</a> - {{item.Product_Cellar.Color.all|join:" | "}}</div>
+        <div class="product-attributes"><a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year  %}" target="_blank">Veneto</a> - <a href="#">Amarone della Valpolicella Classico</a> - {{item.Product_Cellar.Color.all|join:" | "}}</div>
       </div>
     </div>
     <hr>
@@ -158,8 +158,7 @@
       
       <span class="offer-price">SG${{item.Cost_of_product}}&nbsp;<span class="taxSymbol">Incl. GST &amp; DP</span></span>
       
-      <span class="details mt-2"><span>{{item.Case_Formate}}</span>
-      <span class="d-none d-sm-inline-block mx-sm-1"> | </span><span> SG${{item.Cost_of_product}}&nbsp;/&nbsp;Unit</span>
+      <span class="details mt-2"><span>{{item.Case_Formate}} | SG${{item.Cost_of_product}}</span>
       </span>
       </div>
 
@@ -178,7 +177,7 @@
         
         <a class="product-story_info-btn btn-cart change-ib-db add_to_card"  data-order_type="d" data-event_id="" data-cost_type="{{item.Type}}"  data-order_id="{{item.Order_id.id}}"  data-product_id="{{item.Product_Cellar.Product_id}}"   >Get Delivery</a></div>
     </div>
-    <div class="product-brand-link"><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{item.Product_Cellar.Producer.Slug}}" aria-label="All {{item.Product_Cellar.Producer}} wines">All {{item.Product_Cellar.Producer}} wines</a></div>
+    <div class="product-brand-link"><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{item.Product_Cellar.Producer.Slug}}" aria-label="All {{item.Product_Cellar.Producer}} wines">All {{item.Product_Cellar.Producer}} wines</a><span class="heart_show"><a href="#" class="whistist-active"><i class="fa fa-heart-o"></i></a></span></div>
   </div>
   <div class="options">
     <div class="promo-label">Special Prices  {{item.Product_Cellar.Bottel_Size.all|join:" | "}}</div>
@@ -190,6 +189,7 @@
 
 {% endfor %}
  {% endif %}
+
 
 	
 {% if is_paginated %}

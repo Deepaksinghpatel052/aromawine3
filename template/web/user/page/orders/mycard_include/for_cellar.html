@@ -9,6 +9,8 @@
                                     <th align="left" valign="middle">Product</th>
                                     <th align="left" valign="middle">Type & Case Size</th>
                                     <th align="center" valign="middle">Price</th>
+                                    <th align="center" valign="middle">Duty</th>
+                                    <th align="center" valign="middle">GST</th>
                                     <th align="center" valign="middle">Quantity</th>
                                     <th align="center" valign="middle">Total</th>
                                     <th align="center" valign="middle">Remove</th>
@@ -38,6 +40,27 @@ ${{item.Case_Formate.Bond_Cost}}
   ${{item.Case_Formate.Retail_Cost}}
  {% endif %}
                                     </td>
+
+                                    <td align="center" valign="middle">
+{% if item.Type == 'Bond' %}
+{{item.Case_Formate.Duty}}%
+
+{% endif %}
+{% if item.Type == 'Retail' %}
+  {{item.Case_Formate.Duty}}%
+ {% endif %}
+                                    </td>
+
+                                    <td align="center" valign="middle">
+{% if item.Type == 'Bond' %}
+{{item.Case_Formate.GST}}%
+
+{% endif %} 
+{% if item.Type == 'Retail' %}
+  {{item.Case_Formate.GST}}%
+ {% endif %}
+                                    </td>
+
                                     <td align="center" valign="middle">
                                         <!-- <div class="input-group bootstrap-touchspin">
                                           <span class="input-group-addon bootstrap-touchspin-prefix quentity_set" style="display: none;" data-product_id="{{item.id}}" data-Type="minus"></span>
@@ -102,7 +125,7 @@ $<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Bond_Cost 1 i
                                         </li>
                                         <li><a href="{% url 'wine_shop:wine_shop' %}">Continue Shopping</a></li>
                                     </ul>
-                                    <h3>Cupon <span id="show_error_message" style="color:red;"></span></h3>
+                                    <h3>Coupon <span id="show_error_message" style="color:red;"></span></h3>
                                     <p id="clear_str">Enter Your Cupon Code if You Have One</p>
                                     <div class="cupon-wrap" id="show_success_message">
                                         <input type="text" placeholder="Cupon Code" id="enter_coupon_code">

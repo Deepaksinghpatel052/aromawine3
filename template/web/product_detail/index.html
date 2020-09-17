@@ -1,4 +1,11 @@
 {% extends 'web/base-template.html' %}
+{% load static %}
+
+   {% block cssstyle %}
+
+<!-- <link rel="stylesheet" href='{% static "web/assets/full_views/style.css" %}'> -->
+      {% endblock %}
+
 {% block content %}
 {% load static %}
 
@@ -19,10 +26,43 @@
  {% endfor %}
 {% endif %}
 
- ->({{get_product_one_year.Product.Bottel_Size}})</strong>
+ ->({{get_product_one_year.Product.Bottel_Size}})  
+{% if image_of_full_view %}
+ -> <a href="#" data-toggle="modal" data-target="#exampleModal_for_360">360<sup>o</sup> View</a> 
+{% endif  %}
+
+{% if user.username == '' %}
+<i class="fa fa-heart-o"></i>
+{% else %}
+<a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' get_product_one_year.Product.id get_product_one_year.Product|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:get_product_one_year.Product}}" >{% if user|check_in_wish_list:get_product_one_year.Product == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
+{% endif %}
+</strong>
+
 
 </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal_for_360" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{get_product_one_year.Product.Product_name}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <canvas id="360viewer" width="80" height="328"></canvas>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
 
 <section class="single-product-main">
 <div class="container">
@@ -58,7 +98,10 @@
 <input type="hidden" id="product_id" name="" value="{{get_product_one_year.Product.Product_id}}">
 <!-- add to card barival end-->
 
-  <div class="inbond">
+
+{% if get_product_one_year.Bond_Cost > 0 %}
+  <div class="inbond">  	
+
 <form method="post" class="row">
 <div class="col-xs-7 col-sm-7 col-lg-7 no-padding">
 <div class="row">
@@ -124,7 +167,9 @@ Buy
 </form>
 </div>
 
+{% endif %}
 
+{% if get_product_one_year.Retail_Cost > 0 %}
 <div class="inbond">
 <form method="post" class="row">
 <div class="col-xs-7 col-sm-7 col-lg-7 no-padding">
@@ -173,7 +218,13 @@ Delivery to United Kingdom Storage: 25 Mar 2020</p> -->
 <a href="{% url 'account:account' %}"> <button type="button" title="Add To Order" d data-cost_type="Bond"  class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">
 Buy
 </button></a>
+
 {% else %}
+<!-- <button type="button" title="Add To Order" class="button btn-cart change-ib-db">
+<i class="fa fa-heart-o"></i>
+</button>
+ -->
+
 
 {% if get_product_one_year.Retail_Cost > 0 %}
 <button type="button" id="Retail_buy" title="Add To Order" data-product_id="{{get_product_one_year.Product.Product_id}}" data-cost_type="Retail" class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">Buy</button>
@@ -186,6 +237,7 @@ Buy
  </div>
 </form>
 </div>
+{% endif %}
 
    
   </div>
@@ -341,14 +393,14 @@ Buy
 <div id="tab-2" class="tab-content">
 	
 <p>
-<a href="#" title="Alvear">
-{{get_product_one_year.Product.Producer.Winnery_Name}} </a>
+  
+<a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{get_product_one_year.Product.Producer.Slug}}" title="Alvear">{{get_product_one_year.Product.Producer.Winnery_Name}}</a>
 </p>
 <p>
 {{get_product_one_year.Product.Producer.Description | safe}}</p>
 <p>
 <a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{get_product_one_year.Product.Producer.Slug}}" style="text-decoration: underline" title="Alvear" class="product-story_info-btn">
-See more products from Alvear </a>
+See more wines from Alvear </a>
 </p>
 
 	</div>
@@ -379,7 +431,15 @@ See more products from Alvear </a>
             {% for get_items in get_filan_vintage_year %}
 
             {% if get_items.Product|get_product_vintage_yera_one %}
-            <div class="item"> <a href="{% url 'product_detail:product_detail' get_items.Product.Product_id get_items.Product.Product_slug  get_items.Product|get_product_vintage_yera_one %}"><img src='{{get_items.Product|get_product_image_one}}' alt="" /></a>
+            <div class="item"> 
+			<span class="heartbox">
+{% if user.username == '' %}
+<i class="fa fa-heart-o"></i>
+{% else %}
+        <a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' get_items.Product.id get_items.Product|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:get_items.Product}}" >{% if user|check_in_wish_list:get_items.Product == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
+      {% endif %}
+      </span>
+			<a href="{% url 'product_detail:product_detail' get_items.Product.Product_id get_items.Product.Product_slug  get_items.Product|get_product_vintage_yera_one %}"><img src='{{get_items.Product|get_product_image_one}}' alt="" /></a>
               <div class="bottale-name">
 			  <p>{{get_items.Product}} ({{get_items}})</p>
 			  <a href="{% url 'product_detail:product_detail' get_items.Product.Product_id get_items.Product.Product_slug  get_items.Product|get_product_vintage_yera_one %}" class="product-story_info-btn">See Details</a>
@@ -411,7 +471,15 @@ See more products from Alvear </a>
             
             {% for items in trending_wines %}
              {% if items|get_product_vintage_yera_one %}
-            <div class="item"> <a href="{% url 'product_detail:product_detail' items.Product_id items.Product_slug  items|get_product_vintage_yera_one %}"><img src='{{items|get_product_image_one}}'  alt="" /></a>
+            <div class="item">
+<span class="heartbox">
+  {% if user.username == '' %}
+  <i class="fa fa-heart-o"></i>
+  {% else %}
+  <a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' items.id items|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:items}}" >{% if user|check_in_wish_list:items == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
+  {% endif %}
+</span>
+			<a href="{% url 'product_detail:product_detail' items.Product_id items.Product_slug  items|get_product_vintage_yera_one %}"><img src='{{items|get_product_image_one}}'  alt="" /></a>
               <div class="bottale-name">
 			  <p>{{items.Product_name}} 
                      ({{items|get_product_vintage_yera_one}})</p>
@@ -706,23 +774,179 @@ See more products from Alvear </a>
 
 
   {% block script %}
- 
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script> 
-<script src='{% static "web/assets/js/jquery.simpleGallery.js" %}' ></script> 
-<script src='{% static "web/assets/js/jquery.simpleLens.min.js" %}' ></script> 
-<script>
-    $(document).ready(function(){
-        $('#demo-1 .simpleLens-thumbnails-container img').simpleGallery({
-            loading_image: 'assets/image/shop/loading.gif',
-			
-        });
+   <script src='https://code.createjs.com/easeljs-0.6.0.min.js'></script>
 
-        $('#demo-1 .simpleLens-big-image').simpleLens({
-            loading_image: 'assets/image/shop/loading.gif',
-			
-        });
-    });
-</script>  -->
+ 
+<script type="text/javascript">
+var stage;
+
+
+function init() {
+  var canvas = document.getElementById("360viewer");
+  if (!canvas || !canvas.getContext) return;
+
+  stage = new createjs.Stage(canvas);
+  stage.enableMouseOver(true);
+  stage.mouseMoveOutside = true;
+  createjs.Touch.enable(stage);
+
+
+
+  // var imgList = [
+  //   '{% static "web/assets/full_views/images/wine_1.png" %}',
+  //   '{% static "web/assets/full_views/images/wine_2.png" %}',
+  //   '{% static "web/assets/full_views/images/wine_3.png" %}',
+  //   '{% static "web/assets/full_views/images/wine_4.png" %}',
+  //   '{% static "web/assets/full_views/images/wine_5.png" %}',
+  //   '{% static "web/assets/full_views/images/wine_6.png" %}',
+  //   '{% static "web/assets/full_views/images/wine_7.png" %}',
+  //   '{% static "web/assets/full_views/images/wine_8.png" %}',
+  //   '{% static "web/assets/full_views/images/wine_9.png" %}',
+  //   '{% static "web/assets/full_views/images/wine_10.png" %}',
+  //   '{% static "web/assets/full_views/images/wine_11.png" %}',
+  //   '{% static "web/assets/full_views/images/wine_12.png" %}',
+   
+  // ];
+
+  var imgList = new Array();;
+
+
+ {% if image_of_full_view %}
+ {% for item in image_of_full_view %} 
+ var image = "{{item.Image.url}}";
+ imgList.push(image);
+ {% endfor %}  
+{% endif  %} 
+  
+
+
+  
+  
+  var images = [],
+    loaded = 0,
+    currentFrame = 0,
+    totalFrames = imgList.length;
+  var rotate360Interval, start_x;
+
+  var bg = new createjs.Shape();
+  stage.addChild(bg);
+
+  var bmp = new createjs.Bitmap();
+  stage.addChild(bmp);
+
+  var myTxt = new createjs.Text("360 View", '24px', "#fcc201");
+myTxt.y =280;
+myTxt.x =20;
+
+
+   myTxt.alpha = 1;
+  stage.addChild(myTxt);   
+
+  function load360Image() {
+    var img = new Image();
+    img.src = imgList[loaded];
+    img.onload = img360Loaded;
+    images[loaded] = img;
+  }
+
+  function img360Loaded(event) {
+    loaded++;
+    bg.graphics.clear()
+    bg.graphics.beginFill("#fff").drawRect(0, 0, stage.canvas.width * loaded / totalFrames, stage.canvas.height);
+    bg.graphics.endFill();
+
+    if (loaded == totalFrames) start360();
+    else load360Image();
+  }
+
+  function start360() {
+    document.body.style.cursor = 'none';
+
+    // 360 icon
+   //var iconImage = new Image();
+    //iconImage.src = "images/arrow-360.png";
+    //iconImage.onload = iconLoaded;        
+
+    // update-draw
+    update360(0);
+
+    // first rotation
+    rotate360Interval = setInterval(function() {
+      if (currentFrame === totalFrames - 1) {
+        clearInterval(rotate360Interval);
+        addNavigation();
+      }
+      update360(1);
+    }, 25);
+  }
+  
+
+  function iconLoaded(event) {
+    var iconBmp = new createjs.Bitmap();
+    iconBmp.image = event.target;
+    iconBmp.x = 20;
+    iconBmp.y = canvas.height - iconBmp.image.height - 20;
+    stage.addChild(iconBmp);
+  }
+
+  function update360(dir) {
+    currentFrame += dir;
+    if (currentFrame < 0) currentFrame = totalFrames - 1;
+    else if (currentFrame > totalFrames - 1) currentFrame = 0;
+    bmp.image = images[currentFrame];
+  }
+
+  //------------------------------- 
+  function addNavigation() {
+    stage.onMouseOver = mouseOver;
+    stage.onMouseDown = mousePressed;
+    document.body.style.cursor = 'auto';
+  }
+
+  function mouseOver(event) {
+    document.body.style.cursor = 'pointer';
+  }
+
+  function mousePressed(event) {
+    start_x = event.rawX;
+    stage.onMouseMove = mouseMoved;
+    stage.onMouseUp = mouseUp;
+
+    document.body.style.cursor = 'w-resize';
+  }
+
+  function mouseMoved(event) {
+    var dx = event.rawX - start_x;
+    var abs_dx = Math.abs(dx);
+
+    if (abs_dx > 5) {
+      update360(dx / abs_dx);
+      start_x = event.rawX;
+    }
+  }
+
+  function mouseUp(event) {
+    stage.onMouseMove = null;
+    stage.onMouseUp = null;
+    document.body.style.cursor = 'pointer';
+  }
+
+  function handleTick() {
+    stage.update();
+  }
+
+  document.body.style.cursor = 'progress';
+  load360Image();
+
+  // TICKER
+  createjs.Ticker.addEventListener("tick", handleTick);
+  createjs.Ticker.setFPS(24);
+  createjs.Ticker.useRAF = true;
+}
+
+// Init
+window.addEventListener('load', init, false);
+</script>
   {% endblock %}
 
 

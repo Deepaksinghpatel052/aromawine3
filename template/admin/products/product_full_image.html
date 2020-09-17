@@ -1,0 +1,44 @@
+<div class="row">
+  <form onsubmit="doSomething();" action="{% url 'admin_manage_products:products_all_image' product_ins.Product_id  %}" method="POST" style="width: 100%;" enctype="multipart/form-data"    >
+      {% csrf_token %}
+    <div class="col-md-8">
+        
+        <div class="form-group" enctype='multipart/form-data'>
+                   <label class="age">Images for product {{product_ins}} </label>
+                   <input type="file" name="images" multiple="true" class="form-control multipan_image" required="" >
+
+        </div>
+
+        
+    </div>
+      <div class="col-md-4">
+        
+        <div class="form-group">
+            <label class="age">&nbsp; </label>
+                <button type="submit" class="btn-block btn btn-white subbtn multipan_image" name="_continue" value="editing">Save Image</button>
+        </div>
+
+        
+    </div>
+    </form>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <hr>
+    </div>
+    {% if image_list %}
+
+        {% for item in image_list %}
+     <div class="col-md-1">
+         <img src="{{item.Image.url}}" style="width:100%; height:200px;" title="{{item.Image.name}}">
+     </div>
+      {% endfor %}
+    {% endif %}
+</div>
+
+
+<script type="text/javascript">
+         function doSomething() {
+           $(".multipan_image").setAttribute("disabled", true);
+         }
+      </script>

@@ -17,8 +17,15 @@ from admin_manage_categoryes.models import AwCategory
 import operator
 from django.db.models import Q
 from admin_manage_country.models import AwCountry
-from .serializers import AwProductPriceSerializers
 from admin_manage_grape.models import AwGrape
+from .serializers import AwProductPriceSerializers,GetOneProductSerializersValidate,AwProductImageSerializers,GetAllImageOfOneProductSerializersValidate
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import generics
+from .api_pagination import ProductLimitOffsetPagination , PrtoductPageNumberPagination
+from rest_framework.authentication import TokenAuthentication,SessionAuthentication,BasicAuthentication
+from  wineproject.tokens  import account_activation_token,CsrfExemptSessionAuthentication
+
 # Create your views here.
 
 @register.simple_tag
@@ -58,6 +65,11 @@ def get_product_price_with_gst_include(cost,gst):
     cost_after_gst = cost+get_gst_cost
     return cost_after_gst
 
+
+
+class WineFullView(generic.TemplateView):
+    template_name = "web/show/product_full_view.html"
+
 class QuickVuewProduct(generic.DetailView):
     template_name = "web/show/quick_detail_product.html"
     model = AwProductPrice
@@ -74,7 +86,7 @@ class ShowView(generic.ListView):
     model = AwProductPrice
     template_name = "web/show/index.html"
     queryset = None
-    paginate_by = 4
+    paginate_by = 10
 
     def get_queryset(self,**kwargs):
         get_vintage_year = AwProductPrice.objects.filter(Vintage_Year__isnull=False).order_by('-Vintage_Year').annotate(replies=Count('Vintage_Year') - 1)
@@ -404,4 +416,69 @@ class ShowView(generic.ListView):
 
         return context
 
+
+
+# API START================
+
+class ApiAllImageOfOneProduct(APIView):
+
+    def post(self, request):
+        product_image = {}
+        serializer = GetAllImageOfOneProductSerializersValidate(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        get_product_img_sri = AwProductImageSerializers(serializer.validated_data,many=True , context={"request": request})
+        product_image = get_product_img_sri.data
+        return Response({"product": product_image}, status=200)
+
+class ApiOneWineById(APIView):
+
+    def post(self, request):
+        product = {}
+
+        serializer = GetOneProductSerializersValidate(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        product_seri = AwProductPriceSerializers(serializer.validated_data, context={"request": request})
+        product = product_seri.data
+        return Response({"product": product}, status=200)
+
+
+class ApiWineByCategory(generics.ListCreateAPIView):
+    serializer_class = AwProductPriceSerializers
+    pagination_class = PrtoductPageNumberPagination
+
+
+    def get_queryset(self, *args, **kwargs):
+        product_data = {}
+        get_vintage_year = AwProductPrice.objects.filter(Vintage_Year__isnull=False).order_by('-Vintage_Year').annotate(
+            replies=Count('Vintage_Year') - 1)
+        get_years_product = []
+        get_filan_vintage_year = []
+        if get_vintage_year:
+            for items in get_vintage_year:
+                if str(items.Vintage_Year.Vintages_Year) + "_" + str(
+                        items.Product.Product_name) not in get_years_product:
+                    get_filan_vintage_year.append(items.id)
+                    get_years_product.append(
+                        str(items.Vintage_Year.Vintages_Year) + "_" + str(items.Product.Product_name))
+
+        filters = None
+        filters = Q(id__in=get_filan_vintage_year)
+
+        set_filters = 'Vintage_Year'
+        if self.kwargs.get("short_by") == "price":
+            set_filters = 'Retail_Cost'
+        if self.kwargs.get("short_by") == "name":
+            set_filters = 'Product__Product_name'
+        filert_by_categort = "All"
+        if 'category' in self.request.GET:
+            filters = filters & Q(Product__Category__Category_name__in=self.request.GET.getlist('category'))
+        if AwProductPrice.objects.filter(filters).annotate(replies=Count('Vintage_Year') - 1).exists():
+            product_ins_list = AwProductPrice.objects.filter(filters).annotate(replies=Count('Vintage_Year') - 1)
+            total = len(product_ins_list)
+            product_ins_list = AwProductPrice.objects.filter(filters).annotate(replies=Count('Vintage_Year') - 1)
+        return product_ins_list
+
+
+# API END================
 

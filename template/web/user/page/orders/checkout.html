@@ -30,10 +30,29 @@
             <div class="row">
                 <div class="col-lg-5"  {% if card_product.0.Order_id.Order_Type  == "Delivered" %}  style="display: block;" {% else %} style="display: none;" {% endif %}   >
                     <div class="checkout-form form-style">
-                        <h3>Billing Details</h3>
+                        <h3>Shipping Details</h3>
                        
                        
-                            <div class="row" id="address_form" >
+
+<div class="row">
+  <div class="col-12">
+                                    
+                                    <select class="form-control" id="address_obj"  name="address_id" >
+                                      <option value=""> Select Address</option>
+                                      {% if my_address %}
+                                       {% for item in my_address %}
+                                      <option value="{{item.id}}"> {{item}}</option>
+                                       {% endfor %}
+                                      {% endif %}
+                                    </select>
+
+                                    <input id="toggle2" type="checkbox"  name="old_address">
+                                    <label class="fontsize" for="toggle2"><h5>Ship to a different address?</h5></label>
+                                </div>
+</div>
+
+
+                            <div class="row" id="address_form"  style="display: none;">
                               
                                 <div class="col-sm-6 col-12">
                                     <p>First Name *</p>
@@ -44,7 +63,7 @@
                                     {{address_form.Last_Name}}
                                 </div>
                                 <div class="col-12">
-                                    <p>Compani Name</p>
+                                    <p>Company Name</p>
                                      {{address_form.Conpany_Name}}
                                 </div>
                                 <div class="col-sm-6 col-12">
@@ -63,7 +82,7 @@
                                     <p>State *</p>
                                     {{address_form.State}} 
                                 </div>
-                                <div class="col-sm-6 col-12">
+                                <div class="col-sm-12 col-12">
                                     <p>Town/City *</p>
                                     {{address_form.City}} 
                                 </div>
@@ -79,24 +98,13 @@
                                 </div>
                                 
                                 <div class="col-sm-6 col-12">
-                                    <p>Landark *</p>
-                                    {{address_form.Landark}} 
+                                    <p>Landmark *</p>
+                                    {{address_form.Landmark}} 
                                 </div>
                             
                          </div>
                          <div class="row">
-                                <div class="col-12">
-                                    <input id="toggle2" type="checkbox"  name="old_address">
-                                    <label class="fontsize" for="toggle2"><h5>Ship to a different address?</h5></label>
-                                    <select class="form-control" id="address_obj"  name="address_id" style="display: none;">
-                                      <option value=""> Select Address</option>
-                                      {% if my_address %}
-                                       {% for item in my_address %}
-                                      <option value="{{item.id}}"> {{item}}</option>
-                                       {% endfor %}
-                                      {% endif %}
-                                    </select>
-                                </div>
+                                
 
                                 <div class="col-12">
                                     <p>Order Notes </p>
@@ -108,7 +116,7 @@
                 </div>
                 <div  {% if card_product.0.Order_id.Order_Type == "Delivered" %}  class="col-lg-7" {% else %} class="col-lg-12" {% endif %}  >
                     <div class="order-area">
-                        <h3>Your Order</h3>
+                        <h3>Your Order sdsdsd</h3>
 						<div class="table-product">
             <table class="table table-bordered" style="
     width: 100%;
@@ -137,7 +145,6 @@
     <td class="text-center"><b>Case Size</b></td>
     <td class="text-center"><b>Tax</b></td>
     <td class="text-center"><b>GST</b></td>
-    <td class="text-center"><b>Discount</b></td>
       <td class="text-center"><b>Price</b></td>
       <td class="text-center"><b>Amount</b></td>
     </tr>
@@ -154,8 +161,8 @@
 {% if item.Order_id.Order_Type == 'Tickets' %}
 
     <tr style="cursor: pointer;">
-      <td class="text-left"><a href="{% url 'event:event_detail' item.Event_Ticket.id item.Event_Ticket.Slug %}"><img src='{{item.Event_Ticket.Event_Image.url}}' style="height: 50px;"></a></td>
-      <td class="text-left"><a href="{% url 'event:event_detail' item.Event_Ticket.id item.Event_Ticket.Slug %}">{{item.Event_Ticket}}({{item.Event_Ticket.Event_Type}})</a></td>
+      <td class="text-center"><a href="{% url 'event:event_detail' item.Event_Ticket.id item.Event_Ticket.Slug %}"><img src='{{item.Event_Ticket.Event_Image.url}}' style="height: 50px;"></a></td>
+      <td class="text-center"><a href="{% url 'event:event_detail' item.Event_Ticket.id item.Event_Ticket.Slug %}">{{item.Event_Ticket}}({{item.Event_Ticket.Event_Type}})</a></td>
       <td class="text-center">{{item.Quentity}}</td>
       <td class="text-center">
         ${{item.Cost_of_product}}*{{item.Quentity}}
@@ -173,14 +180,13 @@
 {% if item.Order_id.Order_Type == 'Caller' %}
 
     <tr style="cursor: pointer;">
-      <td class="text-left"><a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year %}"><img src='{{item.Product_Cellar|get_product_image_one}}' style="height: 50px;"></a></td>
-      <td class="text-left"><a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year %}">{{item.Product_Cellar}}({{item.Year}})</a></td>
+      <td class="text-center"><a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year %}"><img src='{{item.Product_Cellar|get_product_image_one}}' style="height: 50px;"></a></td>
+      <td class="text-center"><a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year %}">{{item.Product_Cellar}}({{item.Year}})</a></td>
       <td class="text-center">{{item.Quentity}}</td>
       <td class="text-center">{{item.Type}}</td>
-      <td class="text-center">{{item.Case_Formate}}</td>
+      <td class="text-center">{{item.Case_Formate.Bottle}}</td>
       <td class="text-center">10%</td>
       <td class="text-center">18%</td>
-      <td class="text-center">5%</td>
       <td class="text-center">
         ${{item.Cost_of_product}}*{{item.Quentity}}
       </td>
@@ -195,14 +201,14 @@
    {% if item.Order_id.Order_Type == 'Delivered' %}
 
     <tr style="cursor: pointer;">
-      <td class="text-left"><a href="{% url 'product_detail:product_detail' item.Product_Delivered.Product_id item.Product_Delivered.Product_slug  item.Year %}"><img src='{{item.Product_Delivered|get_product_image_one}}' style="height: 50px;"></a></td>
-      <td class="text-left"><a href="{% url 'product_detail:product_detail' item.Product_Delivered.Product_id item.Product_Delivered.Product_slug  item.Year %}">{{item.Product_Delivered}}({{item.Year}})</a></td>
+      <td class="text-center"><a href="{% url 'product_detail:product_detail' item.Product_Delivered.Product_id item.Product_Delivered.Product_slug  item.Year %}"><img src='{{item.Product_Delivered|get_product_image_one}}' style="height: 50px;"></a></td>
+      <td class="text-center"><a href="{% url 'product_detail:product_detail' item.Product_Delivered.Product_id item.Product_Delivered.Product_slug  item.Year %}">{{item.Product_Delivered}}({{item.Year}})</a></td>
       <td class="text-center">{{item.Quentity}}</td>
       <td class="text-center">{{item.Type}}</td>
-      <td class="text-center">{{item.Case_Formate}}</td>
+      <td class="text-center">{{item.Case_Formate.Bottle}}</td>
       <td class="text-center">10%</td>
       <td class="text-center">18%</td>
-      <td class="text-center">5%</td>
+
       <td class="text-center">
         ${{item.Cost_of_product}}*{{item.Quentity}}
       </td>
@@ -244,8 +250,8 @@
      <option {% if get_order_ins.Order_Type == "Bond" %} selected="tyrue" {% endif %}>Bond</option>
                           </select></th>
 
-                        <th  colspan="4">Total</th>
-   <th>$<span id="show_total_ampount">0.00</span></th>
+                        <th  colspan="3">Total</th>
+   <th class="text-center">$<span id="show_total_ampount">0.00</span></th>
       {% endif %}                    
    
  </tr>
@@ -340,16 +346,17 @@ $("#show_total_ampount").text(set_total_amount_of_card_product());
 
 
 
+
  $("#toggle2").change(function(){
    if($(this).prop("checked")==false)
     {
-      $("#address_obj").css('display','none');
-      $("#address_form").css('display','flex');
+      $("#address_obj").css('display','flex');
+      $("#address_form").css('display','none');
     }
     if($(this).prop("checked")==true)
     {
-      $("#address_form").css('display','none');
-      $("#address_obj").css('display','flex');
+      $("#address_form").css('display','flex');
+      $("#address_obj").css('display','none');
     }
 
 

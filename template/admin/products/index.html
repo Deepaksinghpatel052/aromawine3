@@ -1,4 +1,16 @@
 {% extends 'admin/base-template.html' %}
+   {% block cssstyle %}
+  
+  <style>
+   #modal-full-image .modal-header {
+    background-color: #8a5401;
+    color: #fff;
+}
+#modal-full-image .modal-header h4 {
+    color: #fff;
+}
+</style>
+      {% endblock %}
 {% block content %}
 {% load static %}
 		 <div class="page-content">
@@ -41,6 +53,8 @@
           </div>
         </div>
     <div class="col-md-12">
+
+
    <div class="add_button">
    <a href="{% url 'admin_manage_products:add_product' %}">Add</a>
    </div>
@@ -70,6 +84,7 @@
           <th align="left" valign="top">Vintage </th>
           
           <th align="left" valign="top">Regions </th>
+          <th align="left" valign="top">Image For 360<sup>o</sup> </th>
           
           
                   <th align="left" valign="top">Status</th>
@@ -104,7 +119,9 @@
           
 
           <td align="left" valign="top">{{item.Regions}}</td>
-          
+          <td align="left" valign="top">
+  <button type="button" class="btn btn-primary get_full_view_image" data-product_id="{{item.Product_id}}" data-price_url="{% url 'admin_manage_products:products_all_image' item.Product_id  %}">360<sup>0</sup> Image</button>
+</td>
         
         <td align="left" valign="top">
 
@@ -115,6 +132,9 @@
           <span class="label label-danger font-weight-100">Deactivate</span>
           {% endif %}
         </td>
+
+    
+
                   <td align="left" valign="top">
                     <table width="100%" border="0" align="left" cellpadding="0" cellspacing="0">
                       <tr>
@@ -161,6 +181,24 @@
       </div>
     </div>
   </div>
+
+
+
+    <!------------Modal Popup------->
+  <div class="modal fade in sp-map" id="modal-full-image">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Product Images For 360<sup>o</sup></h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" style="font-size: 32px;">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+   
+        </div>
+      </div>
+    </div>
+  </div>
   
 
 
@@ -187,6 +225,30 @@
     });
 
   });
+
+
+
+  $(document).on("click",".get_full_view_image",function(){
+    var get_urls = $(this).data("price_url");
+
+    $.ajax({
+      method:"GET",
+      url:get_urls,
+      DataType:"html",
+      success:function(data)
+      {
+        console.log(data);
+
+     $("#modal-full-image .modal-body").html(data);
+     $("#modal-full-image").modal('show');
+
+
+      
+
+      }
+    });
+
+  }); 
 </script>
 
 {% endblock %}

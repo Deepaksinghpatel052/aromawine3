@@ -1,0 +1,377 @@
+{% extends 'admin/base-template.html' %}
+{% block content %}
+{% load static %}
+		 <div class="page-content">
+		 <section class="content-header">
+        
+        <div class="header-title">
+            <h1>{{Page_title}}</h1>
+            
+            
+        </div>
+    </section>
+<div class="container-fluid">
+  <div class="row p-t-b-20">
+    <div class="col-md-12">
+      <!-- <div class="card no-b"> -->
+      {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{field.title}}  {{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
+
+  {% if messages %}
+    {% for message in messages %}
+        
+<div class="alert alert-success alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+      
+    {% endfor %}
+    {% endif %}
+
+
+<div class="login-form-content">
+  <form action="" method="post" enctype='multipart/form-data'>
+      
+{% csrf_token %}
+
+
+    <div class="row">
+     <div class="col-md-6">
+      <div class="form-group">
+                   <label class="age">Project Name</label>
+                   {{form.Project_Name}}
+                
+        </div>
+    
+
+     </div>
+
+   
+     <div class="col-md-6">
+      <div class="form-group">
+                   <label class="age">Project Tag Line</label>
+          {{form.Project_Tag_Line}}
+        </div>
+    
+
+     </div>
+
+          
+
+     
+    </div>
+   
+
+
+
+
+   <div class="row">
+     <div class="col-md-6">
+      <div class="form-group">
+                   <label class="age">Logo</label>
+                   {{form.Logo}}
+                
+        </div>
+    
+
+     </div>
+
+   
+     <div class="col-md-6">
+      <div class="form-group">
+                   <label class="age">Favicon</label>
+          {{form.favicon}}
+        </div>
+    
+
+     </div>
+
+          
+
+     
+    </div>
+
+
+
+    <div class="row">
+     <div class="col-md-6">
+      <div class="form-group">
+                   <label class="age">Duty</label>
+                   {{form.Duty}}
+                
+        </div>
+    
+
+     </div>
+
+   
+     <div class="col-md-6">
+      <div class="form-group">
+                   <label class="age">GST</label>
+          {{form.GST}}
+        </div>
+    
+
+     </div>
+
+          
+
+     
+    </div>
+   
+
+    <!-- <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+                   <label class="age">Description</label>
+                   <input type="text" class="form-control" placeholder="Description">
+        </div>
+      </div>
+    </div>
+ -->
+ <div class="row">
+<div class="col-md-12">
+        <div class="form-group">
+                   <label class="age">Analytics</label>
+           <div class="summernote">
+           {{form.Analytics}}
+           <!-- <textarea id="" class="form-control des summernote_text"></textarea> -->
+           </div>
+                  
+
+        </div>
+      </div>
+    </div>
+
+<div class="row">
+<div class="col-md-12">
+        <div class="form-group">
+                   <label class="age">Manage Delivery Countries</label>
+           <div class="summernote">
+           {{form.Manage_Delivery_Countries}}
+           <!-- <textarea id="" class="form-control des summernote_text"></textarea> -->
+           </div>
+                  
+
+        </div>
+      </div>
+</div>
+
+<div class="row">
+     <div class="col-md-4">
+      <div class="form-group">
+                   <label class="age">Facebook</label>
+                   {{form.Facebook}}
+                
+        </div>
+    
+
+     </div>
+
+   
+     <div class="col-md-4">
+      <div class="form-group">
+                   <label class="age">Twitter</label>
+          {{form.Twitter}}
+        </div>
+    
+
+     </div>
+
+<div class="col-md-4">
+      <div class="form-group">
+                   <label class="age">Linkedin</label>
+          {{form.Linkedin}}
+        </div>
+    
+
+     </div>
+          
+
+     
+    </div>
+
+
+    <div class="row">
+     <div class="col-md-4">
+      <div class="form-group">
+                   <label class="age">Instgram</label>
+                   {{form.Instgram}}
+                
+        </div>
+    
+
+     </div>
+
+   
+     <div class="col-md-4">
+      <div class="form-group">
+                   <label class="age">Google</label>
+          {{form.Google}}
+        </div>
+    
+
+     </div>
+
+<div class="col-md-4">
+      <div class="form-group">
+                   <label class="age">Yelp</label>
+          {{form.Yelp}}
+        </div>
+    
+
+     </div>
+          
+
+     
+    </div>
+
+
+
+     <div class="row">
+     <div class="col-md-6">
+      <div class="form-group">
+                   <label class="age">EMAIL HOST</label>
+                   {{form.EMAIL_HOST}}
+                
+        </div>
+    
+
+     </div>
+
+   
+     <div class="col-md-6">
+      <div class="form-group">
+                   <label class="age">EMAIL PORT</label>
+          {{form.EMAIL_PORT}}
+        </div>
+    
+
+     </div>
+     
+    </div>
+
+
+
+
+<div class="row">
+     <div class="col-md-6">
+      <div class="form-group">
+                   <label class="age">EMAIL HOST USER</label>
+                   {{form.EMAIL_HOST_USER}}
+                
+        </div>
+    
+
+     </div>
+
+   
+     <div class="col-md-6">
+      <div class="form-group">
+                   <label class="age">EMAIL HOST PASSWORD</label>
+          {{form.EMAIL_HOST_PASSWORD}}
+        </div>
+    
+
+     </div>
+     
+    </div>
+
+
+    <div class="row">
+     <div class="col-md-6">
+      <div class="form-group">
+                   <label class="age">{{form.EMAIL_USE_TLS}} EMAIL USE TLS</label>        
+        </div>
+     </div>
+    </div>
+
+<div class="row">
+  <div class="col-md-2">
+    <button type="reset" class="btn-block btn btn-white subbtn" data-dismiss="modal">Cancel</button>
+  </div>
+  <div class="col-md-2">
+    <div class="form-group">
+      <button type="submit" class="btn-block btn btn-white subbtn">Save</button>
+    </div>
+  </div>
+</div>
+</form>
+</div>
+
+
+
+
+          <!-- </div> -->
+               </div>
+      </div>
+         </div>
+      </div>
+
+
+
+<div id="uploadimageModal_edit" class="modal" role="dialog">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Upload & Crop Image</h4>
+         </div>
+         <div class="modal-body">
+            <div class="row">
+               <div class="col-md-8 text-center">
+                  <div id="image_demo_edit" style="width:350px; margin-top:30px"></div>
+               </div>
+               <div class="col-md-4" style="padding-top:30px;">
+                  <br />
+                  <br />
+                  <br/>
+                  <div class="row">
+                     <div class="col-md-12 set_loader"></div>
+                  </div>
+                  <!--<button class="btn btn-success crop_image_edit">Crop Image</button>-->
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+             <button class="btn btn-success crop_image_edit">Save Image</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+ {% endblock %}
+
+
+   {% block script %}
+
+     <script src='{% static "admin/assets/cropme/croppie_grape_image.js" %}' ></script>
+    <script type="text/javascript">
+   $(document).ready(function() {
+
+
+  $("#id_Logo").addClass("form-control");
+  $("#id_favicon").addClass("form-control");
+  $('.summernote_text').summernote({
+        placeholder: 'Description',
+        tabsize: 2,
+        height: 200
+      });
+});
+ </script>
+      {% endblock %}

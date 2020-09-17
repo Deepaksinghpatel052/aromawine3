@@ -7,5 +7,9 @@ urlpatterns = [
     path('<pk>/update-categoryes', views.CategoryUpdateView.as_view(),name="update_catogoryes"),
     path('<pk>/delete-categoryes', views.CategoryDeleteView.as_view(),name="delete_catogoryes"),
 
+    # ===============  API START================================================================
+    path('api/category', views.ApiCategoryView.as_view(),name="api_get_catogoryes"),
+    # ===============  API END ================================================================
+
 
 ]

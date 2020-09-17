@@ -51,7 +51,13 @@
               	{% for item in get_orders %}
                 <tr>
                   <th># {{item}}</th>
-                  <th>{{item.Order_Type}}</th>
+                  <th>
+                    {% if item.Order_Type == 'Delivered' %}
+                    Delivery
+                    {% else %}
+                    {{item.Order_Type}}
+                    {% endif %}
+                  </th>
                   <td>{{item.Order_Date}}</td>
                   <td>${{item.Amount}}</td>
                   <td style="color:#fff;">

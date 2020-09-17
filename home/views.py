@@ -14,7 +14,42 @@ from django.db.models import Q
 from admin_manage_country.models import AwCountry
 from admin_manage_producer.models import AwSetTo,AwProducers
 from admin_manage_Vintages.models import AwVintages
+
+
+from rest_framework import generics
+from rest_framework.permissions import IsAdminUser
+from .serializer import BannerSerializer
+from wine_shop.serializers import AwProductPriceSerializers
 # Create your views here.
+
+
+class ApiTrandingWineView(generics.ListCreateAPIView):
+    queryset = None
+    serializer_class = AwProductPriceSerializers
+
+    def get_queryset(self,**kwargs):
+        get_vintage_year = AwProductPrice.objects.filter(Vintage_Year__isnull=False).order_by('-Vintage_Year').annotate(replies=Count('Vintage_Year') - 1)
+        get_years_product = []
+        get_filan_vintage_year = []
+        if get_vintage_year:
+            for items in get_vintage_year:
+                if str(items.Vintage_Year.Vintages_Year) + "_" + str(
+                        items.Product.Product_name) not in get_years_product:
+                    get_filan_vintage_year.append(items.id)
+                    get_years_product.append(
+                        str(items.Vintage_Year.Vintages_Year) + "_" + str(items.Product.Product_name))
+        filters = None
+        set_filters = 'Vintage_Year'
+        filters = Q(id__in=get_filan_vintage_year)
+        get_data = AwProductPrice.objects.filter(filters).order_by(set_filters).annotate(replies=Count('Vintage_Year') - 1)
+        return get_data
+
+
+
+
+class ApiGetBannerView(generics.ListCreateAPIView):
+    queryset = AwBanners.objects.all()
+    serializer_class = BannerSerializer
 
 
 @register.filter(name='get_wine_according_region')

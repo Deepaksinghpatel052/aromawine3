@@ -52,14 +52,11 @@
 					<h5 class="mt-3 mb-4">Follow</h5>
 						<div class="social-icon">
 							
+
 							
 							<ul>
-								<li><a href="#"><i class="fa fa-facebook"></i></a>
-								</li>
-								<li><a href="#"><i class="fa fa-twitter"></i></a>
-								</li>
-								<li><a href="#"><i class="fa fa-instagram"></i></a>
-								</li>
+								{{""|get_social_media_info}}  
+								<!-- admin setting add -->
 							</ul>
 						</div>
 					</div>
@@ -77,7 +74,7 @@
 	<div class="container">
 	<div class="row">
 					<div class="col-md-4 p-t-b-30">
-						<img src='{% static "web/assets/image/wine-logo.svg" %}'>
+						<img src='{{"demo"|get_logo}}'>
 					</div>
 					<div class="col-md-8 p-t-b-30">
 						<ul class="payment-icons payment">

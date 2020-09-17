@@ -7,13 +7,22 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.template.defaulttags import register
 from admin_manage_products.models import AwProductPrice,AwProducts
 from django.db.models import Q
+from django import template
+from django.template.loader import render_to_string
 
 
-@register.filter(name='times')
-def times(number):
-    number =number + 1
-    return range(number)
 
+@register.filter(name='times_loop')
+def times_loop(number):
+    return option
+
+
+@register.filter(name='get_page_link')
+def get_page_link(number):
+    option = []
+    for i in range(0,number):
+        option.append(str(i+1))
+    return render_to_string('web/event/forloop.html',{"option":option})
 
 
 # Create your views here.

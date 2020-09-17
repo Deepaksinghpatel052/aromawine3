@@ -40,7 +40,7 @@
   <div class="commentMin">
   <div class="summary">
   <h2>{{event_data.Event_name}}</h2>
-  <p>Ticket Price: $ {{event_data.ticket_price}} Per person</p>
+  <p class="lead-font">Ticket Price: $ {{event_data.ticket_price}} Per person</p>
   <div class="ticket-box">
   <h3>{{event_data.Event_name}} {{event_data.Start_Date}}</h3>
   
@@ -50,18 +50,20 @@
   </div>
   
   <div class="col-md-4">
+  {% if event_data.ticket_pr_person > 0 %}
   <select class="form-control"  id="quentyti_">
- {% for i in event_data.ticket_pr_person|times %}
-  <option value="{{i}}">{{i}} ticket</option>
-{% endfor %}
+ {{event_data.ticket_pr_person|get_page_link}}
   </select>
+  {% endif %}
   </div>
   
   <div class="col-md-4 text-right">
+  {% if event_data.ticket_pr_person > 0 %}
   <button type="button" title="Add To Cart" class="button btn-cart add_to_card"  data-order_type="t"  data-order_id="" data-event_id="{{event_data.id}}"  data-cost_type="" data-product_id="">
 Add to cart
-
 </button>
+  {% endif %}
+
   </div>
   
   </div>

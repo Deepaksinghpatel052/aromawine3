@@ -38,6 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'knox',
+    'rest_framework.authtoken',
+    'webpack_loader',
+    'user_wishlist',
     'import_export',
     'admin_dashboard',
     'admin_manage_producer',
@@ -60,8 +65,10 @@ INSTALLED_APPS = [
     'admin_manag_wine_testing',
     'admin_manage_cupon_code',
     'admin_manage_perferences',
+    'admin_manage_notification',
     'manage_event',
     'manage_wine_recipes',
+    'admin_manage_setting',
     'preferences_user',
     'manage_cellar',
     'home',
@@ -79,6 +86,7 @@ INSTALLED_APPS = [
     'recipes_for_web',
     'pages',
     'payment_method',
+    'wine_palate',
 ]
 
 MIDDLEWARE = [
@@ -174,6 +182,18 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 BASE_URL = "http://3.133.12.113/"
 # Login Root
 
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ]
+}
 
 
 LOGIN_URL = BASE_URL+'admin/login'

@@ -54,7 +54,8 @@
 <label class="control-label" for="CustomOrderNumber">Order Type #</label></div>
 </div>
 <div class="col-md-9">
-<div class="form-text-row">{{order_ins.Order_Type}}</div>
+<div class="form-text-row">{% if order_ins.Order_Type == 'Delivered' %} Delivery {% else %}
+                    {{order_ins.Order_Type}}{% endif %}</div>
 </div>
      </div>
 
@@ -74,7 +75,7 @@
 <label class="control-label" for="CustomOrderNumber">Customer</label></div>
 </div>
 <div class="col-md-9">
-<div class="form-text-row"><a>{{order_ins.User.first_name}}</a></div>
+<div class="form-text-row"><a>{{order_ins.User.first_name}} {{order_ins.User.last_name}}</a></div>
 </div>
 	   </div>
 	   
@@ -639,6 +640,8 @@ Yes
       <td class="text-center"><b>Quantity</b></td>
     <td class="text-center"><b>Type</b></td>
     <td class="text-center"><b>Case Size</b></td>
+    <td class="text-center"><b>Tax</b></td>
+    <td class="text-center"><b>GST</b></td>
       <td class="text-center"><b>Price</b></td>
       <td class="text-center"><b>Amount</b></td>
     </tr>
@@ -651,7 +654,9 @@ Yes
       <td > {% if item.Product_Cellar %} {{item.Product_Cellar}} {% endif %} {% if item.Product_Delivered %} {{item.Product_Delivered}} {% endif %} ({{item.Year}})</td>
       <td class="text-center">{{item.Quentity}}</td>
       <td class="text-center">{{item.Type}}</td>
-      <td class="text-center">{{item.Case_Formate}}</td>
+      <td class="text-center">{{item.Case_Formate.Bottle}}</td>
+      <td class="text-center">{% if item.Case_Formate.Duty %}{{item.Case_Formate.Duty}}{% else %}0{% endif %}%</td>
+      <td class="text-center">{% if item.Case_Formate.GST %}{{item.Case_Formate.GST}}{% else %}0{% endif %}%</td>
       <td class="text-center">${{item.Cost_of_product|stringformat:".2f"}}</td>
       <td class="text-center">${{item.Total_cost|stringformat:".2f"}}</td>
     </tr>

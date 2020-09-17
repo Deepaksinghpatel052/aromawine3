@@ -11,6 +11,9 @@
 
 <!-----------Page Content Start------------->
 <style type="text/css">
+.event-space {
+    margin-right: 10px;
+}
 </style>
 <section>
   <div class="container">
@@ -140,20 +143,20 @@
       <div class="product-event">
 	  <p> <a href="{% url 'event:event_detail' item.id item.Slug %}">{{item.Short_Description|slice:"0:200"}}</a></p>
 	  <p>Ticket Price: $ {{item.ticket_price}}</p>
-	  <select class="form-control width-130">
+	
   
-
-     {% for i in item.ticket_pr_person|times %}
-  <option>{{i}} ticket</option>
-{% endfor %}
-
+ {% if item.ticket_pr_person > 0 %}
+  <select class="form-control width-130">
+ {{item.ticket_pr_person|get_page_link}}
   </select>
+  {% endif %}
+
 	  </div>
 	  
 	  
 	  
-      <div class="product-info-content-cta">
-        <button class="mb-2 product-story_info-btn  cick_to_view_event" data-toggle="modal" data-target="#listing-add-to-cart-modal" data-quick_view_url="{% url 'event:quick_view_event' item.id  %}">Quick View</button>
+      <div class="product-info-content-cta d-flex">
+        <button class="product-story_info-btn  cick_to_view_event event-space" data-toggle="modal" data-target="#listing-add-to-cart-modal" data-quick_view_url="{% url 'event:quick_view_event' item.id  %}">Quick View</button>
         <a class="product-story_info-btn" href="{% url 'event:event_detail' item.id item.Slug %}">See details</a></div>
     </div>
     

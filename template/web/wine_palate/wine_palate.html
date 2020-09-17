@@ -1,0 +1,285 @@
+{% extends 'web/base-template.html' %}
+
+   {% block cssstyle %}
+  
+  <style>
+  #container {
+    width: 1140px;
+    height: 1140px;
+    margin: auto;
+    padding: 0;
+
+}</style>
+      {% endblock %}
+{% block content %}
+{% load static %}
+
+ <div id="container"></div>
+
+{% endblock %}
+
+{% block script %}
+
+<script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-base.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-sunburst.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-exports.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-ui.min.js"></script>
+  <script type="text/javascript">
+  anychart.onDocumentReady(function () {
+
+    // create data
+    var data = [
+  
+      {name: "wine", fill: '#ccc', children: [
+        {name: "Fruity", fill: '#ecd2df', children: [
+      {name: "Citrus", fill: '#dfbacb', children: [
+          {name: "Grapefruit Lemon", fill: '#daaec7',},
+       
+          
+        ]},
+          
+          {name: "Berry", fill: '#dfbacb', children: [
+      {name: "Blackberry", fill: '#daaec7',},
+      {name: "Raspberry", fill: '#daaec7',},
+      {name: "Strawberry", fill: '#daaec7',},
+      {name: "Black Currant (Cassis)", fill: '#daaec7',},
+      ]},
+          {name: "Tree fruit", fill: '#dfbacb', children: [
+      {name: "Cherry", fill: '#daaec7',},
+      {name: "Apricot", fill: '#daaec7',},
+      {name: "Peach", fill: '#daaec7',},
+      {name: "Apple", fill: '#daaec7',},
+      
+      ]},
+      {name: "Tropical Fruit", fill: '#dfbacb', children: [
+      {name: "Lychee", fill: '#daaec7',},
+      {name: "Pineapple", fill: '#daaec7',},
+      {name: "Melon", fill: '#daaec7',},
+      {name: "Banana", fill: '#daaec7',},
+      ]},
+      {name: "Fruit(dried Cooked)", fill: '#dfbacb' ,children: [
+      {name: "Strawberry (jam)", fill: '#daaec7',},
+      {name: "Raisin", fill: '#daaec7',},
+      {name: "Prune", fill: '#daaec7',},
+      {name: "Fig", fill: '#daaec7',},
+      
+      ]},
+      {name: "Other", fill: '#dfbacb', children: [
+      {name: "Artificial Fruit", fill: '#daaec7',},
+      {name: "Metiry Anthranilte(foxy)", fill: '#daaec7',},
+      ]},
+        ]},
+        {name: "Herbaceous", fill: '#bdc6b1', children: [
+          {name: "Fresh", fill: '#95a588', children: [
+      {name: "Cut geen Grass", fill: '#81936d'},
+      {name: "Bell Pepper", fill: '#81936d'},
+      {name: "Eucalypus", fill: '#81936d'},
+      {name: "Mint", fill: '#81936d'},
+      ]},
+          {name: "Canned Cooked", fill: '#95a588', children: [
+      {name: "Green bean", fill: '#81936d'},
+      {name: "Asparagus", fill: '#81936d'},
+      {name: "Black olive", fill: '#81936d'},
+      {name: "Artichoke", fill: '#81936d'},
+      
+      ]},
+          {name: "Dried" , fill: '#95a588', children: [
+      {name: "Hay Straw", fill: '#81936d'},
+      {name: "Tea", fill: '#81936d'},
+      ]},
+        ]},
+        {name: "Nutty", fill: '#d7d4e7', children: [
+    {name: "Nutty", fill: '#bec4de', children: [
+    {name: "Walnut", fill: '#94a1c3',},
+    {name: "Hazelnut", fill: '#94a1c3',},
+    {name: "Almand", fill: '#94a1c3',},
+    
+    ]},
+    ]},
+        {name: "Caramel", fill: '#e1c9ad', children: [
+    {name: "Caramel", fill: '#d3a778', children: [
+    {name: "Honey", fill: '#c49166',},
+    {name: "Butter", fill: '#c49166',},
+    {name: "Soy Sarue", fill: '#c49166',},
+    {name: "Chocolate", fill: '#c49166',},
+    {name: "Molasses", fill: '#c49166',},
+    ]},
+    
+    ]},
+        {name: "Woody", fill: '#d3c9b0', children: [
+    {name: "Resinous", fill: '#b8ae8b', children: [
+    {name: "Honey", fill: '#b19a70',},
+    {name: "Butter", fill: '#b19a70',},
+    {name: "Soy Sarue", fill: '#b19a70',},
+    {name: "Chocolate", fill: '#b19a70',},
+    {name: "Molasses", fill: '#b19a70',},
+    ]},
+    {name: "Phenolic", fill: '#b8ae8b', children: [
+    {name: "Varilla", fill: '#b19a70',},
+    {name: "Cedar", fill: '#b19a70',},
+    {name: "Oak", fill: '#b19a70',},
+    {name: "Tobacco", fill: '#b19a70',},
+    ]},
+    {name: "Burned" , fill: '#b8ae8b', children: [
+    
+    {name: "Coffee", fill: '#b19a70',},
+    {name: "Burnt Toast", fill: '#b19a70',},
+    {name: "Smokey", fill: '#b19a70',},
+    
+    ]},
+    
+    ]},
+        {name: "Earthy" , fill: '#cbc4d4', children: [
+    {name: "Earthy" , fill: '#b6a5c7', children: [
+    {name: "Dusty", fill: '#a191b8',},
+    {name: "Mushroom", fill: '#a191b8',},
+    ]},
+    {name: "Moldy", fill: '#b6a5c7', children: [
+    {name: "Moldy Cork", fill: '#a191b8',},
+    ]},
+    ]},
+        {name: "Chemical", fill: '#c7c2af', children: [
+    {name: "Petroleum", fill: '#abab8f', children: [
+    {name: "Tar", fill: '#98976b',},
+    {name: "Plastic", fill: '#98976b',},
+    {name: "Kerosene", fill: '#98976b',},
+    {name: "Diesel", fill: '#98976b',},
+    
+    ]},
+    {name: "Suifur" , fill: '#abab8f', children: [
+    {name: "Rubber", fill: '#98976b',},
+    {name: "Hydrogen Sultfur", fill: '#98976b',},
+    {name: "Natural Gas(mercaptan)", fill: '#98976b',},
+    {name: "Garlic", fill: '#98976b',},
+    {name: "Skunk", fill: '#98976b',},
+    {name: "Cooked Cabbage", fill: '#98976b',},
+    {name: "Burnt match", fill: '#98976b',},
+    {name: "Wet dog/wet wool", fill: '#98976b',},
+    ]},
+    {name: "Pungent" , fill: '#abab8f', children: [
+    {name: "Suifur Dioxide", fill: '#98976b',},
+    {name: "Ethyl Acetate (nail polish remover)", fill: '#98976b',},
+    {name: "Acertic Add (Vinegar)", fill: '#98976b',},
+  
+    ]},
+    ]},
+        {name: "Oxidized", fill: '#e8d1bf', children: [
+    {name: "Oxidized", fill: '#e3b4a2', children: [
+    {name: "Sherry", fill: '#e3a181',},
+    ]},
+    
+    ]},
+        {name: "Microbiologcal", fill: '#e8e2c0', children: [
+    {name: "Yeasty", fill: '#d7cc94', children: [
+    {name: "Baker's yeast", fill: '#cec276',},
+    {name: "Leesy", fill: '#cec276',},
+    ]},
+    {name: "Lactic", fill: '#d7cc94', children: [
+    {name: "Sauerkraut", fill: '#cec276',},
+    {name: "Sweaty", fill: '#cec276',},
+    {name: "Yogurt", fill: '#cec276',},
+    ]},
+    {name: "Other", fill: '#d7cc94', children: [
+    {name: "Horsey", fill: '#cec276',},
+    {name: "Mousey", fill: '#cec276',},
+    
+    ]},
+    
+    ]},
+        {name: "Floral", fill: '#cedac6', children: [
+    {name: "Floral", fill: '#b0c9a2', children: [
+    {name: "Orange Blossom", fill: '#9db97f',},
+    {name: "Linalool (Ear IGrey Tea)", fill: '#9db97f',},
+    {name: "Rose", fill: '#9db97f',},
+    {name: "Violet", fill: '#9db97f',},
+    {name: "Geranium", fill: '#9db97f',},
+    ]},
+    
+    ]},
+        {name: "Spicy",fill: '#e7be9e', children: [
+    {name: "Spicy", fill: '#e7a376', children: [
+    {name: "Licorice Arise", fill: '#e38d5c',},
+    {name: "Black Perpper", fill: '#e38d5c',},
+    {name: "Close", fill: '#e38d5c',},
+    ]},
+    ]},
+        
+      ]}
+    ];
+
+    // create a chart and set the data
+    var chart = anychart.sunburst(data, "as-tree");
+  chart.calculationMode("ordinal-from-leaves");
+  chart.startAngle(45);
+
+ 
+   
+    chart.normal().stroke("#000000", 2);
+   chart.labels(true);
+chart.labels().fontColor("000000");
+//chart.labels().fontWeight(600);
+chart.labels().format("{%name}");
+    
+  
+    chart.labels().useHtml(true);
+    chart.labels().format("<span style='font-size: 14px; word-break: normal; word-wrap: break-word;'>{%name}</span>");
+  
+   chart.interactivity().selectionMode("drill-down");
+  //"drill-down" (default)
+//"multi-select"
+//"single-select"
+//"none"
+  chart.level().labels().position("radial");
+
+    // set the chart title
+  
+  
+    //chart.title("Wine");
+  
+
+    // set the container id
+    chart.container("container");
+
+    // initiate drawing the chart
+    chart.draw();
+  
+});
+chart.fill(function () {
+  return this.parent ?
+   anychart.color.lighten(this.parentColor, 0.5) : 
+   this.mainColor;
+});
+
+var textEnter = text.enter().append("text")
+  .style("fill-opacity", 1)
+  .style("fill", function(d) {
+      return brightness(d3.rgb(colour(d))) < 125 ? "#eee" : "#000";
+  })
+  .attr("text-anchor", function(d) {
+      return x(d.x + d.dx / 2) > Math.PI ? "end" : "start";
+  })
+  .attr("dy", ".2em")
+  .attr("transform", function(d) {
+      var multiline = (d.name || "").split(" ").length > 1,
+      angle = x(d.x + d.dx / 2) * 180 / Math.PI - 90,
+      rotate = angle + (multiline ? -.5 : 0);
+      return "rotate(" + rotate + ")translate(" + (y(d.y) + padding) +
+              ")rotate(" + (angle > 90 ? -180 : 0) + ")";
+      })
+  .on("click", click);
+
+textEnter.append("tspan")
+  .attr("x", 0)
+  .text(function(d) {
+      return d.depth ? d.name.split(" ")[0] : "";
+  });
+
+textEnter.append("tspan")
+  .attr("x", 0)
+  .attr("dy", "1em")
+  .text(function(d) {
+      return d.depth ? d.name.split(" ")[1] || "" : "";
+  });
+
+</script>
+{% endblock %}

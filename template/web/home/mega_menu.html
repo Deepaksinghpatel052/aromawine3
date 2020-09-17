@@ -5,7 +5,7 @@
 				<button class="c-hamburger c-hamburger--htx visible-xs"><span>toggle menu</span>
 				</button>
 				<ul class="ruby-menu">
-					<!-- <li class="ruby-menu"><a href="#">Home</a></li> -->
+					<!-- <li class=""><a href="{% url 'home:home' %}"><i class="fa fa-home"></i></a></li> -->
 					<li class="ruby-menu-mega"><a href="#">Aroma of Wine </a>
 						<div class="ruby-grid ruby-grid-lined">
 							<div class="ruby-row">
@@ -15,7 +15,7 @@
 				      <ul class="nested region_tabs">
 													{% if get_category %}
 													 {% for item in get_category %}
-							<li class="{% if forloop.counter == 1 %}active{% endif %} " ><a class="category_click" href="#category{{item.id}}" data-url="{% url 'wine_shop:wine_shop' %}?category={{item.Category_name}}">{{item}}</a></li>
+							<li class="{% if forloop.counter == 1 %}active{% endif %}" ><a class="category_click" href="#category{{item.id}}" data-url="{% url 'wine_shop:wine_shop' %}?category={{item.Category_name}}">{{item}}</a></li>
 													 {% endfor %}	
 													{% endif %}
 													
@@ -332,9 +332,9 @@
 									<ul id="myUL">
 										<li><span class="caret ruby-list-heading">Events</span>
 											<ul class="nested">
-												<li><a href="#">Social </a></li>
-												<li><a href="#">Private </a></li>
-												<li><a href="#">Corporate </a></li>
+										<li><a href="{% url 'event:event' %}?event-type=social&">Social </a></li>
+										<li><a href="{% url 'event:event' %}?event-type=private&">Private </a></li>
+										<li><a href="{% url 'event:event' %}?event-type=corporate&">Corporate </a></li>
 												
 												
 												
