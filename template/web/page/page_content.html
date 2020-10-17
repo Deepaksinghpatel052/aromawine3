@@ -4,16 +4,21 @@
 
 
 
-<section class="aboutus padding-small bg-4 text-center" {% if page_banner_image %} style="background-size:cover !important;  background: url({{page_banner_image.url}}) {% endif %}  no-repeat center top;">
+<section class="aboutus padding-small bg-4 text-center" {% if page_banner_image %} style="background-size:cover !important;  background: url({{page_banner_image}}) {% endif %}  no-repeat center top;">
 <div class="container ">
 
-<h1>{{Page_title}}</h1></div>
+<h1>{{page_title_show|capfirst}}</h1></div>
 </section>
 
 
 
 
 
+ <section class="content-main bg-color">
+<div class="container">
+ {{page_info_data_set|safe}}
+</div>
+</section>
 
 <!-- ============================== GRAPE START==================== -->
  {% if Page_title == 'grape' %}
@@ -217,12 +222,7 @@
 
 <!-- ============================== dinner START==================== -->
   {% if Page_title == 'dinner' %}
-   <section class="content-main bg-color">
-<div class="container">
-  <h2 class="title_h2">Lucky Dip Dinner</h2>
-  <p>As am hastily invited settled at limited civilly fortune me. Really spring in extent an by. <br>Judge but built party world. Of so am he remember although required. Bachelor unpacked be advanced at. Confined in declared marianne is vicinity.</p>
-</div>
-</section>
+  
  {% if page_content %}
  {% for items in page_content %}
               
@@ -294,13 +294,7 @@
 <!-- ============================== wine-testing START==================== -->
   {% if Page_title == 'wine-testing' %}
 
- <section class="content-main bg-color">
-<div class="container">
-  <h2 class="title_h2">Introduction to Wine Tasting</h2>
-  <p>As am hastily invited settled at limited civilly fortune me. Really spring in extent an by.
-Judge but built party world. Of so am he remember although required. Bachelor unpacked be advanced at. Confined in declared marianne is vicinity.</p>
-</div>
-</section>
+
 
  {% if page_content %}
  {% for items in page_content %}

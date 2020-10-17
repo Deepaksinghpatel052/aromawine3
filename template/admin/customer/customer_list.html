@@ -55,6 +55,7 @@
               <thead>
                 <tr>
          
+                  <th align="left" valign="top">#</th>
                   <th align="left" valign="top">Customer Name</th>
                   <th align="left" valign="top">Email-Id</th>
                   <th align="left" valign="top">Phone no.</th>
@@ -74,6 +75,7 @@
                  
                {% else %}
                 <tr>
+           <td align="left" valign="top">{{forloop.counter}}</td>
            <td align="left" valign="top">{{item.first_name}} {{item.last_name}} </td>
                   <td align="left" valign="top">{{item.email}}</td>
                   <th align="left" valign="top">Phone no.</th>

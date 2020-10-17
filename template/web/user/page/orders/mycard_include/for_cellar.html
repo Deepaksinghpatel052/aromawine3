@@ -9,8 +9,8 @@
                                     <th align="left" valign="middle">Product</th>
                                     <th align="left" valign="middle">Type & Case Size</th>
                                     <th align="center" valign="middle">Price</th>
-                                    <th align="center" valign="middle">Duty</th>
                                     <th align="center" valign="middle">GST</th>
+                                    <th align="center" valign="middle">Price With GST</th>
                                     <th align="center" valign="middle">Quantity</th>
                                     <th align="center" valign="middle">Total</th>
                                     <th align="center" valign="middle">Remove</th>
@@ -27,38 +27,78 @@
                   </td>
                                     <td align="left" valign="middle">
 <input type="hidden" class="card_product_id" value="{{item.id}}">
-                                      <a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year %}">{{item.Product_Cellar.Product_name}}<br>{{item.Year}} </a></td>
+                                      <a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year %}">{{item.Product_Cellar.Product_name|slice:"0:20"}}<br>{{item.Year}} </a></td>
                                     <td align="center" valign="middle">
                                       {{item.Type}}/({{item.Case_Formate.Bottle}})
                                     </td>
                                     <td align="center" valign="middle">
 {% if item.Type == 'Bond' %}
-${{item.Case_Formate.Bond_Cost}}
+
+ {% if item.Case_Formate.Bond_Descount_Cost > 0  %}
+${{item.Case_Formate.Bond_Descount_Cost|get_amount_without_persentage:item.Case_Formate.GST|floatformat:2}}
+<input type="hidden" name="" class="gst_amount_{{item.id}}" value="{{item.Case_Formate.Bond_Descount_Cost|get_persentage_amount:item.Case_Formate.GST|floatformat:2}}">
+<input type="hidden" name="" class="amount_without_gst" data-item_id="{{item.id}}" value="{{item.Case_Formate.Bond_Descount_Cost|get_amount_without_persentage:item.Case_Formate.GST|floatformat:2}}">
+{% else %}
+${{item.Case_Formate.Bond_Cost|get_amount_without_persentage:item.Case_Formate.GST|floatformat:2}}
+<input type="hidden" name="" class="gst_amount_{{item.id}}" value="{{item.Case_Formate.Bond_Cost|get_persentage_amount:item.Case_Formate.GST|floatformat:2}}">
+<input type="hidden" name="" class="amount_without_gst" data-item_id="{{item.id}}" value="{{item.Case_Formate.Bond_Cost|get_amount_without_persentage:item.Case_Formate.GST|floatformat:2}}">
+{% endif %}
+
 
 {% endif %} 
 {% if item.Type == 'Retail' %}
-  ${{item.Case_Formate.Retail_Cost}}
- {% endif %}
-                                    </td>
 
-                                    <td align="center" valign="middle">
-{% if item.Type == 'Bond' %}
-{{item.Case_Formate.Duty}}%
+
+
+{% if item.Case_Formate.Descount_Cost > 0  %}
+<input type="hidden" name="" class="gst_amount_{{item.id}}" value="{{item.Case_Formate.Descount_Cost|get_persentage_amount:item.Case_Formate.GST|floatformat:2}}">
+<input type="hidden" name="" class="amount_without_gst" data-item_id="{{item.id}}" value="{{item.Case_Formate.Descount_Cost|get_amount_without_persentage:item.Case_Formate.GST|floatformat:2}}">
+${{item.Case_Formate.Descount_Cost|get_amount_without_persentage:item.Case_Formate.GST|floatformat:2}}
+  <!-- ${{item.Case_Formate.Descount_Cost}} -->
+{% else %}
+<input type="hidden" name="" class="gst_amount_{{item.id}}" value="{{item.Case_Formate.Retail_Cost|get_persentage_amount:item.Case_Formate.GST|floatformat:2}}">
+<input type="hidden" name="" class="amount_without_gst" data-item_id="{{item.id}}" value="{{item.Case_Formate.Retail_Cost|get_amount_without_persentage:item.Case_Formate.GST|floatformat:2}}">
+${{item.Case_Formate.Retail_Cost|get_amount_without_persentage:item.Case_Formate.GST|floatformat:2}}
+<!-- ${{item.Case_Formate.Retail_Cost}} -->
+{% endif %}
 
 {% endif %}
-{% if item.Type == 'Retail' %}
-  {{item.Case_Formate.Duty}}%
- {% endif %}
                                     </td>
+
+                  
 
                                     <td align="center" valign="middle">
 {% if item.Type == 'Bond' %}
 {{item.Case_Formate.GST}}%
-
 {% endif %} 
 {% if item.Type == 'Retail' %}
   {{item.Case_Formate.GST}}%
  {% endif %}
+                                    </td>
+
+
+                                   <td align="center" valign="middle">
+{% if item.Type == 'Bond' %}
+
+ {% if item.Case_Formate.Bond_Descount_Cost > 0  %}
+${{item.Case_Formate.Bond_Descount_Cost}}
+{% else %}
+${item.Case_Formate.Bond_Cost}
+{% endif %}
+
+
+{% endif %} 
+{% if item.Type == 'Retail' %}
+
+
+
+{% if item.Case_Formate.Descount_Cost > 0  %}
+  ${{item.Case_Formate.Descount_Cost}}
+{% else %}
+${{item.Case_Formate.Retail_Cost}}
+{% endif %}
+
+{% endif %}
                                     </td>
 
                                     <td align="center" valign="middle">
@@ -72,17 +112,30 @@ ${{item.Case_Formate.Bond_Cost}}
                                           {% endif %}
                                           <span class="input-group-addon bootstrap-touchspin-postfix quentity_set" data-product_id="{{item.id}}" data-Type="plus" style="display: none;"></span></div> -->
 
-                                          <div class="input-group bootstrap-touchspin" style="width: 38%;">
+                                          <div class="input-group bootstrap-touchspin" style="width: 45%;">
                                         <span class="input-group-addon bootstrap-touchspin-prefix quentity_set" style="display: none;" data-product_id="23" data-type="minus"></span>
                                         
                                         
                                         <span class="input-group-btn"><button class="btn btn-default bootstrap-touchspin-down quentity_set" data-product_id="{{item.id}}" data-Type="minus" type="button">-</button></span><span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
 
                                        {% if item.Type == 'Bond' %}
-                                          <input id="quentuty_{{item.id}}" type="text" data-max_val="{{item.Case_Formate.Bond_Stock}}" data-product_price="{{item.Case_Formate.Bond_Cost}}" value="{{item.Quentity}}" class="dollar-spin comma-format form-control" style="display: block;">
+
+
+{% if item.Case_Formate.Bond_Descount_Cost > 0  %}
+<input id="quentuty_{{item.id}}" type="text" data-max_val="{{item.Case_Formate.Bond_Stock}}" data-product_price="{{item.Case_Formate.Bond_Descount_Cost}}" value="{{item.Quentity}}" class="dollar-spin comma-format form-control" style="display: block;">
+{% else %}
+<input id="quentuty_{{item.id}}" type="text" data-max_val="{{item.Case_Formate.Bond_Stock}}" data-product_price="{{item.Case_Formate.Bond_Cost}}" value="{{item.Quentity}}" class="dollar-spin comma-format form-control" style="display: block;">
+{% endif %}
+
+                                          
                                           {% endif %}
                                           {% if item.Type == 'Retail' %}
-                                          <input id="quentuty_{{item.id}}" type="text" value="{{item.Quentity}}" data-product_price="{{item.Case_Formate.Retail_Cost}}" data-max_val="{{item.Case_Formate.Retail_Stock}}" class="dollar-spin comma-format form-control" style="display: block;">
+
+                            {% if item.Case_Formate.Descount_Cost > 0  %}
+                                          <input id="quentuty_{{item.id}}" type="text" value="{{item.Quentity}}" data-product_price="{{item.Case_Formate.Descount_Cost}}" data-max_val="{{item.Case_Formate.Descount_Cost}}" class="dollar-spin comma-format form-control" style="display: block;">
+                            {% else %}
+                            <input id="quentuty_{{item.id}}" type="text" value="{{item.Quentity}}" data-product_price="{{item.Case_Formate.Retail_Cost}}" data-max_val="{{item.Case_Formate.Retail_Cost}}" class="dollar-spin comma-format form-control" style="display: block;">
+                            {% endif %}
                                           {% endif %}
 
                                         <span class="input-group-addon bootstrap-touchspin-postfix" style="display: none;"></span><span class="input-group-btn"><button class="btn btn-default bootstrap-touchspin-up quentity_set" data-product_id="{{item.id}}" data-Type="plus" type="button">+</button></span>
@@ -99,13 +152,37 @@ ${{item.Case_Formate.Bond_Cost}}
  -->                                </td>
                                     <td align="center" valign="middle">
 {% if item.Type == 'Bond' %}
-<input type="hidden" class="total" id="input_price_show_{{item.id}}" value="{% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}">
+
+
+{% if item.Case_Formate.Bond_Descount_Cost > 0  %}
+        <input type="hidden" class="total" id="input_price_show_{{item.id}}" value="{% widthratio item.Case_Formate.Bond_Descount_Cost 1 item.Quentity %}">
+$<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Bond_Descount_Cost 1 item.Quentity %}</span>
+
+                            {% else %}
+                         <input type="hidden" class="total" id="input_price_show_{{item.id}}" value="{% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}">
 $<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}</span>
+
+                            {% endif %}
+
+
 
 {% endif %} 
 {% if item.Type == 'Retail' %}
-<input type="hidden"  class="total" id="input_price_show_{{item.id}}" value="{% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}">
-  $<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}</span>
+
+
+{% if item.Case_Formate.Descount_Cost > 0  %}
+<input type="hidden"  class="total" id="input_price_show_{{item.id}}" value="{% widthratio item.Case_Formate.Descount_Cost 1 item.Quentity %}">
+$<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Descount_Cost 1 item.Quentity %}</span>
+                            {% else %}
+ <input type="hidden"  class="total" id="input_price_show_{{item.id}}" value="{% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}">
+$<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}</span>
+
+                            {% endif %}
+
+
+
+
+
  {% endif %}
                                     </td>
                                     <td align="center" valign="middle">
@@ -126,10 +203,10 @@ $<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Bond_Cost 1 i
                                         <li><a href="{% url 'wine_shop:wine_shop' %}">Continue Shopping</a></li>
                                     </ul>
                                     <h3>Coupon <span id="show_error_message" style="color:red;"></span></h3>
-                                    <p id="clear_str">Enter Your Cupon Code if You Have One</p>
+                                    <p id="clear_str">Enter Your Coupon Code if You Have One</p>
                                     <div class="cupon-wrap" id="show_success_message">
                                         <input type="text" placeholder="Cupon Code" id="enter_coupon_code">
-                                        <button type="button" onclick="check_cupon_code('{{BASE_URL}}user/orders/check-coupon-code');">Apply Cupon</button>
+                                        <button type="button" onclick="check_cupon_code('{{BASE_URL}}user/orders/check-coupon-code');">Apply Coupon</button>
                                     </div>
                                 </div>
                             </div>
@@ -141,10 +218,17 @@ $<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Bond_Cost 1 i
                                     <input type="hidden" name="set_coupon_code" id="set_coupon_code" value="">
                                     <input type="hidden" name="set_coupon_type" id="set_coupon_type" value="">
                                     <input type="hidden" name="set_coupon_count" id="set_coupon_count" value="">
+
+                                    <input type="hidden" name="set_product_amount" id="set_product_amount" value="">
+                                    <input type="hidden" name="set_order_gst" id="set_order_gst" value="">
                                      <input type="hidden" name="order_type" value="Caller">
                                     
                                     <ul>
                                         <li><span class="pull-left">Subtotal </span>$<span class="show_sub_total_ampount">00.0</span></li>
+                                      
+                                    </ul>
+                                    <ul>
+                                        <li><span class="pull-left">GST </span>$<span class="show_sub_total_gst">00.0</span></li>
                                       
                                     </ul>
                                     <ul id="show_descount_amount">
@@ -154,8 +238,12 @@ $<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Bond_Cost 1 i
                                        
                                        <li><span class="pull-left"> Total </span>$<span class="show_total_ampount">00.0</span></li>
                                     </ul>
-                                    <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
+                                    {% if user.username == "" %}
                                     
+                                    <a href="{% url 'account:account' %}?next={{request.build_absolute_uri}}"><button type="button" class="btn btn-primary">Proceed to Checkout</button></a>
+                                    {% else %}
+                                    <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
+                                    {% endif %}
                                     </form>
                                 </div> 
                             </div>

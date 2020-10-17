@@ -12,7 +12,7 @@ from django.contrib.auth.models import User, auth
 import email.message
 from django.contrib import messages
 import smtplib
-
+from orders.models import AwAddToCard
 from django.http import HttpResponseRedirect, JsonResponse
 import json
 from rest_framework.views import APIView
@@ -22,13 +22,15 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from knox.models import AuthToken
+from profile_user.models import AwUserInfo
 from .serializers import UserSerializer, RegisterSerializer
 from .serializers import RegistrationSerializers, LoginSerializers, UserSerializers
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication
 from wineproject.tokens import account_activation_token, CsrfExemptSessionAuthentication
 from rest_framework.authtoken.models import Token
 from django.views.decorators.csrf import csrf_exempt
-
+from datetime import datetime
+from datetime import date
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -81,7 +83,9 @@ class UserRegistration(APIView):
                 user = serializer.save()
                 data['response'] = "Account create successfuly"
                 data['email'] = user.email
-                data['username'] = user.username
+
+                # data['username'] = user.username
+
                 # token = Token.objects.get(user=user).key
                 # data['Token'] = token
                 # send_varification_link(user.id,user.first_name+" "+user.last_name,user.email)
@@ -98,19 +102,38 @@ def test_data(request):
     message = text.replace("{name}", "apples")
     return HttpResponse(message)
 
+def setcookie(request):
+    if 'aroma_of_wine' in request.COOKIES:
+        tutorial = request.COOKIES['aroma_of_wine']
+    else:
+        tutorial = ""
+    if tutorial == "":
+        response = HttpResponse("Cookie Set")
+        coocki_id = datetime.now()
+        response.set_cookie('aroma_of_wine', coocki_id,expires="29-09-2021")
+    return response
+def getcookie(request):
+    tutorial  = request.COOKIES['aroma_of_wine']
+    return HttpResponse(tutorial);
+
 
 class AccountCraetLoginView(generic.TemplateView):
     form_class = SignUpForm
     template_name = "web/account/create_login.html"
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {'form': self.form_class, 'Page_title': "Account-Create & Login"})
+        next_url = ""
+        if 'next' in request.GET:
+            next_url = request.GET['next']
+        return render(request, self.template_name, {'form': self.form_class, 'Page_title': "Account-Create & Login",'next_url':next_url})
 
     def post(self, request, *args, **kwargs):
+        naxt_url = request.POST['naxt_url']
         if "password2" in self.request.POST:
             form = self.form_class(request.POST)
             # captcha start
             client_key = request.POST['g-recaptcha-response']
+            contact_no = request.POST['contact_no']
             secretkey = '6LffT64ZAAAAANAdvYYGdfWW6FA1PdQxYK_IkgG5'
 
             capthchaData = {
@@ -124,22 +147,33 @@ class AccountCraetLoginView(generic.TemplateView):
             # captcha end
             if varify:
                 if form.is_valid():
-                    form.save()
+                    # -----------------------
+                    email = form.cleaned_data.get('email')
+                    data = form.save(commit=False)
+                    data.username = email
+                    data.save()
+                    # -------------------------
                     messages.info(request, "Thank You, account created successfully.")
-                    username = request.POST['username']
+                    email = request.POST['email']
                     password = request.POST['password1']
-                    user = authenticate(request, username=username, password=password)
+                    user = authenticate(request, username=email, password=password)
                     if user is not None:
                         if user.is_superuser:
                             messages.error(request, "This login area is not used for superadmin.")
                         else:
                             if user.is_active:
                                 login(request, user)
+                                add_number = AwUserInfo(User=user,Contact_no=contact_no)
+                                add_number.save()
+                                get_cookies = request.COOKIES['aroma_of_wine']
+                                AwAddToCard.objects.filter(Cookies_id=get_cookies).update(User=user)
+                                if naxt_url:
+                                    return HttpResponseRedirect(naxt_url)
                                 return HttpResponseRedirect('/user/dashboard/')
                             else:
                                 messages.error(request, "Inactive user.")
                     else:
-                        messages.error(request,"Please enter a correct username and password. Note that both fields may be case-sensitive.")
+                        messages.error(request,"Please enter a correct email and password. Note that both fields may be case-sensitive.")
                     return render(request, self.template_name, {'form': self.form_class})
                 else:
                     messages.error(request, form.errors)
@@ -147,15 +181,19 @@ class AccountCraetLoginView(generic.TemplateView):
                 messages.error(request, "Recaptcha is incorrect.")
             return render(request, self.template_name, {'form': form})
         else:
-            username = request.POST['username']
+            email = request.POST['username']
             password = request.POST['password']
-            user = authenticate(request, username=username, password=password)
+            user = authenticate(request, username=email, password=password)
             if user is not None:
                 if user.is_superuser:
                     messages.error(request, "This login area is not used for superadmin.")
                 else:
                     if user.is_active:
                         login(request, user)
+                        get_cookies = request.COOKIES['aroma_of_wine']
+                        AwAddToCard.objects.filter(Cookies_id=get_cookies).update(User=user)
+                        if naxt_url:
+                            return HttpResponseRedirect(naxt_url)
                         return HttpResponseRedirect('/user/dashboard/')
                     else:
                         messages.error(request, "Inactive user.")

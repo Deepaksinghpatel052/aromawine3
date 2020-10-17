@@ -37,15 +37,21 @@ class AwOrders(models.Model):
     Order_Type = models.CharField(max_length=120,null=True, blank=True)
     Notes = models.TextField(null=True,blank=True)
     Quentity = models.IntegerField(default=0)
+    Order_Product_Amount = models.FloatField(default=0)
+    Order_Gst_Amount = models.FloatField(default=0)
     order_amount = models.IntegerField(default=0)
     Use_coupon = models.BooleanField(default=False)
     Cupon_Code = models.CharField(max_length=120,null=True, blank=True)
     Cupon_Discount = models.FloatField(default=0)
     Amount = models.IntegerField(default=0)
     Order_Status = models.BooleanField(default=False)
+    order_place = models.BooleanField(default=False)
     Order_Status_Set = models.CharField(default='Active',max_length=120)
     Payment_Status = models.BooleanField(default=False)
     Payment_Method = models.CharField(max_length=120,null=True, blank=True)
+    shipping_charge = models.IntegerField(default=0)
+    shipping_Payment_Status = models.BooleanField(default=False)
+    shipping_Payment_Method = models.CharField(max_length=120, null=True, blank=True)
     Order_Date = models.DateTimeField(default=django.utils.timezone.now)
     delivery_Date = models.DateTimeField(null=True, blank=True)
     Payment_Date = models.DateTimeField(null=True, blank=True)
@@ -100,6 +106,8 @@ class AwOrederItem(models.Model):
     Case_Formate_text = models.CharField(max_length=120,null=True, blank=True)
     Case_Formate = models.ForeignKey(AwProductPrice, on_delete=models.SET_NULL, null=True, blank=True, related_name='Case_Formate_AwOrderitem')
     Cost_of_product = models.FloatField(default=0)
+    Gst = models.FloatField(default=0)
+    Duty = models.FloatField(default=0)
     Quentity = models.IntegerField(default=0)
     Total_cost = models.FloatField(default=0)
 
@@ -112,6 +120,7 @@ class AwOrederItem(models.Model):
 
 class AwAddToCard(models.Model):
     User = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='User_AwAddToCard')
+    Cookies_id = models.CharField(max_length=120,null=True, blank=True)
     Order_Type = models.CharField(max_length=120,default='Cellar')    # Like Cellar Delivered & Tickets
     Product_Cellar = models.ForeignKey(AwProducts, on_delete=models.CASCADE, null=True, blank=True,related_name='AwProducts_AwAddToCard')
     Product_Delivered = models.ForeignKey(AwProducts, on_delete=models.CASCADE, null=True, blank=True,related_name='AwProducts_AwAddToCard_Delivered')

@@ -80,7 +80,15 @@ $.ajax({
    data:{'format_id':format_id},
    dataType:"json",
    success:function(data){
-     var price_for_retail = data.data.Retail_Cost;
+    if(data.data.Descount_Cost > 0)
+    {
+      var price_for_retail = data.data.Descount_Cost;
+    }
+    else
+    {
+     var price_for_retail = data.data.Retail_Cost; 
+    }
+     
      var quentity_for_retail = data.data.Retail_Stock;
      var price_for_bond = data.data.Bond_Cost;
      var quentity_for_bond = data.data.Bond_Stock;

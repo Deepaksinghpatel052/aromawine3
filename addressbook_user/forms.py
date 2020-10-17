@@ -1,6 +1,7 @@
 from django import forms
 from .models import AwAddressBook
 from admin_manage_country.models import AwCountryUser
+from admin_manage_setting.models import AwManageShipping
 
 class AwAddressBookForm(forms.ModelForm):
 
@@ -9,7 +10,7 @@ class AwAddressBookForm(forms.ModelForm):
     Email = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control", 'name': 'Email', 'placeholder': "Enter Your Email."}))
     Pnone_no = forms.CharField(widget=forms.NumberInput(attrs={"class": "form-control", 'name': 'Pnone_no', 'placeholder': "Enter Your Pnone no."}))
     Conpany_Name = forms.CharField(required=False,widget=forms.TextInput(attrs={"class": "form-control", 'name': 'Conpany_Name', 'placeholder': "Enter Your Company Name."}))
-    Country = forms.ModelChoiceField(required=True, empty_label="Please Select Country", queryset=AwCountryUser.objects.all().order_by('Country_Name'), widget=forms.Select(attrs={"class": "form-control" ,'name': 'Conpany_Name'}))
+    Country = forms.ModelChoiceField(required=True, empty_label="Please Select Country", queryset=AwManageShipping.objects.all().order_by('Country'), widget=forms.Select(attrs={"class": "form-control" ,'name': 'Conpany_Name'}))
     City = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control", 'name': 'City', 'placeholder': "Enter Your City."}))
     State = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control", 'name': 'State', 'placeholder': "Enter Your State."}))
     Address = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control", "placeholder": "Address", 'name': 'Address',"rows":"5"}))
@@ -28,7 +29,7 @@ class AwAddressBookFormUser(forms.ModelForm):
     Email = forms.CharField(required=False,widget=forms.TextInput(attrs={"class": "form-control", 'name': 'Email', 'placeholder': "Enter Your Email."}))
     Pnone_no = forms.CharField(required=False,widget=forms.NumberInput(attrs={"class": "form-control", 'name': 'Pnone_no', 'placeholder': "Enter Your Pnone no."}))
     Conpany_Name = forms.CharField(required=False,widget=forms.TextInput(attrs={"class": "form-control", 'name': 'Conpany_Name', 'placeholder': "Enter Your Company Name."}))
-    Country = forms.ModelChoiceField(required=False, empty_label="Please Select Country", queryset=AwCountryUser.objects.all().order_by('Country_Name'), widget=forms.Select(attrs={"class": "form-control" ,'name': 'Conpany_Name'}))
+    Country = forms.ModelChoiceField(required=False, empty_label="Please Select Country", queryset=AwManageShipping.objects.all().order_by('Country'), widget=forms.Select(attrs={"class": "form-control" ,'name': 'Conpany_Name'}))
     City = forms.CharField(required=False,widget=forms.TextInput(attrs={"class": "form-control", 'name': 'City', 'placeholder': "Enter Your City."}))
     State = forms.CharField(required=False,widget=forms.TextInput(attrs={"class": "form-control", 'name': 'State', 'placeholder': "Enter Your State."}))
     Address = forms.CharField(required=False,widget=forms.Textarea(attrs={"class": "form-control", "placeholder": "Address", 'name': 'Address',"rows":"5"}))

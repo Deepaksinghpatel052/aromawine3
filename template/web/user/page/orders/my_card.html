@@ -67,6 +67,35 @@ $(document).ready(function(){
 
 });
 
+
+
+function  set_sub_total_gst_amount_of_card_product()
+{
+   var product_total_gst = 0;
+    $(".amount_without_gst").each(function(){
+      var item_id = $(this).data('item_id');
+      var get_quentuty  = parseInt($("#quentuty_"+item_id).val());
+      var product_value_with_gst = parseFloat($(".gst_amount_"+item_id).val());
+      product_total_gst = product_total_gst+ (product_value_with_gst * get_quentuty );
+    });
+    return product_total_gst.toFixed(2);
+}
+
+
+function set_sub_total_amount_of_card_product()
+{
+  var product_total = 0;
+  $(".amount_without_gst").each(function(){
+
+  var item_id = $(this).data('item_id');
+  var get_quentuty  = parseInt($("#quentuty_"+item_id).val());
+
+  var product_value_without_gst = parseFloat($(this).val());
+    product_total = product_total + (product_value_without_gst * get_quentuty);
+  });
+  return product_total.toFixed(2);
+}
+
 function set_total_amount_of_card_product()
 {
   var total_amount = 0.00;
@@ -176,7 +205,11 @@ $("#price_show_"+prodict_id).text(get_total_price);
 $("#input_price_show_"+prodict_id).val(get_total_price);
 
 $(".show_total_ampount").text(set_total_amount_of_card_product());
-$(".show_sub_total_ampount").text(set_total_amount_of_card_product());
+$(".show_sub_total_ampount").text(set_sub_total_amount_of_card_product());
+$(".show_sub_total_gst").text(set_sub_total_gst_amount_of_card_product());
+
+$("#set_product_amount").val(set_sub_total_amount_of_card_product());
+$("#set_order_gst").val(set_sub_total_gst_amount_of_card_product());
 });
 
 
@@ -185,7 +218,7 @@ $(".show_sub_total_ampount").text(set_total_amount_of_card_product());
 
 
 swal({
-            title: "Are you sure to update your card.",
+            title: "Are you sure to update your cart?.",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -213,7 +246,7 @@ swal({
                    success:function(data)
                    {
                     get_card_product();
-                   swal("Card update sueccessfully.");
+                   swal("Cart updated sueccessfully.");
                    } 
                 });
             } 
@@ -228,10 +261,11 @@ swal({
   $(document).ready(function(){
 
 $(".show_total_ampount").text(set_total_amount_of_card_product());
-$(".show_sub_total_ampount").text(set_total_amount_of_card_product());
+$(".show_sub_total_ampount").text(set_sub_total_amount_of_card_product());
+$(".show_sub_total_gst").text(set_sub_total_gst_amount_of_card_product());
 
-
-
+$("#set_product_amount").val(set_sub_total_amount_of_card_product());
+$("#set_order_gst").val(set_sub_total_gst_amount_of_card_product());
 
 
 

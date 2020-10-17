@@ -46,24 +46,37 @@
      <ul class="sidebar-menu scroll sp-menu">
 	 <li class=""><a href="{% url 'admin_dashboard:dashboard' %}">Dashbord</a></li>
                       <!--<li class=""><a href="manage-buyers.php"></i>Manage Buyers</a></li>-->
-					  <li class="treeview" id="Products">
-					 <a href="#"><span>Products</span><i class="icon icon-angle-left pull-right"></i></a>
+					
+<li class="treeview" id="Category">
+                <a href="#"><span>Category</span><i class="icon icon-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
-                      <li class="treeview " id="Manage_Product"><a href="{% url 'admin_manage_products:products' %}">Manage Product</a></li>
+                      <li class="treeview " id="Manage_Categoryes"><a href="{% url 'admin_manage_categoryes:catogoryes' %}">Manage Categoryes</a></li>
                       
-					  <li class="treeview"  id="Add_Product"><a href="{% url 'admin_manage_products:add_product' %}">Add Product</a></li>
-			
-					  
+                 <li class="treeview"  id="Add_Categoryes"><a href="{% url 'admin_manage_categoryes:add_catogoryes' %}">Add Category</a></li>
+         
+                 
                      
-					 
+                
                   </ul>
                </li>
 
 
-               <li class="treeview" id="Event">
-           <a href="#"><span>Event</span><i class="icon icon-angle-left pull-right"></i></a>
+            <li class="treeview" id="Products">
+           <a href="#"><span>Products</span><i class="icon icon-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
-                      <li class="treeview " id="Manage_Event"><a href="{% url 'manage_event:event' %}">Manage Event</a></li>
+                      <li class="treeview " id="Manage_Product"><a href="{% url 'admin_manage_products:products' %}">Manage Product</a></li>
+                      
+            <li class="treeview"  id="Add_Product"><a href="{% url 'admin_manage_products:add_product' %}">Add Product</a></li>
+      
+            
+                     
+           
+                  </ul>
+               </li>
+<li class="treeview" id="Event">
+           <a href="#"><span>Events</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview " id="Manage_Event"><a href="{% url 'manage_event:event' %}">Manage Events</a></li>
                       
             <li class="treeview"  id="Add_Event"><a href="{% url 'manage_event:add_event' %}">Add Event</a></li>
       
@@ -72,7 +85,131 @@
            
                   </ul>
                </li>
+<li class="treeview" id="Orders">
+           <a href="#"><span>Orders</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                    <!--   <li class="treeview" id="Manage_Orders">
+            <a href="{% url 'admin_manage_order:orders' %}" >Manage Orders</a>
+            </li> -->
+          
+          <li class="treeview"  id="Caller_Orders">
+           <a href="{% url 'admin_manage_order:caller'  %}">Caller Orders</a>
+           </li>
+           <li class="treeview"  id="Delivery_Orders">
+           <a href="{% url 'admin_manage_order:delivery' %}">Delivery Orders</a>
+           </li>
+           <li class="treeview" id="Complete_Orders">
+           <a href="{% url 'admin_manage_order:orders_type' 'complete' %}" >Complate Orders</a>
+           </li>
 
+                     <li class="treeview" id="Refunded_Orders">
+           <a href="{% url 'admin_manage_order:orders_type' 'refunded' %}" >Refunded Orders</a>
+           </li>
+           <li class="treeview"  id="Cancelled_orders">
+           <a href="{% url 'admin_manage_order:orders_type' 'cancelled' %}">Cancelled Orders</a>
+           </li>
+           <li class="treeview" id="Failled_orders">
+           <a href="{% url 'admin_manage_order:orders_type' 'failled' %}">Failled Orders</a>
+           </li>
+           
+           
+                  </ul>
+               </li>
+<li class="treeview" id="Customer">
+           <a href="#"><span>Customers</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview" id="Manage_Customer">
+            <a href="{% url 'admin_manage_customer:customer' %}"  >Manage Customers</a>
+            </li>
+                 <!--     <li class="treeview">
+           <a href="add-customer.php">Add Customer</a>
+           </li> -->
+                     
+                  </ul>
+               </li>
+ <li class="treeview" id="Preference">
+           <a href="#"><span>Preference</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview " id="Manage_Product"><a href="{% url 'admin_manage_perferences:perferences' %}">Manage Preferences</a></li>
+                      
+                  <li class="treeview"  id="Add_Product"><a href="{% url 'admin_manage_perferences:add_perferences' %}">Add Preferences</a></li>
+                  </ul>
+               </li>
+<li class="treeview" id="Countries">
+           <a href="#"><span>Countries</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview"  id="Manage_Countries"><a href="{% url 'admin_manage_country:country' %}">Manage Countries</a></li>
+                     <li class="treeview" id="Add_Countries">
+           <a href="{% url 'admin_manage_country:add_country' %}">Add Countries</a>
+           </li>
+                     
+                  </ul>
+               </li>
+<li class="treeview" id="Region">
+           <a href="#"><span>Regions</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                     <li class="treeview" id="Manage_Region"><a href="{% url 'admin_manage_region:region' %}">Manage Regions</a></li>
+                     <li class="treeview" id="Add_Region">
+           <a href="{% url 'admin_manage_region:add_region' %}">Add Region</a>
+           </li>
+                     
+                  </ul>
+               </li>
+               <li class="treeview" id="Grape">
+           <a href="#"><span>Grapes</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview" id="Manage_Grape"><a href="{% url 'admin_manage_grape:grape' %}">Manage Grapes</a></li>
+                     <li class="treeview" id="Add_Grape">
+           <a href="{% url 'admin_manage_grape:add_grape' %}">Add Grape</a>
+           </li>
+                     
+                  </ul>
+               </li>
+                <li class="treeview" id="Manage_Filtters">
+           <a href="#"><span>Manage Filters</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+          <li  id="Producer_Winery"><a href="{% url 'admin_manage_producer:producer' %}">Manage Producer/Winery</a></li>
+          <li class="treeview" id="Manage_Appellation"><a href="{% url 'admin_manage_appellation:appellation' %}">Manage Appellation</a></li>
+                      <li class="treeview" id="Color">
+            <a href="{% url 'admin_manage_color:color' %}">Color</a>
+            </li>
+            <li class="treeview" id="Bottle_Size">
+           <a href="{% url 'admin_manage_size:size'%}">Bottle Size</a>
+           </li>
+                     
+                     <li class="treeview" id="Classification">
+           <a href="{% url 'admin_manage_classification:classification'%}">Classification</a>
+           </li>
+           <li class="treeview" id="Varietals">
+           <a href="{% url 'admin_manage_varietals:varietals' %}">Varietals</a>
+           </li>
+           
+           <li class="treeview" id="Vintages">
+           <a href="{% url 'admin_manage_Vintages:vintages'%}">Vintages</a>
+           </li>
+           
+          <!--  <li class="treeview">
+           <a href="critics.php">Critics</a>
+           </li> -->
+           
+           
+           
+                  </ul>
+               </li>
+
+<li><a href="{% url 'admin_manage_notification:notification' %}">Notifications</a></li>
+
+<li><a href="{% url 'admin_mambership_setting:membership'  %}">Membership Settings</a></li>
+<li class="treeview" id="Coupons">
+           <a href="#"><span>Coupons</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview"  id="Manage_Coupons"><a href="{% url 'admin_manage_cupon_code:admin_manage_cupon_code' %}">Manage Coupons</a></li>
+                     <li class="treeview" id="Add_Coupon">
+           <a href="{% url 'admin_manage_cupon_code:add_coupon' %}">Add Coupon</a>
+           </li>
+                     
+                  </ul>
+               </li>
 
 <li class="treeview" id="Recipes">
            <a href="#"><span>Recipes</span><i class="icon icon-angle-left pull-right"></i></a>
@@ -102,6 +239,8 @@
                </li>
 
 
+
+
  <li class="treeview" id="Wine_Testing">
            <a href="#"><span>Wine-Testing</span><i class="icon icon-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
@@ -114,215 +253,37 @@
            
                   </ul>
                </li>
-               <!-- -------------------------------------- -->
-                                     <li class="treeview" id="Preference">
-           <a href="#"><span>Preference</span><i class="icon icon-angle-left pull-right"></i></a>
-                  <ul class="treeview-menu">
-                      <li class="treeview " id="Manage_Product"><a href="{% url 'admin_manage_perferences:perferences' %}">Manage Preferences</a></li>
-                      
-                  <li class="treeview"  id="Add_Product"><a href="{% url 'admin_manage_perferences:add_perferences' %}">Add Preferences</a></li>
-
-            
-                     
-           
-                  </ul>
-               </li>
-               <!-- -------------------------------------- -->
-
-
-               <li class="treeview" id="Category">
-                <a href="#"><span>Category</span><i class="icon icon-angle-left pull-right"></i></a>
-                  <ul class="treeview-menu">
-                      <li class="treeview " id="Manage_Categoryes"><a href="{% url 'admin_manage_categoryes:catogoryes' %}">Manage Categoryes</a></li>
-                      
-                 <li class="treeview"  id="Add_Categoryes"><a href="{% url 'admin_manage_categoryes:add_catogoryes' %}">Add Category</a></li>
-         
-                 
-                     
-                
-                  </ul>
-               </li>
-					  
-					
-                   <li class="treeview" id="Customer">
-					 <a href="#"><span>Customer</span><i class="icon icon-angle-left pull-right"></i></a>
-                  <ul class="treeview-menu">
-                      <li class="treeview" id="Manage_Customer">
-					  <a href="{% url 'admin_manage_customer:customer' %}"  >Manage Customer</a>
-					  </li>
-                 <!--     <li class="treeview">
-					 <a href="add-customer.php">Add Customer</a>
-					 </li> -->
-                     
-                  </ul>
-               </li>
-			   <li class="treeview" id="Orders">
-					 <a href="#"><span>Orders</span><i class="icon icon-angle-left pull-right"></i></a>
-                  <ul class="treeview-menu">
-                      <li class="treeview" id="Manage_Orders">
-					  <a href="{% url 'admin_manage_order:orders' %}" >Manage Orders</a>
-					  </li>
-					
-					<li class="treeview"  id="Caller_Orders">
-					 <a href="{% url 'admin_manage_order:caller'  %}">Caller Orders</a>
-					 </li>
-					 <li class="treeview"  id="Delivery_Orders">
-					 <a href="{% url 'admin_manage_order:delivery' %}">Delivery Orders</a>
-					 </li>
-				 	 <li class="treeview" id="Complete_Orders">
-					 <a href="{% url 'admin_manage_order:orders_type' 'complete' %}" >Complate Orders</a>
-					 </li>
-
-                     <li class="treeview" id="Refunded_Orders">
-					 <a href="{% url 'admin_manage_order:orders_type' 'refunded' %}" >Refunded Orders</a>
-					 </li>
-					 <li class="treeview"  id="Cancelled_orders">
-					 <a href="{% url 'admin_manage_order:orders_type' 'cancelled' %}">Cancelled Orders</a>
-					 </li>
-					 <li class="treeview" id="Failled_orders">
-					 <a href="{% url 'admin_manage_order:orders_type' 'failled' %}">Failled Orders</a>
-					 </li>
-					 
-					 
-                  </ul>
-               </li>
-			  
-			   
-         <li class="treeview" id="Coupons">
-           <a href="#"><span>Coupons</span><i class="icon icon-angle-left pull-right"></i></a>
-                  <ul class="treeview-menu">
-                      <li class="treeview"  id="Manage_Coupons"><a href="{% url 'admin_manage_cupon_code:admin_manage_cupon_code' %}">Manage Coupons</a></li>
-                     <li class="treeview" id="Add_Coupon">
-           <a href="{% url 'admin_manage_cupon_code:add_coupon' %}">Add Coupon</a>
-           </li>
-                     
-                  </ul>
-               </li>
-
-
-
-
-         <li class="treeview" id="Countries">
-					 <a href="#"><span>Countries</span><i class="icon icon-angle-left pull-right"></i></a>
-                  <ul class="treeview-menu">
-                      <li class="treeview"  id="Manage_Countries"><a href="{% url 'admin_manage_country:country' %}">Manage Countries</a></li>
-                     <li class="treeview" id="Add_Countries">
-					 <a href="{% url 'admin_manage_country:add_country' %}">Add Countries</a>
-					 </li>
-                     
-                  </ul>
-               </li>
-			   <li class="treeview" id="Region">
-					 <a href="#"><span>Region</span><i class="icon icon-angle-left pull-right"></i></a>
-                  <ul class="treeview-menu">
-                     <li class="treeview" id="Manage_Region"><a href="{% url 'admin_manage_region:region' %}">Manage Region</a></li>
-                     <li class="treeview" id="Add_Region">
-					 <a href="{% url 'admin_manage_region:add_region' %}">Add Region</a>
-					 </li>
-                     
-                  </ul>
-               </li>
-			   <li class="treeview" id="Grape">
-					 <a href="#"><span>Grape</span><i class="icon icon-angle-left pull-right"></i></a>
-                  <ul class="treeview-menu">
-                      <li class="treeview" id="Manage_Grape"><a href="{% url 'admin_manage_grape:grape' %}">Manage Grape</a></li>
-                     <li class="treeview" id="Add_Grape">
-					 <a href="{% url 'admin_manage_grape:add_grape' %}">Add Grape</a>
-					 </li>
-                     
-                  </ul>
-               </li>
-			   
-			   
-                     
-			
-			   <li class="treeview" id="Manage_Filtters">
-					 <a href="#"><span>Manage Filtters</span><i class="icon icon-angle-left pull-right"></i></a>
-                  <ul class="treeview-menu">
-				  <li  id="Producer_Winery"><a href="{% url 'admin_manage_producer:producer' %}">Manage Producer/Winery</a></li>
-				  <li class="treeview" id="Manage_Appellation"><a href="{% url 'admin_manage_appellation:appellation' %}">Manage Appellation</a></li>
-                      <li class="treeview" id="Color">
-					  <a href="{% url 'admin_manage_color:color' %}">Color</a>
-					  </li>
-					  <li class="treeview" id="Bottle_Size">
-					 <a href="{% url 'admin_manage_size:size'%}">Bottle Size</a>
-					 </li>
-                     
-                     <li class="treeview" id="Classification">
-					 <a href="{% url 'admin_manage_classification:classification'%}">Classification</a>
-					 </li>
-					 <li class="treeview" id="Varietals">
-					 <a href="{% url 'admin_manage_varietals:varietals' %}">Varietals</a>
-					 </li>
-					 
-					 <li class="treeview" id="Vintages">
-					 <a href="{% url 'admin_manage_Vintages:vintages'%}">Vintages</a>
-					 </li>
-					 
-					 <li class="treeview">
-					 <a href="critics.php">Critics</a>
-					 </li>
-					 
-					 
-					 
-                  </ul>
-               </li>
-					 
-					 
-                     
-                    <!-- <li><a href="manage-attributes.php">Manage Attributes</a></li>-->
-                     <li><a href="{% url 'admin_manage_notification:notification' %}">Notifications</a></li>
-                     <li><a href="{% url 'admin_mambership_setting:membership'  %}">Membership Settings</a></li>
-                     <li><a href="source-wine-request.php">Source Wine requests</a></li>
-                     
-                     <li><a href="enqueries.php">Manage Enqueries</a></li>
-                     
-                     <!-- <li><a href="manage-event.php">Manage Events</a></li> -->
-                     
-                     
-                     <!--<li><a href="manage-review.php">Manage Reviews</a></li>
-                     <li><a href="manage-complaints.php">Manage Complaints</a></li>
-                     <li><a href="manage-contact.php">Manage Enquiries (Contact Us)</a></li>-->
-					 
-					 
-                     
-					 <li class="treeview" id="Banner">
-					 <a href="#"><span>Manage Banners</span><i class="icon icon-angle-left pull-right"></i></a>
-                  <ul class="treeview-menu">
-                      <li class="treeview" id="Manage_Banner">
-					  <a href="{% url 'admin_manage_banners:banners' %}">Manage Banner</a>
-					  </li>
-                     <li class="treeview" id="Add_Banner">
-					 <a href="{% url 'admin_manage_banners:add_banners' %}">Add Banner</a>
-					
-					 <!--<li class="treeview"><a href="manage-s.e.o.php">Manage S.E.O.</a></li>-->
-                  </ul>
-               </li>
-                     
-                    
-                    
-                     <!--<li><a href="manage-newsletters.php">Manage Newsletters </a></li>
-                     <li><a href="manage-testimonial.php">Manage Testimonials</a></li>
-                      <li><a href="manage-cms.php">Manage CMS Pages</a></li> -->
-                     <li class="treeview" id="Manage_Content"><a href="#"><span>Manage Content</span><i class="icon icon-angle-left pull-right"></i></a>
+                <li class="treeview" id="Manage_Content"><a href="#"><span>Manage Content</span><i class="icon icon-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
                       <li id="Mange_Pages"><a href="{% url 'admin_manage_content_page:custom_page' %}">Mange Pages</a></li>
                       <li id="Add_Page"><a href="{% url 'admin_manage_content_page:add_page' %}">Add Page</a></li>
                   </ul>
                </li>
-			   
-			   
-                     
-                     <li><a href="manage-vintage-chart-data.php">Manage Vintage Chart data</a></li>
-					 
-					 
-					 <li class="treeview" id="Setting"><a href="#"><span>Manage Admin Setting</span><i class="icon icon-angle-left pull-right"></i></a>
+               <!-- -------------------------------------- -->
+                                    
+               <!-- -------------------------------------- -->
+<li class="treeview" id="Setting"><a href="#"><span>Manage Admin Setting</span><i class="icon icon-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
                       <li  id="General_Setting"><a href="{% url 'admin_manage_setting:general' %}">General Setting</a></li>
-					  <li id="Manage_Shipping"><a href="{% url 'admin_manage_setting:shipping' %}">Manage Shipping</a></li>
-					 
+            <li id="Manage_Shipping"><a href="{% url 'admin_manage_setting:shipping' %}">Manage Shipping</a></li>
+           
                   </ul>
                </li>
+
+                <li class="treeview" id="Banner">
+           <a href="#"><span>Manage Banners</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview" id="Manage_Banner">
+            <a href="{% url 'admin_manage_banners:banners' %}">Manage Banner</a>
+            </li>
+                     <li class="treeview" id="Add_Banner">
+           <a href="{% url 'admin_manage_banners:add_banners' %}">Add Banner</a>
+          
+           <!--<li class="treeview"><a href="manage-s.e.o.php">Manage S.E.O.</a></li>-->
+                  </ul>
+               </li>
+               
+					 
                      
             
             </li>

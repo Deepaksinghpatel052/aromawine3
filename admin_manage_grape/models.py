@@ -24,7 +24,7 @@ class AwGrape(models.Model):
     Grape_Name = models.CharField(max_length=120,unique=True)
     Slug = models.CharField(max_length=120, unique=True, null=True, blank=True)
     Grape_Image = models.ImageField(upload_to=user_directory_path)
-    Grape_banner_Image = models.ImageField(upload_to=user_directory_path_banner,null=True, blank=True)
+    banner_Image = models.ImageField(upload_to=user_directory_path_banner,null=True, blank=True)
     Short_Description = models.TextField(null=True, blank=True)
     Description = models.TextField(null=True, blank=True)
     Status = models.BooleanField(default=True)

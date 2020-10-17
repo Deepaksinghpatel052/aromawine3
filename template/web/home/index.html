@@ -65,7 +65,7 @@
               {% if user.username == "" %}
               <a href="javascript:;"><i class="fa fa-heart-o"></i> </a>
               {% else %}
-              <a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' items.id items|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:items}}" >{% if user|check_in_wish_list:items == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
+              <a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' items.id items|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:items}} product_id_{{items.id}}"  data-prodcut_id="{{items.id}}">{% if user|check_in_wish_list:items == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
               {% endif %}
 			  	</span>
   <a href="{% url 'product_detail:product_detail' items.Product_id items.Product_slug  items|get_product_vintage_yera_one   %}" class="fare-deal__item">
@@ -118,7 +118,7 @@
 			{% if user.username == "" %}
               <a href="javascript:;"><i class="fa fa-heart-o"></i> </a>
               {% else %}
-									<a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' items.id items|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:items}}"> {% if user|check_in_wish_list:items == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
+									<a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' items.id items|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:items}} product_id_{{items.id}}" data-prodcut_id="{{items.id}}"> {% if user|check_in_wish_list:items == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
 </a>
 {% endif %}
 								</span>

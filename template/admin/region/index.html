@@ -55,9 +55,11 @@
               <thead>
                 <tr>
            
+                  <th align="left" valign="top">#</th>
                   <th align="left" valign="top">Region Name</th>
 
                   <th align="left" valign="top">Image</th>
+                  <th align="left" valign="top">Banner Image</th>
                   <th align="left" valign="top">Country</th>
                   <th align="left" valign="top">Set to</th>
                   <th align="left" valign="top">Action</th>
@@ -69,11 +71,16 @@
 
 
                 <tr>
-           
+           <td align="left" valign="top">{{forloop.counter}}</td>
                   <td align="left" valign="top">{{item.Region_Name}}</td>
                  <td align="center" valign="top">
                   {% if item.Region_Image %}
                   <img src='{{item.Region_Image.url}}' style="width:50px;">
+                    {% endif %}
+                </td>
+                <td align="center" valign="top">
+                  {% if item.banner_Image %}
+                  <img src='{{item.banner_Image.url}}' style="width:50px;">
                     {% endif %}
                 </td>
                   <td align="left" valign="top">{{item.Country}}</td>

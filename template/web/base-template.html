@@ -28,6 +28,13 @@
     .dsp_set_height{
 height: 269px;    
 }
+
+li.list-group-item:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 15px !important;
+}
    </style>
 
    {{"menu"|get_analytics}}
@@ -48,9 +55,9 @@ height: 269px;
         <div class="search-box">
           <input class="" type="search" name='quick_search' value="{% if category_set %}{{category_set}}{% endif %}{% if keyword_set %}{{keyword_set}}{% endif %}{% if country_set %}{{country_set}}{% endif %}" placeholder="Search Wines And Spirits">
           <button><i class="fa fa-search"></i> </button>
-          <!-- <select>
-                    <option>Wines</option>
-                  </select> --> 
+          <ul class="list" id="result"  style="position: absolute; z-index: 1; width: 92%;">
+            
+          </ul>
         </div>
       </div>
       <div class="paper_menu">
@@ -63,7 +70,7 @@ height: 269px;
             {% if user.username == "" %}
             <li> <a href="{% url 'account:account' %}">Login / Register</a></li>
             {% else %}
-            <li> <a href="{% url 'dashboard_user:dashboard' %}">{{user.username}}</a></li>
+            <li> <a href="{% url 'dashboard_user:dashboard' %}">{{user.username|slice:":15" }}...</a></li>
             {% endif %}
             <li><a href="#" id="cart"><i class="fa fa-shopping-cart"></i><span class="badge_item">0</span> Cart <span class="">$<span class="set_total">0.00</span></span></a>
               <div class="shopping-cart">
@@ -85,11 +92,7 @@ height: 269px;
                   </div> -->
                   <div class="col-md-12">
                    
-                   {% if user.username == '' %}
-                   <a href="{% url 'account:account' %}" class="btn_achor">Go to cart</a>
-                   {% else %}
-                    <a href="{% url 'orders:my_card' %}" class="btn_achor">Go to cart</a>
-                    {% endif %} 
+                   <a href="{% url 'orders:my_card' %}" class="btn_achor">Go to cart</a> 
                   </div>
                 </div>
                  </div>
@@ -537,6 +540,7 @@ var total_amount = 0.00;
    url:get_url_for_get_card_product,
    dataType:"json",
    success:function(data){
+    console.log(data);
       if(data.status == 0)
       {
         $("#show_my_card_product").html(all_peroduct_list);
@@ -558,13 +562,34 @@ var total_amount = 0.00;
            {
              if(data.data[i].Type == 'Bond')
              {
-              total_amount += data.data[i].Case_Formate.Bond_Cost*Quentity_set;
-              product_amount = data.data[i].Case_Formate.Bond_Cost*Quentity_set;
+               if(data.data[i].Case_Formate.Bond_Descount_Cost > 0)
+                 {
+                     total_amount += data.data[i].Case_Formate.Bond_Descount_Cost*Quentity_set;
+                    product_amount = data.data[i].Case_Formate.Bond_Descount_Cost*Quentity_set;
+                 }
+                 else
+                 {
+                  total_amount += data.data[i].Case_Formate.Bond_Cost*Quentity_set;
+                  product_amount = data.data[i].Case_Formate.Bond_Cost*Quentity_set;    
+                 } 
+
+              
              }
              if(data.data[i].Type == 'Retail')
              {
-              total_amount +=data.data[i].Case_Formate.Retail_Cost*Quentity_set;
-              product_amount = data.data[i].Case_Formate.Retail_Cost*Quentity_set;
+
+                if(data.data[i].Case_Formate.Descount_Cost > 0)
+                    {
+                       total_amount +=data.data[i].Case_Formate.Descount_Cost*Quentity_set;
+                      product_amount = data.data[i].Case_Formate.Descount_Cost*Quentity_set;
+                    }
+                  else
+                  {
+                    total_amount +=data.data[i].Case_Formate.Retail_Cost*Quentity_set;
+                      product_amount = data.data[i].Case_Formate.Retail_Cost*Quentity_set;
+                  }
+
+              
              } 
            }
            if(data.data[i].Order_Type == "Delivered")
@@ -1711,17 +1736,69 @@ $('#facetfilterNavigation .dropdown').hover(function() {
 
 <script type="text/javascript">
   $(document).ready(function(){
-  $("input[name='quick_search']").marcoPolo({
-url:"/shop/filters",
-formatItem: function(data,$item){
-  var get_text = data.Product.Product_name;
-return get_text;
-},
-minChars: 3,
-onSelect: function (data, $item) {
-window.location = "/shop/?keyword="+data.Product.Product_slug;
-}
+
+$("input[name='quick_search']").keyup(function() {
+     
+     var search_filed=$(this).val();
+     if(search_filed)
+     {
+$.ajax({
+        method:"GET",
+        url:"/shop/filters?q="+search_filed,
+        dataType:"json",
+        success:function(data)
+        {
+          console.log(data);
+          console.log(data.length);
+          var res_data="";
+          var image_set="";
+          var set_count = data.length;
+          if(set_count>=3)
+          {
+            set_count = 3
+          }
+
+          for(var i=0; i< set_count ; i++)
+          {           
+  
+  image_set="/static/web/assets/image/shop/single-1.png";
+
+            if(data[i]['Product']['Product_image']!="" && data[i]['Product']['Product_image']!=null)
+            {
+               image_set=data[i]['Product']['Product_image'];
+            }
+        
+            res_data +='<li class="list-group-item"><a href="/shop/?keyword='+data[i]['Product']['Product_slug']+'"><img src="'+image_set+'" style="width:54px; height :72px; padding: 1px;"  > || '+data[i]['Product']['Product_name'].substring(0,20)+'('+data[i]['Vintage_Year']['Vintages_Year']+') || $'+data[i]['Retail_Cost']+'</a></li>';
+            
+          }
+          
+          if(data.length >=3)
+          {
+            res_data +='<li class="list-group-item"><span>'+data.length+' Result</span> <span><a href="/shop/?keyword='+search_filed+'">View More</span></a></li>';
+          }
+        $("#result").html(res_data);
+        
+        }
+      });
+     }
+     else
+     {
+      $("#result").html('');
+     }
+     
 });
+
+//   $("input[name='quick_search']").marcoPolo({
+// url:"/shop/filters",
+// formatItem: function(data,$item){
+//   var get_text = data.Product.Product_name;
+// return get_text;
+// },
+// minChars: 3,
+// onSelect: function (data, $item) {
+// window.location = "/shop/?keyword="+data.Product.Product_slug;
+// }
+// });
 
 });
 </script>
@@ -1736,7 +1813,8 @@ window.location = "/shop/?keyword="+data.Product.Product_slug;
   $(document).on('click','.wishlist',function(){
    
    var url_get  = $(this).data('wishlist_url');
-
+   var product_id  = $(this).data('prodcut_id');
+   var page_name = $(this).data('page_name');
    $.ajax({
       method:"GET",
       url:url_get,
@@ -1745,6 +1823,8 @@ window.location = "/shop/?keyword="+data.Product.Product_slug;
       {
         if(data.status=="0")
         {
+        	$(".product_id_"+product_id).removeClass('whistist-active');
+        	$(".product_id_"+product_id).html('<i class="fa fa-heart-o"></i>');
           swal({
             title: data.message,
             icon: "warning",
@@ -1754,7 +1834,57 @@ window.location = "/shop/?keyword="+data.Product.Product_slug;
         }
         else
         {
+
+        	$(".product_id_"+product_id).addClass('whistist-active');
+        	$(".product_id_"+product_id).html('<i class="fa fa-heart"></i>');
         swal({
+            title: data.message,
+            icon: "success",
+            buttons: true,
+            dangerMode: true,
+          });
+
+        }
+      }
+   });
+    
+  });
+
+
+  $(document).on('click','.wishlist_page',function(){
+   
+   var url_get  = $(this).data('wishlist_url');
+   var product_id  = $(this).data('prodcut_id');
+   var page_name = $(this).data('page_name');
+   $.ajax({
+      method:"GET",
+      url:url_get,
+      dataType:"json",
+      success:function(data)
+      {
+        if(data.status=="0")
+        {
+          $(".product_id_"+product_id).removeClass('whistist-active');
+          $(".product_id_"+product_id).html('<i class="fa fa-heart-o"></i>');
+          
+          swal({
+            title: data.message,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+             location.reload();
+          });
+
+        }
+        else
+        {
+
+          $(".product_id_"+product_id).addClass('whistist-active');
+          $(".product_id_"+product_id).html('<i class="fa fa-heart"></i>');
+
+         swal({
             title: data.message,
             icon: "success",
             buttons: true,
@@ -1763,13 +1893,29 @@ window.location = "/shop/?keyword="+data.Product.Product_slug;
           .then((willDelete) => {
              location.reload();
           });
+        
         }
+
       }
    });
     
   });
 </script>
 
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $.ajax({
+      method:"GET",
+      url:'http://3.133.12.113/account/setcookie',
+      dataType:"html",
+      success:function(data)
+      {
+        console.log(data);
+      }
+    });
+  });
+</script>
 
       {% block script %}
       {% endblock %}

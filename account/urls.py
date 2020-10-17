@@ -9,6 +9,9 @@ urlpatterns = [
     path('send_forgate_password_link', views.send_forgate_password_link, name='send_forgate_password_link'),
     path('test_data', views.test_data, name='test_data'),
 
+    path('setcookie', views.setcookie, name='setcookie'),
+    path('getcookie', views.getcookie, name='getcookie'),
+
 
     # ================ API START ========================
     path('api/register', views.UserRegistration.as_view()),

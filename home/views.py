@@ -14,13 +14,25 @@ from django.db.models import Q
 from admin_manage_country.models import AwCountry
 from admin_manage_producer.models import AwSetTo,AwProducers
 from admin_manage_Vintages.models import AwVintages
-
-
+from admin_manage_products.models import AwProductImageFullView
 from rest_framework import generics
 from rest_framework.permissions import IsAdminUser
 from .serializer import BannerSerializer
 from wine_shop.serializers import AwProductPriceSerializers
 # Create your views here.
+
+
+class getAllImageView(generic.TemplateView):
+    template_name = "web/product_detail/product_full_360_view.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        prodict_id = self.kwargs.get("product_id")
+        image_of_full_view = None
+        if AwProductImageFullView.objects.filter(Product__id=prodict_id).exists():
+            image_of_full_view = AwProductImageFullView.objects.filter(Product__id=prodict_id)
+        context['image_of_full_view'] = image_of_full_view
+        return context
 
 
 class ApiTrandingWineView(generics.ListCreateAPIView):
@@ -114,7 +126,9 @@ def show_mega_menu(dummt_data):
         sprit_country = AwCountry.objects.filter(Set_To__Title='Sprits').order_by('Country_Name')
     if AwProductPrice.objects.filter(Product__Select_Type__Type='Sprits').filter(Product__Status=True).filter(Vintage_Year__isnull=False).annotate(replies=Count('Vintage_Year') - 1).exists():
         sprit_product = AwProductPrice.objects.filter(Product__Select_Type__Type='Sprits').filter(Product__Status=True).filter(Vintage_Year__isnull=False).annotate(replies=Count('Vintage_Year') - 1)
-    return render_to_string('web/home/mega_menu.html',{'sprit_product':sprit_product,'sprit_country':sprit_country,'en_premier_vintage_year':en_premier_vintage_year,'en_premier_vintage_winnery':en_premier_vintage_winnery,'en_premier_vintage_wine':en_premier_vintage_wine, "get_category":get_category,'get_region_for_fine_wine':get_region_for_fine_wine,'aromawine_pattenre_country':aromawine_pattenre_country,'aromawine_pattenre_winnery':aromawine_pattenre_winnery,'aromawine_pattenre_applicant':aromawine_pattenre_applicant})
+    if AwCmsPaage.objects.filter(Publish=True).exists():
+        custom_page = AwCmsPaage.objects.filter(Publish=True).order_by('Title')[:6]
+    return render_to_string('web/home/mega_menu.html',{'custom_page':custom_page,'sprit_product':sprit_product,'sprit_country':sprit_country,'en_premier_vintage_year':en_premier_vintage_year,'en_premier_vintage_winnery':en_premier_vintage_winnery,'en_premier_vintage_wine':en_premier_vintage_wine, "get_category":get_category,'get_region_for_fine_wine':get_region_for_fine_wine,'aromawine_pattenre_country':aromawine_pattenre_country,'aromawine_pattenre_winnery':aromawine_pattenre_winnery,'aromawine_pattenre_applicant':aromawine_pattenre_applicant})
 
 
 def get_product_image_one_by_product_id(request,product_id):
@@ -132,7 +146,9 @@ def get_product_image_one_by_product_id(request,product_id):
 def get_product_image_one(product_ins):
     get_image = "/static/web/assets/image/shop/single-1.png "
     if product_ins:
-        if AwProductImage.objects.filter(Product=product_ins).exists():
+        if product_ins.Product_image:
+            get_image = product_ins.Product_image.url
+        elif AwProductImage.objects.filter(Product=product_ins).exists():
             get_product_image = AwProductImage.objects.filter(Product=product_ins).filter(Image_Type="Product_image")
             if get_product_image:
                 get_image = get_product_image[0].Image.url
@@ -154,9 +170,12 @@ def show_footer(dummy_data):
     custom_page = None
     if AwCategory.objects.filter(Status=True).exists():
         catrregory = AwCategory.objects.filter(Status=True).order_by('Category_name')[:9]
-    if AwCmsPaage.objects.all().exists():
-        custom_page = AwCmsPaage.objects.all().order_by('Title')[:5]
-    return render_to_string('web/home/footer_page.html',{'catrregory':catrregory,'custom_page':custom_page})
+    if AwCmsPaage.objects.filter(Publish=True).exists():
+        custom_page = AwCmsPaage.objects.filter(Publish=True).order_by('Title')[:6]
+    get_page_for_footer = None
+    if AwCmsPaage.objects.filter(Short_description_Show_in_Footer=True).exists():
+        get_page_for_footer = AwCmsPaage.objects.filter(Short_description_Show_in_Footer=True).order_by('-id').first()
+    return render_to_string('web/home/footer_page.html',{'catrregory':catrregory,'custom_page':custom_page,'get_page_for_footer':get_page_for_footer})
 
 
 class HomeView(generic.TemplateView):

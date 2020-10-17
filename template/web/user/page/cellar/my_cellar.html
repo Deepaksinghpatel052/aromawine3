@@ -57,68 +57,29 @@
 							<p>What Your Cellar Cost:</p>
 						</td>
 						<td>
-							<p>$ {{total_cost_of_caller}}</p>
+							<p>${{total_cost_of_caller}}</p>
 								</td>
 					</tr>
-				<tr>
-						<td>
-							<p>Your Valued Cellar Cost: *</p>
-						</td>
-						<td>
-							<p>$ 40,666.92</p>
-								</td>
-					</tr>
-				<tr>
-					<td>
-						<p>Approx Cellar Value: *</p>
-					</td>
-					<td>
-						<p>$ 37,107.50</p>
-							</td>
-				</tr>
+				
+				
 				<tr>
 						<td>
 							<p>Approx Decrease:</p>
 									</td>
 						<td>
-							<p>$ 3,559.42</p>
+							<p>$3,559.42</p>
 								</td>
 					</tr>
-				</tbody></table>
-			<table cellpadding="0" cellspacing="0" id="cellarPlanTable">
-				<tbody><tr>
+					<tr>
 						<td>
-							<p>Approx % Decrease:</p>
+							<p>Approx increse:</p>
 									</td>
 						<td>
-							<p>8.75%</p>
+							<p>$3,559.42</p>
 								</td>
 					</tr>
-				<tr>
-							<td>
-								<p>NumberFor laying down:</p>
-							</td>
-							<td>
-								<p><a href="#">188&nbsp;Wines</a></p>
-							</td>
-						</tr>
-				<tr>
-							<td>
-								<p>NumberReady, but will improve:</p>
-							</td>
-							<td>
-								<p><a href="#">54&nbsp;Wines</a></p>
-							</td>
-						</tr>
-				<tr>
-							<td>
-								<p>NumberReady, but will keep:</p>
-							</td>
-							<td>
-								<p><a href="#">31&nbsp;Wines</a></p>
-							</td>
-						</tr>
 				</tbody></table>
+			
 			</div>
 			
 
@@ -154,12 +115,19 @@
     <hr>
     <div class="product-info-content">
       <div class="product-price">
-      <span class="list-price">SG${{item.Cost_of_product}}&nbsp;<span>Incl. GST &amp; DP</span></span>
+{% if item.Case_Formate.Descount_Cost > 0 %}
+      <span class="list-price">SG${{item.Case_Formate.Retail_Cost}} &nbsp;<span>Incl. GST &amp; DP</span></span>
+<span class="offer-price">SG${{item.Case_Formate.Descount_Cost|floatformat:2}}&nbsp;<span class="taxSymbol">Incl. GST &amp; DP</span></span>      
+{%  else %}
+<span class="offer-price">SG${{item.Case_Formate.Retail_Cost|floatformat:2}}&nbsp;<span class="taxSymbol">Incl. GST &amp; DP</span></span>
+      {% endif %}
+
+      <!-- <span class="list-price">SG${{item.Cost_of_product}}&nbsp;<span>Incl. GST &amp; DP</span></span> -->
       
-      <span class="offer-price">SG${{item.Cost_of_product}}&nbsp;<span class="taxSymbol">Incl. GST &amp; DP</span></span>
       
-      <span class="details mt-2"><span>{{item.Case_Formate}} | SG${{item.Cost_of_product}}</span>
-      </span>
+      
+<!--       <span class="details mt-2"><span>{{item.Case_Formate}} | SG${{item.Cost_of_product}}</span>
+      </span> -->
       </div>
 
 <select name="qty" id="quentyti_{{item.Type}}" style="display: none;">
@@ -177,7 +145,7 @@
         
         <a class="product-story_info-btn btn-cart change-ib-db add_to_card"  data-order_type="d" data-event_id="" data-cost_type="{{item.Type}}"  data-order_id="{{item.Order_id.id}}"  data-product_id="{{item.Product_Cellar.Product_id}}"   >Get Delivery</a></div>
     </div>
-    <div class="product-brand-link"><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{item.Product_Cellar.Producer.Slug}}" aria-label="All {{item.Product_Cellar.Producer}} wines">All {{item.Product_Cellar.Producer}} wines</a><span class="heart_show"><a href="#" class="whistist-active"><i class="fa fa-heart-o"></i></a></span></div>
+    <div class="product-brand-link"><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{item.Product_Cellar.Producer.Slug}}" aria-label="All {{item.Product_Cellar.Producer}} wines">All {{item.Product_Cellar.Producer}} wines</a><span class="heart_show"><a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' item.Product_Cellar.id item.Product_Cellar|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:item.Product_Cellar}} product_id_{{item.Product_Cellar.id}}"  data-prodcut_id="{{item.Product_Cellar.id}}">{% if user|check_in_wish_list:item.Product_Cellar == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a></span></div>
   </div>
   <div class="options">
     <div class="promo-label">Special Prices  {{item.Product_Cellar.Bottel_Size.all|join:" | "}}</div>
@@ -270,6 +238,127 @@
           }
 		});
 	});
+
+
+$(document).on('change',"#short_by_product",function(){
+var short_by = $(this).val();
+// alert(short_by);
+window.location.href = short_by;
+set_short_filter(short_by);
+
+});
+
+
+function set_short_filter(set_filter="")
+{
+var setfilterURL = "";
+
+// ================Price================
+var pric = "min-price="+$("#slider-snap-value-lower").text()+"&max-price="+$("#slider-snap-value-upper").text();
+
+
+// ================color Start================
+var color = "";
+$(".color:checked").each(function(){
+    color = color+"&"+$(this).val();
+});
+// ================color End================
+
+// ================appellation Start================
+var appellation = "";
+$(".appellation:checked").each(function(){
+    appellation = appellation+"&"+$(this).val();
+});
+// ================appellation End================
+
+
+// ================size Start================
+var size = "";
+$(".size:checked").each(function(){
+    size = size+"&"+$(this).val();
+});
+// ================size End================
+
+
+// ================producers Start================
+var producers = "";
+$(".producers:checked").each(function(){
+    producers = producers+"&"+$(this).val();
+});
+// ================producers End================
+
+// ================classification Start================
+var classification = "";
+$(".classification:checked").each(function(){
+    classification = classification+"&"+$(this).val();
+});
+// ================classification End================
+
+// ================vintage Start================
+var vintage = "";
+$(".vintage:checked").each(function(){
+    vintage = vintage+"&"+$(this).val();
+});
+// ================vintage End================
+
+// ================varietal Start================
+var varietal = "";
+$(".varietal:checked").each(function(){
+    varietal = varietal+"&"+$(this).val();
+});
+// ================varietal End================
+
+// ================region Start================
+var region = "";
+$(".region:checked").each(function(){
+    region = region+"&"+$(this).val();
+});
+// ================region End================
+
+if($("#category_set").val())
+{
+  setfilterURL = setfilterURL+"category="+$("#category_set").val()+"&";
+}
+
+if($("#country_set").val())
+{
+  setfilterURL = setfilterURL+"country="+$("#country_set").val()+"&";
+}
+
+
+if($("#page_type_set").val() && $("#page_slug_set").val())
+{
+  setfilterURL = setfilterURL+"page-type="+$("#page_type_set").val()+"&"+"page-name="+$("#page_slug_set").val()+"&";
+}
+
+
+// --------------------------
+if(pric){ setfilterURL = setfilterURL+pric; }
+if(color){  setfilterURL = setfilterURL+color; }
+if(appellation){ setfilterURL = setfilterURL+appellation; }
+if(size){ setfilterURL = setfilterURL+size; }
+if(producers){ setfilterURL = setfilterURL+producers; }
+if(classification){ setfilterURL = setfilterURL+classification; }
+if(vintage){ setfilterURL = setfilterURL+vintage; }
+if(varietal){ setfilterURL = setfilterURL+varietal; }
+if(region){ setfilterURL = setfilterURL+region; }
+if(set_filter){ setfilterURL = setfilterURL+"&"+set_filter; }
+// --------------------------
+
+
+// console.log(color);
+console.log(setfilterURL);
+// ================color================
+
+
+
+window.location.href = "?"+setfilterURL;
+}
+
+$(document).on("change","input[type=Checkbox]",function(){
+set_short_filter();
+});
+
 </script>
 
 {% endblock %}

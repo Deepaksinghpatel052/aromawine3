@@ -8,4 +8,4 @@ class AwCountryForm(forms.ModelForm):
 
     class Meta:
         model = AwCountry
-        fields = ['Country_Name','Set_To','Description']
+        fields = ['Country_Name','Set_To','Description','Banner_Image']

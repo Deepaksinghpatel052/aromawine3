@@ -14,9 +14,29 @@
     {% for message in messages %}
         
                     {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+
                     <div class="alert alert-danger alert-dismissible" style="text-align: left;">
                       <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
-                      <strong>{{message}}</strong> 
+                      {% for field in form %}
+                      	{% if field.errors %}
+                            {% if field.label == 'Password2' %}
+                            	Confirm Password
+	                            {% for error in field.errors %}
+			                        <div class="alert alert-danger">
+			                          <strong>Password and confirm password do not match.</strong>
+			                        </div>
+	                      		{% endfor %}
+                            {% else %}		
+                      			{{field.label}}
+                      			{% for error in field.errors %}
+		                        <div class="alert alert-danger">
+		                          <strong>{{ error|escape }}</strong>
+		                        </div>
+                      		{% endfor %}
+                      		{% endif %}
+                      	{% endif %} 
+                      			
+                      {% endfor %}
                     </div>
                    {% else %}
                     <div class="alert alert-success alert-dismissible" style="text-align: left;">
@@ -36,6 +56,7 @@
 
   <form method="post">
   {% csrf_token %}
+  <input type="hidden" name="naxt_url" value="{{next_url}}">
 <h3 class="title_h3 ">Create a new account</h3>
 <div class="loginbox">
 <div class="form-group">
@@ -58,13 +79,8 @@
 {% endfor %}
 </div>
 <div class="form-group">
-<label> Username <span class="red_color">*</span></label>
-{{form.username}}
-{% for error in form.username.errors %}
-  <div class="alert alert-danger">
-    <strong>{{ error|escape }}</strong>
-  </div>
-{% endfor %}
+<label> Contact No. <span class="red_color">*</span></label>
+<input type="number" name="contact_no" class="form-control" placeholder="Contact No." required="" id="id_contact">
 </div>
 <div class="form-group">
 <label> Email <span class="red_color">*</span></label>
@@ -127,9 +143,10 @@
 
 <form method="post">
   {% csrf_token %}
+  <input type="hidden" name="naxt_url" value="{{next_url}}">
 <div class="form-group">
-<label> Username <span class="red_color">*</span></label>
-<input type="test" class="form-control" name="username" required="" placeholder="Username"> 
+<label> Email <span class="red_color">*</span></label>
+<input type="test" class="form-control" name="username" required="" placeholder="Email"> 
 </div>
 
 <div class="form-group">
@@ -143,7 +160,7 @@
 
 
 <div class="form-group">
-<a href="" class="link" data-toggle="modal" data-target="#modal-default1">Forgotten your password</a>
+<a href="" class="link" data-toggle="modal" data-target="#modal-default1">Forgotten your password ?</a>
 
                             <!-- <button class="btn-success add-data" data-toggle="modal" data-target="#modal-default1">Add Role</button> -->
 

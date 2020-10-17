@@ -7,9 +7,9 @@
 
     viewport: {
 
-      width:253,
+      width:300,
 
-      height:328,
+      height:600,
 
       type:'square' 
 
@@ -17,9 +17,9 @@
 
     boundary:{
 
-      width:350,
+      width:450,
 
-      height:450
+      height:650
 
     }
 
@@ -40,7 +40,7 @@ var set_status = true;
            var height = this.height;
            var width = this.width;
 
-            if(height >= 328 && width >= 253)
+            if(height >= 428 && width >= 300)
           {
              $image_crop.croppie('bind', {
 
@@ -56,7 +56,7 @@ var set_status = true;
           else
           {
             set_status = false;
-            alert("Please select image grater that 253*328px");
+            alert("Please select image grater that 300*428px");
           }
          }
 
@@ -207,5 +207,114 @@ $('.crop_image_edit_banner').attr("disabled", false);
 
 // ===============================CODE END FOR BANNER ================
 
+
+
+
+
+
+// ===============================CODE START FOR thumbnail ================
+
+  $image_crop_banner = $('#image_demo_edit_thumbnail').croppie({
+
+    enableExif: true,
+
+    viewport: {
+
+      width:300,
+
+      height:600,
+
+      type:'square' 
+
+    },
+
+    boundary:{
+
+      width:450,
+
+      height:650
+
+    }
+
+  });
+
+
+
+  $('#add_product_thumbnail').on('change', function(){
+
+var set_status = true;
+    var reader = new FileReader();
+
+    reader.onload = function (event) {
+      
+        var image = new Image();
+         image.src = event.target.result;
+         //Validate the File Height and Width.
+         image.onload = function () {
+           var height = this.height;
+           var width = this.width;
+
+            if(height >= 400 && width >= 300)
+          {
+             $image_crop_banner.croppie('bind', {
+
+              url: event.target.result
+       
+              }).then(function(){
+
+                console.log('jQuery bind complete');
+
+              });
+              $('#uploadimageModal_edit_thumbnail').modal('show');
+          }
+          else
+          {
+            set_status = false;
+            alert("Please select image grater that 600*300px");
+          }
+         }
+
+     
+
+    }
+
+
+  if(set_status)
+  {
+    reader.readAsDataURL(this.files[0]);
+
+    
+  }
+    
+
+  });
+
+
+ $('.crop_image_edit_thumbnail').click(function(event){
+
+$('.crop_image_edit_thumbnail').html('Image Uploading');
+$('.crop_image_edit_thumbnail').attr("disabled", true);
+
+    $image_crop_banner.croppie('result', {
+
+      type: 'canvas',
+
+      size: 'viewport'
+
+    }).then(function(response){
+
+$('.crop_image_edit_thumbnail').html('Image Upload');
+$('.crop_image_edit_thumbnail').attr("disabled", false);
+ 
+           $("#product_thumbnail_image").val(response);
+           $("#show_product_thumbnail").html('<img src="'+response+'" style="width:64px; height:142px;">');
+          $('#uploadimageModal_edit_thumbnail').modal('hide');
+
+    })
+
+  });
+
+
+// ===============================CODE END FOR thumbnail ================
 
 });

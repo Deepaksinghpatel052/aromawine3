@@ -7,9 +7,9 @@ enableExif: true,
 
     viewport: {
 
-      width:900,
+      width:268,
 
-      height:418,
+      height:148,
 
       type:'square' 
 
@@ -17,9 +17,9 @@ enableExif: true,
 
     boundary:{
 
-      width:980,
+      width:400,
 
-      height:440
+      height:200
 
     }
 
@@ -40,7 +40,7 @@ var set_status = true;
            var height = this.height;
            var width = this.width;
 
-            if(height >= 418 && width >= 900)
+            if(height >= 148 && width >= 268)
           {
              $image_crop.croppie('bind', {
 
@@ -56,7 +56,7 @@ var set_status = true;
           else
           {
             set_status = false;
-            alert("Please select image grater that 318*508px");
+            alert("Please select image grater that 148*268px");
           }
          }
 

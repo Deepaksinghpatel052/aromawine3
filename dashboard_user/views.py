@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from profile_user.models import AwUserInfo
 from orders.models import AwOrders,AwOrederItem
+from admin_mambership_setting.models import AwMembership
+from django.db.models import Sum
 # Create your views here.
 @method_decorator(login_required , name="dispatch")
 class DashboardView(generic.TemplateView):
@@ -26,4 +28,16 @@ class DashboardView(generic.TemplateView):
 		context['user_info'] = user_info
 		context['celler_item'] = celler_item
 		context['Page_title'] = self.request.user.username+"-dashboard"
+
+		total_amount = 0
+
+		membership_label  = None
+
+		if AwOrders.objects.filter(User=self.request.user).filter(Payment_Status=True).exists():
+			total_order_amount = AwOrders.objects.filter(User=self.request.user).filter(Payment_Status=True).aggregate(Sum('Amount'))
+			total_amount = total_order_amount['Amount__sum']
+
+		if AwMembership.objects.filter(min_price__lte=total_amount,max_price__gte=total_amount).exists():
+			membership_label = get_object_or_404(AwMembership,min_price__lte=total_amount,max_price__gte=total_amount)
+		context['membership_label'] = membership_label
 		return context

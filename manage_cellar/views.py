@@ -31,9 +31,110 @@ class CellarVidw(generic.ListView):
     def get_queryset(self, **kwargs):
         get_order_items = None
         filters = None
+        set_filters = 'Vintage_Year'
+        if "short-by" in self.request.GET:
+            if self.request.GET['short-by'] == "price":
+                set_filters = 'Retail_Cost'
+            if self.request.GET['short-by'] == "name":
+                set_filters = 'Product__Product_name'
+        # get_peoduct =
+        # get_data = AwProductPrice.objects.filter(id__in = get_filan_vintage_year).order_by(set_filters).annotate(replies=Count('Vintage_Year') - 1)
+        # filter_clauses = [Q("Product__Color__Color_name__in" = ['rose-red','Red'])]
+        filters = None
+        get_years_product = []
+        get_filan_vintage_year = []
+        get_vintage_year = AwProductPrice.objects.filter(Vintage_Year__isnull=False).order_by('-Vintage_Year').annotate(
+            replies=Count('Vintage_Year') - 1)
+        if get_vintage_year:
+            for items in get_vintage_year:
+                if str(items.Vintage_Year.Vintages_Year) + "_" + str(
+                        items.Product.Product_name) not in get_years_product:
+                    get_filan_vintage_year.append(items.id)
+                    get_years_product.append(
+                        str(items.Vintage_Year.Vintages_Year) + "_" + str(items.Product.Product_name))
+
+        filters = None
+        filters = Q(Case_Formate__id__in=get_filan_vintage_year)
+        # filters = filters & Q(Product__Color__Slug__in=['rose-red','red'])
+        # filters = filters & Q(Product__Bottel_Size__Bottle_Size__in=['500 ML'])
+        # ======================================COLOR FLTER START======================
+        if 'color' in self.request.GET:
+            filters = filters & Q(Product_Cellar__Color__Slug__in=self.request.GET.getlist('color'))
+        # ======================================COLOR FLTER END======================
+        # ======================================Price FLTER START======================
+        if 'min-price' in self.request.GET:
+            filters = filters & Q(Case_Formate__Retail_Cost__gte=self.request.GET['min-price'])
+        if 'max-price' in self.request.GET:
+            filters = filters & Q(Case_Formate__Retail_Cost__lte=self.request.GET['max-price'])
+
+        # ======================================Price FLTER END======================
+
+        # ======================================appellation FLTER START======================
+        if 'appellation' in self.request.GET:
+            filters = filters & Q(Product_Cellar__Appellation__Slug__in=self.request.GET.getlist('appellation'))
+        # ======================================appellation FLTER END======================
+
+        # ======================================bottel-size FLTER START======================
+        if 'bottel-size' in self.request.GET:
+            filters = filters & Q(Product_Cellar__Bottel_Size__Slug__in=self.request.GET.getlist('bottel-size'))
+        # ======================================bottel-size FLTER END======================
+
+        # ======================================producers FLTER START======================
+        if 'producers' in self.request.GET:
+            filters = filters & Q(Product_Cellar__Producer__Slug__in=self.request.GET.getlist('producers'))
+        # ======================================producers FLTER END======================
+
+        # ======================================classification FLTER START======================
+        if 'classification' in self.request.GET:
+            filters = filters & Q(Product_Cellar__Classification__Slug__in=self.request.GET.getlist('classification'))
+        # ======================================classification FLTER END======================
+
+        # ======================================vintage FLTER START======================
+        if 'vintage' in self.request.GET:
+            filters = filters & Q(Product_Cellar__Vintage__Slug__in=self.request.GET.getlist('vintage'))
+        # ======================================vintage FLTER END======================
+
+        # ======================================varietal FLTER START======================
+        if 'varietal' in self.request.GET:
+            filters = filters & Q(Product_Cellar__Varietals__Slug__in=self.request.GET.getlist('varietal'))
+        # ======================================varietal FLTER END======================
+
+        # ======================================region FLTER START======================
+        if 'region' in self.request.GET:
+            filters = filters & Q(Product_Cellar__Regions__Slug__in=self.request.GET.getlist('region'))
+        # ======================================region FLTER END======================
+
+        # ======================================keyword FLTER START======================
+        if 'keyword' in self.request.GET:
+            filters = filters & Q(Product_Cellar__Product_slug__contains=self.request.GET['keyword'])
+        # ======================================keyword FLTER END======================
+        # ======================================category FLTER START======================
+        if 'category' in self.request.GET:
+            filters = filters & Q(Product_Cellar__Category__Category_name=self.request.GET['category'])
+        # ======================================category FLTER END======================
+        # ======================================country FLTER START======================
+        if 'country' in self.request.GET:
+            filters = filters & Q(Product_Cellar__Country__Country_Name=self.request.GET['country'])
+        # ======================================country FLTER END======================
+
+        # ======================================PAGE FLTER START======================
+        if 'page-type' in self.request.GET and 'page-name' in self.request.GET:
+            type = self.request.GET['page-type']
+            page_slug = self.request.GET['page-name']
+            if type == 'grape':
+                filters = filters & Q(Product_Cellar__Grape__Slug=page_slug)
+            if type == 'producer':
+                filters = filters & Q(Product_Cellar__Producer__Slug=page_slug)
+            if type == 'region':
+                filters = filters & Q(Product_Cellar__Regions__Slug=page_slug)
+            if type == 'country':
+                filters = filters & Q(Product_Cellar__Country__Slug=page_slug)
+
+        # ======================================PAGE FLTER END======================
+
         if AwOrders.objects.filter(User=self.request.user).filter(Order_Type='Caller').filter(Order_Status=True).exists():
             get_orders = AwOrders.objects.filter(User=self.request.user).filter(Order_Type='Caller').filter(Order_Status=True)
-            filters = Q(Order_id__order_id__in=Subquery(get_orders.values('order_id')))
+            filters = filters & Q(Order_id__order_id__in=Subquery(get_orders.values('order_id')))
             if AwOrederItem.objects.filter(filters).exists():
                 get_order_items = AwOrederItem.objects.filter(filters)
         return get_order_items
@@ -110,4 +211,94 @@ class CellarVidw(generic.ListView):
             get_all_region = AwRegion.objects.filter(Status=True)
         context['get_all_region'] = get_all_region
         # =====================================================================
+
+
+        # =================================URL DATA START ===========================
+        # ======================================COLOR FLTER START======================
+        context['color_set'] = []
+        if 'color' in self.request.GET:
+            context['color_set'] = self.request.GET.getlist('color')
+        # ======================================COLOR FLTER END======================
+        # ======================================Price FLTER START======================
+        context['min_price_set'] = ""
+        context['max_price_set'] = ""
+        if 'min-price' in self.request.GET:
+            context['min_price_set'] = self.request.GET['min-price']
+        if 'max-price' in self.request.GET:
+            context['max_price_set'] = self.request.GET['max-price']
+
+        # ======================================Price FLTER END======================
+
+        # ======================================COLOR FLTER START======================
+        context['appellation_set'] = []
+        if 'appellation' in self.request.GET:
+            context['appellation_set'] = self.request.GET.getlist('appellation')
+        # ======================================COLOR FLTER END======================
+
+        # ======================================bottel-size FLTER START======================
+        context['size_set'] = []
+        if 'bottel-size' in self.request.GET:
+            context['size_set'] = self.request.GET.getlist('bottel-size')
+        # ======================================bottel-size FLTER END======================
+
+        # ======================================producers FLTER START======================
+        context['producers_set'] = []
+        if 'producers' in self.request.GET:
+            context['producers_set'] = self.request.GET.getlist('producers')
+        # ======================================bottel-size FLTER END======================
+        # ======================================classification FLTER START======================
+        context['classification_set'] = []
+        if 'classification' in self.request.GET:
+            context['classification_set'] = self.request.GET.getlist('classification')
+        # ======================================classification FLTER END======================
+
+        # ======================================classification FLTER START======================
+        context['vintage_set'] = []
+        if 'vintage' in self.request.GET:
+            context['vintage_set'] = self.request.GET.getlist('vintage')
+        # ======================================classification FLTER END======================
+        # ======================================varietal FLTER START======================
+        context['varietal_set'] = []
+        if 'varietal' in self.request.GET:
+            context['varietal_set'] = self.request.GET.getlist('varietal')
+        # ======================================varietal FLTER END======================
+
+        # ======================================region FLTER START======================
+        context['region_set'] = []
+        if 'region' in self.request.GET:
+            context['region_set'] = self.request.GET.getlist('region')
+        # ======================================region FLTER END======================
+
+        # ======================================region FLTER START======================
+        context['short_by_set'] = []
+        if 'short-by' in self.request.GET:
+            context['short_by_set'] = self.request.GET['short-by']
+        # ======================================region FLTER END======================
+        # ======================================keyword FLTER START======================
+        context['keyword_set'] = ""
+        if 'keyword' in self.request.GET:
+            context['keyword_set'] = self.request.GET['keyword']
+        # ======================================keyword FLTER END======================
+        # ======================================category FLTER START======================
+        context['category_set'] = ""
+        context['category_info'] = None
+        if 'category' in self.request.GET:
+            context['category_set'] = self.request.GET['category']
+            context['category_info'] = get_object_or_404(AwCategory, Category_name=self.request.GET['category'])
+        # ======================================category FLTER END======================
+
+        # ======================================country FLTER START======================
+        context['country_set'] = ""
+        context['country_info'] = ""
+        if 'country' in self.request.GET:
+            context['country_set'] = self.request.GET['country']
+            context['country_info'] = get_object_or_404(AwCountry, Country_Name=self.request.GET['country'])
+        # ======================================country FLTER END======================
+        
+        # =================================URL DATA END ===========================
+
+
+
+
+
         return context

@@ -81,6 +81,7 @@
               <thead>
                 <tr>
         
+                  <th align="left" valign="top">#</th>
                   <th align="left" valign="top">Appellation Name</th>
                   <th align="left" valign="top">Countryes</th>
                   <th align="left" valign="top">Set To</th>
@@ -94,6 +95,7 @@
 
                 <tr>
            
+                  <td align="left" valign="top">{{forloop.counter}}</td>
                   <td align="left" valign="top">{{item.Appellation_Name}}</td>
                   <td align="left" valign="top">{{item.Country.all|join:" | "}}</td>
                   <td align="left" valign="top">{{item.Set_To.all|join:" | "}}</td>

@@ -346,7 +346,7 @@ Country
 Landark
 </td>
 <td>
-  {{order_ins.Order_address.Landark}}
+  {{order_ins.Order_address.Landmark}}
 </td>
 </tr>
 <tr>
@@ -468,7 +468,7 @@ Country
 Landark
 </td>
 <td>
-  {{address_form.Landark}}
+  {{address_form.Landmark}}
 </td>
 </tr>
 <tr>
@@ -637,12 +637,11 @@ Yes
     <tr style="cursor: pointer;">
       <td class="text-center"><b>Images</b></td>
       <td class="text-center"><b>Product</b></td>
-      <td class="text-center"><b>Quantity</b></td>
-    <td class="text-center"><b>Type</b></td>
-    <td class="text-center"><b>Case Size</b></td>
+    <td class="text-center"><b>Type & Case Size</b></td>
+    <td class="text-center"><b>Price</b></td>
+    <td class="text-center"><b>Quantity</b></td>   
     <td class="text-center"><b>Tax</b></td>
     <td class="text-center"><b>GST</b></td>
-      <td class="text-center"><b>Price</b></td>
       <td class="text-center"><b>Amount</b></td>
     </tr>
   </thead>
@@ -652,12 +651,12 @@ Yes
     <tr style="cursor: pointer;">
       <td class="text-center"><img src="{{item.Product|get_product_image_one}}" alt="" style="height:50px;"></td>
       <td > {% if item.Product_Cellar %} {{item.Product_Cellar}} {% endif %} {% if item.Product_Delivered %} {{item.Product_Delivered}} {% endif %} ({{item.Year}})</td>
+      <td class="text-center">{{item.Type}}/({{item.Case_Formate.Bottle}})</td>
+      <td class="text-center">${{item.Cost_of_product|stringformat:".2f"}}</td>
       <td class="text-center">{{item.Quentity}}</td>
-      <td class="text-center">{{item.Type}}</td>
-      <td class="text-center">{{item.Case_Formate.Bottle}}</td>
       <td class="text-center">{% if item.Case_Formate.Duty %}{{item.Case_Formate.Duty}}{% else %}0{% endif %}%</td>
       <td class="text-center">{% if item.Case_Formate.GST %}{{item.Case_Formate.GST}}{% else %}0{% endif %}%</td>
-      <td class="text-center">${{item.Cost_of_product|stringformat:".2f"}}</td>
+      
       <td class="text-center">${{item.Total_cost|stringformat:".2f"}}</td>
     </tr>
     {% endfor %}

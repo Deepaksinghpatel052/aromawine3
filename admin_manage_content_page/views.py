@@ -43,15 +43,15 @@ class CreatePageView(SuccessMessageMixin,generic.CreateView):
         self.object.Updated_by = self.request.user
 
 
-        if self.request.POST["banner_image"]:
-            format, imgstr = self.request.POST["banner_image"].split(';base64,')
-            ext = format.split('/')[-1]
-            dateTimeObj = datetime.now()
-            today_date = date.today()
-            set_file_name = str(today_date.day) + "_" + str(today_date.month) + "_" + str(today_date.year) + "_" +str(dateTimeObj.microsecond)
-            file_name = set_file_name + "." + ext
-            data = ContentFile(base64.b64decode(imgstr), name=file_name)
-            self.object.Background_Image = data
+        # if self.request.POST["banner_image"]:
+        #     format, imgstr = self.request.POST["banner_image"].split(';base64,')
+        #     ext = format.split('/')[-1]
+        #     dateTimeObj = datetime.now()
+        #     today_date = date.today()
+        #     set_file_name = str(today_date.day) + "_" + str(today_date.month) + "_" + str(today_date.year) + "_" +str(dateTimeObj.microsecond)
+        #     file_name = set_file_name + "." + ext
+        #     data = ContentFile(base64.b64decode(imgstr), name=file_name)
+        #     self.object.Background_Image = data
 
         self.object.save()
         form.save()

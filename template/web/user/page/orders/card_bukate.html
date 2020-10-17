@@ -8,11 +8,23 @@
 {% if item.Order_Type == "Cellar" %}
 <li class="clearfix"> <img src="{{item.Product_Cellar|get_product_image_one}}" ><div class="cart_shopping"><div class="item-name"><a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year %}">{{item.Product_Cellar.Product_name}}({{item.Year}})</a></div><div class="itemshipping"> <span class="item-quantity">Qty: {{item.Quentity}}</span><span class="item-price">
 {% if item.Type == 'Bond' %}
+
+{% if item.Case_Formate.Bond_Descount_Cost > 0  %}
+${% widthratio item.Case_Formate.Bond_Descount_Cost 1 item.Quentity %}
+{% else %}
 ${% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}
+{% endif %}
+
 
 {% endif %}	
 {% if item.Type == 'Retail' %}
-  ${% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}{% endif %}
+
+  {% if item.Case_Formate.Descount_Cost > 0  %}
+  ${% widthratio item.Case_Formate.Descount_Cost 1 item.Quentity %}
+{% else %}
+${% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}
+{% endif %}
+ {% endif %}
 </span> </div></div></li>
 {% endif %}
 <!-- ======================================= Code for cellar End =========================-->

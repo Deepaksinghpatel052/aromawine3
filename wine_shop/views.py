@@ -60,9 +60,9 @@ def product_list(request):
 
 
 @register.filter(name='get_product_price_with_gst_include')
-def get_product_price_with_gst_include(cost,gst):
-    get_gst_cost = (cost*gst)/100
-    cost_after_gst = cost+get_gst_cost
+def get_product_price_with_gst_include(cost,dis):
+    # get_gst_cost = (cost*gst)/100
+    cost_after_gst = cost-dis
     return cost_after_gst
 
 
@@ -349,8 +349,8 @@ class ShowView(generic.ListView):
                     page_content = get_object_or_404(AwGrape, Slug=page_slug)
                     page_title = page_content.Grape_Name
                     page_banner_image = page_content.Grape_Image
-                    if page_content.Grape_banner_Image:
-                        page_banner_image = page_content.Grape_banner_Image
+                    if page_content.banner_Image:
+                        page_banner_image = page_content.banner_Image
                     if AwProductPrice.objects.filter(Product__Grape__Slug=page_slug).exists():
                         Products = AwProductPrice.objects.filter(Product__Grape__Slug=page_slug).annotate(
                             replies=Count('Vintage_Year') - 1)
@@ -362,8 +362,8 @@ class ShowView(generic.ListView):
                     page_content = get_object_or_404(AwProducers, Slug=page_slug)
                     page_title = page_content.Winnery_Name
                     page_banner_image = page_content.Producer_Image
-                    if page_content.Producer_Banner_Image:
-                        page_banner_image = page_content.Producer_Banner_Image
+                    if page_content.Banner_Image:
+                        page_banner_image = page_content.Banner_Image
                     if AwProductPrice.objects.filter(Product__Producer__Slug=page_slug).exists():
                         Products = AwProductPrice.objects.filter(Product__Producer__Slug=page_slug).annotate(
                             replies=Count('Vintage_Year') - 1)
@@ -374,8 +374,8 @@ class ShowView(generic.ListView):
                     page_content = get_object_or_404(AwRegion, Slug=page_slug)
                     page_title = page_content.Region_Name
                     page_banner_image = page_content.Region_Image
-                    if page_content.Region_banner_Image:
-                        page_banner_image = page_content.Region_banner_Image
+                    if page_content.banner_Image:
+                        page_banner_image = page_content.banner_Image
                     if AwProductPrice.objects.filter(Product__Regions__Slug=page_slug).exists():
                         Products = AwProductPrice.objects.filter(Product__Regions__Slug=page_slug).annotate(
                             replies=Count('Vintage_Year') - 1)
@@ -400,8 +400,8 @@ class ShowView(generic.ListView):
                     page_content = get_object_or_404(AwCountry, Slug=page_slug)
                     page_title = page_content.Country_Name
                     page_banner_image = page_content.Country_Image
-                    if page_content.Country_Banner_Image:
-                        page_banner_image = page_content.Country_Banner_Image
+                    if page_content.Banner_Image:
+                        page_banner_image = page_content.Banner_Image
                     if AwProductPrice.objects.filter(Product__Country__Slug=page_slug).exists():
                         Products = AwProductPrice.objects.filter(Product__Country__Slug=page_slug).annotate(
                             replies=Count('Vintage_Year') - 1)

@@ -6,20 +6,21 @@ from django.contrib.auth import authenticate
 class UserSerializers(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id','first_name','last_name','username', 'email')
+        # fields = ('id','first_name','last_name','username', 'email')
+        fields = ('id','first_name','last_name', 'email')
 
 
 
 class LoginSerializers(serializers.Serializer):
-    username = serializers.CharField()
+    email = serializers.CharField()
     password = serializers.CharField()
 
     def validate(self, data):
-        username = data.get("username","")
+        email = data.get("email","")
         password = data.get("password","")
 
-        if username and password:
-            user = authenticate(username=username,password=password)
+        if email and password:
+            user = authenticate(username=email,password=password)
             if user:
                 if user.is_active:
                     data["user"] = user
@@ -28,10 +29,10 @@ class LoginSerializers(serializers.Serializer):
                     mes = "User is not activate."
                     raise exceptions.ValidationError(mes)
             else:
-                mes = "Username and pasword is incorrect & may be your account is not activate."
+                mes = "Email and password is incorrect & may be your account is not activate."
                 raise exceptions.ValidationError(mes)
         else:
-            mes = "Must provide username and password"
+            mes = "Must provide email and password"
             raise exceptions.ValidationError(mes)
         return data
 
@@ -45,14 +46,14 @@ class RegistrationSerializers(serializers.ModelSerializer):
     email = serializers.CharField(style={"inpupt_type":"text"},write_only=True)
     class Meta:
         model  = User
-        fields = ['first_name','last_name','username','email','password']
+        fields = ['first_name','last_name','email','password']
         eextra_kwargs = {
             'password':{'write_only':True}
         }
 
     def save(self):
         Userset  = User(
-            username = self.validated_data['username'],
+            username = self.validated_data['email'],
             first_name=self.validated_data['first_name'],
             last_name=self.validated_data['last_name'],
             email = self.validated_data['email'],
@@ -70,16 +71,16 @@ class RegistrationSerializers(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email')
+        fields = ('id',  'email')
 
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'password')
+        fields = ('id',  'email', 'password')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])
+        user = User.objects.create_user(validated_data['email'], validated_data['password'])
 
         return user

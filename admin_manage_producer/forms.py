@@ -9,4 +9,4 @@ class AwProducersForm(forms.ModelForm):
 
     class Meta:
         model = AwProducers
-        fields = ['Winnery_Name','Set_To','Producer_Image','Short_Description','Description']
+        fields = ['Winnery_Name','Set_To','Producer_Image','Short_Description','Description','Banner_Image']

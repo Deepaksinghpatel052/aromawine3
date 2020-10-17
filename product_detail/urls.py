@@ -3,5 +3,4 @@ from . import views
 
 urlpatterns = [
     path('', views.DetailView.as_view(),name="product_detail"),
-  
 ]

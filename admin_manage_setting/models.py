@@ -72,9 +72,9 @@ class AwAdminSetting(models.Model):
 
 
 class AwManageShipping(models.Model):
-    Country = models.ForeignKey(AwCountryUser, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwManageShipping_Country')
-    Free_Shipping_Amount = models.FloatField(default=0)
-    Free_Flat_Shipping = models.FloatField(default=0)
+    Country = models.ForeignKey(AwCountryUser, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwManageShipping_Country',unique=True)
+    min_ordr_amount = models.FloatField(default=0)
+    Shiping_Fees_min_order_amount = models.FloatField(default=0)
     Create_date = models.DateTimeField(default=django.utils.timezone.now)
     Created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwManageShipping_Created_by')
 

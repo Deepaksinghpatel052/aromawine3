@@ -364,9 +364,10 @@
 									<ul id="myUL">
 										<li><span class="caret ruby-list-heading">Advice</span>
 											<ul class="nested">
-												<li><a href="contact.php">Contact us</a></li>
-												<li><a href="shipping-delivery.php">Delivery </a></li>
-												<li><a href="faq.php">FAQ </a></li>
+												{% for item in custom_page %}
+												<li> <a href="{% url 'home:custom_page' item.Slug %}">{{item}}</a></li>
+												{% endfor %}
+												
 												
 												
 												

@@ -234,7 +234,20 @@
       <div class="panel-body">
         <div class="row">
   
-  
+   <div class="col-md-12">
+    <div class="form-group">
+      <label class="age">Product Thumbnail</label>
+    <input type="file" id="add_product_thumbnail" class="form-control">
+    <input type="hidden" name="product_thumbnail_image" id="product_thumbnail_image" value="">
+    </div>
+        <div class="form-group" id="show_product_thumbnail">
+             {% if get_product_ins.Product_image %}      
+           <img src="{{get_product_ins.Product_image.url}}" style="width:64px; height:142px;">
+        {% endif %}
+          
+
+        </div>
+      </div>
 
       <div class="col-md-12">
         <div class="form-group">
@@ -541,6 +554,40 @@
          </div>
          <div class="modal-footer">
              <button class="btn btn-success crop_image_edit_banner">Save Image</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+
+
+<div id="uploadimageModal_edit_thumbnail" class="modal" role="dialog">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Upload & Crop Product Thumbnail</h4>
+         </div>
+         <div class="modal-body">
+            <div class="row">
+               <div class="col-md-8 text-center">
+                  <div id="image_demo_edit_thumbnail" style="width:350px; margin-top:30px"></div>
+               </div>
+               <div class="col-md-4" style="padding-top:30px;">
+                  <br />
+                  <br />
+                  <br/>
+                  <div class="row">
+                     <div class="col-md-12 set_loader"></div>
+                  </div>
+                  <!--<button class="btn btn-success crop_image_edit">Crop Image</button>-->
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+             <button class="btn btn-success crop_image_edit_thumbnail">Save Image</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
          </div>
       </div>

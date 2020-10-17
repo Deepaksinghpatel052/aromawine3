@@ -32,16 +32,22 @@
     {% endfor %}
     {% endif %}
 <div class="update-password">
-<h3>Order Id : #{{products.0.Order_id}}</h3>
-<h3>Order Type :{% if products.0.Order_id.Order_Type == 'Delivered' %} Delivery {% else %}
+<h3>Order Id: #{{products.0.Order_id}}</h3>
+<h3>Order Type: {% if products.0.Order_id.Order_Type == 'Delivered' %} Delivery {% elif item.Order_Type == 'Caller' %} Cellar {% else %}
                     {{products.0.Order_id.Order_Type}}{% endif %}
 </h3>
 
-<h3>Created on :{{products.0.Order_id.Order_Date}}
+<h3>Created on: {{products.0.Order_id.Order_Date}}
 </h3>
-<h3>Order status :{{products.0.Order_id.Order_Status_Set}}</h3>
-<h3>Order subtotal :{{products.0.Order_id.Amount}}</h3>
-<h3>Order total :{{products.0.Order_id.Amount}}</h3>
+<h3>Order status: {{products.0.Order_id.Order_Status_Set}}</h3>
+<h3>Payment Status: {% if products.0.Order_id.Payment_Status %}
+	{{products.0.Order_id.Payment_Status}}
+	{% else %}
+	{{products.0.Order_id.Payment_Status}}
+	<a href="{% url 'orders:checkout' products.0.Order_id.order_id %}"><button type="button" class="btn btn-danger btn-sm">Make Payment</button></a>
+{% endif %}</h3>
+<h3>Order subtotal: ${{products.0.Order_id.Amount}}</h3>
+<h3>Order total: ${{products.0.Order_id.Amount}}</h3>
    <div class="paymentItem newPaymentItem">
 		
 {% if products.0.Order_id.Order_Type == 'Tickets' %}
@@ -86,18 +92,9 @@
                  </tr>
                  <tr>
                    <th colspan="3" >
-                    <address style="  margin-bottom: 0px;">
-                            <strong>{{user.username}}</strong><br>
-                            </address>
-                            <br>
-                            <b>Address:</b> 13/25 New Avenue
-                    New Heaven
-                    45Y 73J<br>
-                    England
-                    Great Britain<br>
-                            <b>Telephone</b> 9617279518<br>
-                            <b>E-Mail</b> jitendra.n@digimonk.in<br>
-                            <b>Payment Method</b> Cash On Delivery<br>
+                   <b>Telephone</b> {{user_info.Contact_no}}<br>
+                            <b>E-Mail</b> {{user_info.User.email}}<br>
+                            <b>Payment Method</b> : {{products.0.Order_id.Payment_Method}}<br>
                   </th>
                    <th colspan="4" >
                     <strong>Billing Address</strong>
@@ -131,12 +128,11 @@
                 <tr>
                   <th>Image</th>
                   <th>Product</th>
-                  <th>Type</th>
-                  <th>Case Size</th>
-                  <th>Tax</th>
-                  <th>GST</th>
+                  <th>Type & Case Size</th>
                   <th>Price</th>
                   <th>Qty</th>
+                  <th>Tax</th>
+                  <th>GST</th>
                   <th>Amount</th>
                 </tr>
               </thead>
@@ -156,11 +152,10 @@
                   {% endif %}
 
                   <td>
-                  	{{item.Type}}
+                  	{{item.Type}}/({{item.Case_Formate.Bottle}})
                   </td>
-                  <td>
-                    {{item.Case_Formate.Bottle}}
-                  </td>
+                  <td>${{item.Cost_of_product}}</td>
+                  <td>{{item.Quentity}}</td>
                   {% if item.Product_Delivered %}
                   <th>{{item.Case_Formate.Duty}}%</th>
                   <td>{{item.Case_Formate.GST}}%</td>
@@ -170,21 +165,20 @@
                   <th>{{item.Case_Formate.Duty}}%</th>
                   <td>{{item.Case_Formate.GST}}%</td>
                   {% endif %}
-                  <td>${{item.Cost_of_product}}</td>
-                  <td>{{item.Quentity}}</td>
+                  
                   <td>${{item.Total_cost}}</td>
             
                 </tr>
                  {% endfor %}
                  {% if get_order_ins.Use_coupon %}
                 <tr>
-                   <th colspan="6" style="text-align: right;">Descount :</th>
+                   <th colspan="7" style="text-align: right;">Descount :</th>
                    <th >${{get_order_ins.Cupon_Discount|floatformat:2}}</th>
                  </tr>
                  {% endif %} 
 
                  <tr>
-                   <th colspan="8" style="text-align: right;">Grand Total :</th>
+                   <th colspan="7" style="text-align: right;">Grand Total :</th>
                    <th >${{total_cost}}</th>
                  </tr>
                 
@@ -195,12 +189,9 @@
                  </tr>
                  <tr>
                    <th colspan="4" >
-                    <address style="  margin-bottom: 0px;">
-                            <strong>{{user.username}}</strong><br>
-                            </address>
                             <b>Telephone</b> {{user_info.Contact_no}}<br>
                             <b>E-Mail</b> {{user_info.User.email}}<br>
-                            <b>Payment Method</b> {{products.0.Order_id.Order_address.Payment_Method}}<br>
+                            <b>Payment Method</b> : {{products.0.Order_id.Payment_Method}}<br>
                   </th>
                    <th colspan="5" >
                      {% if get_order_ins.Order_Type == 'Delivered' %}

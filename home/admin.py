@@ -9,5 +9,6 @@ class AwAboutAromaWinesAdmin(ImportExportModelAdmin):
 admin.site.register(AwAboutAromaWines,AwAboutAromaWinesAdmin)
 
 class AwCmsPaageAdmin(ImportExportModelAdmin):
-    list_display = ('Title','Slug','Background_Image','Create_date')
+    list_display = ('Title','Slug','Background_Image','Short_description_Show_in_Footer','Publish','Create_date')
 admin.site.register(AwCmsPaage,AwCmsPaageAdmin)
+

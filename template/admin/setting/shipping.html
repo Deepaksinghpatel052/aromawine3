@@ -83,9 +83,10 @@
               <thead>
                 <tr>
           
+                  <th align="left" valign="top">#</th>
                   <th align="left" valign="top">Country</th>
-                  <th align="left" valign="top">Free Shipping Amount</th>
-                  <th align="left" valign="top">Free Flat Shipping</th>
+                  <th align="left" valign="top">Min ordr amount amount</th>
+                  <th align="left" valign="top">Shiping Fees min order amount</th>
                   <th align="left" valign="top">Action</th>
                   
                 </tr>
@@ -96,17 +97,19 @@
 
 
                 <tr>
-          
+          <td align="left" valign="top">
+                {{forloop.counter}}
+                </td>
                   <td align="left" valign="top">
                 <input type="hidden" name="ids[]" value="{{item.id}}">
                   {{item.Country}}
                 </td>
                  
                   <td align="left" valign="top">
-<input class="fee_formcontrol" type="number" name="Free_Shipping_Amount[]" placeholder="Free Shipping Amount" value="{{item.Free_Shipping_Amount}}">
+<input class="fee_formcontrol" type="number" name="min_ordr_amount[]" placeholder="Free Shipping Amount" value="{{item.min_ordr_amount}}">
                   </td>
                   <td align="left" valign="top">
-<input class="fee_formcontrol" type="number" name="Free_Flat_Shipping[]" placeholder="Free Flat Shipping" value="{{item.Free_Flat_Shipping}}">
+<input class="fee_formcontrol" type="number" name="Shiping_Fees_min_order_amount[]" placeholder="Free Flat Shipping" value="{{item.Shiping_Fees_min_order_amount}}">
 </td>
                 
                   <td align="left" valign="top">
@@ -187,15 +190,15 @@
     <div class="row">
      <div class="col-md-6">
       <div class="form-group">
-                   <label class="age">Free Shipping Amount</label>
-                   {{form_class.Free_Shipping_Amount}}
+                   <label class="age">Min ordr amount amount</label>
+                   {{form_class.min_ordr_amount}}
                    <!-- <input type="text" class="form-control" placeholder="Enter your winery name"> -->
         </div>
      </div>
      <div class="col-md-6">
       <div class="form-group">
-                   <label class="age">Free Flat Shipping</label>
-                   {{form_class.Free_Flat_Shipping}}
+                   <label class="age">Shiping fee on min order amountg</label>
+                   {{form_class.Shiping_Fees_min_order_amount}}
                    <!-- <input type="text" class="form-control" placeholder="Enter your winery name"> -->
         </div>
      </div>

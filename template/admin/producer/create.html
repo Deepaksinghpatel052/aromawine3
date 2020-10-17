@@ -92,15 +92,17 @@
    
 
     <!-- <div class="row">
-      <div class="col-md-12">
+      
+    </div>
+ -->
+
+<div class="col-md-12">
         <div class="form-group">
-                   <label class="age">Description</label>
-                   <input type="text" class="form-control" placeholder="Description">
+                   <label class="age">Banner Image</label>
+                   {{form.Banner_Image}}
 
         </div>
       </div>
-    </div>
- -->
 
  <div class="col-md-12">
         <div class="form-group">
@@ -188,7 +190,7 @@
      <script src='{% static "admin/assets/cropme/croppie_user_image.js" %}' ></script>
     <script type="text/javascript">
    $(document).ready(function() {
-
+$("#id_Banner_Image").addClass("form-control");
 
   $("#id_Set_To").addClass("form-control");
   $("#id_Producer_Image").addClass("form-control");

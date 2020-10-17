@@ -9,6 +9,8 @@
                                     <th align="left" valign="middle">Product</th>
                                     <th align="left" valign="middle">Type & Case Size</th>
                                     <th align="center" valign="middle">Price</th>
+                                    <th align="center" valign="middle">GST</th>
+                                    <th align="center" valign="middle">Price With GST</th>
                                     <th align="center" valign="middle">Quantity</th>
                                     <th align="center" valign="middle">Total</th>
                                     <th align="center" valign="middle">Remove</th>
@@ -25,9 +27,17 @@
                   </td>
                                     <td align="left" valign="middle">
 <input type="hidden" class="card_product_id" value="{{item.id}}">
-                                      <a href="{% url 'product_detail:product_detail' item.Product_Delivered.Product_id item.Product_Delivered.Product_slug  item.Year %}">{{item.Product_Delivered.Product_name}}<br>{{item.Year}} </a></td>
+                                      <a href="{% url 'product_detail:product_detail' item.Product_Delivered.Product_id item.Product_Delivered.Product_slug  item.Year %}">{{item.Product_Delivered.Product_name|slice:"0:20"}}<br>{{item.Year}} </a></td>
                                     <td align="center" valign="middle">
                                       {{item.Type}}/({{item.Case_Formate.Bottle}})
+                                    </td>
+                                    <td align="center" valign="middle">
+                                      ${{item.Old_Cost|get_amount_without_persentage:item.order_item_id.Gst|floatformat:2}}
+<input type="hidden" name="" class="gst_amount_{{item.id}}" value="{{item.Old_Cost|get_persentage_amount:item.order_item_id.Gst|floatformat:2}}">
+<input type="hidden" name="" class="amount_without_gst" data-item_id="{{item.id}}" value="{{item.Old_Cost|get_amount_without_persentage:item.order_item_id.Gst|floatformat:2}}">
+                                    </td>
+                                    <td align="center" valign="middle">
+                                      {{item.order_item_id.Gst}}%
                                     </td>
                                     <td align="center" valign="middle">
                                       ${{item.Old_Cost}}
@@ -51,7 +61,7 @@
 
 
                                       <input id="quentuty_{{item.id}}" type="text" data-max_val="{{item.order_item_id.Quentity}}" 
-                                      {% if item.order_item_id.Order_id.Payment_Status %} data-product_price="0.0" {% else %} data-product_price="{{item.Old_Cost}}"  {% endif %} value="{{item.Quentity}}" class="dollar-spin comma-format form-control" style="display: block;">
+                                      value="{{item.Quentity}}" data-product_price="{{item.Old_Cost}}" class="dollar-spin comma-format form-control" style="display: block;">
 
 
                                         <span class="input-group-addon bootstrap-touchspin-postfix" style="display: none;"></span><span class="input-group-btn"><button class="btn btn-default bootstrap-touchspin-up quentity_set" data-product_id="{{item.id}}" data-Type="plus" type="button">+</button></span>
@@ -67,14 +77,8 @@
 <!--                                     <div class="dec qtybutton">-</div><div class="inc qtybutton">+</div>
  -->                                </td>
                                     <td align="center" valign="middle">
-
-{% if item.order_item_id.Order_id.Payment_Status %}
-<input type="hidden" class="total" id="input_price_show_{{item.id}}" value="0.0">
-$<span id="price_show_{{item.id}}">0.0</span>
-{% else %}
 <input type="hidden" class="total" id="input_price_show_{{item.id}}" value="{% widthratio item.Old_Cost 1 item.Quentity %}">
 $<span id="price_show_{{item.id}}">{% widthratio item.Old_Cost 1 item.Quentity %}   </span>
-{% endif %}
                                     </td>
                                     <td align="center" valign="middle">
                                      <a href="javascript:;" onclick="remove_product('{{BASE_URL}}user/orders/{{item.id}}/remove-product-from-card','Do you want to remove this Product?','Product removed successfully.','Product not removed.');" > <i class="fa fa-times-circle"></i></a>
@@ -110,9 +114,14 @@ $<span id="price_show_{{item.id}}">{% widthratio item.Old_Cost 1 item.Quentity %
                                     <input type="hidden" name="set_coupon_type" id="set_coupon_type" value="">
                                     <input type="hidden" name="set_coupon_count" id="set_coupon_count" value="">
                                      <input type="hidden" name="order_type" value="Delivered">
-                                    
+                                    <input type="hidden" name="set_product_amount" id="set_product_amount" value="">
+                                    <input type="hidden" name="set_order_gst" id="set_order_gst" value="">
                                     <ul>
                                         <li><span class="pull-left">Subtotal </span>$<span class="show_sub_total_ampount">00.0</span></li>
+                                      
+                                    </ul>
+                                    <ul>
+                                        <li><span class="pull-left">GST </span>$<span class="show_sub_total_gst">00.0</span></li>
                                       
                                     </ul>
                                     <ul id="show_descount_amount">

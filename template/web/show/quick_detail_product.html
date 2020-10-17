@@ -1,4 +1,4 @@
-{% load static %}	
+Special Prices{% load static %}	
 		<div class="row modal-content-product">
   <div class="col-md-6 infoBloc">
     <div class="name title mb-2">{{object.Product.Select_Type}} :  {{object.Product}} ({{object}})</div>
@@ -9,7 +9,17 @@
   <!-- {{object.Descount_Cost|get_product_price_with_gst_include:object.GST|floatformat:2}} -->
   <div class="col-md-6 mb-md-0 contentBloc text-md-left">
     <div class="promo-label">Special Prices</div>
-    <div class="product-price"><span class="list-price">SG${{object.Retail_Cost|floatformat:2}}&nbsp;<span>Incl. GST &amp; DP</span></span><span class="offer-price">SG${{object.Retail_Cost|floatformat:2}}&nbsp;<span class="taxSymbol">Incl. GST &amp; DP</span></span><span class="details mt-2"><span>{{object.Bottle}}</span><span class="d-none d-sm-inline-block mx-sm-1"> | </span><span> SG${{object.Retail_Cost|floatformat:2}}&nbsp;/&nbsp;Unit</span></span></div>
+    <div class="product-price">
+     
+     {% if object.Descount_Cost > 0 %}
+      <span class="list-price">SG${{object.Retail_Cost|floatformat:2}}</span>
+      <span class="details mt-2"><span>{{object.Bottle}}</span><span class="d-none d-sm-inline-block mx-sm-1"> | </span>
+      <span> SG${{object.Descount_Cost|floatformat:2}}&nbsp;/&nbsp;Unit</span></span>
+     {% else %}
+      <span class="details mt-2"><span>{{object.Bottle}}</span><span class="d-none d-sm-inline-block mx-sm-1"> | </span>
+      <span> SG${{object.Retail_Cost|floatformat:2}}&nbsp;/&nbsp;Unit</span></span>
+     {% endif %}
+</div>
     <div class="itemselector-container">
       <ul class="itemselector list-group">
         <li class="list-group-item">
@@ -48,8 +58,9 @@
           </div>
         </li>
       </ul>
-      <div class="promo-label">Special Prices</div>
-      <button class="add-cart btn btn-block btn-black">Add to my shopping cart</button>
+      <br><br>
+      <!-- <div class="promo-label">Special Prices</div> -->
+      <a href="{% url 'product_detail:product_detail' object.Product.Product_id object.Product.Product_slug  object   %}"><button class="mb-2 product-story_info-btn cick_to_view_product">Buy</button></a>
     </div>
     <ul class="reassurance-list">
       <li class="reassurance-item"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check" class="svg-inline--fa fa-check fa-w-16 reassurance-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">

@@ -32,10 +32,10 @@ class AwAdminSettingForm(forms.ModelForm):
 
 class AwManageShippingForm(forms.ModelForm):
     Country = forms.ModelChoiceField(required=True, empty_label="Please select Country",queryset=AwCountryUser.objects.all(),widget=forms.Select(attrs={"class": "form-control", 'name': 'Country'}))
-    Free_Shipping_Amount = forms.CharField(widget=forms.NumberInput(attrs={"class": "form-control", 'name': 'Product_name', 'placeholder': "Free Shipping Amount"}))
-    Free_Flat_Shipping = forms.CharField(widget=forms.NumberInput(attrs={"class": "form-control", 'name': 'Product_name', 'placeholder': "Free Flat Shipping"}))
+    min_ordr_amount = forms.CharField(widget=forms.NumberInput(attrs={"class": "form-control", 'name': 'Product_name', 'placeholder': "Min Ordr Amount"}))
+    Shiping_Fees_min_order_amount = forms.CharField(widget=forms.NumberInput(attrs={"class": "form-control", 'name': 'Product_name', 'placeholder': "Free Flat Shipping"}))
     class Meta:
         model = AwManageShipping
-        fields = ['Country', 'Free_Shipping_Amount', 'Free_Flat_Shipping']
+        fields = ['Country', 'min_ordr_amount', 'Shiping_Fees_min_order_amount']
 
 

@@ -29,7 +29,7 @@ class AwCountry(models.Model):
     Slug = models.CharField(max_length=120, unique=True, null=True, blank=True)
     Set_To = models.ManyToManyField(AwSetTo, blank=True, related_name='AwCountry_set_to')
     Country_Image = models.ImageField(upload_to=user_directory_path)
-    Country_Banner_Image = models.ImageField(upload_to=user_directory_path_banner,blank=True,null=True)
+    Banner_Image = models.ImageField(upload_to=user_directory_path_banner,blank=True,null=True)
     Description = models.TextField(null=True, blank=True)
     Status = models.BooleanField(default=True)
     Created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='AwCountry_Created_by')

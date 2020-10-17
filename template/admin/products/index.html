@@ -71,7 +71,7 @@
             <table id="example" width="100%" border="1" class="table table-striped table-bordered newpage order-column" align="center" cellpadding="0" cellspacing="0" style=" font-size: 15px;">
               <thead>
                 <tr>
-        <!-- <th align="left" valign="top"><input type="checkbox" id="selectall" /></th> -->
+        <th align="left" valign="top">#</th>
                 
                   <th align="left" valign="top">Images</th>
                   <th align="left" valign="top">Product Name</th>
@@ -96,7 +96,7 @@
           {% if object_list %}
             {% for item in object_list %}
                 <tr>
-        <!-- <td align="left" valign="top"><input type="checkbox" name="name" class="name"  /></td> -->
+        <td align="left" valign="top">{{ forloop.counter }}</td>
                  
           <td align="center" valign="top">
             {{item|get_product_image}}
@@ -110,7 +110,7 @@
           </td>
 
           
-          <td align="left" valign="top">{{item.Bottel_Size.all|join:" | "}}</td>
+          <td align="left" valign="top">{{item.Bottel_Size}}</td>
           
           
           

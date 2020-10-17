@@ -10,4 +10,4 @@ class AwRegionForm(forms.ModelForm):
 
     class Meta:
         model = AwRegion
-        fields = ['Country','Region_Name','Set_To','Region_Image','Short_Description','Description']
+        fields = ['Country','Region_Name','Set_To','Region_Image','Short_Description','Description','banner_Image']

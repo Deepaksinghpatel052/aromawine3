@@ -9,4 +9,4 @@ class AwGrapeForm(forms.ModelForm):
 
     class Meta:
         model = AwGrape
-        fields = ['Grape_Name','Grape_Image','Short_Description','Description']
+        fields = ['Grape_Name','Grape_Image','Short_Description','Description','banner_Image']

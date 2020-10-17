@@ -54,6 +54,8 @@
                   <th>
                     {% if item.Order_Type == 'Delivered' %}
                     Delivery
+                    {% elif item.Order_Type == 'Caller' %}
+                     Cellar
                     {% else %}
                     {{item.Order_Type}}
                     {% endif %}
@@ -61,39 +63,41 @@
                   <td>{{item.Order_Date}}</td>
                   <td>${{item.Amount}}</td>
                   <td style="color:#fff;">
-                  	
-                  
-                      {% if item.Order_Status_Set == 'Pending' %}
-                    <span class="grid-report-item blue">{{item.Order_Status_Set}}</span>
+                  	 
+                     {% if item.Payment_Status %}
+                          {% if item.Order_Status_Set == 'Pending' %}
+                        <span class="grid-report-item blue">{{item.Order_Status_Set}}</span>
+                        {% endif %}
+                        {% if item.Order_Status_Set == 'Active' %}
+                        <span class="grid-report-item green">{{item.Order_Status_Set}}</span>
+                          {% endif %}
+
+
+                        {% if item.Order_Status_Set == 'Process' %}
+                        <span class="grid-report-item green">{{item.Order_Status_Set}}</span>
+                          {% endif %}
+
+                        {% if item.Order_Status_Set == 'Complete' %}
+                        <span class="grid-report-item green">{{item.Order_Status_Set}}</span>
+                          {% endif %}
+                          {% if item.Order_Status_Set == 'Celler' %}
+                        <span class="grid-report-item yellow">{{item.Order_Status_Set}}</span>
+                          {% endif %}
+                          {% if item.Order_Status_Set == 'Refunded' %}
+                        <span class="grid-report-item red">{{item.Order_Status_Set}}</span>
+                          {% endif %}
+                           {% if item.Order_Status_Set == 'Cancelled' %}
+                        <span class="grid-report-item red">{{item.Order_Status_Set}}</span>
+                          {% endif %}
+                          {% if item.Order_Status_Set == 'Failled' %}
+                        <span class="grid-report-item red">{{item.Order_Status_Set}}</span>
+                          {% endif %}
+                          {% if item.Order_Status_Set == 'Deactivate' %}
+                        <span class="grid-report-item red">{{item.Order_Status_Set}}</span>
+                          {% endif %}
+                    {% else %}
+                     <a href="{% url 'orders:checkout' item.order_id %}"><button class="btn btn-danger btn-sm" type="button">Make Payment</button></a>
                     {% endif %}
-                    {% if item.Order_Status_Set == 'Active' %}
-                    <span class="grid-report-item green">{{item.Order_Status_Set}}</span>
-                      {% endif %}
-
-
-                    {% if item.Order_Status_Set == 'Process' %}
-                    <span class="grid-report-item green">{{item.Order_Status_Set}}</span>
-                      {% endif %}
-
-                    {% if item.Order_Status_Set == 'Complete' %}
-                    <span class="grid-report-item green">{{item.Order_Status_Set}}</span>
-                      {% endif %}
-                      {% if item.Order_Status_Set == 'Celler' %}
-                    <span class="grid-report-item yellow">{{item.Order_Status_Set}}</span>
-                      {% endif %}
-                      {% if item.Order_Status_Set == 'Refunded' %}
-                    <span class="grid-report-item red">{{item.Order_Status_Set}}</span>
-                      {% endif %}
-                       {% if item.Order_Status_Set == 'Cancelled' %}
-                    <span class="grid-report-item red">{{item.Order_Status_Set}}</span>
-                      {% endif %}
-                      {% if item.Order_Status_Set == 'Failled' %}
-                    <span class="grid-report-item red">{{item.Order_Status_Set}}</span>
-                      {% endif %}
-                      {% if item.Order_Status_Set == 'Deactivate' %}
-                    <span class="grid-report-item red">{{item.Order_Status_Set}}</span>
-                      {% endif %}
-
                   </td>
                   <td><a href="{% url 'orders:prodyuct_info' item.order_id  %}" class="btn btn-primary btn-sm">View</a></td>
                 </tr>

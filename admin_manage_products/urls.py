@@ -8,5 +8,4 @@ urlpatterns = [
     path('add-product', views.CreateProductView.as_view(),name="add_product"),
     path('<slug:prodict_id>/update-product', views.UpdateProductView.as_view(),name="update_products"),
     path('<pk>/delete-products', views.ProductsDeleteView.as_view(),name="delete_products"),
-
 ]

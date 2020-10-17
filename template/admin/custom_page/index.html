@@ -55,8 +55,12 @@
               <thead>
                 <tr>
         
+                  <th align="left" valign="top">#</th>
                   <th align="left" valign="top">Title</th>
+                  <th align="left" valign="top">Slug</th>
                   <th align="left" valign="top">Image</th>
+                  <th align="left" valign="top">Show In footer</th>
+                  <th align="left" valign="top">Publish As Apge</th>
                   <th align="left" valign="top">Create date</th>
                   <th align="left" valign="top">Action</th>
                 </tr>
@@ -68,12 +72,28 @@
 
                 <tr>
           
+                  <td align="left" valign="top">{{forloop.counter}}</td>
                   <td align="left" valign="top">{{item.Title}}</td>
+                  <td align="left" valign="top">{{item.Slug}}</td>
                  <td align="center" valign="top">
                   {% if item.Background_Image %}
                   <img src='{{item.Background_Image.url}}' style="width:100px;">
                     {% endif %}
                 </td>
+                  <td align="left" valign="top">
+                  {% if item.Short_description_Show_in_Footer %}
+                    <span class="label label-success font-weight-100">{{item.Short_description_Show_in_Footer }}</span>
+                   {% else %}
+<span class="label label-danger font-weight-100">{{item.Short_description_Show_in_Footer }}</span>
+                   {% endif %}  
+                  </td>
+                  <td align="left" valign="top">
+                  {% if item.Publish %}
+                      <span class="label label-success font-weight-100">{{item.Publish }}</span>
+                   {% else %}
+                      <span class="label label-danger font-weight-100">{{item.Publish }}</span>
+                   {% endif %}  
+                  </td>
                   <td align="left" valign="top">{{item.Create_date}}</td>
                   <td align="left" valign="top">
                     <table width="100%" border="0" align="left" cellpadding="0" cellspacing="0">

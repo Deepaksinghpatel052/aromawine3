@@ -77,7 +77,7 @@
         
         <a class="product-story_info-btn btn-cart change-ib-db" href="{% url 'product_detail:product_detail' item.Product.Product_id item.Product.Product_slug  item.Case_Formate   %}">See details</a></div>
     </div>
-    <div class="product-brand-link"><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{item.Product_Cellar.Producer.Slug}}" aria-label="All {{item.Product.Producer}} wines">All {{item.Product.Producer}} wines</a><span class="heart_show"><a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' item.Product.id item.Product|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:item.Product}}" >{% if user|check_in_wish_list:item.Product == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a></span></div>
+    <div class="product-brand-link"><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{item.Product_Cellar.Producer.Slug}}" aria-label="All {{item.Product.Producer}} wines">All {{item.Product.Producer}} wines</a><span class="heart_show"><a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' item.Product.id item.Product|get_product_vintage_yera_one  %}"  class="wishlist_page {{user|check_in_wish_list:item.Product}}" >{% if user|check_in_wish_list:item.Product == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a></span></div>
   </div>
   <div class="options">
     <div class="promo-label">Special Prices  {{item.Product.Bottel_Size.all|join:" | "}}</div>

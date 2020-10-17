@@ -47,7 +47,7 @@
   <form action="" method="post" enctype='multipart/form-data'>
       
 {% csrf_token %}
-
+<input type="hidden" name="banner_image" value="">
 
     <div class="row">
      
@@ -67,28 +67,24 @@
                         
             <div class="col-md-6">
       <div class="form-group">
-                   <label class="age">Background Image</label>
-         <input type="file" name="Banner_Image" accept="image/*" {% if object %} {% else %} required="" {% endif %}  id="id_Banner_Image" class="form-control">      
-                 
-<input type="hidden" name="banner_image" id="banner_image" value="">
+                   <label class="age">Page Slug</label>
+                
+                       {{form.Slug}} 
         </div>
     
 
      </div>
 
-      <div class="col-md-12">
-        <div class="form-group">
-  <div class="imagebanner" id="show_croped_image">
-  {% if object.Background_Image %}
-  <img src="{{object.Background_Image.url}}">
-  {% else %}
-<img src="http://203.190.153.20/wine/assets/image/bg-2.jpg">
-  {% endif %}
- 
-</div>
 
+     <div class="col-md-12">
+      <div class="form-group">
+                   <label class="age">Background Image</label>
+                
+                       {{form.Background_Image}} 
         </div>
-      </div>
+    
+
+     </div>
     </div>
    
 
@@ -101,11 +97,30 @@
       </div>
     </div>
  -->
+
+
+
 <div class="col-md-12">
         <div class="form-group">
                    <label class="age">Description</label>
            <div class="summernote">
            {{form.description}}
+           <!-- <textarea id="" class="form-control des summernote_text"></textarea> -->
+           </div>
+                  
+
+        </div>
+      </div>
+<div class="col-md-12">
+        <div class="form-group">
+                   <label class="age">{{form.Publish}} Publish As Page</label>
+        </div>
+      </div>
+<div class="col-md-12">
+        <div class="form-group">
+                   <label class="age">Sort Description &nbsp; &nbsp;  &nbsp; &nbsp;   {{form.Short_description_Show_in_Footer}}Short description Show in Footer</label>
+           <div class="summernote">
+           {{form.Short_description}}
            <!-- <textarea id="" class="form-control des summernote_text"></textarea> -->
            </div>
                   
@@ -178,11 +193,11 @@
  <script type="text/javascript">
    $(document).ready(function() {
 
-
+$("#id_Background_Image").addClass('form-control');
 
 
   $('.summernote_text').summernote({
-        placeholder: 'Hello Bootstrap 4',
+        placeholder: 'Description',
         tabsize: 2,
         height: 200
       });

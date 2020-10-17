@@ -10,6 +10,7 @@ from admin_manage_color.models import AwColor
 from admin_manage_appellation.models import AwAppellation
 from admin_manage_size.models import AwSize
 from admin_manage_classification.models import AwClassification
+from home.models import AwCmsPaage
 from admin_manage_Vintages.models import AwVintages
 from admin_manage_Vintages.models import AwVintages
 from admin_manage_varietals.models import AwVarietals
@@ -23,7 +24,9 @@ class PageContentView(generic.TemplateView):
 		context = super().get_context_data(**kwargs)
 		page_content = None
 		page_title = self.kwargs.get("type")
+		page_title_show = self.kwargs.get("type")
 		page_banner_image = None
+		page_info_data_set = None
 		Products = None
 		type = self.kwargs.get("type")
 		page_slug = self.kwargs.get("page_slug")
@@ -60,8 +63,16 @@ class PageContentView(generic.TemplateView):
 			if AwTesting.objects.filter(Status=True).exists():
 				page_content = AwTesting.objects.filter(Status=True)
 		# ======================================  FOR AwTesting end ==================================
+		if AwCmsPaage.objects.filter(Slug=type).exists():
+			page_info = get_object_or_404(AwCmsPaage,Slug=type)
+			page_title_show = page_info.Title
+			page_banner_image = page_info.Background_Image.url
+			page_info_data_set = page_info.description
 
 		context['page_content'] = page_content
 		context['Page_title'] = page_title
+		context['page_title_show'] = page_title_show
+		context['page_banner_image'] = page_banner_image
+		context['page_info_data_set'] = page_info_data_set
 
 		return context

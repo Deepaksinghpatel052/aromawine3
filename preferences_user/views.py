@@ -7,6 +7,7 @@ from django.utils.decorators import method_decorator
 from .models import User_Service_Interests
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate
 
@@ -22,6 +23,7 @@ class UserPreferencesView(SuccessMessageMixin,generic.ListView):
     def get_context_data(self, *args,**kwargs):
         context  = super(UserPreferencesView,self).get_context_data(*args,**kwargs)
         context['Page_title'] = self.request.user.username + "-update-preference"
+        context['BASE_URL'] = settings.BASE_URL
         return context
 
 

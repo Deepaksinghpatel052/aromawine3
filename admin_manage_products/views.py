@@ -71,13 +71,13 @@ class CreateProductView(SuccessMessageMixin,generic.View):
                         set_file_name = str(today_date.day) + "_" + str(today_date.month) + "_" + str(today_date.year) + "_" + str(dateTimeObj.microsecond)
                         file_name = set_file_name + "." + ext
                         data = ContentFile(base64.b64decode(imgstr), name=file_name)
-                        if i == 0:
-                            product_ins.Product_image.delete(save=False)
-                            product_ins.Product_image = data
-                            product_ins.save()
-                        else:
-                            add_image = AwProductImage(Product=product_ins, Image_Type="Product_image", Image=data)
-                            add_image.save()
+                        # if i == 0:
+                        #     product_ins.Product_image.delete(save=False)
+                        #     product_ins.Product_image = data
+                        #     product_ins.save()
+                        # else:
+                        add_image = AwProductImage(Product=product_ins, Image_Type="Product_image", Image=data)
+                        add_image.save()
                         i = i + 1
 
             if request.POST["product_banner_image"]:
@@ -90,6 +90,19 @@ class CreateProductView(SuccessMessageMixin,generic.View):
                 data_banner = ContentFile(base64.b64decode(imgstr_banner), name=file_name_banner)
                 add_image = AwProductImage(Product=product_ins, Image_Type="Product_Banner_image", Image=data_banner)
                 add_image.save()
+
+
+            if request.POST["product_thumbnail_image"]:
+                format_thumbnail, imgstr_thumbnail = request.POST["product_thumbnail_image"].split(';base64,')
+                ext_thumbnail = format_thumbnail.split('/')[-1]
+                dateTimeObj_thumbnail = datetime.now()
+                today_date = date.today()
+                set_file_name_thumbnail = str(today_date.day) + "_" + str(today_date.month) + "_" + str(today_date.year) + "_" + str(dateTimeObj_thumbnail.microsecond)
+                file_name_thumbnail = set_file_name_thumbnail + "." + ext_thumbnail
+                data_thumbnail = ContentFile(base64.b64decode(imgstr_thumbnail), name=file_name_thumbnail)
+                product_ins.Product_image.delete(save=False)
+                product_ins.Product_image = data_thumbnail
+                product_ins.save()
             # ========================== add images CODE END================================
             # ========================== add Price CODE END================================
             if request.POST.getlist('Vintage'):
@@ -248,13 +261,13 @@ class UpdateProductView(SuccessMessageMixin,generic.View):
                         set_file_name = str(today_date.day) + "_" + str(today_date.month) + "_" + str(today_date.year) + "_" + str(dateTimeObj.microsecond)
                         file_name = set_file_name + "." + ext
                         data = ContentFile(base64.b64decode(imgstr), name=file_name)
-                        if i==0:
-                            product_ins.Product_image.delete(save=False)
-                            product_ins.Product_image = data
-                            product_ins.save()
-                        else:
-                            add_image = AwProductImage(Product=product_ins,Image_Type="Product_image",Image=data)
-                            add_image.save()
+                        # if i==0:
+                        #     product_ins.Product_image.delete(save=False)
+                        #     product_ins.Product_image = data
+                        #     product_ins.save()
+                        # else:
+                        add_image = AwProductImage(Product=product_ins,Image_Type="Product_image",Image=data)
+                        add_image.save()
                         i = i+1
             print(request.POST["product_banner_image"])
             if request.POST["product_banner_image"]:
@@ -268,6 +281,20 @@ class UpdateProductView(SuccessMessageMixin,generic.View):
                 data_banner = ContentFile(base64.b64decode(imgstr_banner), name=file_name_banner)
                 add_image = AwProductImage(Product=product_ins, Image_Type="Product_Banner_image", Image=data_banner)
                 add_image.save()
+
+
+            if request.POST["product_thumbnail_image"]:
+                format_thumbnail, imgstr_thumbnail = request.POST["product_thumbnail_image"].split(';base64,')
+                ext_thumbnail = format_thumbnail.split('/')[-1]
+                dateTimeObj_thumbnail = datetime.now()
+                today_date = date.today()
+                set_file_name_thumbnail = str(today_date.day) + "_" + str(today_date.month) + "_" + str(today_date.year) + "_" + str(dateTimeObj_thumbnail.microsecond)
+                file_name_thumbnail = set_file_name_thumbnail + "." + ext_thumbnail
+                data_thumbnail = ContentFile(base64.b64decode(imgstr_thumbnail), name=file_name_thumbnail)
+
+                product_ins.Product_image.delete(save=False)
+                product_ins.Product_image = data_thumbnail
+                product_ins.save()
             # ========================== add images CODE END================================
             # # ========================== add Price CODE END================================
             AwProductPrice.objects.filter(Product = product_ins).delete()

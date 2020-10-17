@@ -20,7 +20,7 @@
 
         <li><a {% if 'orders' in request.build_absolute_uri %} class="active"  {% endif %} href="{% url 'orders:orders' %}">Your Order History</a></li>        
   
-          <li><a href="#">Your Wines Ordered</a></li>
+          <!-- <li><a href="#">Your Wines Ordered</a></li> -->
         <li><a {% if 'wishlist' in request.build_absolute_uri %} class="active"  {% endif %}  href="{% url 'user_wishlist:user_wishlist' %}">Your Wish List</a></li>
         <li><a href="{% url 'manage_cellar:manage_cellar' %}" target="_blank">My Cellar</a></li>
         <li><a href="{% url 'account:logout' %}" >Logout</a></li>

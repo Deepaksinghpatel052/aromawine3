@@ -5,6 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from admin_manage_products.models import AwProductPrice,AwProducts
 from orders.serializers import ProductPriceSeriSerializer,AwAddToCardSerializer
 from orders.models import AwAddToCard
+from admin_manage_setting.models import AwManageShipping
 from django.template.defaulttags import register
 from django.template.loader import render_to_string
 from profile_user.models import AwUserInfo
@@ -25,6 +26,17 @@ from datetime import date
 from django.db.models import Q
 # Create your views here.
 
+@csrf_exempt
+def get_country_id(request):
+    address_id = request.POST['address_id']
+    address_book_ins = get_object_or_404(AwAddressBook,id=address_id)
+    return JsonResponse({"country_id":address_book_ins.Country.id})
+
+@csrf_exempt
+def get_shipping_charge(request):
+    country_id = request.POST['country_id']
+    get_shipping_payment = get_object_or_404(AwManageShipping,id=country_id)
+    return JsonResponse({"min_ordr_amount":get_shipping_payment.min_ordr_amount,"Shiping_Fees_min_order_amount":get_shipping_payment.Shiping_Fees_min_order_amount})
 
 
 @csrf_exempt
@@ -71,7 +83,7 @@ def remove_product_from_card(request,pk):
         messages.error(request, "Product is not remove.")
     return redirect(settings.BASE_URL + "user/orders/my-cart")
 
-@method_decorator(login_required , name="dispatch")
+# @method_decorator(login_required , name="dispatch")
 class MyCardView(generic.TemplateView):
     template_name = "web/user/page/orders/my_card.html"
 
@@ -79,10 +91,17 @@ class MyCardView(generic.TemplateView):
         context = super(MyCardView, self).get_context_data(*args, **kwargs)
         context['Page_title'] = "My-Card"
         card_product  = None
-        if self.request.user.username != "":
+        get_cookies = None
+        if not self.request.user.is_authenticated:
+            user_ins = 0
+            if 'aroma_of_wine' in self.request.COOKIES:
+                get_cookies = self.request.COOKIES['aroma_of_wine']
+                if AwAddToCard.objects.filter(Q(Cookies_id=get_cookies)).exists():
+                    card_product = AwAddToCard.objects.filter(Q(Cookies_id=get_cookies)).order_by("-id")
+        else:
             user_ins = self.request.user
-            if AwAddToCard.objects.filter(User=user_ins).exists():
-                card_product = AwAddToCard.objects.filter(User=user_ins).order_by("-id")
+            if AwAddToCard.objects.filter(Q(User=user_ins)).exists():
+                card_product = AwAddToCard.objects.filter(Q(User=user_ins)).order_by("-id")
         context['card_product'] = card_product
         context['BASE_URL'] = settings.BASE_URL
         return context
@@ -92,6 +111,9 @@ class MyCardView(generic.TemplateView):
         set_coupon_code = request.POST['set_coupon_code']
         set_coupon_type = request.POST['set_coupon_type']
         set_coupon_count = request.POST['set_coupon_count']
+
+        set_product_amount = request.POST['set_product_amount']
+        set_order_gst = request.POST['set_order_gst']
         order_type = request.POST["order_type"]
         payment_type = ""
         quent = 0
@@ -102,20 +124,26 @@ class MyCardView(generic.TemplateView):
             for item in order_data:
                 if item.Order_Type == "Cellar":
                     if item.Type == 'Bond':
-                        Amount = Amount + (item.Case_Formate.Bond_Cost * item.Quentity)
+                        if item.Case_Formate.Bond_Descount_Cost > 0:
+                            Amount = Amount + (item.Case_Formate.Bond_Descount_Cost * item.Quentity)
+                        else:
+                            Amount = Amount + (item.Case_Formate.Bond_Cost * item.Quentity)
                     if item.Type == 'Retail':
-                        Amount = Amount + (item.Case_Formate.Retail_Cost * item.Quentity)
+                        if item.Case_Formate.Descount_Cost > 0:
+                            Amount = Amount + (item.Case_Formate.Descount_Cost * item.Quentity)
+                        else:
+                            Amount = Amount + (item.Case_Formate.Retail_Cost * item.Quentity)
                 elif item.Order_Type == "Delivered":
-                    if item.order_item_id.Order_id.Payment_Status:
-                        Amount  = Amount + 0.0
-                    else:
-                        Amount = Amount + (item.Old_Cost * item.Quentity)
+                    # if item.order_item_id.Order_id.Payment_Status:
+                    #     Amount  = Amount + 0.0
+                    # else:
+                    Amount = Amount + (item.Old_Cost * item.Quentity)
                 else:
                     Amount = Amount + (item.Event_Ticket.ticket_price * item.Quentity)
         else:
             messages.error(request, "No Item avelabel in your card.")
             return HttpResponseRedirect(reverse('orders:my_card'))
-        add_order = AwOrders(User=request.user, Order_Type=order_type,Quentity=quent, order_amount=Amount,Amount=Amount, Payment_Method=payment_type)
+        add_order = AwOrders(User=request.user, Order_Type=order_type,Quentity=quent,Order_Product_Amount=set_product_amount,Order_Gst_Amount=set_order_gst, order_amount=Amount,Amount=Amount, Payment_Method=payment_type)
         add_order.save()
         if set_coupon_code:
             Cupon_Discount_amount = 0.0
@@ -123,34 +151,46 @@ class MyCardView(generic.TemplateView):
                 get_persenteg_amoint = (float(Amount) * float(set_coupon_count)) / 100
                 Cupon_Discount_amount = float(Amount) - float(get_persenteg_amoint)
             else:
+                get_persenteg_amoint = float(set_coupon_count)
                 Cupon_Discount_amount = float(Amount) - float(set_coupon_count)
             AwOrders.objects.filter(order_id=add_order.order_id).update(Use_coupon=True,Cupon_Code=set_coupon_code,Cupon_Discount=get_persenteg_amoint,Amount=Cupon_Discount_amount)
 
         for item in order_data:
             if item.Order_Type == "Cellar":
+
+                set_gst = item.Case_Formate.GST
+                set_duty = item.Case_Formate.Duty
                 if item.Type == 'Bond':
-                    cost_of_product = item.Case_Formate.Bond_Cost
-                    total_cost = (item.Case_Formate.Bond_Cost * item.Quentity)
+                    if item.Case_Formate.Bond_Descount_Cost > 0:
+                        cost_of_product = item.Case_Formate.Bond_Descount_Cost
+                        total_cost = (item.Case_Formate.Bond_Descount_Cost * item.Quentity)
+                    else:
+                        cost_of_product = item.Case_Formate.Bond_Cost
+                        total_cost = (item.Case_Formate.Bond_Cost * item.Quentity)
                 if item.Type == 'Retail':
-                    cost_of_product = item.Case_Formate.Retail_Cost
-                    total_cost = (item.Case_Formate.Retail_Cost * item.Quentity)
+                    if item.Case_Formate.Descount_Cost > 0:
+                        cost_of_product = item.Case_Formate.Descount_Cost
+                        total_cost = (item.Case_Formate.Descount_Cost * item.Quentity)
+                    else:
+                        cost_of_product = item.Case_Formate.Retail_Cost
+                        total_cost = (item.Case_Formate.Retail_Cost * item.Quentity)
             elif item.Order_Type == "Delivered":
-                if item.order_item_id.Order_id.Payment_Status:
-                    cost_of_product = 0.0
-                    total_cost = 0
-                else:
-                    cost_of_product = item.Old_Cost
-                    total_cost = (item.Old_Cost * item.Quentity)
+                cost_of_product = item.Old_Cost
+                total_cost = (item.Old_Cost * item.Quentity)
+                set_gst = item.order_item_id.Gst
+                set_duty = item.order_item_id.Duty
             else:
+                set_gst = 0
+                set_duty = 0
                 cost_of_product = item.Event_Ticket.ticket_price
                 total_cost = (item.Event_Ticket.ticket_price * item.Quentity)
 
             Case_Formate_text_set = None
             if item.Case_Formate:
                 Case_Formate_text_set = item.Case_Formate.Bottle
-            add_item = AwOrederItem(User=request.user, Order_id=add_order, Product_Cellar=item.Product_Cellar,Product_Delivered=item.Product_Delivered,Event_Ticket=item.Event_Ticket, Year=item.Year,Type=item.Type, Case_Formate_text=Case_Formate_text_set,Case_Formate=item.Case_Formate,Cost_of_product=cost_of_product, Quentity=item.Quentity, Total_cost=total_cost)
+            add_item = AwOrederItem(User=request.user, Gst=set_gst,Duty=set_duty, Order_id=add_order, Product_Cellar=item.Product_Cellar,Product_Delivered=item.Product_Delivered,Event_Ticket=item.Event_Ticket, Year=item.Year,Type=item.Type, Case_Formate_text=Case_Formate_text_set,Case_Formate=item.Case_Formate,Cost_of_product=cost_of_product, Quentity=item.Quentity, Total_cost=total_cost)
             add_item.save()
-        AwAddToCard.objects.filter(User=self.request.user).delete()
+        # AwAddToCard.objects.filter(User=self.request.user).delete()
         # messages.info(request, "Order Plase successfully.")
         return HttpResponseRedirect(reverse('orders:checkout',args=(add_order.order_id,)))
 
@@ -170,7 +210,7 @@ class CheckOutView(generic.TemplateView):
             get_order_ins = get_object_or_404(AwOrders,order_id=order_id,Order_Status=False)
 
             if AwOrederItem.objects.filter(User=self.request.user).filter(Order_id=get_order_ins).exists():
-                get_acre_product = AwOrederItem.objects.filter(User=self.request.user).filter(Order_id__order_id=order_id)
+                get_acre_product = AwOrederItem.objects.filter(User=self.request.user).filter(Order_id__order_id=order_id).order_by("-id")
         context['card_product'] = get_acre_product
         context['get_order_ins'] = get_order_ins
 
@@ -179,12 +219,18 @@ class CheckOutView(generic.TemplateView):
         if AwAddressBook.objects.filter(User=self.request.user).exists():
             my_address = AwAddressBook.objects.filter(User=self.request.user)
         context['my_address'] = my_address
+
+        if AwUserInfo.objects.filter(User=self.request.user).exists():
+            user_info = get_object_or_404(AwUserInfo, User=self.request.user)
+        context['user_info'] = user_info
+
         return context
 
     def post(self, request, *args, **kwargs):
         order_id = self.kwargs.get("order_id")
         order_data = get_object_or_404(AwOrders, order_id=order_id)
         payment_type = request.POST["payment_type"]
+
         get_address_ins = None
 
         context = {}
@@ -231,8 +277,19 @@ class CheckOutView(generic.TemplateView):
                     messages.error(request, "Address is incorrect.")
                     return render(request, self.template_name, context)
 
+
+        if get_order_ins.Order_Type == 'Delivered':
+            shipping_payment_type = request.POST["payment_type"]
+            shipping_charge = request.POST["shipping_charge"]
+            shipping_Payment_Status_status = True
+        else:
+            shipping_payment_type = ""
+            shipping_charge = 0
+            shipping_Payment_Status_status = False
+
+
         message = request.POST["massage"]
-        AwOrders.objects.filter(order_id=order_id).update(Order_Status=True,Payment_Status=True,Payment_Method=payment_type,Payment_Date=datetime.now(),Order_address=get_address_ins)
+        AwOrders.objects.filter(order_id=order_id).update(shipping_charge=shipping_charge, order_place=True, Order_Status=True,Payment_Status=True,Payment_Method=payment_type,shipping_Payment_Status=shipping_Payment_Status_status,shipping_Payment_Method=shipping_payment_type,Payment_Date=datetime.now(),Order_address=get_address_ins)
 
         # ==========================remive product from caller when order is develover===================================
         get_product = AwOrederItem.objects.filter(User=self.request.user).filter(Order_id__order_id=order_id)
@@ -249,6 +306,7 @@ class CheckOutView(generic.TemplateView):
                             quentity = 0
                         AwOrederItem.objects.filter(id=item_get.id).update(Quentity=quentity)
         # ==========================remive product from caller when order is develover===================================
+        AwAddToCard.objects.filter(User=self.request.user).delete()
         messages.info(request, "Your Order has placed Successfully.")
 
         # if AwOrders.objects.filter(User=request.user).filter(Order_Type='Caller')
@@ -265,8 +323,8 @@ class OrederVidw(generic.TemplateView):
         context = super(OrederVidw, self).get_context_data(*args, **kwargs)
         context['Page_title'] = "orders"
         get_orders = None
-        if AwOrders.objects.filter(User=self.request.user).exists():
-            get_orders = AwOrders.objects.filter(User=self.request.user).order_by("-id")
+        if AwOrders.objects.filter(User=self.request.user).filter(order_place=True).exists():
+            get_orders = AwOrders.objects.filter(User=self.request.user).filter(order_place=True).order_by("-id")
         context['get_orders'] = get_orders
         return context
 
@@ -307,10 +365,18 @@ class ProoductInfoView(generic.TemplateView):
 
 
 def get_product_list(request):
-    user_ins = request.user
+    get_cookies = None
     get_product = None
-    if AwAddToCard.objects.filter(User=user_ins).exists():
-        get_product = AwAddToCard.objects.filter(User=user_ins).order_by("-id")
+    if not request.user.is_authenticated:
+        user_ins = 0
+        if 'aroma_of_wine' in request.COOKIES:
+            get_cookies = request.COOKIES['aroma_of_wine']
+            if AwAddToCard.objects.filter(Q(Cookies_id=get_cookies)).exists():
+                get_product = AwAddToCard.objects.filter(Q(Cookies_id=get_cookies)).order_by("-id")
+    else:
+        user_ins = request.user
+        if AwAddToCard.objects.filter(Q(User=user_ins)).exists():
+            get_product = AwAddToCard.objects.filter(Q(User=user_ins)).order_by("-id")
     data_content = {'get_product':get_product}
     return render(request, 'web/user/page/orders/card_bukate.html', data_content)
 
@@ -319,16 +385,27 @@ def get_my_card_product(request):
     status = 0
     message = ''
     data = {}
-    if request.user.username == "":
-        message = "User_not_nogin"
+    get_cookies = None
+    if not request.user.is_authenticated:
+        user_ins = 0
+        if 'aroma_of_wine' in request.COOKIES:
+            get_cookies = request.COOKIES['aroma_of_wine']
+            if AwAddToCard.objects.filter(Q(Cookies_id=get_cookies)).exists():
+                get_product = AwAddToCard.objects.filter(Q(Cookies_id=get_cookies)).order_by("-id")
+                get_data = AwAddToCardSerializer(get_product, many=True)
+                data = get_data.data
+                status = 1
+                message = str(len(get_product)) + " Item In card"
+        else:
+            message = "No Item In card"
     else:
         user_ins = request.user
-        if AwAddToCard.objects.filter(User=user_ins).exists():
-            get_product = AwAddToCard.objects.filter(User=user_ins).order_by("-id")
-            get_data = AwAddToCardSerializer(get_product,many=True)
+        if AwAddToCard.objects.filter(Q(User=user_ins)).exists():
+            get_product = AwAddToCard.objects.filter(Q(User=user_ins)).order_by("-id")
+            get_data = AwAddToCardSerializer(get_product, many=True)
             data = get_data.data
             status = 1
-            message = str(len(get_product))+" Item In card"
+            message = str(len(get_product)) + " Item In card"
         else:
             message = "No Item In card"
     return JsonResponse({"status": status, "message": message,'data':data})
@@ -386,8 +463,8 @@ def add_to_card(request):
                 message = "product_id is incorrect caller"
 
         if order_type == "d":
-            if AwOrederItem.objects.filter(Product_Cellar__Product_id=product_id).filter(Order_id__id=order_id).exists():
-                product_order_item_ins_all_data= get_object_or_404(AwOrederItem, Product_Cellar__Product_id=product_id, Order_id__id=order_id)
+            if AwOrederItem.objects.filter(Product_Cellar__Product_id=product_id).filter(Order_id__id=order_id).filter(Year=Year).exists():
+                product_order_item_ins_all_data= get_object_or_404(AwOrederItem, Product_Cellar__Product_id=product_id, Order_id__id=order_id,Year=Year)
                 product_order_item_ins = product_order_item_ins_all_data.Product_Cellar
                 Cost = product_order_item_ins_all_data.Cost_of_product
                 if AwProductPrice.objects.filter(id=Case_Formate_id).exists():
@@ -412,14 +489,20 @@ def add_to_card(request):
 
         if status == 1:
             status = 0
-            if AwAddToCard.objects.filter(User=user_ins).exists():
-                get_filst_item_ins = AwAddToCard.objects.filter(User=user_ins).first()
+            # get_cookies = "test"
+            if not request.user.is_authenticated:
+                user_ins = None
+                get_cookies = request.COOKIES['aroma_of_wine']
+            else:
+                get_cookies = str(datetime.now())
+            if AwAddToCard.objects.filter(Q(User=user_ins) | Q(Cookies_id=get_cookies)).exists():
+                get_filst_item_ins = AwAddToCard.objects.filter(Q(User=user_ins) | Q(Cookies_id=get_cookies)).first()
                 if get_filst_item_ins.Order_Type == order_type_set:
-                    if  AwAddToCard.objects.filter(User=user_ins).filter(Product_Cellar=product_ins).filter(Product_Delivered=product_order_item_ins).filter(Event_Ticket=event_ins).filter(Year=Year).filter(Type=Type).filter(Case_Formate=Case_Formate_ins).exists():
+                    if  AwAddToCard.objects.filter(Q(User=user_ins) | Q(Cookies_id=get_cookies)).filter(Product_Cellar=product_ins).filter(Product_Delivered=product_order_item_ins).filter(Event_Ticket=event_ins).filter(Year=Year).filter(Type=Type).filter(Case_Formate=Case_Formate_ins).exists():
                         status = 0
                         message = "This "+set_item_type+" is already add in your bucket."
                     else:
-                        add_in_card = AwAddToCard(User=user_ins, order_item_id=product_order_item_ins_all_data, Old_Cost=Cost, Product_Cellar=product_ins,
+                        add_in_card = AwAddToCard(User=user_ins,Cookies_id=get_cookies, order_item_id=product_order_item_ins_all_data, Old_Cost=Cost, Product_Cellar=product_ins,
                                                   Product_Delivered=product_order_item_ins, Event_Ticket=event_ins,
                                                   Year=Year, Type=Type, Case_Formate=Case_Formate_ins,
                                                   Quentity=Quentity_set, Order_Type=order_type_set)
@@ -436,7 +519,7 @@ def add_to_card(request):
                     status = 0
                     message = "You can add only ont type "+set_item_type+" ("+str(get_filst_item_ins.Order_Type)+")."
             else:
-                add_in_card = AwAddToCard(User=user_ins,Old_Cost=Cost,order_item_id=product_order_item_ins_all_data, Product_Cellar=product_ins,Product_Delivered=product_order_item_ins,Event_Ticket=event_ins, Year=Year, Type=Type,Case_Formate=Case_Formate_ins, Quentity=Quentity_set, Order_Type=order_type_set)
+                add_in_card = AwAddToCard(User=user_ins,Cookies_id=get_cookies,Old_Cost=Cost,order_item_id=product_order_item_ins_all_data, Product_Cellar=product_ins,Product_Delivered=product_order_item_ins,Event_Ticket=event_ins, Year=Year, Type=Type,Case_Formate=Case_Formate_ins, Quentity=Quentity_set, Order_Type=order_type_set)
                 add_in_card.save()
                 status = 1
                 if Order_Type == 't':
@@ -476,13 +559,24 @@ def add_to_card(request):
 
 
 
-
-
-
 @register.filter(name='get_product_image')
 def get_product_image(product_id):
 	# get_videp = VsVideos.objects.filter(Publich_Status=True).order_by("-id").first()
 	return product_id
+
+@register.filter(name='get_amount_without_persentage')
+def get_amount_without_persentage(amount,persentage):
+    amount = amount
+    persentage_amount = (amount*persentage)/100
+    amount_withoput_persentage = amount - persentage_amount
+    return amount_withoput_persentage
+
+@register.filter(name='get_persentage_amount')
+def get_persentage_amount(amount,persentage):
+    amount = amount
+    persentage_amount = (amount * persentage) / 100
+    return persentage_amount
+
 
 @csrf_exempt
 def get_product_price(request):

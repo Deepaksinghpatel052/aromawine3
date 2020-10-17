@@ -13,5 +13,5 @@ admin.site.register(AwAdminSetting,AwAdminSettingAdmin)
 
 
 class AwManageShippingAdmin(ImportExportModelAdmin):
-    list_display = ('Country','Free_Shipping_Amount', 'Free_Flat_Shipping', 'Create_date','Created_by')
+    list_display = ('Country','min_ordr_amount', 'Shiping_Fees_min_order_amount', 'Create_date','Created_by')
 admin.site.register(AwManageShipping,AwManageShippingAdmin)

@@ -8,7 +8,7 @@ class AwCategoryesForm(forms.ModelForm):
 
     class Meta:
         model = AwCategory
-        fields = ['Category_name', 'Title',  'Description']
+        fields = ['Category_name', 'Title',  'Description','Status']
 
 
 

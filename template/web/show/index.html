@@ -89,15 +89,17 @@
     <hr>
     <div class="product-info-content">
       <div class="product-price">
+      {% if get_item_wine.Descount_Cost > 0 %}
       <span class="list-price">SG${{get_item_wine.Retail_Cost}} &nbsp;<span>Incl. GST &amp; DP</span></span>
-      
       <span class="offer-price">
-        <!-- {{get_item_wine.Descount_Cost|get_product_price_with_gst_include:get_item_wine.GST|floatformat:2}} -->
-   SG${{get_item_wine.Retail_Cost}}&nbsp;<span class="taxSymbol">Incl. GST &amp; DP</span></span>
-      
-      <span class="details mt-2"><span>{{get_item_wine.Bottle}} | SG${{get_item_wine.Retail_Cost}}</span>
-      
-      </span>
+        <!-- {{get_item_wine.Retail_Cost|get_product_price_with_gst_include:get_item_wine.Descount_Cost|floatformat:2}} -->
+   SG${{get_item_wine.Descount_Cost|floatformat:2}}&nbsp;<span class="taxSymbol">Incl. GST &amp; DP</span></span>
+   {% else %}
+<span class="offer-price">
+        <!-- {{get_item_wine.Retail_Cost|get_product_price_with_gst_include:get_item_wine.Descount_Cost|floatformat:2}} -->
+   SG${{get_item_wine.Retail_Cost|floatformat:2}}&nbsp;<span class="taxSymbol">Incl. GST &amp; DP</span></span>
+      {% endif %}
+    
       </div>
       <div class="product-info-content-cta">
         <button class="mb-2 product-story_info-btn cick_to_view_product" data-toggle="modal" data-target="#listing-add-to-cart-modal" data-quick_view_url="{% url 'wine_shop:quick_view_product' get_item_wine.id  %}">Quick View</button>
@@ -108,7 +110,7 @@
 		{% if user.username == '' %}
 		<i class="fa fa-heart"></i>
         {% else %}
-		<a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' get_item_wine.Product.id get_item_wine.Product|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:get_item_wine.Product}}" >{% if user|check_in_wish_list:get_item_wine.Product == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
+		<a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' get_item_wine.Product.id get_item_wine.Product|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:get_item_wine.Product}} product_id_{{get_item_wine.id}}" data-prodcut_id="{{get_item_wine.id}}" >{% if user|check_in_wish_list:get_item_wine.Product == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
 		{% endif %}
 	</span>
 	

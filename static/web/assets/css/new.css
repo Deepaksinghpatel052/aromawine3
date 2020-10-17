@@ -2448,7 +2448,7 @@ ul.wine-info li {
 }
 
 .product-card-list .img {
-    padding: 0 4rem;
+    padding: 0 1rem 0 0rem;
 }
 
 .product-card-list .product-info {

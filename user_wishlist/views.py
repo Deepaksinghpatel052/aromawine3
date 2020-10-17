@@ -21,7 +21,7 @@ class WishListVidw(generic.ListView):
     paginate_by = 10
 
     def get_queryset(self, **kwargs):
-        get_order_items = None
+        get_order_items = ""
         if AwWishList.objects.filter(user_info=self.request.user).exists():
             get_order_items = AwWishList.objects.filter(user_info=self.request.user)
         return get_order_items
@@ -41,12 +41,12 @@ def add_product_in_wishlist(request,product_id,vintage_year):
         user = request.user
         year = vintage_year
         if AwProductPrice.objects.filter(Product=product_ins).filter(Vintage_Year__Vintages_Year=year).exists():
-            vinrage_year_ins = get_object_or_404(AwProductPrice,Product=product_ins,Vintage_Year__Vintages_Year=year)
+            vinrage_year_ins = AwProductPrice.objects.filter(Product=product_ins).filter(Vintage_Year__Vintages_Year=year).first()
             if AwWishList.objects.filter(user_info=user).filter(Product=product_ins).filter(Case_Formate=vinrage_year_ins).exists():
                 AwWishList.objects.filter(user_info=user).filter(Product=product_ins).filter(
                     Case_Formate=vinrage_year_ins).delete()
-                status = "1"
-                message = "Product is removed in your wishlist."
+                status = "0"
+                message = "Product is removed from your wishlist."
             else:
                 add_data = AwWishList(user_info=user, Product=product_ins, Case_Formate=vinrage_year_ins)
                 add_data.save()

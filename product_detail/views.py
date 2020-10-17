@@ -23,6 +23,7 @@ def times(number):
 
 
 
+
 class DetailView(generic.TemplateView):
     template_name = "web/product_detail/index.html"
 

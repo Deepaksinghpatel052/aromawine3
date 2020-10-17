@@ -3,7 +3,13 @@
 
    {% block cssstyle %}
 
-<!-- <link rel="stylesheet" href='{% static "web/assets/full_views/style.css" %}'> -->
+<link rel="stylesheet" href='{% static "web/assets/image_zoom/dist/css/lightbox.css" %}'>
+<style type="text/css">
+  canvas {
+  background-color:#fff;
+  margin:50px;
+}
+</style>
       {% endblock %}
 
 {% block content %}
@@ -27,15 +33,10 @@
 {% endif %}
 
  ->({{get_product_one_year.Product.Bottel_Size}})  
-{% if image_of_full_view %}
- -> <a href="#" data-toggle="modal" data-target="#exampleModal_for_360">360<sup>o</sup> View</a> 
-{% endif  %}
 
-{% if user.username == '' %}
-<i class="fa fa-heart-o"></i>
-{% else %}
-<a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' get_product_one_year.Product.id get_product_one_year.Product|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:get_product_one_year.Product}}" >{% if user|check_in_wish_list:get_product_one_year.Product == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
-{% endif %}
+
+
+
 </strong>
 
 
@@ -53,7 +54,7 @@
         </button>
       </div>
       <div class="modal-body text-center">
-        <canvas id="360viewer" width="80" height="328"></canvas>
+        <canvas id="360viewer" width="200" height="750"></canvas>
       </div>
       
     </div>
@@ -71,17 +72,33 @@
 <div class="col-lg-5 col-sm-12 col-xs-12">
   <div class="simpleLens-gallery-container" id="demo-1">
     <div class="simpleLens-container">
-      <div class="simpleLens-big-image-container"> <a class="simpleLens-lens-image" data-lens-image="{% if get_product_image.0.Image %} {{get_product_image.0.Image.url}} {% else %} {% static 'web/assets/image/shop/single-1.png' %} {% endif %}"> <img src="{% if get_product_image.0.Image %} {{get_product_image.0.Image.url}} {% else %} {% static 'web/assets/image/shop/single-1.png' %} {% endif %}" class="simpleLens-big-image"> </a> </div>
+      <div class="simpleLens-big-image-container"> <a class="simpleLens-lens-image" href="{% if get_product_image.0.Image %} {{get_product_image.0.Image.url}} {% else %} {% static 'web/assets/image/shop/single-1.png' %} {% endif %}" data-lightbox="example-setc" data-title="{{get_product_one_year.Product.Product_name}}"> <img src="{% if get_product_image.0.Image %} {{get_product_image.0.Image.url}} {% else %} {% static 'web/assets/image/shop/single-1.png' %} {% endif %}" class="simpleLens-big-image"> </a> 
+        <span class="heartbox">
+{% if user.username == '' %}
+<i class="fa fa-heart-o"></i>
+{% else %}
+<a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' get_product_one_year.Product.id get_product_one_year.Product|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:get_product_one_year.Product}} product_id_{{get_product_one_year.id}}" data-prodcut_id="{{get_product_one_year.id}}" >{% if user|check_in_wish_list:get_product_one_year.Product == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
+{% endif %}
+</span>
+      </div>
     </div>
     <div class="simpleLens-thumbnails-container"> 
     	{% if get_product_image %}
     	{% for items in get_product_image %}
-    	<a class="simpleLens-thumbnail-wrapper"
-               data-lens-image='{{items.Image.url}}'
-               data-big-image='{{items.Image.url}}'> <img src='{{items.Image.url}}' > </a> 
+      <a class="simpleLens-thumbnail-wrapper" href="{{items.Image.url}}" data-lightbox="example-setc" data-title="{{get_product_one_year.Product.Product_name}}"><img src='{{items.Image.url}}' ></a>
+    	<!-- <a 
+               data-lens-image=''
+               data-big-image='{{items.Image.url}}'> <img src='{{items.Image.url}}' > </a>  -->
            {% endfor %}    
     	{% else %}
 {% endif %}
+
+{% if image_of_full_view %}
+<a class="simpleLens-thumbnail-wrapper" href="#" data-toggle="modal" data-target="#exampleModal_for_360"><img style="height: 170px;" src="{% static 'web/assets/image/360_image_view_icon.png' %}" ></a> 
+{% endif  %}
+
+
+
            </div>
   </div>
 </div>
@@ -106,7 +123,11 @@
 <div class="col-xs-7 col-sm-7 col-lg-7 no-padding">
 <div class="row">
 <div class="ib-dp-price col-xs-12 col-md-4">
+  {% if get_product_one_year.Bond_Descount_Cost > 0 %}
+<span class="regular-price" id="set_price_for_bond">${{get_product_one_year.Bond_Descount_Cost}}</span>
+{% else %}
 <span class="regular-price" id="set_price_for_bond">${{get_product_one_year.Bond_Cost}}</span>
+{% endif %}
 </div>
 <div class="product-type col-xs-12 col-md-8">
 <span>Delivered to Bond</span>
@@ -144,11 +165,6 @@ We will only be able to deliver this product to a bonded account. But you can re
 {% endfor %}
 </select>
 
-{% if user.username == '' %}
-<a href="{% url 'account:account' %}"> <button data-order_type="c"  data-order_id="" data-event_id="" type="button" title="Add To Order" d data-cost_type="Bond"  class="button btn-cart change-ib-db add_to_card">
-Buy
-</button></a>
-{% else %}
 {% if get_product_one_year.Bond_Cost > 0 %}
 <button type="button" id="Bond_buy" data-order_type="c" data-order_id="" data-event_id="" title="Add To Order" data-product_id="{{get_product_one_year.Product.Product_id}}" data-cost_type="Bond"  class="button btn-cart change-ib-db add_to_card">
 Buy
@@ -158,9 +174,6 @@ Buy
 Buy
 </button>
 {% endif %}
-
-{% endif %}
-
 
 </div>
  </div>
@@ -175,7 +188,14 @@ Buy
 <div class="col-xs-7 col-sm-7 col-lg-7 no-padding">
 <div class="row">
 <div class="ib-dp-price col-xs-12 col-md-4">
-<span class="regular-price" id="set_price_for_retail">${{get_product_one_year.Retail_Cost}}</span>
+  
+<span class="regular-price" id="set_price_for_retail">
+{% if get_product_one_year.Descount_Cost > 0 %}
+${{get_product_one_year.Descount_Cost|floatformat:2}}</span>
+{% else %}
+${{get_product_one_year.Retail_Cost|floatformat:2}}</span>
+{% endif %}
+
 </div>
 <div class="product-type col-xs-12 col-md-8">
 <span>Retail Price (Inc. VAT)</span>
@@ -213,26 +233,11 @@ Delivery to United Kingdom Storage: 25 Mar 2020</p> -->
 </select>
 
 
-{% if user.username == '' %}
-
-<a href="{% url 'account:account' %}"> <button type="button" title="Add To Order" d data-cost_type="Bond"  class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">
-Buy
-</button></a>
-
-{% else %}
-<!-- <button type="button" title="Add To Order" class="button btn-cart change-ib-db">
-<i class="fa fa-heart-o"></i>
-</button>
- -->
-
-
 {% if get_product_one_year.Retail_Cost > 0 %}
 <button type="button" id="Retail_buy" title="Add To Order" data-product_id="{{get_product_one_year.Product.Product_id}}" data-cost_type="Retail" class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">Buy</button>
 {% else %}
 <button type="button" id="Retail_buy"  disabled="true" data-product_id="{{get_product_one_year.Product.Product_id}}"data-cost_type="Retail" title="Add To Order" class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">Buy</button>
 {% endif %}
-{% endif %}
-
 </div>
  </div>
 </form>
@@ -436,7 +441,7 @@ See more wines from Alvear </a>
 {% if user.username == '' %}
 <i class="fa fa-heart-o"></i>
 {% else %}
-        <a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' get_items.Product.id get_items.Product|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:get_items.Product}}" >{% if user|check_in_wish_list:get_items.Product == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
+        <a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' get_items.Product.id get_items.Product|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:get_items.Product}} product_id_{{get_items.id}}" data-prodcut_id="{{get_items.id}}">{% if user|check_in_wish_list:get_items.Product == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
       {% endif %}
       </span>
 			<a href="{% url 'product_detail:product_detail' get_items.Product.Product_id get_items.Product.Product_slug  get_items.Product|get_product_vintage_yera_one %}"><img src='{{get_items.Product|get_product_image_one}}' alt="" /></a>
@@ -476,7 +481,7 @@ See more wines from Alvear </a>
   {% if user.username == '' %}
   <i class="fa fa-heart-o"></i>
   {% else %}
-  <a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' items.id items|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:items}}" >{% if user|check_in_wish_list:items == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
+  <a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' items.id items|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:items}} product_id_{{items.id}}" data-prodcut_id="{{items.id}}">{% if user|check_in_wish_list:items == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
   {% endif %}
 </span>
 			<a href="{% url 'product_detail:product_detail' items.Product_id items.Product_slug  items|get_product_vintage_yera_one %}"><img src='{{items|get_product_image_one}}'  alt="" /></a>
@@ -774,7 +779,11 @@ See more wines from Alvear </a>
 
 
   {% block script %}
+  {% if image_of_full_view %}
    <script src='https://code.createjs.com/easeljs-0.6.0.min.js'></script>
+  {% endif %}
+   <script src='{% static "web/assets/image_zoom/dist/js/lightbox.js" %}'></script>
+  }
 
  
 <script type="text/javascript">
@@ -834,7 +843,7 @@ function init() {
   var bmp = new createjs.Bitmap();
   stage.addChild(bmp);
 
-  var myTxt = new createjs.Text("360 View", '24px', "#fcc201");
+  var myTxt = new createjs.Text("", '24px', "#fcc201");
 myTxt.y =280;
 myTxt.x =20;
 
