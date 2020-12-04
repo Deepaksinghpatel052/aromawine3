@@ -10,6 +10,29 @@
             
         </div>
     </section>
+	<style>
+	.lwine {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.btn-lwine {
+    background: #cca261;
+    border: 0px;
+    color: #fff;
+    font-size: 16px;
+    padding: 8px 10px;
+    height: 44px;
+    margin-left: 5px;
+    border-radius: 5px;
+}
+
+.btn-lwine:hover {
+    background: #8a5401;
+    border: 0px;
+}
+	</style>
        {% if messages %}
     {% for message in messages %}
         
@@ -28,7 +51,7 @@
     {% for field in form %}
         {% for error in field.errors %}
             <div class="alert alert-danger">
-                <strong>{{field.title}}  {{ error|escape }}</strong>
+                <strong>{{field.title}} {{ error|escape }}</strong>
             </div>
         {% endfor %}
     {% endfor %}
@@ -55,22 +78,36 @@
     <div id="collapseOne" class="panel-collapse collapse show in">
       <div class="panel-body">
        <div class="row">
-        <div class="col-md-6">   
+<div class="col-md-4">
+        <div class="form-group scroll_cat">
+                   <label class="age">LWine Code* <span id="show_error_message_id_LWineCode" style="color:red;"> </span></label>
+				   <div class="lwine">
+                   {{form.LWineCode}}
+                   <button class="btn-lwine" id="run_lwine_code"  type="button" title="search in Lwine">Search</button>
+				   </div>
+
+        </div>
+      </div>
+
+        <div class="col-md-4">   
               <label class="age">Select*  <span id="show_error_message_Select_Type" style="color:red;"> </span></label>
                        {{form.Select_Type}}
+                       <span id="show_error_message_Select_Type_not_avelabel" style="color:red;"></span>
                         </div>
             
-             <div class="col-md-6">
+             <div class="col-md-4">
         <div class="form-group">
                    <label class="age">Product Name* <span id="show_error_message_Product_name" style="color:red;"> </span></label>
                    {{form.Product_name}}
 
         </div>
       </div>
+       
     <div class="col-md-6">
         <div class="form-group scroll_cat">
                    <label class="age">Producer Name/Winery* <span id="show_error_message_Producer" style="color:red;"> </span></label>
                    {{form.Producer}}
+                   <span id="show_error_message_Producer_not_avelabel" style="color:red;"></span>
 
         </div>
       </div>
@@ -80,7 +117,7 @@
                    
                                        
                                      {{form.Category}}
-                            
+                            <span id="show_error_message_Category_not_avelabel" style="color:red;"> </span>   
 
         </div>
       </div>
@@ -91,7 +128,7 @@
         <div class="form-group">
                    <label class="age">Color* <span id="show_error_message_Color" style="color:red;"> </span></label>
             {{form.Color}}
-                  
+                  <span id="show_error_message_Color_not_avelabel" style="color:red;"> </span>
 
         </div>
       </div>
@@ -99,6 +136,7 @@
         <div class="form-group">
                    <label class="age">Appellation* <span id="show_error_message_Appellation" style="color:red;"> </span></label>
            {{form.Appellation}}
+           <span id="show_error_message_Appellation_not_avelabel" style="color:red;"> </span>
                   
 
         </div>
@@ -108,14 +146,14 @@
         <div class="form-group">
                    <label class="age">Bottle Size* <span id="show_error_message_Bottel_Size" style="color:red;"> </span> </label>
        {{form.Bottel_Size}}
-                  
+                                    <span id="show_error_message_Bottel_Size_Not_avelabel" style="color:red;"> </span>
 
         </div>
       </div>
       
    
   <div class="col-md-6">
-        <div class="form-group">
+        <div class="form-group classifications_ajax">
                    <label class="age">Classification* <span id="show_error_message_Classification" style="color:red;"> </span></label>
           {{form.Classification}}
                   
@@ -126,7 +164,7 @@
 
 
       <div class="col-md-6">
-        <div class="form-group scroll_cat">
+        <div class="form-group scroll_cat vintage_year_ajax">
                    <label class="age">Vintage* <span id="show_error_message_Vintage" style="color:red;"> </span></label>
            {{form.Vintage}}
                   
@@ -138,7 +176,7 @@
         <div class="form-group scroll_cat">
                    <label class="age">Varietals* <span id="show_error_message_Varietals" style="color:red;"> </span></label>
            {{form.Varietals}}
-           
+           <span id="show_error_message_Varietals_not_Avelabel" style="color:red;"> </span>
                   
 
         </div>
@@ -148,7 +186,7 @@
                    <label class="age">Country* <span id="show_error_message_Country" style="color:red;"> </span></label>
           {{form.Country}}
           
-                  
+                  <span id="show_error_message_Country_not_avelabel" style="color:red;"> </span>
 
         </div>
       </div>
@@ -157,7 +195,7 @@
                    <label class="age">Regions* <span id="show_error_message_Regions" style="color:red;"> </span></label>
            {{form.Regions}}
                   
-
+<span id="show_error_message_Regions_not_avelabel" style="color:red;"> </span>
         </div>
       </div>
     <div class="col-md-6">
@@ -165,7 +203,7 @@
                    <label class="age">Grape* <span id="show_error_message_Grape" style="color:red;"> </span></label>
            {{form.Grape}}
                   
-
+<span id="show_error_message_Grape_not_avelabel" style="color:red;"> </span>
         </div>
       </div>
     <div class="col-md-6">
@@ -334,6 +372,7 @@
          <input type="hidden" id="old_year_value" value="{{get_product_ins.Vintage.all|join:'|'}}">
     <div class="table-responsive " id="show_vintage_year_stock_data">
      
+     <input type="hidden" name="all_remove_vintage_ids" id="all_remove_vintage_ids" value="">
           {% if year_list %}
 {% for year in year_list %}
 
@@ -368,24 +407,26 @@
         {% if cost_items.Vintage_Year.Vintages_Year == year %}
          <tr style="cursor: pointer;">
             <td data-field="name" style="width: 75px;">
-              <input type="text" name="{{year}}_bottle[]" value="{% if cost_items.Bottle %} {{cost_items.Bottle}} {% else %} 0 {% endif %}" class="{{year}}_bottle"></td>
+              <input type="hidden" name="{{year}}_id[]" value="{% if cost_items %}{{cost_items.id}}{% endif %}">
+              <input type="text" name="{{year}}_bottle[]" value="{% if cost_items.Bottle %}{{cost_items.Bottle}}{% else %}0{% endif %}" class="{{year}}_bottle"></td>
+              
             <td data-field="name" style="width: 116px;">
-              <input type="text" style="width: 100px;" class="{{year}}_retail_cose" value="{% if cost_items.Retail_Cost %} {{cost_items.Retail_Cost}}{% else %} 0 {% endif %}" name="{{year}}_retail_cose[]"></td>
+              <input type="text" style="width: 100px;" class="{{year}}_retail_cose" value="{% if cost_items.Retail_Cost %}{{cost_items.Retail_Cost}}{% else %}0{% endif %}" name="{{year}}_retail_cose[]"></td>
             <td data-field="name" style="width: 126px;">
-              <input type="text" name="{{year}}_retail_stock[]" value="{% if cost_items.Retail_Stock %} {{cost_items.Retail_Stock}}{% else %} 0 {% endif %}" class="{{year}}_retail_stock" style="width: 100px;"></td>
+              <input type="text" name="{{year}}_retail_stock[]" value="{% if cost_items.Retail_Stock %}{{cost_items.Retail_Stock}}{% else %}0{% endif %}" class="{{year}}_retail_stock" style="width: 100px;"></td>
             <td data-field="name" style="width: 147px;">
-              <input type="text" name="{{year}}_descount_cose[]" class="{{year}}_descount_cose" value="{% if cost_items.Descount_Cost %} {{cost_items.Descount_Cost}}{% else %} 0 {% endif %}" style="width: 100px;"> </td>
+              <input type="text" name="{{year}}_descount_cose[]" class="{{year}}_descount_cose" value="{% if cost_items.Descount_Cost %}{{cost_items.Descount_Cost}}{% else %}0{% endif %}" style="width: 100px;"> </td>
             <td data-field="name" style="width: 63px;">
-              <input type="text" name="{{year}}_duty[]" class="{{year}}_duty" value="{% if cost_items.Duty %} {{cost_items.Duty}}{% else %} 0 {% endif %}" style="width: 65px;"></td>
+              <input type="text" name="{{year}}_duty[]" class="{{year}}_duty" value="{% if cost_items.Duty %}{{cost_items.Duty}}{% else %}0{% endif %}" style="width: 65px;"></td>
             <td data-field="name" style="width: 70px;">
-              <input type="text" name="{{year}}_GST[]" value="{% if cost_items.GST %} {{cost_items.GST}}{% else %} 0 {% endif %}" class="{{year}}_GST" style="width: 65px;"> </td>
+              <input type="text" name="{{year}}_GST[]" value="{% if cost_items.GST %}{{cost_items.GST}}{% else %}0{% endif %}" class="{{year}}_GST" style="width: 65px;"> </td>
             <td data-field="name" style="width: 115px;">
-              <input type="text" name="{{year}}_bond_cose[]" value="{% if cost_items.Bond_Cost %} {{cost_items.Bond_Cost}}{% else %} 0 {% endif %}" class="{{year}}_bond_cose" style="width: 100px;"></td>
+              <input type="text" name="{{year}}_bond_cose[]" value="{% if cost_items.Bond_Cost %}{{cost_items.Bond_Cost}}{% else %}0{% endif %}" class="{{year}}_bond_cose" style="width: 100px;"></td>
             <td data-field="name" style="width: 125px;">
-              <input type="text" name="{{year}}_bond_stock[]" class="{{year}}_bond_stock" value="{% if cost_items.Bond_Stock %} {{cost_items.Bond_Stock}}{% else %} 0 {% endif %}" style="width: 100px;"></td>
+              <input type="text" name="{{year}}_bond_stock[]" class="{{year}}_bond_stock" value="{% if cost_items.Bond_Stock %}{{cost_items.Bond_Stock}}{% else %}0{% endif %}" style="width: 100px;"></td>
             <td data-field="name" style="width: 125px;">
-              <input type="text" name="{{year}}_bond_descount_cost[]" class="{{year}}_bond_descount_cost" value="{% if cost_items.Bond_Descount_Cost %} {{cost_items.Bond_Descount_Cost}}{% else %} 0 {% endif %}" style="width: 100px;"></td>
-            <td><a class="delect_ed" title="Delete"><i class="fa fa-trash"></i></a></td>
+              <input type="text" name="{{year}}_bond_descount_cost[]" class="{{year}}_bond_descount_cost" value="{% if cost_items.Bond_Descount_Cost %}{{cost_items.Bond_Descount_Cost}}{% else %}0{% endif %}" style="width: 100px;"></td>
+            <td><a class="delect_ed" data-vintage_id="{{cost_items.id}}" title="Delete"><i class="fa fa-trash"></i></a></td>
          </tr>
          {% endif %}
          {% endfor %}
@@ -600,6 +641,7 @@
    {% block script %}
 
      <script src='{% static "admin/assets/cropme/croppie_product_image.js" %}' ></script>
+     <script src='{% static "admin/assets/js/create_lwine_search.js" %}' ></script>
     <script type="text/javascript">
    $(document).ready(function() {
 
@@ -687,6 +729,21 @@ $("#show_error_message_Grape").text('');
 $("#show_error_message_Varietals").text('');
 
 $("#show_error_message").html('');
+
+
+
+$("#show_error_message_id_LWineCode").text('');
+
+// alert($("#id_LWineCode").val()=="");
+
+if($("#id_LWineCode").val()=="")
+{
+  // alert("dkfjfvf");
+  set_status =false;
+  $("#show_error_message_id_LWineCode").text('Please Enter.');
+}
+
+
 if($("#id_Select_Type").val()=="")
 {
   set_status =false;

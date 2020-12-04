@@ -39,7 +39,7 @@
  {% for item in object_list %}
 
 
-
+{% if item.Case_Formate %}
 
     <div class="product-card product-card-list mb-4">
   <div class="img"><a href="{% url 'product_detail:product_detail' item.Product.Product_id item.Product.Product_slug  item.Case_Formate  %}" target="_blank"><img src='{{item.Product|get_product_image_one}}'  alt="{{item.Product.Select_Type}} : {{item.Product}} ({{item.Case_Formate}})"></a></div>
@@ -85,7 +85,7 @@
   </div>
 </div>
  
-
+{% endif %}
 
 {% endfor %}
  {% endif %}

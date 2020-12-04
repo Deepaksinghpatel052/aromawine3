@@ -23,15 +23,20 @@ Special Prices{% load static %}
     <div class="itemselector-container">
       <ul class="itemselector list-group">
         <li class="list-group-item">
+          {% if get_all_bottel_set_of_this_year %}
+          <div id="guaranteed-stock-tip">Bottle/Case Format</div>
+          {% endif %}
+        </li>
+
+        <li class="list-group-item">
 
 
 		{% if get_all_bottel_set_of_this_year %}
-<div id="guaranteed-stock-tip">Bottle/Case Format</div>
 
 <select class="quantity_select" style="width:100%;">
 			
 			{% for items in get_all_bottel_set_of_this_year  %}
-			<option>{{items.Bottle}}</option>
+			<option>{{items.Bottle|slice:"0:25"}}</option>
 			{% endfor %}
 			</select>
 			{% endif %}
@@ -65,9 +70,9 @@ Special Prices{% load static %}
     <ul class="reassurance-list">
       <li class="reassurance-item"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check" class="svg-inline--fa fa-check fa-w-16 reassurance-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
         <path fill="currentColor" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path>
-        </svg><span class="reassurance-text">Free delivery on order of SGD650 or more</span></li>
+        </svg><span class="reassurance-text">Free delivery on order of ${{"demo"|free_develovery_order_limit}}</span></li>
       <li class="reassurance-item"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check" class="svg-inline--fa fa-check fa-w-16 reassurance-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-        <path fill="currentColor" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path>
+        <path fill="currentColor" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9 .997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path>
         </svg><span class="reassurance-text">100% Secure Payment</span></li>
       <li class="reassurance-item"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check" class="svg-inline--fa fa-check fa-w-16 reassurance-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
         <path fill="currentColor" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path>

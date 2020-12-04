@@ -15,6 +15,7 @@ from admin_manage_country.models import AwCountry
 from admin_manage_producer.models import AwSetTo,AwProducers
 from admin_manage_Vintages.models import AwVintages
 from admin_manage_products.models import AwProductImageFullView
+from admin_manage_special_offers.models import AwSpecialOffers
 from rest_framework import generics
 from rest_framework.permissions import IsAdminUser
 from .serializer import BannerSerializer
@@ -62,6 +63,9 @@ class ApiTrandingWineView(generics.ListCreateAPIView):
 class ApiGetBannerView(generics.ListCreateAPIView):
     queryset = AwBanners.objects.all()
     serializer_class = BannerSerializer
+
+
+
 
 
 @register.filter(name='get_wine_according_region')
@@ -128,7 +132,11 @@ def show_mega_menu(dummt_data):
         sprit_product = AwProductPrice.objects.filter(Product__Select_Type__Type='Sprits').filter(Product__Status=True).filter(Vintage_Year__isnull=False).annotate(replies=Count('Vintage_Year') - 1)
     if AwCmsPaage.objects.filter(Publish=True).exists():
         custom_page = AwCmsPaage.objects.filter(Publish=True).order_by('Title')[:6]
-    return render_to_string('web/home/mega_menu.html',{'custom_page':custom_page,'sprit_product':sprit_product,'sprit_country':sprit_country,'en_premier_vintage_year':en_premier_vintage_year,'en_premier_vintage_winnery':en_premier_vintage_winnery,'en_premier_vintage_wine':en_premier_vintage_wine, "get_category":get_category,'get_region_for_fine_wine':get_region_for_fine_wine,'aromawine_pattenre_country':aromawine_pattenre_country,'aromawine_pattenre_winnery':aromawine_pattenre_winnery,'aromawine_pattenre_applicant':aromawine_pattenre_applicant})
+    if dummt_data == "dasktop":
+        template_set = 'web/home/mega_menu.html'
+    else:
+        template_set = 'web/home/mega_menu_mobile.html'
+    return render_to_string(template_set,{'custom_page':custom_page,'sprit_product':sprit_product,'sprit_country':sprit_country,'en_premier_vintage_year':en_premier_vintage_year,'en_premier_vintage_winnery':en_premier_vintage_winnery,'en_premier_vintage_wine':en_premier_vintage_wine, "get_category":get_category,'get_region_for_fine_wine':get_region_for_fine_wine,'aromawine_pattenre_country':aromawine_pattenre_country,'aromawine_pattenre_winnery':aromawine_pattenre_winnery,'aromawine_pattenre_applicant':aromawine_pattenre_applicant})
 
 
 def get_product_image_one_by_product_id(request,product_id):
@@ -171,7 +179,7 @@ def show_footer(dummy_data):
     if AwCategory.objects.filter(Status=True).exists():
         catrregory = AwCategory.objects.filter(Status=True).order_by('Category_name')[:9]
     if AwCmsPaage.objects.filter(Publish=True).exists():
-        custom_page = AwCmsPaage.objects.filter(Publish=True).order_by('Title')[:6]
+        custom_page = AwCmsPaage.objects.filter(Publish=True).order_by('Title')[:10]
     get_page_for_footer = None
     if AwCmsPaage.objects.filter(Short_description_Show_in_Footer=True).exists():
         get_page_for_footer = AwCmsPaage.objects.filter(Short_description_Show_in_Footer=True).order_by('-id').first()
@@ -232,6 +240,12 @@ class HomeView(generic.TemplateView):
         context['get_about_wine'] = get_about_wine
 
         # =====================get regions  start=============
+
+        get_data_of_special_off_only_two = AwSpecialOffers.objects.all().order_by("Priority_set")[:2]
+        context['get_data_of_special_off_only_two'] = get_data_of_special_off_only_two
+
+        get_data_of_special_off = AwSpecialOffers.objects.all().order_by("Priority_set")[2:]
+        context['get_data_of_special_off'] = get_data_of_special_off
         # print(get_vintage_year_ids)
         return context
 

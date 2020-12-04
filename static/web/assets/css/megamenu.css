@@ -930,7 +930,7 @@ span.ruby-dropdown-toggle:after {
 }
 div.ruby-wrapper {
     position: relative;
-    width: 980px;
+    width: 1030px;
     height: 50px;
     margin: 0 auto;
     background: #fafafa;
@@ -983,13 +983,18 @@ ul.ruby-menu > li > a:only-child:after,ul.ruby-menu > li:hover > a:only-child:af
     content: ''
 }
 
+ul.ruby-menu > li > a:only-child {
+    border-right: 1px solid transparent;
+    border-left: 1px solid transparent;
+}
 ul.ruby-menu > li.ruby-active-menu-item > a {
     background:
 }
 
 ul.ruby-menu > li > a .fa {
     position: relative;
-    width: 24px
+    width: auto;
+	padding-right:0px;
 }
 
 ul.ruby-menu > li > a > img {

@@ -5,15 +5,15 @@
                         <table class="cart-wrap">
                             <thead>
                                 <tr>
-                                    <th align="left" valign="middle" class="first-td-width">Image</th>
-                                    <th align="left" valign="middle">Product</th>
-                                    <th align="left" valign="middle">Type & Case Size</th>
-                                    <th align="center" valign="middle">Price</th>
+                                    <th align="left" valign="middle" class="first-td-width">IMAGE</th>
+                                    <th align="left" valign="middle">PRODUCT</th>
+                                    <th align="left" valign="middle">TYPE & CASE SIZE</th>
+                                    <th align="center" valign="middle">PRICE</th>
                                     <th align="center" valign="middle">GST</th>
-                                    <th align="center" valign="middle">Price With GST</th>
-                                    <th align="center" valign="middle">Quantity</th>
-                                    <th align="center" valign="middle">Total</th>
-                                    <th align="center" valign="middle">Remove</th>
+                                    <th align="center" valign="middle">PRICE WITH GST</th>
+                                    <th align="center" valign="middle">QTY</th>
+                                    <th align="center" valign="middle">AMOUNT</th>
+                                    <th align="center" valign="middle">REMOVE</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -28,7 +28,7 @@
                                     <td align="left" valign="middle">
 <input type="hidden" class="card_product_id" value="{{item.id}}">
                                       <a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year %}">{{item.Product_Cellar.Product_name|slice:"0:20"}}<br>{{item.Year}} </a></td>
-                                    <td align="center" valign="middle">
+                                    <td align="center" valign="middle" style="width: 133px;">
                                       {{item.Type}}/({{item.Case_Formate.Bottle}})
                                     </td>
                                     <td align="center" valign="middle">
@@ -81,9 +81,9 @@ ${{item.Case_Formate.Retail_Cost|get_amount_without_persentage:item.Case_Formate
 {% if item.Type == 'Bond' %}
 
  {% if item.Case_Formate.Bond_Descount_Cost > 0  %}
-${{item.Case_Formate.Bond_Descount_Cost}}
+${{item.Case_Formate.Bond_Descount_Cost|floatformat:2}}
 {% else %}
-${item.Case_Formate.Bond_Cost}
+${item.Case_Formate.Bond_Cost|floatformat:2}
 {% endif %}
 
 
@@ -93,9 +93,9 @@ ${item.Case_Formate.Bond_Cost}
 
 
 {% if item.Case_Formate.Descount_Cost > 0  %}
-  ${{item.Case_Formate.Descount_Cost}}
+  ${{item.Case_Formate.Descount_Cost|floatformat:2}}
 {% else %}
-${{item.Case_Formate.Retail_Cost}}
+${{item.Case_Formate.Retail_Cost|floatformat:2}}
 {% endif %}
 
 {% endif %}
@@ -132,9 +132,9 @@ ${{item.Case_Formate.Retail_Cost}}
                                           {% if item.Type == 'Retail' %}
 
                             {% if item.Case_Formate.Descount_Cost > 0  %}
-                                          <input id="quentuty_{{item.id}}" type="text" value="{{item.Quentity}}" data-product_price="{{item.Case_Formate.Descount_Cost}}" data-max_val="{{item.Case_Formate.Descount_Cost}}" class="dollar-spin comma-format form-control" style="display: block;">
+                                          <input id="quentuty_{{item.id}}" type="text" value="{{item.Quentity}}" data-product_price="{{item.Case_Formate.Descount_Cost}}" data-max_val="{{item.Case_Formate.Retail_Stock}}" class="dollar-spin comma-format form-control" style="display: block;">
                             {% else %}
-                            <input id="quentuty_{{item.id}}" type="text" value="{{item.Quentity}}" data-product_price="{{item.Case_Formate.Retail_Cost}}" data-max_val="{{item.Case_Formate.Retail_Cost}}" class="dollar-spin comma-format form-control" style="display: block;">
+                            <input id="quentuty_{{item.id}}" type="text" value="{{item.Quentity}}" data-product_price="{{item.Case_Formate.Retail_Cost}}" data-max_val="{{item.Case_Formate.Retail_Stock}}" class="dollar-spin comma-format form-control" style="display: block;">
                             {% endif %}
                                           {% endif %}
 
@@ -155,12 +155,12 @@ ${{item.Case_Formate.Retail_Cost}}
 
 
 {% if item.Case_Formate.Bond_Descount_Cost > 0  %}
-        <input type="hidden" class="total" id="input_price_show_{{item.id}}" value="{% widthratio item.Case_Formate.Bond_Descount_Cost 1 item.Quentity %}">
-$<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Bond_Descount_Cost 1 item.Quentity %}</span>
+        <input type="hidden" class="total" id="input_price_show_{{item.id}}" value="{{item.Case_Formate.Bond_Descount_Cost|multiply_of_prodiuct_amount_quentity:item.Quentity|floatformat:2}}">
+$<span id="price_show_{{item.id}}">{{item.Case_Formate.Bond_Descount_Cost|multiply_of_prodiuct_amount_quentity:item.Quentity|floatformat:2}} </span>
 
                             {% else %}
-                         <input type="hidden" class="total" id="input_price_show_{{item.id}}" value="{% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}">
-$<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}</span>
+                         <input type="hidden" class="total" id="input_price_show_{{item.id}}" value="{{item.Case_Formate.Bond_Cost|multiply_of_prodiuct_amount_quentity:item.Quentity|floatformat:2}}">
+$<span id="price_show_{{item.id}}">{{item.Case_Formate.Bond_Cost|multiply_of_prodiuct_amount_quentity:item.Quentity|floatformat:2}}</span>
 
                             {% endif %}
 
@@ -171,11 +171,14 @@ $<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Bond_Cost 1 i
 
 
 {% if item.Case_Formate.Descount_Cost > 0  %}
-<input type="hidden"  class="total" id="input_price_show_{{item.id}}" value="{% widthratio item.Case_Formate.Descount_Cost 1 item.Quentity %}">
-$<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Descount_Cost 1 item.Quentity %}</span>
+<input type="hidden"  class="total" id="input_price_show_{{item.id}}" value="{{item.Case_Formate.Descount_Cost|multiply_of_prodiuct_amount_quentity:item.Quentity|floatformat:2}}">
+$<span id="price_show_{{item.id}}">
+
+{{item.Case_Formate.Descount_Cost|multiply_of_prodiuct_amount_quentity:item.Quentity|floatformat:2}}
+</span>
                             {% else %}
- <input type="hidden"  class="total" id="input_price_show_{{item.id}}" value="{% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}">
-$<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}</span>
+ <input type="hidden"  class="total" id="input_price_show_{{item.id}}" value="{{item.Case_Formate.Retail_Cost|multiply_of_prodiuct_amount_quentity:item.Quentity|floatformat:2}}">
+$<span id="price_show_{{item.id}}">{{item.Case_Formate.Retail_Cost|multiply_of_prodiuct_amount_quentity:item.Quentity|floatformat:2}}</span>
 
                             {% endif %}
 
@@ -212,7 +215,7 @@ $<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Retail_Cost 1
                             </div>
                             <div class="offset-4 col-md-4">
                                 <div class="cart-total text-right">
-                                    <h3>Cart Totals</h3>
+                                    <h3>Cart Total</h3>
                                     <form accept="" method="POST">
                                       {% csrf_token %}
                                     <input type="hidden" name="set_coupon_code" id="set_coupon_code" value="">
@@ -224,11 +227,11 @@ $<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Retail_Cost 1
                                      <input type="hidden" name="order_type" value="Caller">
                                     
                                     <ul>
-                                        <li><span class="pull-left">Subtotal </span>$<span class="show_sub_total_ampount">00.0</span></li>
+                                        <li><span class="pull-left">Order Subtotal:</span>$<span class="show_sub_total_ampount">00.0</span></li>
                                       
                                     </ul>
                                     <ul>
-                                        <li><span class="pull-left">GST </span>$<span class="show_sub_total_gst">00.0</span></li>
+                                        <li><span class="pull-left">GST</span>$<span class="show_sub_total_gst">00.0</span></li>
                                       
                                     </ul>
                                     <ul id="show_descount_amount">
@@ -236,7 +239,7 @@ $<span id="price_show_{{item.id}}">{% widthratio item.Case_Formate.Retail_Cost 1
                                     </ul>
                                     <ul>
                                        
-                                       <li><span class="pull-left"> Total </span>$<span class="show_total_ampount">00.0</span></li>
+                                       <li><span class="pull-left"> Total Paid Amount: </span>$<span class="show_total_ampount">00.0</span></li>
                                     </ul>
                                     {% if user.username == "" %}
                                     

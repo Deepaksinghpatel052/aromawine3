@@ -1,0 +1,442 @@
+{% load static %}
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{{Page_title}} Document</title>
+<style type="text/css">
+	
+	.set_display_none{
+		display: none;
+	}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<div style="
+    width: 800px;
+    margin: auto;
+    background: #fff;
+    border: 1px solid #ccc;
+   font-family: 'Nunito';
+    box-sizing: border-box;
+	font-weight: 400;
+    line-height: 1.5;
+">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" style="
+    border-collapse: collapse;
+">
+  <tbody><tr>
+    <td style="
+    background: #000;
+    text-align: center;
+    width: 50%;
+	position:relative;
+">
+<a href="" onclick="window.print()" class="print_div" style="
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    text-align: center;
+    padding: 6px 15px;
+    display: inline-block;
+    text-decoration: none;
+    height: auto;
+    color: #000;
+    background: #fcc201;
+    font-size: 18px;
+    border: 0px;
+    border-radius: 5px;
+"><img src='{% static "web/assets/image/printer.png" %}'></a>
+<img src='{{"demo"|get_logo}}' alt="" style="background: #000;
+    padding: 0px 15px;"></td>
+    <td align="center" style="
+    background: #000;
+"><h2 style="
+    margin: 0px;
+    color: #e7c77e;
+    text-transform: uppercase;
+    font-size: 36px;
+    text-align: right;
+    padding-right: 15px;
+">{{Page_title}}</h2></td>
+  </tr>
+  <tr>
+    <td valign="top" style="
+    padding: 15px;
+"><h3 style="
+    margin: 0px;
+    background: #000000;
+    padding: 5px;
+    text-align: center;
+    color: #e7c77e;
+    text-transform: uppercase;
+">Customer Billing Address</h3>
+    <p style="
+    line-height: 28px;
+    font-weight: 400;
+">
+Name: </b> {{user_info.Title}} {{user.first_name}} {{user.last_name}} <br>	
+Telephone:</b> {{user_info.Contact_no}}	<br>	
+E-Mail:</b> {{user_info.User.email}} <br>		
+<!-- Payment Method:</b> {{products.0.Order_id.Payment_Method}}	<br>	 -->
+    </p></td>
+    <td valign="top" style="
+    padding: 15px;
+"><h3 {% if get_order_ins.Order_Type != 'Delivered' %} class="set_display_none" {% endif %} style="
+    margin: 0px;
+    background: #000000;
+    padding: 5px;
+    text-align: center;
+    color: #e7c77e;
+
+    text-transform: uppercase;
+">Customer Shipping Address</h3>
+    <p  {% if get_order_ins.Order_Type != 'Delivered' %} class="set_display_none" {% endif %} style="
+    line-height: 28px;
+    font-weight: 400;
+">
+    {{products.0.Order_id.Order_address.First_Name}} {{products.0.Order_id.Order_address.Last_Name}} <br>
+        {{products.0.Order_id.Order_address.Address}}, {{products.0.Order_id.Order_address.Country}} ({{products.0.Order_id.Order_address.City}}) <br>
+        Pincode:- {{products.0.Order_id.Order_address.Postcode}} <br>
+        Email Id:- {{products.0.Order_id.Order_address.Email}} <br>
+        Mobile Number:- {{products.0.Order_id.Order_address.Pnone_no}}
+
+    </p></td>
+    
+  </tr>
+  <tr>
+  	<td colspan="2" valign="top" style="
+    padding-top: 15px; 
+"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tbody><tr>
+    <td align="center"><h3 style="
+    margin: 0px;
+    background: #000;
+    padding: 5px;
+    text-align: center;
+    color: #e7c77e;
+">INVOICE #</h3></td>
+  
+    <td align="center"><h3 style="
+    margin: 0px;
+    background: #000;
+    padding: 5px;
+    text-align: center;
+    color: #e7c77e;
+">DATE</h3></td>
+
+
+
+<td align="center"><h3 style="
+    margin: 0px;
+    background: #000;
+    padding: 5px;
+    text-align: center;
+    color: #e7c77e;
+">CUSTOMER ID</h3></td>
+  
+    <td align="center"><h3 style="
+    margin: 0px;
+    background: #000;
+    padding: 5px;
+    text-align: center;
+    color: #e7c77e;
+">Order Type</h3></td>
+  </tr>
+
+
+
+
+
+  <tr>
+    <td align="center" style="
+    padding: 15px;
+"><strong>#{{products.0.Order_id}}</strong></td>
+  
+    <td align="center"><strong>{{products.0.Order_id.Order_Date}}</strong></td>
+       <td align="center" style="
+    padding: 15px;
+"><strong style="
+">#{{user.id}}</strong></td>
+  
+    <td align="center" style="padding: 15px;"><strong>{% if products.0.Order_id.Order_Type == 'Delivered' %} Delivery {% elif products.0.Order_id.Order_Type == 'Caller' %} Cellar {% else %}
+                    {{products.0.Order_id.Order_Type}} {% endif %}</strong></td>
+  </tr>
+  
+  
+</tbody></table></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+{% if products.0.Order_id.Order_Type == 'Tickets' %}
+    	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="
+    border-collapse: collapse;
+">
+      <tbody>
+
+
+      	<tr>
+        <th align="left" style="
+    margin: 0px;
+    background: #000;
+    padding: 5px;
+    text-align: center;
+    border-right: 1px solid #e7c77e;
+    color: #e7c77e;
+">Image</th>
+        <th align="center" style="
+    margin: 0px;
+    background: #000;
+    padding: 5px;
+    text-align: center;
+    border-right: 1px solid #e7c77e;
+    color: #e7c77e;
+">Event</th>
+        <th align="center" style="
+    margin: 0px;
+    background: #000000;
+    padding: 5px;
+    text-align: center;
+    border-right: 1px solid #e7c77e;
+    color: #e7c77e;
+">Quantity</th>
+        <th align="center" valign="top" style="
+    margin: 0px;
+    background: #000000;
+    padding: 5px;
+    text-align: center;
+    color: #e7c77e;
+">Amount</th>
+      </tr>
+
+ {% if products %}
+                {% for item in products %}
+
+      <tr>
+        <td align="left" style="
+    padding: 10px;
+    font-weight: 400;
+    border-right: 1px solid #ccc;
+"><img src="{{item.Event_Ticket.Event_Image.url}}" style="height: 50px;"></td>
+        <td align="center" valign="middle" style="
+    padding: 10px;
+    font-weight: 400;
+    border-right: 1px solid #ccc;
+"><a target="_blank" href="{% url 'event:event_detail' item.Event_Ticket.id item.Event_Ticket.Slug %}">{{item.Event_Ticket}}({{item.Event_Ticket.Event_Type}})</a></td>
+        <td align="right" style="
+    padding: 10px;
+    font-weight: 400;
+    border-right: 1px solid #ccc;
+">{{item.Quentity}}</td>
+        <td align="right" valign="top" style="
+    padding: 10px;
+    font-weight: 400;
+">${{item.Total_cost}}</td>
+      </tr>
+
+{% endfor %}
+
+  <tr>
+        <td colspan="2" style="
+    padding: 10px;
+    font-weight: 400;
+    border-top: 1px solid #ccc;
+">&nbsp;</td>
+        <td  align="left" valign="top" style="
+    padding: 10px;
+    font-weight: 400;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    line-height: 28px;
+    text-transform: uppercase;
+    color: #e7c77e;
+    background: #222;
+">
+{% if get_order_ins.Use_coupon %}
+ Descount:<br>
+ {% endif %}
+ <strong>Total Amount</strong><br>
+ <hr>
+  Payment Status:<br>
+
+
+</td>
+ <td align="right" valign="top" style="
+    padding: 10px;
+    font-weight: 400;
+    border-top: 1px solid #ccc;
+    color: #e7c77e;
+    background: #555353;
+    line-height: 28px;
+">
+{% if get_order_ins.Use_coupon %}
+  - ${{get_order_ins.Cupon_Discount|floatformat:2}}<br>
+ {% endif %}
+          <strong>${{total_cost|floatformat:2}}</strong>
+
+
+<hr>
+ {% if products.0.Order_id.Payment_Status %} paid {% else %}Not Paid{% endif %}
+      </td>
+      </tr>
+{% endif %}
+      
+
+     
+    </tbody></table>
+
+
+{% else %}
+
+
+
+
+    	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="
+    border-collapse: collapse;
+">
+      <tbody>
+
+
+      	<tr>
+        <th align="left" style="margin: 0px;background: #000;padding: 5px;text-align: center;border-right: 1px solid #e7c77e;color: #e7c77e;">IMAGE</th>
+        <th align="left" style="margin: 0px;background: #000;padding: 5px;text-align: center;border-right: 1px solid #e7c77e;color: #e7c77e;">PRODUCT</th>
+        <th align="left" style="margin: 0px;background: #000;padding: 5px;text-align: center;border-right: 1px solid #e7c77e;color: #e7c77e;">TYPE & CASE SIZE</th>
+        <th align="left" style="margin: 0px;background: #000;padding: 5px;text-align: center;border-right: 1px solid #e7c77e;color: #e7c77e;">PRICE</th>
+        <th align="left" style="margin: 0px;background: #000;padding: 5px;text-align: center;border-right: 1px solid #e7c77e;color: #e7c77e;">GST</th>
+        <th align="left" style="margin: 0px;background: #000;padding: 5px;text-align: center;border-right: 1px solid #e7c77e;color: #e7c77e;">PRICE WITH GST</th>
+        <th align="left" style="margin: 0px;background: #000;padding: 5px;text-align: center;border-right: 1px solid #e7c77e;color: #e7c77e;">QTY</th>
+        <th align="left" style="margin: 0px;background: #000;padding: 5px;text-align: center;border-right: 1px solid #e7c77e;color: #e7c77e;">AMOUNT</th>
+        
+      </tr>
+
+ {% if products %}
+                {% for item in products %}
+
+      <tr>
+      	{% if item.Product_Delivered %}
+        <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;"><img src="{{item.Product_Delivered|get_product_image_one}}" style="height: 50px;"></td>
+        <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;"><a href="{% url 'product_detail:product_detail' item.Product_Delivered.Product_id item.Product_Delivered.Product_slug  item.Year %}">{{item.Product_Delivered}}({{item.Year}})</a></td>
+        {% endif %}
+
+		{% if item.Product_Cellar %}
+        <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;"><img src="{{item.Product_Cellar|get_product_image_one}}" style="height: 50px;"></td>
+        <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;"><a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year %}">{{item.Product_Cellar}}({{item.Year}})</a></td>
+        {% endif %}        
+        <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;">{{item.Type}}/({{item.Case_Formate_text}})</td>
+        <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;">${{item.Cost_of_product|get_amount_without_persentage:item.Gst|floatformat:2}}</td>
+        <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;">{{item.Gst}}%</td>
+        <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;">${{item.Cost_of_product|floatformat:2}}</td>
+        <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;">{{item.Order_Quentity}}</td>
+        <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;">${{item.Total_cost|floatformat:2}}</td>
+        
+
+      </tr>
+
+{% endfor %}
+
+  <tr>
+        <td colspan="3" style="
+    padding: 10px;
+    font-weight: 400;
+    border-top: 1px solid #ccc;
+">&nbsp;</td>
+        <td  colspan="4"  align="left" valign="top" style="
+    padding: 10px;
+    font-weight: 400;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    line-height: 28px;
+    text-transform: uppercase;
+    color: #e7c77e;
+    background: #222;
+">
+Order Subtotal:<br>	
+GST:<br>
+{% if products.0.Order_id.Cupon_Discount > 0 %}
+ Descount Amount:<br>
+ {% endif %}
+
+{% if products.0.Order_id.Order_Type == 'Delivered' %}
+Order Shipping:</br>
+{% endif %}
+
+ 
+ <strong>Order Total</strong><br>
+ <hr>
+ Payment Status:<br>
+ 
+{% if products.0.Order_id.Order_Type == 'Delivered' %}
+<hr>
+Already paid(By Cellar):<br>
+Final Payable Amount:<br>
+Shipping Payment Status:<br>
+{% endif %}
+
+</td>
+ <td align="right" valign="top" style="
+    padding: 10px;
+    font-weight: 400;
+    border-top: 1px solid #ccc;
+    color: #e7c77e;
+    background: #555353;
+    line-height: 28px;
+">
+${{products.0.Order_id.Order_Product_Amount|floatformat:2}}<br>
+${{products.0.Order_id.Order_Gst_Amount|floatformat:2}}<br>
+
+
+{% if products.0.Order_id.Cupon_Discount > 0 %}
+-${{products.0.Order_id.Cupon_Discount|floatformat:2}}<br>
+ {% endif %}
+
+{% if products.0.Order_id.Order_Type == 'Delivered' %}
+${{products.0.Order_id.shipping_charge|floatformat:2}}<br>
+
+{% endif %}
+
+
+          <strong>${{total_amount_set|floatformat:2}}</strong>
+<hr>
+ {% if products.0.Order_id.Payment_Status %} Paid {% else %}Not Paid{% endif %}
+
+
+{% if products.0.Order_id.Order_Type == 'Delivered' %}
+<hr>
+${{products.0.Order_id.Amount|floatformat:2}}<br>
+{% if products.0.Order_id.shipping_charge <= 0 %}
+Free
+{% else %}
+${{products.0.Order_id.shipping_charge|floatformat:2}}
+  {% if products.0.Order_id.shipping_Payment_Status %} Paid {% else %} Not Paid {% endif %}</div>
+{% endif %}
+{% endif %}
+
+      </td>
+      </tr>
+{% endif %}
+      
+
+     
+    </tbody></table>
+
+
+
+
+{% endif %}
+
+
+
+
+
+
+
+</td>
+  </tr>
+
+</tbody></table>
+</div>
+<br><br>
+</body>
+</html>

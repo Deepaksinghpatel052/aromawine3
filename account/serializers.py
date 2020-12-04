@@ -18,13 +18,13 @@ class LoginSerializers(serializers.Serializer):
     def validate(self, data):
         email = data.get("email","")
         password = data.get("password","")
-
+        data["status"] = "0"
         if email and password:
             user = authenticate(username=email,password=password)
             if user:
                 if user.is_active:
                     data["user"] = user
-
+                    data["status"] = "1"
                 else:
                     mes = "User is not activate."
                     raise exceptions.ValidationError(mes)

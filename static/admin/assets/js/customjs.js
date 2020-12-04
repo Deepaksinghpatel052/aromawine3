@@ -19,7 +19,7 @@ if(jQuery.inArray("add-categoryes", url_in_array) != -1)
 }
 
 
-if(jQuery.inArray("products", url_in_array) != -1 && jQuery.inArray("add-product", url_in_array) == -1)
+if(jQuery.inArray("products", url_in_array) != -1 && jQuery.inArray("add-product", url_in_array) == -1  && jQuery.inArray("out-of-stock", url_in_array) == -1 && jQuery.inArray("low-stock", url_in_array) == -1)
 {
 	$("#Manage_Product").addClass("active_dsp");
 	$("#Products").addClass("active");
@@ -28,6 +28,35 @@ if(jQuery.inArray("products", url_in_array) != -1 && jQuery.inArray("add-product
 if(jQuery.inArray("add-product", url_in_array) != -1)
 {
 	$("#Add_Product").addClass("active_dsp");
+	$("#Products").addClass("active");
+}
+
+
+
+
+if(jQuery.inArray("special-offers", url_in_array) != -1 && jQuery.inArray("add-offers", url_in_array) == -1)
+{
+	$("#Manage_Special_Offer").addClass("active_dsp");
+	$("#Add_Special_Offer").addClass("active");
+}
+
+if(jQuery.inArray("add-offers", url_in_array) != -1)
+{
+	$("#Add_Special_Offer").addClass("active_dsp");
+	$("#Manage_Special_Offer").addClass("active");
+}
+
+
+
+if(jQuery.inArray("out-of-stock", url_in_array) != -1)
+{
+	$("#Out_Of_Stock").addClass("active_dsp");
+	$("#Products").addClass("active");
+}
+
+if(jQuery.inArray("low-stock", url_in_array) != -1)
+{
+	$("#low_stock").addClass("active_dsp");
 	$("#Products").addClass("active");
 }
 
@@ -133,27 +162,42 @@ if(jQuery.inArray("add-testing-wine", url_in_array) != -1)
 
 
 
-if(jQuery.inArray("manage-order", url_in_array) != -1 && jQuery.inArray("refunded", url_in_array) == -1 && jQuery.inArray("cancelled", url_in_array) == -1 && jQuery.inArray("failled", url_in_array) == -1 && jQuery.inArray("active", url_in_array) == -1 && jQuery.inArray("caller", url_in_array) == -1 && jQuery.inArray("delivery", url_in_array) == -1 && jQuery.inArray("complete", url_in_array) == -1)
+if(jQuery.inArray("manage-order", url_in_array) != -1 && jQuery.inArray("product-sales-list", url_in_array) == -1 &&  jQuery.inArray("refunded", url_in_array) == -1 && jQuery.inArray("cancelled", url_in_array) == -1 && jQuery.inArray("failled", url_in_array) == -1 && jQuery.inArray("active", url_in_array) == -1 && jQuery.inArray("caller", url_in_array) == -1 && jQuery.inArray("delivery", url_in_array) == -1 && jQuery.inArray("complete", url_in_array) == -1)
 {
 	$("#Manage_Orders").addClass("active_dsp");
 	$("#Orders").addClass("active");
 }
 
-if(jQuery.inArray("edit-order", url_in_array) != -1 && jQuery.inArray("refunded", url_in_array) == -1 && jQuery.inArray("cancelled", url_in_array) == -1 && jQuery.inArray("failled", url_in_array) == -1 && jQuery.inArray("caller", url_in_array) == -1 && jQuery.inArray("delivery", url_in_array) == -1 && jQuery.inArray("complete", url_in_array) == -1)
+if(jQuery.inArray("edit-order", url_in_array) != -1 && jQuery.inArray("product-sales-list", url_in_array) == -1 && jQuery.inArray("refunded", url_in_array) == -1 && jQuery.inArray("cancelled", url_in_array) == -1 && jQuery.inArray("failled", url_in_array) == -1 && jQuery.inArray("caller", url_in_array) == -1 && jQuery.inArray("delivery", url_in_array) == -1 && jQuery.inArray("complete", url_in_array) == -1)
 {
 	$("#Manage_Orders").addClass("active_dsp");
 	$("#Orders").addClass("active");
 }
 
-if(jQuery.inArray("caller", url_in_array) != -1)
+
+// if(jQuery.inArray("product-sales-list", url_in_array) != -1)
+// {
+// 	$("#Product_Sales_List").addClass("active_dsp");
+// 	$("#Orders").addClass("active");
+// }
+
+
+if(jQuery.inArray("cellar", url_in_array) != -1)
 {
 	$("#Caller_Orders").addClass("active_dsp");
 	$("#Orders").addClass("active");
 }
 
-if(jQuery.inArray("delivery", url_in_array) != -1)
+if(jQuery.inArray("delivery", url_in_array) != -1 && jQuery.inArray("complete", url_in_array) == -1)
 {
 	$("#Delivery_Orders").addClass("active_dsp");
+	$("#Orders").addClass("active");
+}
+
+
+if(jQuery.inArray("ticket", url_in_array) != -1)
+{
+	$("#Ticket_Orders").addClass("active_dsp");
 	$("#Orders").addClass("active");
 }
 
@@ -180,6 +224,21 @@ if(jQuery.inArray("complete", url_in_array) != -1)
 	$("#Complete_Orders").addClass("active_dsp");
 	$("#Orders").addClass("active");
 }
+
+
+if(jQuery.inArray("complete", url_in_array) != -1 && jQuery.inArray("cellar", url_in_array) != -1)
+{
+	$("#Complete_Cellar_Orders").addClass("active_dsp");
+	$("#Orders").addClass("active");
+}
+
+
+if(jQuery.inArray("complete", url_in_array) != -1 && jQuery.inArray("delivery", url_in_array) != -1)
+{
+	$("#Complete_delivery_Orders").addClass("active_dsp");
+	$("#Orders").addClass("active");
+}
+
 
 
 

@@ -1,4 +1,4 @@
-
+@import url('https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900&display=swap');
  .jquery-accordion-menu-header{
  	padding: 20px 0;
  }
@@ -599,7 +599,7 @@ article, aside, dialog, figcaption, figure, footer, header, hgroup, main, nav, s
 body {
 	margin:0;
 	/*font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Nunito';
 	font-size:1rem;
 	font-weight:400;
 	line-height:1.5;
@@ -815,7 +815,7 @@ display:none!important
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
 margin-bottom:.5rem;
 	/*font-family:inherit;*/
-	font-family: 'Montserrat', sans-serif!important;
+	font-family: 'Nunito';
 	font-weight:500;
 	line-height:1.1;
 	color:inherit
@@ -1686,11 +1686,12 @@ padding-left:0
 }
 }
 .table {
-	font-family: 'Montserrat', sans-serif!important;
+	font-family: 'Nunito' !important;
 	width:100%;
 	max-width:100%;
 	margin-bottom:1rem;
-	background-color:transparent
+	background-color:transparent;
+	font-size: 14px !important;
 }
 .table td, .table th {
 padding:.75rem;
@@ -4297,7 +4298,7 @@ margin-right:.25rem
 	display:block;
 	margin:0;
 	/*font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
-     font-family: 'Montserrat', sans-serif;
+    font-family: 'Nunito';
 	font-style:normal;
 	font-weight:400;
 	line-height:1.5;
@@ -4395,7 +4396,7 @@ border-radius:.25rem
 	max-width:276px;
 	padding:1px;
 	/*font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Nunito';
 	font-style:normal;
 	font-weight:400;
 	line-height:1.5;
@@ -17462,8 +17463,8 @@ bottom:0
 	height:64px
 }
 body {
-	color:#86939e;
-	font-family:Roboto, sans-serif, serif;
+	color:#000;
+	font-family: 'Nunito';
 	/*font-family: 'Montserrat', sans-serif;*/
 	font-size:14px;
 	height:100%;
@@ -17484,7 +17485,7 @@ h1, h2, h3, h4, h5, h6 {
 	color:#606676;
 	font-weight:300!important;
 	/*font-family:Roboto, sans-serif*/
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Nunito';
 }
 .h5 {
 	font-size:14px;
@@ -21325,7 +21326,7 @@ color:rgba(20,20,20,.6)!important
     /*--------------sidebar---------*/
     
    .jquery-accordion-menu,.jquery-accordion-menu *{
-      font-family:'Montserrat', sans-serif;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;outline:0}
+     font-family: 'Nunito'; box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;outline:0}
    .jquery-accordion-menu{
       height:657px;
       min-width:260px;
@@ -21532,7 +21533,7 @@ div.dataTables_wrapper div.dataTables_filter {
 	color: #fff;
 }
 .modal-content{
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Nunito';
 	/*margin-left: 200px;*/
     margin-right: 200px;
     width: 100%!important;
@@ -21553,7 +21554,7 @@ height: 10px!important;
 }
 .add-data:hover{
 	background-color: #333333!important;
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Nunito';
 	cursor: pointer;
 	border-radius: 20px;
 	padding: 5px;
@@ -21565,7 +21566,7 @@ height: 10px!important;
 .add-data{
 	/*position: fixed;*/
 	background-color: #c52241!important;
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Nunito';
 	cursor: pointer;
 	border-radius: 20px;
 	padding: 5px;
@@ -21600,7 +21601,7 @@ height: 10px!important;
 }
 .import-data:hover{
 	background-color:#333333!important;
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Nunito';
 	cursor: pointer;
 	margin-left: 10px;
 	border-radius: 20px;
@@ -21612,7 +21613,7 @@ height: 10px!important;
 }
 .import-data{
      background-color: #c52241!important;
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Nunito';
 	cursor: pointer;
 	margin-left: 10px;
 	border-radius: 20px;
@@ -21713,7 +21714,7 @@ td strong{
 }
 .paginate_button{
 	   cursor: pointer;
-      font-family: 'Montserrat', sans-serif;
+    font-family: 'Nunito';
       border-radius: 5px;
       padding: 10px;
       border:1px solid #e0dfdf;

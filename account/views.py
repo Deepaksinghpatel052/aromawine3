@@ -10,6 +10,7 @@ from django.contrib.auth import login as django_login, logout as django_logout
 from wineproject import settings
 from django.contrib.auth.models import User, auth
 import email.message
+from django.utils.decorators import method_decorator
 from django.contrib import messages
 import smtplib
 from orders.models import AwAddToCard
@@ -54,7 +55,6 @@ class ApiLoginUserInfoView(APIView):
 
 class ApiLoginView(APIView):
 
-    @csrf_exempt
     def post(self, request):
         serializer = LoginSerializers(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -62,7 +62,12 @@ class ApiLoginView(APIView):
         django_login(request, user)
         token, create = Token.objects.get_or_create(user=user)
         get_user_info_seri = UserSerializers(user)
-        return Response({"message": "Login successfully", "Token": token.key, "user_info": get_user_info_seri.data},
+        # if get_user_info_seri.data['status'] == "0":
+        #     status = "0"
+        # else:
+        #     status = "1"
+        status = "1"
+        return Response({"message": "Login successfully", "Token": token.key, "user_info": get_user_info_seri.data,"status":status},
                         status=200)
 
 
@@ -79,10 +84,12 @@ class UserRegistration(APIView):
         if request.method == "POST":
             serializer = RegistrationSerializers(data=request.data)
             data = {}
+            data['status'] = "0"
             if serializer.is_valid():
                 user = serializer.save()
                 data['response'] = "Account create successfuly"
                 data['email'] = user.email
+                data['status'] = "1"
 
                 # data['username'] = user.username
 
@@ -103,6 +110,7 @@ def test_data(request):
     return HttpResponse(message)
 
 def setcookie(request):
+    response = ""
     if 'aroma_of_wine' in request.COOKIES:
         tutorial = request.COOKIES['aroma_of_wine']
     else:
@@ -112,6 +120,7 @@ def setcookie(request):
         coocki_id = datetime.now()
         response.set_cookie('aroma_of_wine', coocki_id,expires="29-09-2021")
     return response
+
 def getcookie(request):
     tutorial  = request.COOKIES['aroma_of_wine']
     return HttpResponse(tutorial);
@@ -129,6 +138,7 @@ class AccountCraetLoginView(generic.TemplateView):
 
     def post(self, request, *args, **kwargs):
         naxt_url = request.POST['naxt_url']
+        status = "0"
         if "password2" in self.request.POST:
             form = self.form_class(request.POST)
             # captcha start
@@ -174,13 +184,14 @@ class AccountCraetLoginView(generic.TemplateView):
                                 messages.error(request, "Inactive user.")
                     else:
                         messages.error(request,"Please enter a correct email and password. Note that both fields may be case-sensitive.")
-                    return render(request, self.template_name, {'form': self.form_class})
+                    return render(request, self.template_name, {'form': self.form_class,'status':status})
                 else:
                     messages.error(request, form.errors)
             else:
                 messages.error(request, "Recaptcha is incorrect.")
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {'form': form,'status':status})
         else:
+            status = "1"
             email = request.POST['username']
             password = request.POST['password']
             user = authenticate(request, username=email, password=password)
@@ -198,9 +209,8 @@ class AccountCraetLoginView(generic.TemplateView):
                     else:
                         messages.error(request, "Inactive user.")
             else:
-                messages.error(request,
-                               "Please enter a correct username and password. Note that both fields may be case-sensitive.")
-            return render(request, self.template_name, {'form': self.form_class})
+                messages.error(request,"Please enter a correct username and password. Note that both fields may be case-sensitive.")
+            return render(request, self.template_name, {'form': self.form_class,'status':status})
 
 
 class LogoutView(generic.View):

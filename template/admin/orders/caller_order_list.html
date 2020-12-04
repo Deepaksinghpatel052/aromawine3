@@ -29,66 +29,40 @@
   <div class="row p-t-b-20">
     <div class="col-md-12">
 
-<!-- 	<div class="login-form-content" style="margin-bottom:25px;">
+	<div class="login-form-content" style="margin-bottom:25px;">
+    <form action="" method="GET">
 	<div class="row ">
 	<div class="col-md-4">
 	<div class="form-group">
-	<label>Start Date</label>
+	<!-- <label>Start Date</label> -->
 	<div id="datepicker" class="input-group date" data-date-format="mm-dd-yyyy">
-    <input class="form-control" type="text">
+    <input class="form-control" required="" value="{{start_date}}" placeholder="from date" name="start_date" type="text">
     <span class="input-group-addon" style=""><i class="glyphicon glyphicon-calendar"></i></span>
 </div>
 </div>
 	</div>
 	<div class="col-md-4">
 	<div class="form-group">
-	<label>End Date</label>
+	<!-- <label>End Date</label> -->
 	<div id="datepicker1" class="input-group date" data-date-format="mm-dd-yyyy">
-    <input class="form-control" type="text">
+    <input class="form-control" name="end_date" value="{{end_date}}" placeholder="to date" type="text">
     <span class="input-group-addon" style=""><i class="glyphicon glyphicon-calendar"></i></span>
 </div>
 </div>
 	</div>
 	<div class="col-md-4">
 	<div class="form-group">
-	<label>Billing phone number</label>
-	<input type="text" class="form-control"/>
+	<button class="btn btn-primary" type="submit">Search</button>
 	</div>
-	</div>
-	<div class="col-md-4">
-	<div class="form-group">
-	<label>Billing email address</label>
-	<input type="email" class="form-control"/>
-	</div>
-	</div>
-	<div class="col-md-4">
-	<div class="form-group">
-	<label>Payment method</label>
-	<select class="form-control"><option value="">All</option>
-
-<option value="Payments.Manual">Credit Card</option>
-<option value="Payments.PayPalStandard">PayPal Standard</option>
-
-
-</select>
-</div>
-	</div>
-	<div class="col-md-4">
-	<div class="form-group">
-	<label>Go directly to order #</label>
-	
-<input class="form-control" type="text" value="">
-
-
-</div>
 	</div>
 	
 	</div>
-	</div> -->
+  </form>
+	</div>
+
       <!-- <div class="card no-b"> -->
       <div class="login-form-card">
         <!-- <div class="login-form-content"> -->
-        <form action="javascript:(0);">
           <div class="table-responsive">
             <!-- <button class="btn-success add-data">Add Iteration</button> -->
             <!-- start Table -->
@@ -123,7 +97,7 @@
 </td>
 
     <td>{{data.User}}</td>
-    <td>{% if data.Order_Type == 'Delivered' %} Delivery {% else %}
+    <td>{% if data.Order_Type == 'Delivered' %} Delivery {% elif data.Order_Type == 'Caller' %} Cellar  {% else %}
                     {{data.Order_Type}}{% endif %}</td>
     <td>{{data.Quentity}}</td>
     <td>${{data.order_amount}}</td>
@@ -181,7 +155,7 @@
                                      <!---Table Ends---->
 </div>
                                     
-                         </form>
+                        
                      <!--  </div> -->
              </div>
           <!-- </div> -->

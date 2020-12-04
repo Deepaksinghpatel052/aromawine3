@@ -6,7 +6,6 @@ from django.utils.decorators import method_decorator
 from orders.models import AwOrders,AwOrederItem,AwOrderNote
 # from .forms import AwProductsForm
 from admin_manage_Vintages.models import AwVintages
-from datetime import datetime
 from profile_user.models import AwUserInfo
 from django.contrib import messages
 from django.urls import reverse
@@ -25,12 +24,37 @@ from django.conf import settings
 from addressbook_user.models import AwAddressBook
 from addressbook_user.forms import AwAddressBookForm
 from orders.forms import AwOrderNoteForm
-
+from django.db.models import Sum
 # ----------------------------------
 
 # Create your views here.
 
 
+@register.filter(name='get_counting_of_sales_product')
+def get_counting_of_sales_product(demo):
+    filters = Q(Order_id__order_place=True)
+    queryset = AwOrederItem.objects.filter(Quentity__gt=0).filter(Order_id__Order_Status_Set='Active').filter(filters).order_by("-id")
+    return len(queryset)
+
+@register.filter(name='get_counting_of_order')
+def get_counting_of_order(order_type,order_status):
+    order_type_set = order_type
+    order_status_set = order_status
+    count = 0
+    if order_type_set == 'Tickets':
+        if AwOrders.objects.filter(Order_Type=order_type_set).filter(
+                order_place=True).exists():
+            get_user_info = AwOrders.objects.filter(Order_Type=order_type_set).filter(order_place=True)
+            count = len(get_user_info)
+    elif order_type_set == 'All':
+        if AwOrders.objects.filter(Order_Status_Set=order_status_set).filter(order_place=True).exists():
+            get_user_info = AwOrders.objects.filter(Order_Status_Set=order_status_set).filter(order_place=True)
+            count = len(get_user_info)
+    else:
+        if AwOrders.objects.filter(Order_Type=order_type_set).filter(Order_Status_Set=order_status_set).filter(order_place=True).exists():
+            get_user_info = AwOrders.objects.filter(Order_Type=order_type_set).filter(Order_Status_Set=order_status_set).filter(order_place=True)
+            count = len(get_user_info)
+    return count
 
 
 
@@ -44,14 +68,124 @@ def get_user_number(user_ins):
     return contact_no
 
 @method_decorator(login_required , name="dispatch")
+class ManageProductSalesListView(SuccessMessageMixin,generic.ListView):
+    template_name = 'admin/orders/cellar_product.html'
+
+    def get(self, request, *args, **kwargs):
+        queryset = None
+        group_by = None
+        order_type = "Cellar or Delivery"
+        filters = Q(Order_id__order_place=True)
+        if 'product_order_type' in self.request.GET and self.request.GET['product_order_type']:
+            if self.request.GET['product_order_type']=="Cellar":
+                order_type  = "Cellar"
+                filters = filters & Q(Order_id__Order_Type='Caller')
+            elif self.request.GET['product_order_type']=="Delivery":
+                filters = filters & Q(Order_id__Order_Type='Delivered')
+                order_type = "Delivery"
+            else:
+                filters = filters & ~Q(Order_id__Order_Type='Tickets')
+        start_date_1 = ""
+        end_date_1 = ""
+        if 'start_date' in self.request.GET and self.request.GET['start_date']:
+            start_date_1 = self.request.GET['start_date']
+            start_date = datetime.strptime(self.request.GET['start_date'], "%m-%d-%Y").date().strftime('%Y-%m-%d')
+            if 'end_date' in self.request.GET and self.request.GET['end_date']:
+                end_date = datetime.strptime(self.request.GET['end_date'], "%m-%d-%Y").date().strftime('%Y-%m-%d')
+                filters = filters & Q(Order_id__Order_Date__date__range=[start_date, end_date])
+                end_date_1 = self.request.GET['end_date']
+                # filters = filters & Q(Order_Date__gte=self.request.GET['start_date'], Order_Date__lt=self.request.GET['start_date'])
+            else:
+                filters = filters & Q(Order_Date__date__range=[start_date, start_date])
+
+        group_by_set = []
+        Product_Delivered_name  = []
+        Product_Cellar_name  = []
+        years  = []
+        if AwOrederItem.objects.filter(Quentity__gt=0).filter(Order_id__Order_Status_Set='Active').filter(filters).exists():
+            queryset = AwOrederItem.objects.filter(Quentity__gt=0).filter(Order_id__Order_Status_Set='Active').filter(filters).order_by("-id")
+            # group_by = AwOrederItem.objects.filter(Quentity__gt=0).filter(Order_id__Order_Status_Set='Active').filter(filters).order_by("-id")
+            for item in queryset:
+                status = True
+                if item.Product_Delivered in Product_Delivered_name and item.Year in years and item.Order_id.Order_Type == 'Delivered':
+                    status = False
+                else:
+                    Product_Delivered_name.append(item.Product_Delivered)
+                    years.append(item.Year)
+                if item.Product_Cellar in Product_Cellar_name and item.Year in years and item.Order_id.Order_Type == 'Caller':
+                    status = False
+                else:
+                    Product_Cellar_name.append(item.Product_Delivered)
+                    years.append(item.Year)
+                if status:
+                    group_by = {}
+                    group_by['id'] = item.id
+                    group_by['Order_Type'] = item.Order_id.Order_Type
+                    group_by['Product_Delivered'] = item.Product_Delivered
+                    group_by['Product_Cellar'] = item.Product_Cellar
+                    group_by['Year'] = item.Year
+                    group_by['Type'] = item.Type
+                    group_by['Case_Formate_text'] = item.Case_Formate_text
+                    group_by['Cost_of_product'] = item.Cost_of_product
+                    group_by['Gst'] = item.Gst
+                    group_by['Order_Quentity'] = item.Order_Quentity
+                    group_by['Total_cost'] = item.Total_cost
+                    group_by['Quentity'] = item.Quentity
+                    group_by['Order_Date'] = item.Order_id.Order_Date
+                    group_by_set.append(group_by)
+
+        order_types = ["Cellar or Delivery","Cellar","Delivery"]
+        return render(request, self.template_name, {'Page_title': "Product Sales List",'group_by_set':group_by_set, 'queryset': queryset,'order_type':order_type,'order_types':order_types,'start_date':start_date_1,"end_date":end_date_1})
+
+
+
+@method_decorator(login_required , name="dispatch")
+class ManageOrdersTicketView(SuccessMessageMixin,generic.ListView):
+    template_name = 'admin/orders/index.html'
+
+    def get(self, request, *args, **kwargs):
+        queryset = None
+        filters = Q(order_place=True)
+        start_date_1 = ""
+        end_date_1 = ""
+        if 'start_date' in self.request.GET and self.request.GET['start_date']:
+            start_date_1 = self.request.GET['start_date']
+            start_date = datetime.strptime(self.request.GET['start_date'], "%m-%d-%Y").date().strftime('%Y-%m-%d')
+            if 'end_date' in self.request.GET and self.request.GET['end_date']:
+                end_date_1 = self.request.GET['end_date']
+                end_date = datetime.strptime(self.request.GET['end_date'], "%m-%d-%Y").date().strftime('%Y-%m-%d')
+                filters = filters & Q(Order_Date__date__range=[start_date, end_date])
+                # filters = filters & Q(Order_Date__gte=self.request.GET['start_date'], Order_Date__lt=self.request.GET['start_date'])
+            else:
+                filters = filters & Q(Order_Date__date__range=[start_date, start_date])
+        if AwOrders.objects.filter(Order_Type='Tickets').filter(filters).exists():
+            queryset = AwOrders.objects.filter(Order_Type='Tickets').filter(filters).order_by("-id")
+        return render(request, self.template_name, { 'Page_title': "Manage Ticket Orders", 'queryset': queryset,'start_date':start_date_1,"end_date":end_date_1})
+
+
+
+@method_decorator(login_required , name="dispatch")
 class ManageOrdersDeliveryView(SuccessMessageMixin,generic.ListView):
     template_name = 'admin/orders/delivery_order_list.html'
 
     def get(self, request, *args, **kwargs):
         queryset = None
-        if AwOrders.objects.filter(~Q(Order_Type='Caller')).exists():
-            queryset = AwOrders.objects.filter(~Q(Order_Type='Caller')).order_by("-id")
-        return render(request, self.template_name, { 'Page_title': "Manage Delivery Orders", 'queryset': queryset})
+        filters = Q(order_place=True)
+        start_date_1 = ""
+        end_date_1 = ""
+        if 'start_date' in self.request.GET and self.request.GET['start_date']:
+            start_date = datetime.strptime(self.request.GET['start_date'], "%m-%d-%Y").date().strftime('%Y-%m-%d')
+            start_date_1 = self.request.GET['start_date']
+            if 'end_date' in self.request.GET and self.request.GET['end_date']:
+                end_date_1 = self.request.GET['end_date']
+                end_date = datetime.strptime(self.request.GET['end_date'], "%m-%d-%Y").date().strftime('%Y-%m-%d')
+                filters = filters & Q(Order_Date__date__range=[start_date, end_date])
+                # filters = filters & Q(Order_Date__gte=self.request.GET['start_date'], Order_Date__lt=self.request.GET['start_date'])
+            else:
+                filters = filters & Q(Order_Date__date__range=[start_date, start_date])
+        if AwOrders.objects.filter(~Q(Order_Type='Caller')).filter(Order_Status_Set='Active').filter(filters).exists():
+            queryset = AwOrders.objects.filter(~Q(Order_Type='Caller')).filter(Order_Status_Set='Active').filter(filters).order_by("-id")
+        return render(request, self.template_name, { 'Page_title': "In-Process Delivery Orders", 'queryset': queryset,'start_date':start_date_1,"end_date":end_date_1})
 
 
 @method_decorator(login_required , name="dispatch")
@@ -60,10 +194,78 @@ class ManageOrdersCallerView(SuccessMessageMixin,generic.ListView):
 
     def get(self, request, *args, **kwargs):
         queryset = None
-        if AwOrders.objects.filter(Order_Type='Caller').exists():
-            queryset = AwOrders.objects.filter(Order_Type='Caller').order_by("-id")
-        return render(request, self.template_name, { 'Page_title': "Manage Caller Orders", 'queryset': queryset})
+        filters = Q(order_place=True)
+        start_date_1 = ""
+        end_date_1 = ""
+        if 'start_date' in self.request.GET and self.request.GET['start_date']:
+            start_date_1 = self.request.GET['start_date']
+            start_date = datetime.strptime(self.request.GET['start_date'], "%m-%d-%Y").date().strftime('%Y-%m-%d')
+            if 'end_date' in self.request.GET and self.request.GET['end_date']:
+                end_date_1 = self.request.GET['end_date']
+                end_date = datetime.strptime(self.request.GET['end_date'], "%m-%d-%Y").date().strftime('%Y-%m-%d')
+                filters = filters & Q(Order_Date__date__range=[start_date, end_date])
+                # filters = filters & Q(Order_Date__gte=self.request.GET['start_date'], Order_Date__lt=self.request.GET['start_date'])
+            else:
+                filters = filters & Q(Order_Date__date__range=[start_date, start_date])
+        if AwOrders.objects.filter(Order_Type='Caller').filter(Order_Status_Set='Active').filter(filters).exists():
+            queryset = AwOrders.objects.filter(Order_Type='Caller').filter(Order_Status_Set='Active').filter(filters).order_by("-id")
+        return render(request, self.template_name, { 'Page_title': "Manage Caller Orders", 'queryset': queryset,'start_date':start_date_1,"end_date":end_date_1})
 
+
+
+
+@method_decorator(login_required , name="dispatch")
+class ManageOrdersAccordingToConplateDelivery(SuccessMessageMixin,generic.ListView):
+    template_name = 'admin/orders/index.html'
+
+    def get(self, request, *args, **kwargs):
+        order_type = 'Delivered'
+        type = 'Complete'
+        queryset = None
+        start_date_1 = ""
+        end_date_1 = ""
+        filters = Q(order_place=True)
+        if 'start_date' in self.request.GET and self.request.GET['start_date']:
+            start_date_1 = self.request.GET['start_date']
+            start_date = datetime.strptime(self.request.GET['start_date'], "%m-%d-%Y").date().strftime('%Y-%m-%d')
+            if 'end_date' in self.request.GET and self.request.GET['end_date']:
+                end_date_1 = self.request.GET['end_date']
+                end_date = datetime.strptime(self.request.GET['end_date'], "%m-%d-%Y").date().strftime('%Y-%m-%d')
+                filters = filters & Q(Order_Date__date__range=[start_date, end_date])
+                # filters = filters & Q(Order_Date__gte=self.request.GET['start_date'], Order_Date__lt=self.request.GET['start_date'])
+            else:
+                filters = filters & Q(Order_Date__date__range=[start_date, start_date])
+        if AwOrders.objects.filter(Order_Status_Set=type).filter(Order_Type=order_type).filter(filters).exists():
+            queryset = AwOrders.objects.filter(Order_Status_Set=type).filter(Order_Type=order_type).filter(filters).order_by("-id")
+        return render(request, self.template_name, { 'Page_title': "Manage Complated "+order_type, 'queryset': queryset,'start_date':start_date_1,"end_date":end_date_1})
+
+
+
+
+@method_decorator(login_required , name="dispatch")
+class ManageOrdersAccordingToConplateCellar(SuccessMessageMixin,generic.ListView):
+    template_name = 'admin/orders/index.html'
+
+    def get(self, request, *args, **kwargs):
+        order_type = 'Caller'
+        type = 'Complete'
+        queryset = None
+        filters = Q(order_place=True)
+        start_date_1 = ""
+        end_date_1 = ""
+        if 'start_date' in self.request.GET and self.request.GET['start_date']:
+            start_date_1 = self.request.GET['start_date']
+            start_date = datetime.strptime(self.request.GET['start_date'], "%m-%d-%Y").date().strftime('%Y-%m-%d')
+            if 'end_date' in self.request.GET and self.request.GET['end_date']:
+                end_date_1 = self.request.GET['end_date']
+                end_date = datetime.strptime(self.request.GET['end_date'], "%m-%d-%Y").date().strftime('%Y-%m-%d')
+                filters = filters & Q(Order_Date__date__range=[start_date, end_date])
+                # filters = filters & Q(Order_Date__gte=self.request.GET['start_date'], Order_Date__lt=self.request.GET['start_date'])
+            else:
+                filters = filters & Q(Order_Date__date__range=[start_date, start_date])
+        if AwOrders.objects.filter(Order_Status_Set=type).filter(Order_Type=order_type).filter(filters).exists():
+            queryset = AwOrders.objects.filter(Order_Status_Set=type).filter(Order_Type=order_type).filter(filters).order_by("-id")
+        return render(request, self.template_name, { 'Page_title': "Manage Complated "+order_type+" Orders ", 'queryset': queryset,'start_date':start_date_1,"end_date":end_date_1})
 
 
 @method_decorator(login_required , name="dispatch")
@@ -82,10 +284,25 @@ class ManageOrdersAccordingToTypeView(SuccessMessageMixin,generic.ListView):
             type = 'Active'
         if type == 'complete':
             type = 'Complete'
+        if type == 'complete':
+            type = 'Complete'
         queryset = None
-        if AwOrders.objects.filter(Order_Status_Set=type).exists():
-            queryset = AwOrders.objects.filter(Order_Status_Set=type).order_by("-id")
-        return render(request, self.template_name, { 'Page_title': "Manage Orders "+type, 'queryset': queryset})
+        filters = Q(order_place=True)
+        start_date_1 = ""
+        end_date_1 = ""
+        if 'start_date' in self.request.GET and self.request.GET['start_date']:
+            start_date_1 = self.request.GET['start_date']
+            start_date = datetime.strptime(self.request.GET['start_date'], "%m-%d-%Y").date().strftime('%Y-%m-%d')
+            if 'end_date' in self.request.GET and self.request.GET['end_date']:
+                end_date_1 = self.request.GET['end_date']
+                end_date = datetime.strptime(self.request.GET['end_date'], "%m-%d-%Y").date().strftime('%Y-%m-%d')
+                filters = filters & Q(Order_Date__date__range=[start_date, end_date])
+                # filters = filters & Q(Order_Date__gte=self.request.GET['start_date'], Order_Date__lt=self.request.GET['start_date'])
+            else:
+                filters = filters & Q(Order_Date__date__range=[start_date, start_date])
+        if AwOrders.objects.filter(Order_Status_Set=type).filter(filters).exists():
+            queryset = AwOrders.objects.filter(Order_Status_Set=type).filter(filters).order_by("-id")
+        return render(request, self.template_name, { 'Page_title': "Manage Orders "+type, 'queryset': queryset,'start_date':start_date_1,"end_date":end_date_1})
 
 
 @method_decorator(login_required , name="dispatch")

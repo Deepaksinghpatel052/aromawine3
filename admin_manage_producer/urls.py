@@ -7,4 +7,5 @@ urlpatterns = [
     path('<pk>/update-producer', views.ProducerUpdateView.as_view(),name="update_producer"),
     path('<pk>/deoete-producer', views.GeeksDeleteView.as_view(),name="delete_producer"),
 
+
 ]

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
@@ -63,10 +64,9 @@ li.list-group-item:last-child {
       <div class="paper_menu">
         <div id="dl-menu" class="xv-menuwrapper responsive-menu">
           <ul class="dl-menu align-items-center">
-            <li class="parent"><a href="#"><i class="fa fa-facebook"></i></a> </li>
-            <li class="parent"><a href="#"><i class="fa fa-twitter"></i></a> </li>
-            </li>
-            <li class="parent"><a href="#"><i class="fa fa-instagram"></i></a> </li>
+          
+            {{"menu"|header_social_media}}
+
             {% if user.username == "" %}
             <li> <a href="{% url 'account:account' %}">Login / Register</a></li>
             {% else %}
@@ -78,7 +78,7 @@ li.list-group-item:last-child {
                   <div class="shopping-cart-total"> <span class="main-color-text"><span class="badge_item_set">0</span> Item(s) </span> </div>
                 </div>
                 <!--end shopping-cart-header -->
-                
+                <!--  -->
                 <ul class="shopping-cart-items" id="show_my_card_product">
                   
                  
@@ -92,7 +92,7 @@ li.list-group-item:last-child {
                   </div> -->
                   <div class="col-md-12">
                    
-                   <a href="{% url 'orders:my_card' %}" class="btn_achor">Go to cart</a> 
+                   <a href="{% url 'orders:my_card' %}" class="btn_achor">Go to Cart</a> 
                   </div>
                 </div>
                  </div>
@@ -104,13 +104,13 @@ li.list-group-item:last-child {
       </div>
     </div>
   </nav>
-</div>
+
 <!------------header Ends----------------<a href="#" data-toggle="modal" class="" data-target="#modalLogin">Log In</a> -->
   <!------------navbar starts---------------->
-{{"menu"|show_mega_menu}}
+{{"dasktop"|show_mega_menu}}
 
   <!-----------navbar Ends----------------->
-  
+  </div>
   <div id="app" class="paper-loading"><a href="#" data-toggle="offcanvas" class="paper-nav-toggle fixed left"><i></i></a>
   <aside class="main-sidebar fixed offcanvas scroll">
     <section class="sidebar" style="padding-top: 20px;">
@@ -119,257 +119,10 @@ li.list-group-item:last-child {
           <img src='{% static "web/assets/image/logo.png" %}' >
         </a>
       </div>
-      <ul class="sidebar-menu scroll sp-menu">
-        <li class="treeview"><a class="active" href="dashboard.html"><span>Fine Wine-First Class</span><i class="icon icon-angle-left pull-right"></i></a>
-          <ul class="treeview-menu">
-            <li><a href="javascript:void(0);" class="p-l-35"><span>France</span> <i class="icon icon-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
-                <li><a href="manageuserrolespermissions.html" class="p-l-70">Manage User Profile</a>
-                </li>
-                <li><a href="javascript:void(0)" class="p-l-70">Invite New User</a>
-                </li>
-                <li><a href="javascript:void(0)" class="p-l-70">Manage User Profile</a>
-                </li>
-                <li><a href="javascript:void(0)" class="p-l-70">Manage User Profile</a>
-                </li>
-                <li><a href="javascript:void(0)" class="p-l-70">Manage User Profile</a>
-                </li>
-                <li><a href="javascript:void(0)" class="p-l-70">Manage User Profile</a>
-                </li>
-                <li><a href="javascript:void(0)" class="p-l-70">Manage User Profile</a>
-                </li>
-                <li><a href="javascript:void(0)" class="p-l-70">Manage User Profile</a>
-                </li>
-                <li><a href="javascript:void(0)" class="p-l-70">Manage User Profile</a>
-                </li>
-                <li><a href="javascript:void(0)" class="p-l-70">Manage User Profile</a>
-                </li>
+      
 
-              </ul>
-            </li>
-            <li><a href="manageusers.html"><span>Italy</span> <i class="icon icon-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
-                <li><a href="manageuserrolespermissions.html">Manage User Profile</a>
-                </li>
-                <li><a href="invitenewuser.html">Invite New User</a>
-                </li>
-              </ul>
-            </li>
-            <li><a href="manageusers.html"><span>Australia</span> <i class="icon icon-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
-                <li><a href="manageuserrolespermissions.html">Manage User Profile</a>
-                </li>
-                <li><a href="invitenewuser.html">Invite New User</a>
-                </li>
-              </ul>
-            </li>
-            <li><a href="manageusers.html"><span>U.S.A.</span> <i class="icon icon-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
-                <li><a href="manageuserrolespermissions.html">Manage User Profile</a>
-                </li>
-                <li><a href="invitenewuser.html">Invite New User</a>
-                </li>
-              </ul>
-            </li>
-            <li><a href="manageusers.html"><span>Chile</span> <i class="icon icon-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
-                <li><a href="manageuserrolespermissions.html">Manage User Profile</a>
-                </li>
-                <li><a href="invitenewuser.html">Invite New User</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="manageacct.html"> <span>Fine Wines</span><i class="icon icon-angle-left pull-right"></i>
-          </a>
-          <ul class="treeview-menu active">
-            <li><a href="manageusers.html"><span>France</span> <i class="icon icon-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
-                <li><a href="manageuserrolespermissions.html">Manage User Profile</a>
-                </li>
-                <li><a href="invitenewuser.html">Invite New User</a>
-                </li>
-              </ul>
-            </li>
-            <li><a href="manageenv.html"><span>Italy</span> <i class="icon icon-angle-left pull-right"></i></a>
-              <ul class="treeview-menu active">
-                <li><a href="manageenv-capabilities.html">Manage Epic Capability</a>
-                </li>
-                <li><a href="manageenv-feature.html">Manage Features </a>
-                </li>
-                <li><a href="manageenv-products.html">Manage Products</a>
-                </li>
-                <li><a href="manageenv-teams.html">Manage Teams</a>
-                </li>
-                <li><a href="manageenv-team-member.html">Manage Team Members</a>
-                </li>
-                <li><a href="manageenv-backlog.html">Manage Backlogs</a>
-                </li>
-                <li><a href="manageenv-Iterations.html">Manage Iterations</a>
-                </li>
-                <li><a href="manageenv-roles.html">Manage Roles</a>
-                </li>
-                <li><a href="manageenv-goals.html">Manage Goals</a>
-                </li>
-                <li><a href="manageenv-benefits.html">Manage Benefits</a>
-                </li>
-                <li><a href="manageenv-userstory.html">Manage User Story Points</a>
-                </li>
-              </ul>
-            </li>
-            <li><a href="manageusers.html"><span>U.S.A.</span> <i class="icon icon-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
-                <li><a href="manageuserrolespermissions.html">Manage User Profile</a>
-                </li>
-                <li><a href="invitenewuser.html">Invite New User</a>
-                </li>
-              </ul>
-            </li>
-            <li><a href="manageusers.html"><span></span> <i class="icon icon-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
-                <li><a href="manageuserrolespermissions.html">Manage User Profile</a>
-                </li>
-                <li><a href="invitenewuser.html">Invite New User</a>
-                </li>
-              </ul>
-            </li>
-            <li><a href="dataxfer.html"><span>Data Exchange</span> <i class="icon icon-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
-                <li><a href="import-data.html">Manage Import Data</a>
-                </li>
-                <li><a href="export-data.html">Manage Export Data</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="manageacct.html"> <span>Popular Wines</span><i class="icon icon-angle-left pull-right"></i>
-          </a>
-          <ul class="treeview-menu active">
-            <li><a href="manageusers.html"><span>Manage Users</span> <i class="icon icon-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
-                <li><a href="manageuserrolespermissions.html">Manage User Profile</a>
-                </li>
-                <li><a href="invitenewuser.html">Invite New User</a>
-                </li>
-              </ul>
-            </li>
-            <li><a href="manageenv.html"><span>Manage Environment</span> <i class="icon icon-angle-left pull-right"></i></a>
-              <ul class="treeview-menu active">
-                <li><a href="manageenv-capabilities.html">Manage Epic Capability</a>
-                </li>
-                <li><a href="manageenv-feature.html">Manage Features </a>
-                </li>
-                <li><a href="manageenv-products.html">Manage Products</a>
-                </li>
-                <li><a href="manageenv-teams.html">Manage Teams</a>
-                </li>
-                <li><a href="manageenv-team-member.html">Manage Team Members</a>
-                </li>
-                <li><a href="manageenv-backlog.html">Manage Backlogs</a>
-                </li>
-                <li><a href="manageenv-Iterations.html">Manage Iterations</a>
-                </li>
-                <li><a href="manageenv-roles.html">Manage Roles</a>
-                </li>
-                <li><a href="manageenv-goals.html">Manage Goals</a>
-                </li>
-                <li><a href="manageenv-benefits.html">Manage Benefits</a>
-                </li>
-                <li><a href="manageenv-userstory.html">Manage User Story Points</a>
-                </li>
-              </ul>
-            </li>
-            <li><a href="dataxfer.html"><span>Data Exchange</span> <i class="icon icon-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
-                <li><a href="import-data.html">Manage Import Data</a>
-                </li>
-                <li><a href="export-data.html">Manage Export Data</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li class="treeview"><a class="active" href="dashboard.html"><span>En Premier</span><i class="icon icon-angle-left pull-right"></i></a>
-          <ul class="treeview-menu">
-            <li><a href="product-view.html">2018 Fine Wines</a>
-            </li>
-            <li><a href="backlog-view.html">Top Vintage</a>
-            </li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#"> <span>Spirits</span><i class="icon icon-angle-left pull-right"></i>
-          </a>
-          <ul class="treeview-menu active">
-            <li><a href="#"><span>Scotland</span> <i class="icon icon-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
-                <li><a href="#">Balvenie</a>
-                </li>
-                <li><a href="#">Craigellachie</a>
-                </li>
-                <li><a href="#">Glenmorangie</a>
-                </li>
-                <li><a href="#">Macallan</a>
-                </li>
-                <li><a href="#">Old pultney</a>
-                </li>
-              </ul>
-            </li>
-            <li><a href="#"><span>Japan</span> <i class="icon icon-angle-left pull-right"></i></a>
-              <ul class="treeview-menu active">
-                <li><a href="#">Hibiki</a>
-                </li>
-                <li><a href="#">Yamazaki</a>
-                </li>
-              </ul>
-            </li>
-            <li><a href="dataxfer.html"><span>Taiwan</span> <i class="icon icon-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
-                <li><a href="#">Kawalan</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li class="treeview"><a class="active" href="dashboard.html"><span>Sommelier Services</span><i class="icon icon-angle-left pull-right"></i></a>
-          <ul class="treeview-menu">
-            <li><a href="#">Sommelier Classes</a>
-            </li>
-            <li><a href="#">Wine Pairing</a>
-            </li>
-            <li><a href="#">Sommelier Advice</a>
-            </li>
-            <li><a href="#">Cellar Plan</a>
-            </li>
-            <li><a href="#">Sommelier Recommendation</a>
-            </li>
-          </ul>
-        </li>
-        <li class="treeview"><a class="active" href="dashboard.html"><span>Special Offers</span><i class="icon icon-angle-left pull-right"></i></a>
-          <ul class="treeview-menu">
-            <li><a href="product-view.html">France Wineries</a>
-            </li>
-            <li><a href="backlog-view.html">Italy Wineries</a>
-            </li>
-            <li><a href="javascript-void(0)">Australian Wineries</a>
-            </li>
-            <li><a href="javascript-void(0)">Direct From Wineries</a>
-            </li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#" data-toggle="modal" class="" data-target="#modalLogin"><span>Login</span>
-          </a>
-        </li>
-        <li class="treeview">
-          <a href="#" data-toggle="modal" data-target="#modalSignUp"><span>Signup</span>
-          </a>
-        </li>
-      </ul>
+{{"mobile"|show_mega_menu}}
+      
     </section>
   </aside>
 </div>
@@ -378,7 +131,7 @@ li.list-group-item:last-child {
 
    {% block content %}
    
-               {% endblock %}
+  {% endblock %}
 
 
 <!------Footer start--->
@@ -531,7 +284,7 @@ function remove_product(urls,message,done,fail)
 function get_card_product()
 {
   var get_url_for_get_card_product  = $("#get_my_card_product").val();
-var all_peroduct_list = '';
+var all_peroduct_list = '<li class="clearfix"><img style="width: 259px;height: 209px;" src="{% static "web/assets/image/cart_bucket_image14.png" %}"></li>';
 var total_product = 0;
 var total_amount = 0.00;
 
@@ -1753,9 +1506,9 @@ $.ajax({
           var res_data="";
           var image_set="";
           var set_count = data.length;
-          if(set_count>=3)
+          if(set_count>=5)
           {
-            set_count = 3
+            set_count = 5
           }
 
           for(var i=0; i< set_count ; i++)
@@ -1772,9 +1525,9 @@ $.ajax({
             
           }
           
-          if(data.length >=3)
+          if(data.length >5)
           {
-            res_data +='<li class="list-group-item"><span>'+data.length+' Result</span> <span><a href="/shop/?keyword='+search_filed+'">View More</span></a></li>';
+            res_data +='<li class="list-group-item"><span>'+(data.length - 1)+' Results</span> <span><a href="/shop/?keyword='+search_filed+'">View More</span></a></li>';
           }
         $("#result").html(res_data);
         
@@ -1919,6 +1672,28 @@ $.ajax({
 
       {% block script %}
       {% endblock %}
+
+
+<script type="text/javascript">
+  
+$(document).ready(function(){
+
+   $.ajax({
+      method:"POST",
+      url:'https://sandbox-api.liv-ex.com/data/v2/priceData',
+      data:{"lwin": ["101430720101200750"],"priceType": ["B"],"priceDate": "","currency": "GBP"},
+      headers: { 'CLIENT_KEY': '52fbdab1-9145-4fe9-8a93-27c70bd7577a','CLIENT_SECRET':'5YcyXPEj','ACCEPT':'application/json','CONTENT-TYPE':'application/json' },
+      dataType:'JSON',
+      success:function(data){
+        console.log("====================");
+        console.log(data);
+        console.log("=====================");
+      }
+   });
+
+});
+
+</script>
 
 
 

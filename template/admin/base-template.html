@@ -31,12 +31,24 @@
     overflow: hidden;
     overflow-y: scroll;
 }
+
+  .se-pre-con {
+   display: none;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 99999999999;
+  background: url(https://luckhunter.in/media/loader.gif) center no-repeat rgba(0,0,0,0.5);
+}
 </style>
 
 </head>
 
 
 <body>
+   <div class="se-pre-con"></div>
 <!--fixed-->
 <div id="app" class="paper-loading">
    <aside class="main-sidebar offcanvas">
@@ -50,7 +62,7 @@
 <li class="treeview" id="Category">
                 <a href="#"><span>Category</span><i class="icon icon-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
-                      <li class="treeview " id="Manage_Categoryes"><a href="{% url 'admin_manage_categoryes:catogoryes' %}">Manage Categoryes</a></li>
+                      <li class="treeview " id="Manage_Categoryes"><a href="{% url 'admin_manage_categoryes:catogoryes' %}">Manage Categories</a></li>
                       
                  <li class="treeview"  id="Add_Categoryes"><a href="{% url 'admin_manage_categoryes:add_catogoryes' %}">Add Category</a></li>
          
@@ -66,9 +78,11 @@
                   <ul class="treeview-menu">
                       <li class="treeview " id="Manage_Product"><a href="{% url 'admin_manage_products:products' %}">Manage Product</a></li>
                       
+            <li class="treeview"  id="low_stock"><a href="{% url 'admin_manage_products:low_stock' %}">Low Stock</a></li> 
+            <li class="treeview"  id="Out_Of_Stock"><a href="{% url 'admin_manage_products:out_of_stock' %}">Out Of Stock</a></li> 
             <li class="treeview"  id="Add_Product"><a href="{% url 'admin_manage_products:add_product' %}">Add Product</a></li>
       
-            
+           
                      
            
                   </ul>
@@ -93,28 +107,49 @@
             </li> -->
           
           <li class="treeview"  id="Caller_Orders">
-           <a href="{% url 'admin_manage_order:caller'  %}">Caller Orders</a>
-           </li>
-           <li class="treeview"  id="Delivery_Orders">
-           <a href="{% url 'admin_manage_order:delivery' %}">Delivery Orders</a>
-           </li>
-           <li class="treeview" id="Complete_Orders">
-           <a href="{% url 'admin_manage_order:orders_type' 'complete' %}" >Complate Orders</a>
+           <a href="{% url 'admin_manage_order:caller'  %}">Cellar Orders ({{"Caller"|get_counting_of_order:"Active"}})</a>
            </li>
 
-                     <li class="treeview" id="Refunded_Orders">
-           <a href="{% url 'admin_manage_order:orders_type' 'refunded' %}" >Refunded Orders</a>
+           <li class="treeview"  id="Delivery_Orders">
+           <a href="{% url 'admin_manage_order:delivery' %}">Delivery Orders ({{"Delivered"|get_counting_of_order:"Active"}})</a>
+           </li>
+
+          <li class="treeview"  id="Ticket_Orders">
+           <a href="{% url 'admin_manage_order:ticket' %}">Ticket Orders ({{"Tickets"|get_counting_of_order:"Active"}})</a>
+           </li>
+
+           <!-- <li class="treeview" id="Complete_Orders">
+           <a href="{% url 'admin_manage_order:orders_type' 'complete' %}" >Complate Orders</a>
+           </li> -->
+           
+
+            <li class="treeview" id="Complete_Cellar_Orders">
+           <a href="{% url 'admin_manage_order:complate_cellar' %}" >Complate Cellar Orders  ({{"Caller"|get_counting_of_order:"Complete"}})</a>
+           </li>
+
+
+        <li class="treeview" id="Complete_delivery_Orders">
+           <a href="{% url 'admin_manage_order:complate_delivery' %}" >Complate Delivery Orders ({{"Delivered"|get_counting_of_order:"Complete"}})</a>
+           </li>
+                     <li class="treeview" id="Refunded_Orders"> 
+           <a href="{% url 'admin_manage_order:orders_type' 'refunded' %}" >Refunded Orders ({{"All"|get_counting_of_order:"Refunded"}})</a>
            </li>
            <li class="treeview"  id="Cancelled_orders">
-           <a href="{% url 'admin_manage_order:orders_type' 'cancelled' %}">Cancelled Orders</a>
+           <a href="{% url 'admin_manage_order:orders_type' 'cancelled' %}">Cancelled Orders ({{"All"|get_counting_of_order:"Cancelled"}})</a>
            </li>
            <li class="treeview" id="Failled_orders">
-           <a href="{% url 'admin_manage_order:orders_type' 'failled' %}">Failled Orders</a>
+           <a href="{% url 'admin_manage_order:orders_type' 'failled' %}">Failled Orders ({{"All"|get_counting_of_order:"Failled"}})</a>
            </li>
            
            
                   </ul>
                </li>
+
+<li class="treeview">
+           <a href="{% url 'admin_manage_order:product_sales_list'  %}">Product Sales List ({{""|get_counting_of_sales_product}})</a>
+           </li>
+
+
 <li class="treeview" id="Customer">
            <a href="#"><span>Customers</span><i class="icon icon-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
@@ -211,6 +246,17 @@
                   </ul>
                </li>
 
+
+<li class="treeview" id="Special_Offer">
+           <a href="#"><span>Special Offers</span><i class="icon icon-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li class="treeview " id="Manage_Special_Offer"><a href="{% url 'admin_manage_special_offers:special_offer' %}">Manage Special Offers</a></li>
+                      
+                  <li class="treeview"  id="Add_Special_Offer"><a href="{% url 'admin_manage_special_offers:add_offers' %}">Add Special Offers</a></li>
+                  </ul>
+               </li>
+
+
 <li class="treeview" id="Recipes">
            <a href="#"><span>Recipes</span><i class="icon icon-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
@@ -255,7 +301,7 @@
                </li>
                 <li class="treeview" id="Manage_Content"><a href="#"><span>Manage Content</span><i class="icon icon-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
-                      <li id="Mange_Pages"><a href="{% url 'admin_manage_content_page:custom_page' %}">Mange Pages</a></li>
+                      <li id="Mange_Pages"><a href="{% url 'admin_manage_content_page:custom_page' %}">Manage Pages</a></li>
                       <li id="Add_Page"><a href="{% url 'admin_manage_content_page:add_page' %}">Add Page</a></li>
                   </ul>
                </li>
@@ -458,16 +504,16 @@ $(document).ready(function(){
     
 	$(function () {
   $("#datepicker").datepicker({ 
-        autoclose: true, 
-        todayHighlight: true
-  }).datepicker('update', new Date());
+        // autoclose: true, 
+        // todayHighlight: true
+  }).datepicker();
 });
 
 $(function () {
   $("#datepicker1").datepicker({ 
-        autoclose: true, 
-        todayHighlight: true
-  }).datepicker('update', new Date());
+        //autoclose: true, 
+        //todayHighlight: true
+  }).datepicker();
 });
 
 $(document).ready(function(){

@@ -1,0 +1,210 @@
+<ul class="sidebar-menu scroll sp-menu">
+  <li><a href="{% url 'home:home' %}"><i class="fa fa-home"></i></a></li>
+        <li class="treeview"><a class="active" href="{% url 'home:home' %}"><span>Aroma of Wine</span><i class="icon icon-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a href="javascript:void(0)" class="p-l-35"><span>Aromas Recommendations </span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                {% if get_category %}
+                           {% for item in get_category %}
+              <li class="{% if forloop.counter == 1 %}active{% endif %}" ><a class="p-l-70" href="#category{{item.id}}" data-url="{% url 'wine_shop:wine_shop' %}?category={{item.Category_name}}">{{item}}</a></li>
+                           {% endfor %} 
+                          {% endif %}
+              </ul>
+            </li>
+            
+
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#"> <span>Fine Wines</span><i class="icon icon-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu active">
+            <li><a href="javascript:void(0)"><span>Region</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                {% if get_region_for_fine_wine %}
+                          {% for item in get_region_for_fine_wine %}
+                          <li class="{% if forloop.counter == 1 %}active{% endif %}">
+<a href="#regin{{item.id}}" class="category_click" data-url="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{item.Slug}}">{{item}}</a></li>
+                          {% endfor %}
+                          {% endif %}
+              </ul>
+            </li>
+            
+
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#"> <span>Aroma Selection</span><i class="icon icon-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu active">
+            <li><a href="#"><span>Aroma Favorites</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                          <li class=""><a href="#Popular-Wines">Popular Wines</a></li>
+                          <li><a href="#Great-Value">Great Value</a></li>
+                          <li><a href="#Aroma-Recommendations">Aroma Recommendations</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="treeview"><a class="active" href="dashboard.html"><span>Aroma Wine Partners</span><i class="icon icon-angle-left pull-right"></i></a>
+          <ul class="treeview-menu active">
+            <li><a href="#"><span>Country</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                          {% if aromawine_pattenre_country %}
+                         {% for item in aromawine_pattenre_country %}
+                        <li><a href="{% url 'wine_shop:wine_shop' %}?page-type=country&page-name={{item.Slug}}">{{item}}</a>
+                        </li>
+                         {% endfor %}
+                        {% endif %}
+              </ul>
+            </li>
+
+
+             <li><a href="#"><span>Winery</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                          {% if aromawine_pattenre_winnery %}
+                         {% for item in aromawine_pattenre_winnery %}
+                        <li><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{item.Slug}}">{{item}}</a>
+                        </li>
+                         {% endfor %}
+                        {% endif %}
+                        
+              </ul>
+            </li>
+
+
+            <li><a href="#"><span>Appellation</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                          {% if aromawine_pattenre_applicant %}
+                         {% for item in aromawine_pattenre_applicant %}
+                        <li><a href="{% url 'wine_shop:wine_shop' %}?appellation={{item.Slug}}">{{item}}</a>
+                        </li>
+                         {% endfor %}
+                        {% endif %}
+                        
+              </ul>
+            </li>
+
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#"> <span>En Premier</span><i class="icon icon-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu active">
+            <li><a href="#"><span>Year</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                {% if en_premier_vintage_year %}
+                         {% for item in en_premier_vintage_year %}
+                        <li><a href="{% url 'wine_shop:wine_shop' %}?vintage={{item.Slug}}">{{item}}</a>
+                        </li>
+                         {% endfor %}
+                        {% endif %}
+
+              </ul>
+            </li>
+            <li><a href="#"><span>Winery</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu active">
+                {% if en_premier_vintage_winnery %}
+                         {% for item in en_premier_vintage_winnery %}
+                        <li><a href="{% url 'wine_shop:wine_shop' %}?page-type=producer&page-name={{item.Slug}}">{{item}}</a>
+                        </li>
+                         {% endfor %}
+                        {% endif %}
+              </ul>
+            </li>
+            <li><a href="#"><span>Wine Name</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                  {% if en_premier_vintage_wine %}
+                         {% for item in en_premier_vintage_wine %}
+                        <li><a href="{% url 'product_detail:product_detail' item.Product.Product_id item.Product.Product_slug  item.Vintage_Year %}">{{item.Product}}({{item}})</a>
+                        </li>
+                         {% endfor %}
+                        {% endif %}
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="treeview"><a class="active" href="dashboard.html"><span>Spirits</span><i class="icon icon-angle-left pull-right"></i></a>
+
+          <ul class="treeview-menu active">
+            
+              {% if sprit_country %}
+                {% for item in sprit_country %}
+
+            <li><a href="#"><span>{{item}}</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                {% if sprit_product %}
+                           {% for item_pro in sprit_product %}
+                          
+{% if item_pro.Product.Country.Country_Name == item.Country_Name %}
+                          <li>
+            <a href="{% url 'product_detail:product_detail' item_pro.Product.Product_id item_pro.Product.Product_slug  item_pro.Vintage_Year %}">{{item_pro.Product}}({{item_pro}})</a>
+                          </li>
+       {% endif %}
+
+                           {% endfor %}
+                          {% endif %}
+
+              </ul>
+            </li>
+              {% endfor %}
+                  {% endif %}
+
+            
+          </ul>
+         
+        </li>
+        <li class="treeview"><a class="active" href="dashboard.html"><span>Sommelier Services</span><i class="icon icon-angle-left pull-right"></i></a>
+          
+</a>
+          <ul class="treeview-menu active">
+            <li><a href="#"><span>Sommelier Services</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+  <li><a href="#">Sommelier Classes</a></li>
+<li><a href="{% url 'recipes_for_web:revipe' %}">Wine Pairng - Recipes</a></li>
+                        <li><a href="#">SommelierAdvice</a></li>
+                        <li><a href="#">Cellar Plan</a></li>
+                        <li><a href="{% url 'event:event' %}">Events</a></li>
+                        <li><a href="{% url 'wine_palate:wine_palate'  %}">Wine Palet Profile</a></li>
+                      
+              </ul>
+            </li>
+            <li><a href="#"><span>Wine Experiences</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu active">
+ <li><a href="{% url 'pages:page' 'dinner' %}">Dinners</a></li>
+                        <li><a href="{% url 'pages:page' 'wine-testing' %}">Wine Tasting</a></li>
+                        
+              </ul>
+            </li>
+            <li><a href="#"><span>Events</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                  <li><a href="{% url 'event:event' %}?event-type=social&">Social </a></li>
+                    <li><a href="{% url 'event:event' %}?event-type=private&">Private </a></li>
+                    <li><a href="{% url 'event:event' %}?event-type=corporate&">Corporate </a></li>
+                  
+              </ul>
+            </li>
+
+        <li><a href="#"><span>Expertise</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                  <li><a href="{% url 'pages:page' 'grape' %}">Grapes </a></li>
+                        <li><a href="{% url 'pages:page' 'region' %}">Regions </a></li>
+                        <li><a href="{% url 'pages:page' 'producer' %}">Winery </a></li>
+                </ul>
+            </li>
+
+            <li><a href="#"><span>Advice</span> <i class="icon icon-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                 {% for item in custom_page %}
+                        <li> <a href="{% url 'home:custom_page' item.Slug %}">{{item}}</a></li>
+                        {% endfor %}
+                </ul>
+            </li>
+
+          </ul>
+
+        </li>
+        
+<li class="treeview"> <a href="{% url 'dashboard_user:dashboard' %}">Login / Register</a></li>
+        
+      </ul>

@@ -109,6 +109,15 @@ def get_analytics(demo):
     return str(get_analytics_data)
 
 
+@register.filter(name='header_social_media')
+def header_social_media(demo):
+    get_data = ""
+    if AwAdminSetting.objects.all().exists():
+        get_data = AwAdminSetting.objects.all().first()
+    return render_to_string('web/home/social_media_hadder_link.html', {"get_data":get_data})
+
+
+
 
 @register.filter(name='get_social_media_info')
 def get_social_media_info(demo):
@@ -216,9 +225,11 @@ class ShippingDeleteView(SuccessMessageMixin,generic.DeleteView):
 def update_shipping(request):
     if request.method == 'POST':
         ids = request.POST.getlist('ids[]')
-        Free_Shipping_Amount = request.POST.getlist('Free_Shipping_Amount[]')
-        Free_Flat_Shipping = request.POST.getlist('Free_Flat_Shipping[]')
-        for i in range(0,len(ids)):
-            AwManageShipping.objects.filter(id=ids[i]).update(Free_Shipping_Amount=Free_Shipping_Amount[i],Free_Flat_Shipping=Free_Flat_Shipping[i])
+        min_ordr_amount = request.POST.getlist('min_ordr_amount[]')
+        Shiping_Fees_min_order_amount = request.POST.getlist('Shiping_Fees_min_order_amount[]')
+        count = len(ids) - 1
+        for i in range(0,count):
+            AwManageShipping.objects.filter(id=ids[i]).update(min_ordr_amount=min_ordr_amount[i],Shiping_Fees_min_order_amount=Shiping_Fees_min_order_amount[i])
+        print("=========================")
         messages.info(request, "Shipping update successfully.")
     return redirect(settings.BASE_URL+"admin/settings/fee-shipping")

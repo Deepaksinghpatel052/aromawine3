@@ -22,8 +22,8 @@ class DashboardView(generic.TemplateView):
 		if AwOrders.objects.filter(User=self.request.user).exists():
 			letest_order = AwOrders.objects.filter(User=self.request.user).order_by("-id").first()
 
-		if AwOrederItem.objects.filter(User=self.request.user).filter(Order_id__Order_Type='Caller').exists():
-			celler_item = AwOrederItem.objects.filter(User=self.request.user).filter(Order_id__Order_Type='Caller').order_by("-id")[:5]
+		if AwOrederItem.objects.filter(User=self.request.user).filter(Order_id__Order_Type='Caller').filter(Quentity__gt=0).filter(Order_id__order_place = True).exists():
+			celler_item = AwOrederItem.objects.filter(User=self.request.user).filter(Order_id__Order_Type='Caller').filter(Quentity__gt=0).filter(Order_id__order_place = True).order_by("-id")[:5]
 		context['letest_order'] = letest_order
 		context['user_info'] = user_info
 		context['celler_item'] = celler_item

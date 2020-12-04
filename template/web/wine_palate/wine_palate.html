@@ -1,20 +1,251 @@
 {% extends 'web/base-template.html' %}
 
    {% block cssstyle %}
-  
+  {% load static %}
   <style>
   #container {
-    width: 1140px;
-    height: 1140px;
+    width: 800px;
+    height: 800px;
     margin: auto;
     padding: 0;
 
-}</style>
+}
+.anychart-credits {
+    display: none;
+}
+
+
+
+.container-checkbox {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 18px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.container-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.container-checkbox .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #8a5401;
+}
+
+.container-checkbox:hover input ~ .checkmark {
+    background-color: #8a5401;
+}
+
+.container-checkbox input:checked ~ .checkmark {
+    background-color: #000;
+}
+
+.container-checkbox .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.container-checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.container-checkbox .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+}
+
+.data-fillbox ul {
+    margin: 0;
+    padding: 0;
+    display: table;
+    width: 100%;
+}
+
+.data-fillbox ul li {
+    list-style: none;
+    width: 24%;
+    box-sizing: border-box;
+    float: left;
+    margin-bottom: 15px;
+}
+
+.chart-data {
+    padding: 15px 0px;
+}
+
+.savebtn{border: 0;
+    color: #fff;
+    font-size: 16px !;
+    background-color: #8a5401;
+    padding: 5px 5px 5px 0 ;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    line-height: 32px;
+    width: 250px;
+    height: 39px;}
+	
+	.savebtn:hover {
+    background: #000;
+    cursor: pointer;
+}
+
+  .se-pre-con {
+   display: none;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 99999999999;
+  background: url(https://luckhunter.in/media/loader.gif) center no-repeat rgba(0,0,0,0.5);
+}
+
+#show_palate_data{
+  display: none;
+}
+
+.palate-profile-toggle {
+    border: 1px solid rgb(238 238 238 / 0.74);
+    border-radius: 5px;
+    background: rgb(255 255 255 / 74%);
+}
+
+.palate-profile-toggle h5 {
+   background: rgb(255 255 255 / 74%);
+    padding: 15px;
+    margin: 0px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+
+
+.palate-toggle-show {
+    padding: 15px;
+    text-align: center;
+}
+body {
+    background: url({% static "web/assets/image/wine-palatebg.jpg" %}) !important;
+    background-size: cover !important;
+}
+#show_palate_data{
+    background: rgb(255 255 255 / 74%);
+    padding: 15px;
+    border-radius: 5px;
+}
+</style>
       {% endblock %}
 {% block content %}
 {% load static %}
 
+
+
+<div class="se-pre-con"></div>
+ <div class="container">
+<br>
+
+ 	 {% if messages %}
+    {% for message in messages %}
+        
+<div class="alert alert-success alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+      
+    {% endfor %}
+    {% endif %}
+	
+	<div class="palate-profile-toggle">
+	<h5 class="palatetogle">{{get_page_info.Title}}</h5>
+	<div class="palate-toggle-show">
+	{{get_page_info.description|safe}}
+	</div>
+	</div>
+
+<!--<div class="accordion" id="accordionExample">
+  <div class="card z-depth-0 bordered">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+          aria-expanded="true" aria-controls="collapseOne">
+          {{get_page_info.Title}}
+        </button>
+      </h5>
+    </div>
+    <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+      data-parent="#accordionExample">
+      <div class="card-body">
+        {{get_page_info.description|safe}}
+      </div>
+    </div>
+  </div>
+</div>-->
+
+
+ </div>
+
  <div id="container"></div>
+ 
+ <div class="chart-data">
+ <div class="container">
+ <div class="data-fillbox">
+  {% if get_all_unselected_value %}
+ <form id="show_palate_data" style="display: block;" method="POST">
+  {% else %}
+  <form id="show_palate_data" method="POST">
+  {% endif %}
+   {% csrf_token %}
+
+
+   <div class="row">
+     <div class="col-md-12" id="show_palate_data_set">
+      {% if get_all_unselected_value %}
+        {% for item in get_all_unselected_value %}
+          <div>
+          <h2>{{item}} <span class="close close_closest_div btn"><i class="fa fa-times"></i></span></h2>
+		  
+          <ul> 
+            <input type="hidden" name="palat_profile_cate_data[]" value="{{item}}">
+            {{item|categoryes_selected_categoryes_and_flavers:user}}
+          </ul>
+        </div>
+        {% endfor %}
+      {% endif %}
+
+     </div>
+   </div>
+   <button class="savebtn">Saved</button>
+ </form>
+ 
+ </div>
+ </div>
+ </div>
 
 {% endblock %}
 
@@ -24,183 +255,199 @@
   <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-sunburst.min.js"></script>
   <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-exports.min.js"></script>
   <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-ui.min.js"></script>
+  <script> 
+
+  
+$(document).ready(function(){
+    $(".palatetogle").click(function(){
+    $(".palate-toggle-show").slideToggle("slow",function()
+    {
+      
+    });
+  });});</script>
   <script type="text/javascript">
+
+
+
+
+  	
   anychart.onDocumentReady(function () {
 
     // create data
     var data = [
   
-      {name: "wine", fill: '#ccc', children: [
+      {name: "Aroma Of wine", fill: '#ccc', children: [
         {name: "Fruity", fill: '#ecd2df', children: [
       {name: "Citrus", fill: '#dfbacb', children: [
-          {name: "Grapefruit Lemon", fill: '#daaec7',},
+          //{name: "Grapefruit Lemon", fill: '#daaec7',},
+		  
        
           
         ]},
           
           {name: "Berry", fill: '#dfbacb', children: [
-      {name: "Blackberry", fill: '#daaec7',},
-      {name: "Raspberry", fill: '#daaec7',},
-      {name: "Strawberry", fill: '#daaec7',},
-      {name: "Black Currant (Cassis)", fill: '#daaec7',},
+      //{name: "Blackberry", fill: '#daaec7',},
+      //{name: "Raspberry", fill: '#daaec7',},
+      //{name: "Strawberry", fill: '#daaec7',},
+      //{name: "Black Currant (Cassis)", fill: '#daaec7',},
       ]},
           {name: "Tree fruit", fill: '#dfbacb', children: [
-      {name: "Cherry", fill: '#daaec7',},
-      {name: "Apricot", fill: '#daaec7',},
-      {name: "Peach", fill: '#daaec7',},
-      {name: "Apple", fill: '#daaec7',},
+      //{name: "Cherry", fill: '#daaec7',},
+      //{name: "Apricot", fill: '#daaec7',},
+      //{name: "Peach", fill: '#daaec7',},
+      //{name: "Apple", fill: '#daaec7',},
       
       ]},
       {name: "Tropical Fruit", fill: '#dfbacb', children: [
-      {name: "Lychee", fill: '#daaec7',},
-      {name: "Pineapple", fill: '#daaec7',},
-      {name: "Melon", fill: '#daaec7',},
-      {name: "Banana", fill: '#daaec7',},
+      //{name: "Lychee", fill: '#daaec7',},
+      //{name: "Pineapple", fill: '#daaec7',},
+      //{name: "Melon", fill: '#daaec7',},
+      //{name: "Banana", fill: '#daaec7',},
       ]},
       {name: "Fruit(dried Cooked)", fill: '#dfbacb' ,children: [
-      {name: "Strawberry (jam)", fill: '#daaec7',},
-      {name: "Raisin", fill: '#daaec7',},
-      {name: "Prune", fill: '#daaec7',},
-      {name: "Fig", fill: '#daaec7',},
+      //{name: "Strawberry (jam)", fill: '#daaec7',},
+      //{name: "Raisin", fill: '#daaec7',},
+      //{name: "Prune", fill: '#daaec7',},
+      //{name: "Fig", fill: '#daaec7',},
       
       ]},
       {name: "Other", fill: '#dfbacb', children: [
-      {name: "Artificial Fruit", fill: '#daaec7',},
-      {name: "Metiry Anthranilte(foxy)", fill: '#daaec7',},
+      //{name: "Artificial Fruit", fill: '#daaec7',},
+      //{name: "Metiry Anthranilte(foxy)", fill: '#daaec7',},
       ]},
         ]},
         {name: "Herbaceous", fill: '#bdc6b1', children: [
           {name: "Fresh", fill: '#95a588', children: [
-      {name: "Cut geen Grass", fill: '#81936d'},
-      {name: "Bell Pepper", fill: '#81936d'},
-      {name: "Eucalypus", fill: '#81936d'},
-      {name: "Mint", fill: '#81936d'},
+      //{name: "Cut geen Grass", fill: '#81936d'},
+      //{name: "Bell Pepper", fill: '#81936d'},
+      //{name: "Eucalypus", fill: '#81936d'},
+      //{name: "Mint", fill: '#81936d'},
       ]},
           {name: "Canned Cooked", fill: '#95a588', children: [
-      {name: "Green bean", fill: '#81936d'},
-      {name: "Asparagus", fill: '#81936d'},
-      {name: "Black olive", fill: '#81936d'},
-      {name: "Artichoke", fill: '#81936d'},
+      //{name: "Green bean", fill: '#81936d'},
+      //{name: "Asparagus", fill: '#81936d'},
+      //{name: "Black olive", fill: '#81936d'},
+      //{name: "Artichoke", fill: '#81936d'},
       
       ]},
           {name: "Dried" , fill: '#95a588', children: [
-      {name: "Hay Straw", fill: '#81936d'},
-      {name: "Tea", fill: '#81936d'},
+      //{name: "Hay Straw", fill: '#81936d'},
+      //{name: "Tea", fill: '#81936d'},
       ]},
         ]},
         {name: "Nutty", fill: '#d7d4e7', children: [
     {name: "Nutty", fill: '#bec4de', children: [
-    {name: "Walnut", fill: '#94a1c3',},
-    {name: "Hazelnut", fill: '#94a1c3',},
-    {name: "Almand", fill: '#94a1c3',},
+    //{name: "Walnut", fill: '#94a1c3',},
+    //{name: "Hazelnut", fill: '#94a1c3',},
+    //{name: "Almand", fill: '#94a1c3',},
     
     ]},
     ]},
         {name: "Caramel", fill: '#e1c9ad', children: [
     {name: "Caramel", fill: '#d3a778', children: [
-    {name: "Honey", fill: '#c49166',},
-    {name: "Butter", fill: '#c49166',},
-    {name: "Soy Sarue", fill: '#c49166',},
-    {name: "Chocolate", fill: '#c49166',},
-    {name: "Molasses", fill: '#c49166',},
+    //{name: "Honey", fill: '#c49166',},
+    //{name: "Butter", fill: '#c49166',},
+    //{name: "Soy Sarue", fill: '#c49166',},
+    //{name: "Chocolate", fill: '#c49166',},
+    //{name: "Molasses", fill: '#c49166',},
     ]},
     
     ]},
         {name: "Woody", fill: '#d3c9b0', children: [
     {name: "Resinous", fill: '#b8ae8b', children: [
-    {name: "Honey", fill: '#b19a70',},
-    {name: "Butter", fill: '#b19a70',},
-    {name: "Soy Sarue", fill: '#b19a70',},
-    {name: "Chocolate", fill: '#b19a70',},
-    {name: "Molasses", fill: '#b19a70',},
+    //{name: "Honey", fill: '#b19a70',},
+    //{name: "Butter", fill: '#b19a70',},
+    //{name: "Soy Sarue", fill: '#b19a70',},
+    //{name: "Chocolate", fill: '#b19a70',},
+    //{name: "Molasses", fill: '#b19a70',},
     ]},
     {name: "Phenolic", fill: '#b8ae8b', children: [
-    {name: "Varilla", fill: '#b19a70',},
-    {name: "Cedar", fill: '#b19a70',},
-    {name: "Oak", fill: '#b19a70',},
-    {name: "Tobacco", fill: '#b19a70',},
+    //{name: "Varilla", fill: '#b19a70',},
+    //{name: "Cedar", fill: '#b19a70',},
+    //{name: "Oak", fill: '#b19a70',},
+    //{name: "Tobacco", fill: '#b19a70',},
     ]},
     {name: "Burned" , fill: '#b8ae8b', children: [
     
-    {name: "Coffee", fill: '#b19a70',},
+    /*{name: "Coffee", fill: '#b19a70',},
     {name: "Burnt Toast", fill: '#b19a70',},
-    {name: "Smokey", fill: '#b19a70',},
+    {name: "Smokey", fill: '#b19a70',},*/
     
     ]},
     
     ]},
         {name: "Earthy" , fill: '#cbc4d4', children: [
     {name: "Earthy" , fill: '#b6a5c7', children: [
-    {name: "Dusty", fill: '#a191b8',},
-    {name: "Mushroom", fill: '#a191b8',},
+    /*{name: "Dusty", fill: '#a191b8',},
+    {name: "Mushroom", fill: '#a191b8',},*/
     ]},
     {name: "Moldy", fill: '#b6a5c7', children: [
-    {name: "Moldy Cork", fill: '#a191b8',},
+    /*{name: "Moldy Cork", fill: '#a191b8',},*/
     ]},
     ]},
         {name: "Chemical", fill: '#c7c2af', children: [
     {name: "Petroleum", fill: '#abab8f', children: [
-    {name: "Tar", fill: '#98976b',},
+    /*{name: "Tar", fill: '#98976b',},
     {name: "Plastic", fill: '#98976b',},
     {name: "Kerosene", fill: '#98976b',},
-    {name: "Diesel", fill: '#98976b',},
+    {name: "Diesel", fill: '#98976b',},*/
     
     ]},
     {name: "Suifur" , fill: '#abab8f', children: [
-    {name: "Rubber", fill: '#98976b',},
+    /*{name: "Rubber", fill: '#98976b',},
     {name: "Hydrogen Sultfur", fill: '#98976b',},
     {name: "Natural Gas(mercaptan)", fill: '#98976b',},
     {name: "Garlic", fill: '#98976b',},
     {name: "Skunk", fill: '#98976b',},
     {name: "Cooked Cabbage", fill: '#98976b',},
     {name: "Burnt match", fill: '#98976b',},
-    {name: "Wet dog/wet wool", fill: '#98976b',},
+    {name: "Wet dog/wet wool", fill: '#98976b',},*/
     ]},
     {name: "Pungent" , fill: '#abab8f', children: [
-    {name: "Suifur Dioxide", fill: '#98976b',},
+    /*{name: "Suifur Dioxide", fill: '#98976b',},
     {name: "Ethyl Acetate (nail polish remover)", fill: '#98976b',},
-    {name: "Acertic Add (Vinegar)", fill: '#98976b',},
+    {name: "Acertic Add (Vinegar)", fill: '#98976b',},*/
   
     ]},
     ]},
         {name: "Oxidized", fill: '#e8d1bf', children: [
     {name: "Oxidized", fill: '#e3b4a2', children: [
-    {name: "Sherry", fill: '#e3a181',},
+    /*{name: "Sherry", fill: '#e3a181',},*/
     ]},
     
     ]},
         {name: "Microbiologcal", fill: '#e8e2c0', children: [
     {name: "Yeasty", fill: '#d7cc94', children: [
-    {name: "Baker's yeast", fill: '#cec276',},
-    {name: "Leesy", fill: '#cec276',},
+    /*{name: "Baker's yeast", fill: '#cec276',},
+    {name: "Leesy", fill: '#cec276',},*/
     ]},
     {name: "Lactic", fill: '#d7cc94', children: [
-    {name: "Sauerkraut", fill: '#cec276',},
+    /*{name: "Sauerkraut", fill: '#cec276',},
     {name: "Sweaty", fill: '#cec276',},
-    {name: "Yogurt", fill: '#cec276',},
+    {name: "Yogurt", fill: '#cec276',},*/
     ]},
     {name: "Other", fill: '#d7cc94', children: [
-    {name: "Horsey", fill: '#cec276',},
-    {name: "Mousey", fill: '#cec276',},
+    /*{name: "Horsey", fill: '#cec276',},
+    {name: "Mousey", fill: '#cec276',},*/
     
     ]},
     
     ]},
         {name: "Floral", fill: '#cedac6', children: [
     {name: "Floral", fill: '#b0c9a2', children: [
-    {name: "Orange Blossom", fill: '#9db97f',},
+    /*{name: "Orange Blossom", fill: '#9db97f',},
     {name: "Linalool (Ear IGrey Tea)", fill: '#9db97f',},
     {name: "Rose", fill: '#9db97f',},
     {name: "Violet", fill: '#9db97f',},
-    {name: "Geranium", fill: '#9db97f',},
+    {name: "Geranium", fill: '#9db97f',},*/
     ]},
     
     ]},
         {name: "Spicy",fill: '#e7be9e', children: [
     {name: "Spicy", fill: '#e7a376', children: [
-    {name: "Licorice Arise", fill: '#e38d5c',},
+    /*{name: "Licorice Arise", fill: '#e38d5c',},
     {name: "Black Perpper", fill: '#e38d5c',},
-    {name: "Close", fill: '#e38d5c',},
+    {name: "Close", fill: '#e38d5c',},*/
     ]},
     ]},
         
@@ -211,6 +458,7 @@
     var chart = anychart.sunburst(data, "as-tree");
   chart.calculationMode("ordinal-from-leaves");
   chart.startAngle(45);
+  
 
  
    
@@ -224,16 +472,17 @@ chart.labels().format("{%name}");
     chart.labels().useHtml(true);
     chart.labels().format("<span style='font-size: 14px; word-break: normal; word-wrap: break-word;'>{%name}</span>");
   
-   chart.interactivity().selectionMode("drill-down");
+   chart.interactivity().selectionMode("multi-select");
   //"drill-down" (default)
 //"multi-select"
 //"single-select"
 //"none"
+
   chart.level().labels().position("radial");
 
     // set the chart title
   
-  
+  chart.background().fill("transparent");
     //chart.title("Wine");
   
 
@@ -281,5 +530,114 @@ textEnter.append("tspan")
       return d.depth ? d.name.split(" ")[1] || "" : "";
   });
 
+</script>
+
+<!-- <input type="hidden" name="" id="content_ids" value="{{user|get_selected_cate_ids}}"> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+
+$(document).on('click','textPath',function(){
+
+$(".se-pre-con").css("display","block");
+
+{% if user.username %}
+
+$.ajax({
+    method:"POST",
+    url:"{% url 'wine_palate:get_wine_palate' %}",
+    data:{"Category":$(this).text()},
+    dataType:"json",
+    success:function(data){
+
+      
+var html_content = '';
+// var get_ids_in_string = $("#content_ids").val();
+var get_ids_in_string = "";
+var new_ids = get_ids_in_string.split(",");;
+      
+    if(data["get_data"][0] != null)
+{
+for(var i=0; i<data["get_data"].length; i++)
+      {
+  
+    if(new_ids.indexOf(data["get_data"][i].id.toString()) == -1)
+    {
+        if(i==0)
+      {
+        html_content = '<div><h2>'+data["get_name"]+' <span class="close close_closest_div btn"><i class="fa fa-times"></i></span></h2><ul> <input type="hidden" name="palat_profile_cate_data[]" value="'+data["get_name"]+'">';
+      }
+      
+
+        var check_statud = '';
+        if(data["get_user_palate_type"].indexOf(data["get_data"][i].Type) != -1 && data["get_user_palate_category"].indexOf(data["get_data"][i].Category.Category_name) != -1)
+        {
+          check_statud = 'checked="true"';
+        }
+
+         html_content +='<li><label class="container-checkbox">'+data["get_data"][i].Type+'<input type="checkbox" name="palat_profile_data[]" value="'+data["get_data"][i].Type+'__'+data["get_data"][i].Category.Category_name+'" '+check_statud+' ><span class="checkmark"></span></label></li>'
+      
+
+         if(i+1==data["get_data"].length)
+         {
+           html_content +='</ul></div';
+         }
+         new_ids.push(data["get_data"][i].id.toString());
+    }
+
+    
+      }
+// $("#content_ids").val(new_ids.toString());
+
+        $("#show_palate_data_set").prepend(html_content);
+        $(".se-pre-con").css("display","none");
+        $("#show_palate_data").css("display","block");
+		$('html, body').animate({
+        scrollTop: $("#show_palate_data_set").offset().top -300 /*class you want to scroll to!!*/
+    }, 1000); /*animation time length*/
+
+}
+else
+{
+  $(".se-pre-con").css("display","none");
+   swal({
+            title: "Flavor not available.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          });
+}
+      
+
+        
+      }
+});
+
+{% else %}
+  $(".se-pre-con").css("display","none");
+// swal({
+//             title: "User Is Not Loged-In",
+//             icon: "warning",
+//             buttons: true,
+//             dangerMode: true,
+//           });
+window.location.href="{% url 'account:account' %}?next={{request.build_absolute_uri}}";
+
+
+{% endif %}
+
+});
+
+
+$(document).on("click",".close_closest_div",function(){
+  $(this).closest("div").remove();
+});
+
+// $(document).ready(function(){
+//   $("#ac_path_8").click(function(){
+//     $(".chart-data").show();
+//     // alert("dkfjnvfjv");
+//   });
+// });
 </script>
 {% endblock %}

@@ -8,6 +8,7 @@ from admin_manage_size.models import AwSize
 
 class AwProductsForm(forms.ModelForm):
     Product_name = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control", 'name': 'Product_name', 'placeholder': "Enter your product name"}))
+    LWineCode = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control", 'name': 'LWineCode', 'placeholder': "Enter your LWine Code"}))
     Meta_Title = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control", 'name': 'Meta_Title', 'placeholder': "Enter your Meta Title"}))
     Meta_Keyword = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control", 'name': 'Meta_Keyword', 'placeholder': "Enter your Meta Keyword"}))
     Select_Type = forms.ModelChoiceField(required=True, empty_label="Please select type", queryset=AwWineType.objects.filter(Status=True), widget=forms.Select(attrs={"class": "form-control" ,'name': 'Country'}))
@@ -27,4 +28,4 @@ class AwProductsForm(forms.ModelForm):
 
     class Meta:
         model = AwProducts
-        fields = ['Select_Type','Product_name','Producer','Category','Color','Appellation','Bottel_Size','Classification','Vintage','Varietals','Country','Regions','Grape','Description','Meta_Title','Meta_Keyword','Meta_Description']
+        fields = ['Select_Type','LWineCode','Product_name','Producer','Category','Color','Appellation','Bottel_Size','Classification','Vintage','Varietals','Country','Regions','Grape','Description','Meta_Title','Meta_Keyword','Meta_Description']

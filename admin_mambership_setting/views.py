@@ -11,6 +11,7 @@ from django.urls import reverse_lazy
 from django.template.defaulttags import register
 from orders.models import AwOrders
 from django.db.models import Sum
+from profile_user.models import AwUserInfo
 # Create your views here.
 
 
@@ -21,16 +22,48 @@ def get_user_membership(user_ins):
     if AwOrders.objects.filter(User=user_ins).exists():
         get_order = AwOrders.objects.filter(User=user_ins).aggregate(Sum('Amount'))
         if get_order['Amount__sum']:
-            total_order_amount = get_order['Amount__sum']
+            total_order_amount =  int(get_order['Amount__sum'])
+    if AwOrders.objects.filter(User=user_ins).exists():
+        get_order = AwOrders.objects.filter(User=user_ins).aggregate(Sum('shipping_charge'))
+        if get_order['shipping_charge__sum']:
+            total_order_amount = total_order_amount +  get_order['shipping_charge__sum']
 
     if AwMembership.objects.filter(min_price__lte=total_order_amount).filter(max_price__gte=total_order_amount).exists():
         get_membership = get_object_or_404(AwMembership,min_price__lte=total_order_amount,max_price__gte=total_order_amount)
-    # print("===============")
-    # print(total_order_amount)
-    # print(get_membership)
-    # print("================")
     return get_membership
 
+
+
+@register.filter(name='get_userorder_items')
+def get_userorder_items(user_ins):
+    total_order_Quentity = 0
+    get_membership = "No membership"
+    if AwOrders.objects.filter(User=user_ins).exists():
+        get_order = AwOrders.objects.filter(User=user_ins).aggregate(Sum('Quentity'))
+        if get_order['Quentity__sum']:
+            total_order_Quentity = get_order['Quentity__sum']
+    return total_order_Quentity
+
+
+@register.filter(name='get_user_number')
+def get_user_number(user_ins):
+    user_number = ""
+    if AwUserInfo.objects.filter(User=user_ins).exists():
+        get_user_info = get_object_or_404(AwUserInfo,User=user_ins)
+        if get_user_info.Contact_no:
+            user_number =  get_user_info.Contact_no
+    return user_number
+
+
+@register.filter(name='get_userorder_amount_cellar')
+def get_userorder_amount_cellar(user_ins):
+    user_number = ""
+    total_order_amount = 0
+    if AwOrders.objects.filter(User=user_ins).filter(Order_Type='Caller').exists():
+        get_order = AwOrders.objects.filter(User=user_ins).filter(Order_Type='Caller').aggregate(Sum('Amount'))
+        if get_order['Amount__sum']:
+            total_order_amount = get_order['Amount__sum']
+    return total_order_amount
 
 
 @method_decorator(login_required , name="dispatch")

@@ -156,38 +156,68 @@ Cancel
 <label class="control-label" for="CustomOrderNumber">Order subtotal</label></div>
 </div>
 <div class="col-md-9">
-<div class="form-text-row">${{order_ins.Amount}}</div>
+<div class="form-text-row">${{order_ins.Order_Product_Amount }}</div>
 </div>
 	   </div>
 	   
-	   <div class="row">
-	   <div class="col-md-3">
+<div class="row">
+     <div class="col-md-3">
 <div class="label-wrapper">
-<label class="control-label" for="CustomOrderNumber">Order shipping	</label></div>
+<label class="control-label" for="CustomOrderNumber">GST Amount</label></div>
 </div>
 <div class="col-md-9">
-<div class="form-text-row">$0.00 excl tax</div>
+<div class="form-text-row">${{order_ins.Order_Gst_Amount}}</div>
 </div>
-	   </div>
+     </div>
+
+
+ <div class="row">
+     <div class="col-md-3">
+<div class="label-wrapper">
+<label class="control-label" for="CustomOrderNumber">Descoubnt Amount</label></div>
+</div>
+<div class="col-md-9">
+<div class="form-text-row">-${{order_ins.Cupon_Discount}}</div>
+</div>
+     </div>    
+
+	
 	   
+
 	   <div class="row">
 	   <div class="col-md-3">
 <div class="label-wrapper">
-<label class="control-label" for="CustomOrderNumber">Order tax	</label></div>
-</div>
-<div class="col-md-9">
-<div class="form-text-row">$0.00</div>
-</div>
-	   </div>
-	   <div class="row">
-	   <div class="col-md-3">
-<div class="label-wrapper">
-<label class="control-label" for="CustomOrderNumber">Order total</label></div>
+<label class="control-label" for="CustomOrderNumber">Total Paid Amount</label></div>
 </div>
 <div class="col-md-9">
 <div class="form-text-row">${{order_ins.Amount}}</div>
 </div>
 	   </div>
+
+  <div class="row">
+     <div class="col-md-3">
+<div class="label-wrapper">
+<label class="control-label" for="CustomOrderNumber">Payment Status</label></div>
+</div>
+<div class="col-md-9">
+<div class="form-text-row">{% if order_ins.Payment_Status %} <span class="grid-report-item green">Payed</span> {% else %} <span class="grid-report-item red">Not Payed</span>{% endif %}</div>
+</div>
+     </div>
+
+<hr>
+        <div class="row">
+     <div class="col-md-3">
+<div class="label-wrapper">
+<label class="control-label" for="CustomOrderNumber">Order shipping </label></div>
+</div>
+<div class="col-md-9">
+<div class="form-text-row">{% if order_ins.shipping_charge > 0 %} ${{order_ins.shipping_charge}} {% else %} Free {% endif %}{% if order_ins.shipping_charge <= 0 %}
+<span class="grid-report-item green">Paid</span>
+{% else %}
+  {% if order_ins.shipping_Payment_Status %} <span class="grid-report-item green">Paid</span> {% else %} <span class="grid-report-item red">Not Paid</span>{% endif %}</div>
+{% endif %}
+</div>
+     </div>
 	   
 
 </div>
@@ -635,14 +665,17 @@ Yes
 <table class="table table-hover table-bordered producttablebox">
 <thead>
     <tr style="cursor: pointer;">
-      <td class="text-center"><b>Images</b></td>
-      <td class="text-center"><b>Product</b></td>
-    <td class="text-center"><b>Type & Case Size</b></td>
-    <td class="text-center"><b>Price</b></td>
-    <td class="text-center"><b>Quantity</b></td>   
-    <td class="text-center"><b>Tax</b></td>
-    <td class="text-center"><b>GST</b></td>
-      <td class="text-center"><b>Amount</b></td>
+      <td class="text-center"><b>IMAGE</b></td>
+      <td class="text-center"><b>PRODUCT</b></td>
+    <td class="text-center"><b>TYPE & CASE SIZE</b></td>
+    <td class="text-center"><b>PRICE</b></td>
+      <td class="text-center"><b>GST</b></td>
+      <td class="text-center"><b>PRICE WITH GST</b></td>
+
+    <td class="text-center"><b>QTY</b></td>   
+    <td class="text-center"><b>NOT DELIVERY</b></td>   
+
+      <td class="text-center"><b>AMOUNT</b></td>
     </tr>
   </thead>
   <tbody>
@@ -651,11 +684,12 @@ Yes
     <tr style="cursor: pointer;">
       <td class="text-center"><img src="{{item.Product|get_product_image_one}}" alt="" style="height:50px;"></td>
       <td > {% if item.Product_Cellar %} {{item.Product_Cellar}} {% endif %} {% if item.Product_Delivered %} {{item.Product_Delivered}} {% endif %} ({{item.Year}})</td>
-      <td class="text-center">{{item.Type}}/({{item.Case_Formate.Bottle}})</td>
+      <td class="text-center">{{item.Type}}/({{item.Case_Formate_text}})</td>
+      <td class="text-center">${{item.Cost_of_product|get_amount_without_persentage:item.Gst|floatformat:2}} </td>
+      <td class="text-center">{% if item.Gst %}{{item.Gst}}{% else %}0{% endif %}%</td>
       <td class="text-center">${{item.Cost_of_product|stringformat:".2f"}}</td>
+      <td class="text-center">{{item.Order_Quentity}}</td>
       <td class="text-center">{{item.Quentity}}</td>
-      <td class="text-center">{% if item.Case_Formate.Duty %}{{item.Case_Formate.Duty}}{% else %}0{% endif %}%</td>
-      <td class="text-center">{% if item.Case_Formate.GST %}{{item.Case_Formate.GST}}{% else %}0{% endif %}%</td>
       
       <td class="text-center">${{item.Total_cost|stringformat:".2f"}}</td>
     </tr>
@@ -663,12 +697,45 @@ Yes
     {% endif %}
  
  
-   
-  
-  
+   <tr>
+     <td colspan="6" rowspan="6"></td>
+     <td>Order Subtotal:</td>
+     <td>${{order_ins.Order_Product_Amount }}</td>
+   </tr>
 
+   <tr>
     
-    
+     <td>GST:</td>
+     <td>${{order_ins.Order_Gst_Amount }}</td>
+   </tr>
+
+{% if order_ins.Cupon_Discount > 0 %}
+   <tr>
+     
+     <td>Descount Amount</td>
+     <td>-${{order_ins.Cupon_Discount}}</td>
+   </tr>
+   <tr>
+    {% endif %}
+     
+     <td>Total Paid Amount</td>
+     <td>${{order_ins.Amount}}</td>
+   </tr>
+   <tr>
+     
+     <td>Payment Status</td>
+     <td>{% if order_ins.Payment_Status %} <span class="grid-report-item green">Paid</span> {% else %} <span class="grid-report-item red">Not Paid</span>{% endif %}</td>
+   </tr>
+   <tr>
+     
+     <td>Order shipping</td>
+     <td>{% if order_ins.shipping_charge > 0 %} ${{order_ins.shipping_charge}} {% else %} Free {% endif %} {% if order_ins.shipping_charge <= 0 %}
+<span class="grid-report-item green">Paid</span>
+{% else %}
+  {% if order_ins.shipping_Payment_Status %} <span class="grid-report-item green">Paid</span> {% else %} <span class="grid-report-item red">Not Paid</span>{% endif %}</div>
+{% endif %}
+</td>
+   </tr>
   </tbody>
 
 </table>

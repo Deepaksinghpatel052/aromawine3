@@ -2,10 +2,30 @@
 
     cart style here
 ===========================*/
-
+.qualifying span {
+    font-size: 14px !important;
+   background: transparent !important;
+    letter-spacing: 0;
+    font-family: 'Nunito' !important;
+}
+.qualifying p {
+    font-size: 14px !important;
+    font-weight: 500;
+    letter-spacing: 0;
+    font-family: 'Nunito' !important;
+    margin-left: 0px !important;
+}
 .cart-wrap td, .cart-wrap th {
 	padding: 10px;
 	
+}
+.qualifying ol {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+.qualifying h4 {
+    background: transparent !important;
 }
 .cart-area {
 	padding-top: 40px!important;
@@ -2553,7 +2573,7 @@ button.mb-2.product-story_info-btn {
 
 .product-brand-link {
     font-weight: 600;
-    text-decoration: underline;
+    /*text-decoration: underline;*/
 }
 
 
@@ -3200,7 +3220,7 @@ ul#result {
 
 ul#result li {
     border-radius: 0px;
-    padding: 5px;
+    padding: 5px !important;
 }
 
 ul#result li:before {
@@ -3243,7 +3263,7 @@ span.heartbox {
     position: absolute;
     right: 15px;
     top: 15px;
-	    z-index: 100;
+	    z-index: 1;
 }
 .product-brand-link {
     margin-top: 25px;

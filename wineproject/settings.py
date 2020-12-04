@@ -87,6 +87,8 @@ INSTALLED_APPS = [
     'pages',
     'payment_method',
     'wine_palate',
+    'admin_manage_special_offers',
+
 ]
 
 MIDDLEWARE = [
@@ -155,7 +157,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Singapore'
 
 USE_I18N = True
 
@@ -196,7 +198,7 @@ REST_FRAMEWORK = {
 }
 
 
-LOGIN_URL = BASE_URL+'admin/login'
+LOGIN_URL = BASE_URL+'account/'
 LOGIN_REDIRECT_URL = BASE_URL+'admin/dashboard'
 LOGOUT_REDIRECT_URL = BASE_URL+'account/'
 

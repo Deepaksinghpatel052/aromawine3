@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AwWineType,AwProducts , AwProductImage , AwProductPrice,AwProductImageFullView
+from .models import AwWineType,AwProducts , AwProductImage , AwProductPrice,AwProductImageFullView , AwProductReviews
 from import_export.admin import ImportExportModelAdmin
 # Register your models here.
 
@@ -9,6 +9,10 @@ class AwProductPriceAdmin(ImportExportModelAdmin):
 admin.site.register(AwProductPrice,AwProductPriceAdmin)
 
 
+class AwProductReviewsAdmin(ImportExportModelAdmin):
+    list_display = ('LWineCode', 'Publication','reviewer','reviewDate','scoreRaw','scoreFrom','scoreTo','scoreMedian','drinkFrom','drinkTo','externalReference', 'externalLink','externalId')
+    list_filter = ('LWineCode','Publication',)
+admin.site.register(AwProductReviews,AwProductReviewsAdmin)
 
 class AwProductImageAdmin(ImportExportModelAdmin):
     list_display = ('Product', 'Image_Type','Image','Created_by', 'Created_date','Created_date','Updated_date')

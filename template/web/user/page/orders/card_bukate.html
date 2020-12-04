@@ -10,9 +10,10 @@
 {% if item.Type == 'Bond' %}
 
 {% if item.Case_Formate.Bond_Descount_Cost > 0  %}
-${% widthratio item.Case_Formate.Bond_Descount_Cost 1 item.Quentity %}
+${{item.Case_Formate.Bond_Descount_Cost|multiply_of_prodiuct_amount_quentity:item.Quentity|floatformat:2}}
 {% else %}
 ${% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}
+{{item.Case_Formate.Bond_Cost|multiply_of_prodiuct_amount_quentity:item.Quentity|floatformat:2}}
 {% endif %}
 
 
@@ -20,9 +21,9 @@ ${% widthratio item.Case_Formate.Bond_Cost 1 item.Quentity %}
 {% if item.Type == 'Retail' %}
 
   {% if item.Case_Formate.Descount_Cost > 0  %}
-  ${% widthratio item.Case_Formate.Descount_Cost 1 item.Quentity %}
+  ${{item.Case_Formate.Descount_Cost|multiply_of_prodiuct_amount_quentity:item.Quentity|floatformat:2}}
 {% else %}
-${% widthratio item.Case_Formate.Retail_Cost 1 item.Quentity %}
+${{item.Case_Formate.Retail_Cost|multiply_of_prodiuct_amount_quentity:item.Quentity|floatformat:2}}
 {% endif %}
  {% endif %}
 </span> </div></div></li>

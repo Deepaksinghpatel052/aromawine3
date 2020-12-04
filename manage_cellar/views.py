@@ -10,6 +10,8 @@ from admin_manage_producer.models import AwProducers
 from admin_manage_classification.models import AwClassification
 from admin_manage_Vintages.models import AwVintages
 from admin_manage_varietals.models import AwVarietals
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from admin_manage_region.models import AwRegion
 from django.template.defaulttags import register
 from admin_manage_categoryes.models import AwCategory
@@ -22,6 +24,7 @@ from orders.models import AwOrders,AwOrederItem,AwOrderNote
 # Create your views here.
 
 
+@method_decorator(login_required , name="dispatch")
 class CellarVidw(generic.ListView):
     model = AwOrederItem
     template_name = "web/user/page/cellar/my_cellar.html"
@@ -55,6 +58,7 @@ class CellarVidw(generic.ListView):
 
         filters = None
         filters = Q(Case_Formate__id__in=get_filan_vintage_year)
+        filters = Q(Order_id__order_place = True)
         # filters = filters & Q(Product__Color__Slug__in=['rose-red','red'])
         # filters = filters & Q(Product__Bottel_Size__Bottle_Size__in=['500 ML'])
         # ======================================COLOR FLTER START======================
@@ -138,6 +142,7 @@ class CellarVidw(generic.ListView):
             if AwOrederItem.objects.filter(filters).exists():
                 get_order_items = AwOrederItem.objects.filter(filters)
         return get_order_items
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['Page_title'] = "My-Cellar"
@@ -147,21 +152,52 @@ class CellarVidw(generic.ListView):
         total_unique_wine =  0
         total_unite =  0
         total_cost_of_caller =  0
-        if AwOrederItem.objects.filter(Order_id__Order_Type='Caller').filter(Quentity__gt=0).filter(Order_id__Payment_Status=True).exists():
-            product_quantity_info = (AwOrederItem.objects.values('Product_Cellar', 'Year','Quentity').filter(Quentity__gt=0).filter(User=self.request.user).filter(Order_id__Order_Type='Caller').filter(Order_id__Payment_Status=True).annotate(
+        total_cost_of_caller_for_single_product =  0
+        new_amount_of_cellar_product = 0
+        if AwOrederItem.objects.filter(Order_id__Order_Type='Caller').filter(Quentity__gt=0).filter(Order_id__Payment_Status=True).filter(Order_id__Order_Status=True).filter(Order_id__order_place = True).exists():
+            product_quantity_info = (AwOrederItem.objects.values('Product_Cellar', 'Year','Quentity').filter(Quentity__gt=0).filter(User=self.request.user).filter(Order_id__Order_Type='Caller').filter(Order_id__Payment_Status=True).filter(Order_id__Order_Status=True).filter(Order_id__order_place = True).annotate(
             total=Count('id')))
             total_unique_wine = len(product_quantity_info)
+
             for item in product_quantity_info:
                 total_unite = total_unite + item['Quentity']
+                print("=====================")
+                # print(item['Product_Cellar'])
+                print("=="+str(item['Product_Cellar'])+"=="+str(item['Year'])+"=="+str(item['total']))
+                print("=====================")
+            total_amount_of_caller_products = AwOrederItem.objects.filter(Quentity__gt=0).filter(User=self.request.user).filter(Order_id__Order_Type='Caller').filter(Order_id__Payment_Status=True).filter(Order_id__Order_Status=True).filter(Order_id__order_place = True)
 
-            total_omount_of_caller_products = AwOrederItem.objects.filter(Quentity__gt=0).filter(User=self.request.user).filter(Order_id__Order_Type='Caller').filter(Order_id__Payment_Status=True)
-          
-            for caller_amounrt in total_omount_of_caller_products:
+
+            for caller_amounrt in total_amount_of_caller_products:
                 total_cost_of_caller = total_cost_of_caller + (caller_amounrt.Quentity * caller_amounrt.Cost_of_product)
+
+                new_cost = 0
+
+                if caller_amounrt.Case_Formate:
+                    if caller_amounrt.Type == 'Retail':
+                        if caller_amounrt.Case_Formate.Descount_Cost > 0:
+                            new_cost = caller_amounrt.Case_Formate.Descount_Cost
+                        else:
+                            new_cost = caller_amounrt.Case_Formate.Retail_Cost
+                    else:
+                        if caller_amounrt.Case_Formate.Bond_Descount_Cost > 0:
+                            new_cost = caller_amounrt.Case_Formate.Bond_Descount_Cost
+                        else:
+                            new_cost = caller_amounrt.Case_Formate.Bond_Cost
+                print("-----------------------")
+                print(caller_amounrt.id)
+                print("Buy Cost :" + str(caller_amounrt.id))
+                print("Order Status :" + str(caller_amounrt.Order_id.Order_Status))
+                print("Buy Cost :" + str(caller_amounrt.Cost_of_product))
+                total_cost_of_caller_for_single_product = total_cost_of_caller_for_single_product + caller_amounrt.Cost_of_product
+                new_amount_of_cellar_product = new_amount_of_cellar_product + new_cost
 
         context['total_unique_wine'] = total_unique_wine
         context['total_unite'] = total_unite
         context['total_cost_of_caller'] = total_cost_of_caller
+        context['new_amount_of_cellar_product'] = new_amount_of_cellar_product
+        context['total_cost_of_caller_for_single_product'] = total_cost_of_caller_for_single_product
+        context['incrige'] =  new_amount_of_cellar_product - total_cost_of_caller_for_single_product
         # ====================================
 
         context['get_order_items'] = get_order_items

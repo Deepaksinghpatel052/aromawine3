@@ -43,8 +43,33 @@ def user_directory_path_for_product(instance, filename):
 
 
 
+
+class AwProductReviews(models.Model):
+    LWineCode = models.CharField(max_length=120,null=True, blank=True)
+    Publication = models.CharField(max_length=120,null=True, blank=True)
+    reviewer = models.CharField(max_length=120,null=True, blank=True)
+    reviewDate = models.CharField(max_length=120,null=True, blank=True)
+    scoreRaw = models.CharField(max_length=120,null=True, blank=True)
+    scoreFrom = models.CharField(max_length=120,null=True, blank=True)
+    scoreTo = models.CharField(max_length=120,null=True, blank=True)
+    scoreMedian = models.CharField(max_length=120,null=True, blank=True)
+    drinkFrom = models.CharField(max_length=120,null=True, blank=True)
+    drinkTo = models.CharField(max_length=120,null=True, blank=True)
+    tastingNote = models.CharField(max_length=120,null=True, blank=True)
+    externalReference = models.CharField(max_length=120,null=True, blank=True)
+    externalLink = models.CharField(max_length=120,null=True, blank=True)
+    externalId = models.CharField(max_length=120,null=True, blank=True)
+
+    def __str__(self):
+        return str(self.LWineCode)
+
+    class Meta:
+        verbose_name_plural = "Aw Product Reviews"
+
+
 class AwProducts(models.Model):
     Product_id = models.CharField(max_length=120,unique=True)
+    LWineCode = models.CharField(max_length=120,unique=True,null=True, blank=True)
     Select_Type = models.ForeignKey(AwWineType, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwProducts_Created_by')
     Product_name  = models.CharField(max_length=120,unique=True)
     Product_slug  = AutoSlugField(populate_from='Product_name', always_update=True,unique_with='Created_date__month',null=True, blank=True)

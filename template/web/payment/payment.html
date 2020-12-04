@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <script src="https://ap-gateway.mastercard.com/checkout/version/57/checkout.js"
+                data-error="errorCallback"
+                data-cancel="cancelCallback">
+        </script>
+
+        <script type="text/javascript">
+            function errorCallback(error) {
+                  console.log(JSON.stringify(error));
+            }
+            function cancelCallback() {
+                  console.log('Payment cancelled');
+            }
+
+            Checkout.configure({
+                merchant: 'TEST97523571',
+                order: {
+                    amount: function() {
+                        //Dynamic calculation of amount
+                        return 80 + 20;
+                    },
+                    currency: 'SGD',
+                    description: 'Ordered goods',
+                    id: '234432424'
+                },
+                interaction: {
+                    operation:'PURCHASE',
+                    merchant: {
+                        name: 'JC WINE & SPIRITS PTE. LTD.',
+                        address: {
+                            line1: '200 Sample St',
+                            line2: '1234 Example Town'
+                        }
+                    }
+                }
+            });
+        </script>
+    </head>
+    <body>
+        ...
+        <input type="button" value="Pay with Lightbox" onclick="Checkout.showLightbox();" />
+        <input type="button" value="Pay with Payment Page" onclick="Checkout.showPaymentPage();" />
+        ...
+    </body>
+</html>

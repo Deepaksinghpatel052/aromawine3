@@ -9,7 +9,31 @@
             
             
         </div>
+		
     </section>
+	<style>
+	.lwine {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.btn-lwine {
+    background: #cca261;
+    border: 0px;
+    color: #fff;
+    font-size: 16px;
+    padding: 8px 10px;
+    height: 44px;
+    margin-left: 5px;
+    border-radius: 5px;
+}
+
+.btn-lwine:hover {
+    background: #8a5401;
+    border: 0px;
+}
+	</style>
 <div class="container-fluid">
   <div class="row p-t-b-20">
     <div class="col-md-12">
@@ -50,22 +74,37 @@
     <div id="collapseOne" class="panel-collapse collapse show in">
       <div class="panel-body">
        <div class="row">
-        <div class="col-md-6">   
+<div class="col-md-4">
+
+        <div class="form-group">
+                   <label class="age">LWine Code*<span id="show_error_message_id_LWineCode" style="color:red;"> </span></label>
+				   <div class="lwine">
+                   {{form.LWineCode}}
+                   <button class="btn-lwine" id="run_lwine_code"  type="button" title="search in Lwine">Search</button>
+</div>
+        </div>
+      </div>
+       	
+        <div class="col-md-4">   
               <label class="age">Select*  <span id="show_error_message_Select_Type" style="color:red;"> </span></label>
                        {{form.Select_Type}}
+                       <span id="show_error_message_Select_Type_not_avelabel" style="color:red;"></span>
                         </div>
             
-             <div class="col-md-6">
+             <div class="col-md-4">
         <div class="form-group">
                    <label class="age">Product Name* <span id="show_error_message_Product_name" style="color:red;"> </span></label>
                    {{form.Product_name}}
 
         </div>
       </div>
+
+       
     <div class="col-md-6">
         <div class="form-group scroll_cat">
                    <label class="age">Producer Name/Winery* <span id="show_error_message_Producer" style="color:red;"> </span></label>
                    {{form.Producer}}
+                    <span id="show_error_message_Producer_not_avelabel" style="color:red;"></span>
 
         </div>
       </div>
@@ -75,7 +114,7 @@
                    
                                        
                                      {{form.Category}}
-                            
+                   <span id="show_error_message_Category_not_avelabel" style="color:red;"> </span>         
 
         </div>
       </div>
@@ -87,14 +126,14 @@
                    <label class="age">Color* <span id="show_error_message_Color" style="color:red;"> </span></label>
             {{form.Color}}
                   
-
+        <span id="show_error_message_Color_not_avelabel" style="color:red;"> </span>
         </div>
       </div>
     <div class="col-md-6">
         <div class="form-group">
                    <label class="age">Appellation* <span id="show_error_message_Appellation" style="color:red;"> </span></label>
            {{form.Appellation}}
-                  
+                  <span id="show_error_message_Appellation_not_avelabel" style="color:red;"> </span>
 
         </div>
       </div>
@@ -103,14 +142,14 @@
         <div class="form-group">
                    <label class="age">Bottle Size* <span id="show_error_message_Bottel_Size" style="color:red;"> </span> </label>
        {{form.Bottel_Size}}
-                  
+                  <span id="show_error_message_Bottel_Size_Not_avelabel" style="color:red;"> </span>
 
         </div>
       </div>
       
    
   <div class="col-md-6">
-        <div class="form-group">
+        <div class="form-group classifications_ajax">
                    <label class="age">Classification* <span id="show_error_message_Classification" style="color:red;"> </span></label>
           {{form.Classification}}
                   
@@ -121,7 +160,7 @@
 
 
       <div class="col-md-6">
-        <div class="form-group scroll_cat">
+        <div class="form-group scroll_cat vintage_year_ajax">
                    <label class="age">Vintage* <span id="show_error_message_Vintage" style="color:red;"> </span></label>
            {{form.Vintage}}
                   
@@ -133,7 +172,7 @@
         <div class="form-group scroll_cat">
                    <label class="age">Varietals* <span id="show_error_message_Varietals" style="color:red;"> </span></label>
            {{form.Varietals}}
-           
+           <span id="show_error_message_Varietals_not_Avelabel" style="color:red;"> </span>
                   
 
         </div>
@@ -142,7 +181,7 @@
         <div class="form-group">
                    <label class="age">Country* <span id="show_error_message_Country" style="color:red;"> </span></label>
           {{form.Country}}
-          
+           <span id="show_error_message_Country_not_avelabel" style="color:red;"> </span>
                   
 
         </div>
@@ -152,14 +191,14 @@
                    <label class="age">Regions* <span id="show_error_message_Regions" style="color:red;"> </span></label>
            {{form.Regions}}
                   
-
+        <span id="show_error_message_Regions_not_avelabel" style="color:red;"> </span>
         </div>
       </div>
     <div class="col-md-6">
         <div class="form-group">
                    <label class="age">Grape* <span id="show_error_message_Grape" style="color:red;"> </span></label>
            {{form.Grape}}
-                  
+                  <span id="show_error_message_Grape_not_avelabel" style="color:red;"> </span>
 
         </div>
       </div>
@@ -508,6 +547,7 @@
    {% block script %}
 
      <script src='{% static "admin/assets/cropme/croppie_product_image.js" %}' ></script>
+     <script src='{% static "admin/assets/js/create_lwine_search.js" %}' ></script>
     <script type="text/javascript">
    $(document).ready(function() {
 
@@ -528,13 +568,22 @@ $(document).ready(function(){
 $(".product_info_section").click(function(){
 
 
+var lwine_code =  $("#id_LWineCode").val();
+
 $("#show_vintage_year_stock_data").html('');
 $("#id_Vintage option:selected").each(function(){
 
  var vintage_year =  $(this).text();
 $("#show_vintage_year_stock_data").append('<div class="since_'+vintage_year+'"><table width="100%" border="1" class="table table-striped table-bordered newpage editableTable" align="center" cellpadding="0" cellspacing="0" style=" font-size: 15px;"><thead><tr style="cursor: pointer;"><td colspan="9"><div class="yearwine"><span>'+vintage_year+'<span></span></span></div></td><td><div class="add_button year_add add_rows" data-vintage_year="'+vintage_year+'"> <a class="add-row"><i class="fa fa-plus"></i>Add Row</a></div></td></tr><tr style="cursor: pointer;"><th align="left" valign="top">Bottle</th><th align="left" valign="top">Retail Cost</th><th align="left" valign="top">Retail Stock</th><th align="left" valign="top">Discount Cost</th><th align="left" valign="top">Duty</th><th align="left" valign="top">GST (%)</th><th align="left" valign="top">Bond Cost</th><th align="left" valign="top">Bond Stock</th><th align="left" valign="top">Bond Descount Cost</th><th align="left" valign="top">Action</th></tr></thead><tbody class="add_row_'+vintage_year+'"></tbody></table></div>');
 
+
+
+
+get_data_with_year_lwine_code(lwine_code, vintage_year);
+
 });
+
+
 
 
 
@@ -559,8 +608,19 @@ $("#show_error_message_Classification").text('');
 $("#show_error_message_Vintage").text('');
 $("#show_error_message_Grape").text('');
 $("#show_error_message_Varietals").text('');
+$("#show_error_message_id_LWineCode").text('');
+
+
 
 $("#show_error_message").html('');
+
+if($("#id_LWineCode").val()=="")
+{
+  set_status =false;
+  $("#show_error_message_id_LWineCode").text('Please Enter.');
+}
+
+
 if($("#id_Select_Type").val()=="")
 {
   set_status =false;

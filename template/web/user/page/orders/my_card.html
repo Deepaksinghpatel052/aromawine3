@@ -1,5 +1,11 @@
 {% extends 'web/base-template.html' %}
 {% block content %}
+<style type="text/css">
+  .cart-wrap td, .cart-wrap th {
+    padding: 7px;
+}
+</style>
+
 {% load static %}
 
 <div class="container cart-area">
@@ -36,6 +42,15 @@
 {% include 'web/user/page/orders/mycard_include/for_tickets.html' %}
 {% endif %}
 
+
+{% if card_product == None %}
+<div class="row">
+  <div class="col-md-12 text-center">
+    <a href="{% url 'wine_shop:wine_shop' %}" class="btn btn-primary">Continue Shopping</a>
+  </div>
+</div>
+<img src='{% static "web/assets/image/my_cart_page.png" %}' />
+{% endif %}
 
 
 
@@ -124,7 +139,7 @@ if(coupon_type)
     $("#show_descount_amount").html('<li><span class="pull-left">discount('+type+')</span>$<span >'+get_persenteg_amoint+'</span></li>');
 }
 
-  return total_amount;
+  return total_amount.toFixed(2);
 }
 
 
@@ -200,9 +215,9 @@ if(type=='minus')
   }
 }
 
-var get_total_price = parseInt(product_price)*current_val;
-$("#price_show_"+prodict_id).text(get_total_price);
-$("#input_price_show_"+prodict_id).val(get_total_price);
+var get_total_price = parseFloat(product_price)*current_val;
+$("#price_show_"+prodict_id).text(parseFloat(get_total_price).toFixed(2));
+$("#input_price_show_"+prodict_id).val(get_total_price.toFixed(2));
 
 $(".show_total_ampount").text(set_total_amount_of_card_product());
 $(".show_sub_total_ampount").text(set_sub_total_amount_of_card_product());

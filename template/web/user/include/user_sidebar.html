@@ -12,7 +12,7 @@
 
         <li class=""><a {% if 'preferences' in request.build_absolute_uri %} class="active"  {% endif %} href="{% url 'preferences_user:preferenceslist'  %}">Your Preferences</a></li>
 
-		<li><a  href="{% url 'wine_palate:wine_palate'  %}" target="_blank">Wine Palet Profile</a></li>
+		<li><a  href="{% url 'wine_palate:wine_palate'  %}" target="_blank">Wine Palate Profile</a></li>
         
         <li><a {% if 'addressbook' in request.build_absolute_uri %} class="active"  {% endif %} href="{% url 'addressbook_user:addressbooklist'  %}">Your Address Book</a></li>
 

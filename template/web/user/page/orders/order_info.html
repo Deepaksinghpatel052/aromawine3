@@ -1,4 +1,4 @@
-{% extends 'web/base-template.html' %}
+`{% extends 'web/base-template.html' %}
 {% block content %}
 {% load static %}
 
@@ -33,21 +33,31 @@
     {% endif %}
 <div class="update-password">
 <h3>Order Id: #{{products.0.Order_id}}</h3>
-<h3>Order Type: {% if products.0.Order_id.Order_Type == 'Delivered' %} Delivery {% elif item.Order_Type == 'Caller' %} Cellar {% else %}
+<h3>Order Type: {% if products.0.Order_id.Order_Type == 'Delivered' %} Delivery {% elif products.0.Order_id.Order_Type == 'Caller' %} Cellar {% else %}
                     {{products.0.Order_id.Order_Type}}{% endif %}
 </h3>
 
 <h3>Created on: {{products.0.Order_id.Order_Date}}
 </h3>
 <h3>Order status: {{products.0.Order_id.Order_Status_Set}}</h3>
-<h3>Payment Status: {% if products.0.Order_id.Payment_Status %}
+{% if products.0.Order_id.Order_Type == 'Caller' %}
+<h3> <a href="{% url 'orders:invoice' products.0.Order_id %}" target="_blank"> Invoice <img src='{% static "web/assets/image/printer.png" %}'></a> </h3>
+{% elif products.0.Order_id.shipping_charge > 0 %}
+<h3> <a href="{% url 'orders:invoice' products.0.Order_id %}" target="_blank"> Invoice <img src='{% static "web/assets/image/printer.png" %}'></a> </h3>
+{% endif %}
+
+<!-- <h3>Payment Status: {% if products.0.Order_id.Payment_Status %}
 	{{products.0.Order_id.Payment_Status}}
 	{% else %}
 	{{products.0.Order_id.Payment_Status}}
 	<a href="{% url 'orders:checkout' products.0.Order_id.order_id %}"><button type="button" class="btn btn-danger btn-sm">Make Payment</button></a>
 {% endif %}</h3>
-<h3>Order subtotal: ${{products.0.Order_id.Amount}}</h3>
+<h3>Order subtotal: ${{products.0.Order_id.Order_Product_Amount}}</h3>
+<h3>GST Amount: ${{products.0.Order_id.Order_Gst_Amount}}</h3>
 <h3>Order total: ${{products.0.Order_id.Amount}}</h3>
+<h3>Payment Status: {% if products.0.Order_id.Payment_Status %} <span class="grid-report-item green">Payed</span> {% else %} <span class="grid-report-item red">UnPayed</span> {% endif %}</h3>
+<hr>
+<h3>Shipping Charges: ${{products.0.Order_id.shipping_charge }} {% if products.0.Order_id.shipping_Payment_Status %} <span class="grid-report-item green">Payed</span> {% else %} <span class="grid-report-item red">UnPayed</span> {% endif %}</h3> -->
    <div class="paymentItem newPaymentItem">
 		
 {% if products.0.Order_id.Order_Type == 'Tickets' %}
@@ -68,33 +78,34 @@
                <th><img src="{{item.Event_Ticket.Event_Image.url}}" style="height: 50px;"></th>
                   <td><a href="{% url 'event:event_detail' item.Event_Ticket.id item.Event_Ticket.Slug %}">{{item.Event_Ticket}}({{item.Event_Ticket.Event_Type}})</a></td>
                   <td>{{item.Quentity}}</td>
-                  <td>${{item.Total_cost}}</td>
+                  <td>${{item.Total_cost|floatformat:2}}</td>
             
                 </tr>
                  {% endfor %}
                 
                  {% if get_order_ins.Use_coupon %}
                 <tr>
-                   <th colspan="6" style="text-align: right;">Descount :</th>
+                   <th colspan="6" style="text-align: right;">Descount:</th>
                    <th >${{get_order_ins.Cupon_Discount|floatformat:2}}</th>
                  </tr>
                  {% endif %} 
 
                  <tr>
-                   <th colspan="3" style="text-align: right;">Grand Total :</th>
-                   <th >${{total_cost}}</th>
+                   <th colspan="3" style="text-align: right;">Grand Total:</th>
+                   <th >${{total_cost|floatformat:2}}</th>
                  </tr>
                  {% if get_order_ins.Order_Type == 'Delivered' %}
-                 <tr>
+                 <tr class="text-left">
                    <th colspan="3" >Customer Order Details </th>
                    <th colspan="4" style="text-align: right;">Date {{products.0.Order_id.Order_Date}}</th>
                    
                  </tr>
-                 <tr>
+                 <tr class="text-left">
                    <th colspan="3" >
-                   <b>Telephone</b> {{user_info.Contact_no}}<br>
-                            <b>E-Mail</b> {{user_info.User.email}}<br>
-                            <b>Payment Method</b> : {{products.0.Order_id.Payment_Method}}<br>
+                   <b>Name: </b> {{user_info.Title}} {{user.first_name}} {{user.last_name}}<br>
+                   <b>Telephone:</b> {{user_info.Contact_no}}<br>
+                            <b>E-Mail:</b> {{user_info.User.email}}<br>
+                            <b>Payment Method:</b> {{products.0.Order_id.Payment_Method}}<br>
                   </th>
                    <th colspan="4" >
                     <strong>Billing Address</strong>
@@ -130,9 +141,9 @@
                   <th>Product</th>
                   <th>Type & Case Size</th>
                   <th>Price</th>
-                  <th>Qty</th>
-                  <th>Tax</th>
                   <th>GST</th>
+                  <th>Price With GST</th>
+                  <th>Qty</th>
                   <th>Amount</th>
                 </tr>
               </thead>
@@ -152,46 +163,92 @@
                   {% endif %}
 
                   <td>
-                  	{{item.Type}}/({{item.Case_Formate.Bottle}})
+                  	{{item.Type}}/({{item.Case_Formate_text}})
                   </td>
-                  <td>${{item.Cost_of_product}}</td>
-                  <td>{{item.Quentity}}</td>
-                  {% if item.Product_Delivered %}
-                  <th>{{item.Case_Formate.Duty}}%</th>
-                  <td>{{item.Case_Formate.GST}}%</td>
-                  {% endif %}
-
-                  {% if item.Product_Cellar %}
-                  <th>{{item.Case_Formate.Duty}}%</th>
-                  <td>{{item.Case_Formate.GST}}%</td>
-                  {% endif %}
-                  
-                  <td>${{item.Total_cost}}</td>
+                  <td>${{item.Cost_of_product|get_amount_without_persentage:item.Gst|floatformat:2}}</td>
+                  <td>{{item.Gst}}%</td>
+                  <td>${{item.Cost_of_product|floatformat:2}}</td>
+                  <td>{{item.Order_Quentity}}</td> 
+                  <td>${{item.Total_cost|floatformat:2}}</td>
             
                 </tr>
                  {% endfor %}
-                 {% if get_order_ins.Use_coupon %}
-                <tr>
-                   <th colspan="7" style="text-align: right;">Descount :</th>
-                   <th >${{get_order_ins.Cupon_Discount|floatformat:2}}</th>
+             
+                 <tr>
+                   <th colspan="7" style="text-align: right;">Order Subtotal:</th>
+                   <th >${{products.0.Order_id.Order_Product_Amount|floatformat:2}}</th>
                  </tr>
-                 {% endif %} 
 
                  <tr>
-                   <th colspan="7" style="text-align: right;">Grand Total :</th>
-                   <th >${{total_cost}}</th>
+                   <th colspan="7" style="text-align: right;">GST:</th>
+                   <th >${{products.0.Order_id.Order_Gst_Amount|floatformat:2}}</th>
                  </tr>
+                   {% if products.0.Order_id.Cupon_Discount > 0 %}
+                 <tr>	
+                   <th colspan="7" style="text-align: right;">Descount Amount:</th>
+                   <th >-${{products.0.Order_id.Cupon_Discount|floatformat:2}}</th>
+                 </tr>
+                {% endif %}
+{% if products.0.Order_id.Order_Type == 'Delivered' %}
+<tr>	
+                   <th colspan="7" style="text-align: right;">Order Shipping:</th>
+                   <th >{% if products.0.Order_id.shipping_charge <= 0 %}
+<span class="grid-report-item green">Free</span>
+{% else %}
+${{products.0.Order_id.shipping_charge|floatformat:2}}
+
+{% endif %}</th>
+                 </tr>
+
+
+            {% endif %}     
+				<tr>	
+                   <th colspan="7" style="text-align: right;">Order Total:</th>
+                   <th >${{total_order|floatformat:2}}</th>
+                 </tr>
+
+				{% if products.0.Order_id.Order_Type == 'Delivered' %}
+				<tr>	
+                   <th colspan="7" style="text-align: right;">Payment Status:</th>
+                   <th >{% if products.0.Order_id.Payment_Status %} <span class="grid-report-item green">Paid</span> {% else %} <span class="grid-report-item red">Not Paid</span>{% endif %}
+                   	</th>
+                   </tr>	
+<tr>	
+                   <th colspan="7" style="text-align: right;">Already paid(By Cellar):</th>
+                   <th >${{products.0.Order_id.Amount|floatformat:2}}
+                   	</th>
+                   </tr>	
+	               <tr>	
+	                   <th colspan="7" style="text-align: right;">Final Payable Amount:</th>
+	                   <th >{% if products.0.Order_id.shipping_charge <= 0 %}
+					<span class="grid-report-item green">Free</span>
+					{% else %}
+					${{products.0.Order_id.shipping_charge|floatformat:2}}
+					 
+					{% endif %}</th>
+					                 </tr>
+                 <tr> 
+                     <th colspan="7" style="text-align: right;">Shipping Payment Status:</th>
+                     <th >{% if products.0.Order_id.shipping_charge <= 0 %}
+          <span class="grid-report-item green">Free</span>
+          {% else %}
+            {% if products.0.Order_id.shipping_Payment_Status %} <span class="grid-report-item green">Paid</span> {% else %} <span class="grid-report-item red">Not Paid</span>{% endif %}
+          {% endif %}</th>
+                           </tr>
+                 {% endif %}
+
                 
-                 <tr>
+                 <tr class="text-left">
                    <th colspan="4" >Customer Order Details </th>
                    <th colspan="5" style="text-align: right;">Date {{products.0.Order_id.Order_Date}}</th>
                    
                  </tr>
-                 <tr>
+                 <tr class="text-left">
                    <th colspan="4" >
-                            <b>Telephone</b> {{user_info.Contact_no}}<br>
-                            <b>E-Mail</b> {{user_info.User.email}}<br>
-                            <b>Payment Method</b> : {{products.0.Order_id.Payment_Method}}<br>
+                   	<b>Name: </b> {{user_info.Title}} {{user.first_name}} {{user.last_name}}<br>
+                            <b>Telephone:</b> {{user_info.Contact_no}}<br>
+                            <b>E-Mail:</b> {{user_info.User.email}}<br>
+                            <b>Payment Method:</b> {{products.0.Order_id.Payment_Method}}<br>
                   </th>
                    <th colspan="5" >
                      {% if get_order_ins.Order_Type == 'Delivered' %}
@@ -209,7 +266,7 @@
                    </th>
                    
                  </tr>
-               
+                 
                 {% endif %}
               </tbody>
             </table>

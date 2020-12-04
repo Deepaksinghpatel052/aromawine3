@@ -46,6 +46,12 @@
                                        {% endfor %}
                                       {% endif %}
                                     </select>
+
+                                    <div class="row">
+                                      <div class="col-md-12" id="address_obj_show">
+
+                                      </div>
+                                    </div>
                                     {% endif %}
                       {% if my_address %}
                       <input id="toggle2" type="checkbox"  name="old_address">
@@ -145,15 +151,15 @@
     </tr>
 {% else %}
 <tr style="cursor: pointer;">
-      <td class="text-center"><b>Images </b></td>
-      <td class="text-center"><b>Product</b></td>
-    <td class="text-center"><b>Type & Case Size</b></td>
-        <td class="text-center">Price</td>
+      <td class="text-center"><b>IMAGE</b></td>
+      <td class="text-center"><b>PRODUCT</b></td>
+    <td class="text-center"><b>TYPE & CASE SIZE</b></td>
+        <td class="text-center">PRICE</td>
         <td class="text-center"><b>GST</b></td>
-        <td class="text-center"><b>With GST</b></td>
-        <td class="text-center">Quantity</td>
+        <td class="text-center"><b>PRICE WITH GST</b></td>
+        <td class="text-center">QTY</td>
     
-      <td class="text-center"><b>Amount</b></td>
+      <td class="text-center"><b>AMOUNT</b></td>
     </tr>
 {% endif %}
 
@@ -175,7 +181,7 @@
         ${{item.Cost_of_product}}*{{item.Quentity}}
       </td>
       <td class="text-center">
-<input type="hidden" class="total" value="{% widthratio item.Cost_of_product 1 item.Quentity %}">
+<input type="hidden" class="total" value="{{item.Cost_of_product|multiply_of_prodiuct_amount_quentity:tem.Quentity|floatformat:2}}">
   ${% widthratio item.Cost_of_product 1 item.Quentity %}
       </td>
     </tr>
@@ -194,13 +200,13 @@
         ${{item.Cost_of_product|get_amount_without_persentage:item.Case_Formate.GST|floatformat:2}}
       </td>
       <td class="text-center">{{item.Case_Formate.GST}}%</td>
-      <td class="text-center">${{item.Cost_of_product}}</td>
+      <td class="text-center">${{item.Cost_of_product|floatformat:2}}</td>
       <td class="text-center">{{item.Quentity}}</td>
       
    
       <td class="text-center">
-<input type="hidden" class="total" value="{% widthratio item.Cost_of_product 1 item.Quentity %}">
-  ${% widthratio item.Cost_of_product 1 item.Quentity %}
+<input type="hidden" class="total" value="{{item.Cost_of_product|multiply_of_prodiuct_amount_quentity:item.Quentity|floatformat:2}}">
+  ${{item.Cost_of_product|multiply_of_prodiuct_amount_quentity:item.Quentity|floatformat:2}}
       </td>
     </tr>
    {% endif %}
@@ -216,13 +222,14 @@
         ${{item.Cost_of_product|get_amount_without_persentage:item.Gst|floatformat:2}}
       </td>
       <td class="text-center">{{item.Gst}}%</td>
-      <td class="text-center">${{item.Cost_of_product}}</td>
+      <td class="text-center">${{item.Cost_of_product|floatformat:2}}</td>
       <td class="text-center">{{item.Quentity}}</td>
 
       
       <td class="text-center">
-<input type="hidden" class="total" value="{% widthratio item.Cost_of_product 1 item.Quentity %}">
-  ${% widthratio item.Cost_of_product 1 item.Quentity %}
+<input type="hidden" class="total" value="{{item.Cost_of_product|multiply_of_prodiuct_amount_quentity:item.Quentity|floatformat:2}}">
+  $
+  {{item.Cost_of_product|multiply_of_prodiuct_amount_quentity:item.Quentity|floatformat:2}}
       </td>
     </tr>
    {% endif %}
@@ -234,7 +241,7 @@
 {% if card_product.0.Order_id.Order_Type != 'Tickets' %}
 <tr>
        <th  colspan="5"></th>
-       <th  colspan="2">Sub Total</th>
+       <th  colspan="2">Order Subtotal</th>
    <th class="text-center"><span>${{get_order_ins.Order_Product_Amount|floatformat:2}}</span></th>
    </tr>
    <tr>
@@ -250,7 +257,7 @@
  {% if get_order_ins.Use_coupon %}
   <tr>
    <th  colspan="4"></th>
-   <th  colspan="2">Descount</th>
+   <th  colspan="2">Descount Amount</th>
    <th class="text-center">
 <input type="hidden" class="descount" value="{{get_order_ins.Cupon_Discount|floatformat:2}}">
    ${{get_order_ins.Cupon_Discount|floatformat:2}}</th>
@@ -264,8 +271,8 @@
     <select class="form-control" name="order_type" disabled="true" >
      <option  selected="tyrue">Tickets</option>
                           </select></th>
-<th  colspan="2">Total</th>
-   <th>$<span id="show_total_ampount">0.00</span></th>
+<th  colspan="2">Total Paid Amount sddcds</th>
+   <th>$<span id="show_total_ampount_dom">{{get_order_ins.Amount|floatformat:2}}</span></th>
 </tr>
       {% else %}
 
@@ -278,8 +285,8 @@
      <option {% if get_order_ins.Order_Type == "Bond" %} selected="tyrue" {% endif %}>Bond</option>
                           </select></th>
 
-                        <th  colspan="2">Total</th>
-   <th class="text-center">$<span id="show_total_ampount">0.00</span></th>
+                        <th  colspan="2">Total Paid Amount</th>
+   <th class="text-center">$<span id="show_total_ampount_dom">{{get_order_ins.Amount|floatformat:2}}</span></th>
    </tr>
       {% endif %}                    
    
@@ -393,14 +400,14 @@
                {% if card_product.0.Order_id.Order_Type == 'Delivered' %}
 
                         {% if card_product.0.Order_id.Order_Type == 'Tickets' %}
-                        <div class="iconbox">
+                        <!-- <div class="iconbox">
                         <img src='{% static "web/assets/image/paypal.jpg" %}'>
-                        </div>
+                        </div> -->
                         {% endif %}
                 {% else %}
-                <div class="iconbox">
+                <!-- <div class="iconbox">
                         <img src='{% static "web/assets/image/paypal.jpg" %}'>
-                        </div>
+                        </div> -->
                 {% endif %}
             
             
@@ -508,6 +515,7 @@ $("#address_obj").change(function(){
 
 var address_id = $(this).val();
 
+$('#address_obj_show').html('');
 
 if(address_id)
 {
@@ -519,7 +527,17 @@ $.ajax({
   dataType:"json",
   success:function(data)
   {
-     add_shipping_amount(data.country_id);
+    $("#add_shipping_charge_val").val('0');
+    $("#add_shipping_charge").text('0 No Payment Required.');
+    $("#show_with_shipping").css("display", "none");
+     $("#show_without_shipping").css("display", "flex");
+     var country = "";
+     if(data["Country"])
+     {
+       country = data["Country"]["Country"]["Country_Name"]; 
+     }
+     $('#address_obj_show').html('<p>'+data["First_Name"]+' '+data["Last_Name"]+'   ('+data["Conpany_Name"]+')<br>'+country+' / '+data["Address"]+' / '+data["Postcode"]+'<br>'+data["Address"]+'<br>'+data["Landmark"]+'<br>'+data["Email"]+' ('+data["Pnone_no"]+')<br></p>');
+     add_shipping_amount(data["Country"]["id"]);
   }
   });
 }
@@ -528,7 +546,7 @@ else
    $("#show_shipping_amoiunt").css("display", "none");
 
     $("#add_shipping_charge_val").val(0);
-     $("#add_shipping_charge").text('0');
+     $("#add_shipping_charge").text('0 No Payment Required.');
      $("#show_with_shipping").css("display", "none");
      $("#show_without_shipping").css("display", "flex");
 }
@@ -541,6 +559,9 @@ else
 
 function add_shipping_amount(country_id)
 {
+
+
+
   if(country_id)
   {
       var order_id_amount = $("#order_id_amount").val();
@@ -590,7 +611,9 @@ $("#show_with_shipping").css("display", "none");
   $("#show_shipping_amoiunt").css("display", "none");
 
     $("#add_shipping_charge_val").val(0);
-     $("#add_shipping_charge").text('0');
+     $("#add_shipping_charge").text('0 No Payment Required.');
+     $("#show_with_shipping").css("display", "none");
+     $("#show_without_shipping").css("display", "flex");
 }
 
   

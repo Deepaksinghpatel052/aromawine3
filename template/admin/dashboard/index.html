@@ -58,6 +58,71 @@
                      </div>
                   </div>
                </div>
+
+
+
+
+
+<hr>
+<br>
+
+<h3></h3>
+
+
+<div class="col-md-12">
+                  <div class=" no-b">
+                     <div class="collapse show" id="invoiceCard">
+                        <div class="card-body p-0">
+                           <div class="col--md-12 p-0">
+
+                              <!-- <div class="card widget"> -->
+                                 <div class="card-body">
+                                 	<h2>Les Then 5 Quentity Product</h2>
+                                        <table id="example" width="100%" border="1" class="table table-striped table-bordered newpage order-table" align="center" cellpadding="0" cellspacing="0" style=" font-size: 15px;">
+              <thead>
+                <tr>
+        		  <th align="left" valign="top">#</th>
+                  <th align="left" valign="top">Product</th>
+                  <th align="left" valign="top">Product Name</th>
+                  <th align="left" valign="top">Year</th>
+                  <th align="left" valign="top">Bottel Type</th>
+                  <th align="left" valign="top">Quentity In Retail</th>
+                  <th align="left" valign="top">Quentity In Bond</th>
+                </tr>
+              </thead>
+              <tbody>
+
+{% for data in low_stock %}
+
+
+<tr role="row" class="odd">
+        <td >{{ forloop.counter }}</td>
+        <th align="left" valign="top"><img style="width:33px; height:49px;" src="{{data.Product|get_product_image_one}}"></th>
+        <th align="left" valign="top"><a href="{% url 'admin_manage_products:update_products' data.Product.Product_id %}" target="_blank"><u>{{data.Product.Product_name}}</u></a></th>
+        <th align="left" valign="top">{{data.Vintage_Year}}</th>
+        <th align="left" valign="top">{{data.Bottle}}</th>
+        <th align="left" valign="top">{{data.Retail_Stock}}</th>
+        <th align="left" valign="top">{{data.Bond_Stock}}</th>
+	    </tr>
+
+
+{% endfor %}
+
+  
+</tbody>
+
+    </table>
+                                    </div>
+                                 </div>
+                             </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+
+
+
             </div>
          </div>
       </div>

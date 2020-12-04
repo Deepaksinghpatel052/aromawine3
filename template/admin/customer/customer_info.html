@@ -1,0 +1,240 @@
+{% extends 'admin/base-template.html' %}
+{% block content %}
+{% load static %}
+		 <div class="page-content">
+		 <section class="content-header">
+        
+        <div class="header-title">
+            <h1>{{Page_title}}</h1>
+            
+            
+        </div>
+    </section>
+    {% if messages %}
+    {% for message in messages %}
+        
+<div class="alert alert-success alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+                      <strong>{{message}}</strong> 
+                    </div>
+      
+    {% endfor %}
+    {% endif %}
+         <div class="container-fluid">
+  <div class="row p-t-b-20">
+  <div class="col-md-3">
+  <div class="">
+              <!-- <div class="select-some">
+                  <select class="form-control">
+                    <option disabled="" selected="" value="">--Selected--</option>
+                    <option>Grape Name</option>
+                    <option>Grape Image</option>
+                      <option>Description</option>
+                    <option>Product counter</option>
+                    <option>Action</option>
+                    
+               
+                  </select>&nbsp;
+                  <button class="View-btn">Apply</button>
+              </div> -->
+              
+          </div>
+        </div>
+    <div class="col-md-12">
+   <div class="add_button">
+    <div class="add_button" style="margin-bottom:15px;">
+  <a href="{% url 'admin_manage_customer:user_order_history' get_user_info.id %}">View Orders History</a>
+  </div>
+  <!--  <a href="{% url 'admin_manage_grape:add_grape' %}">Add</a> -->
+   </div>
+      <!-- <div class="card no-b"> -->
+      <div class="login-form-card">
+        <!-- <div class="login-form-content"> -->
+        <form action="javascript:(0);">
+      
+                    
+ <div id="accordion" class="panel-group">
+         
+			   <div class="panel">
+      <div class="panel-heading">
+      <h4 class="panel-title">
+        <a href="#panelBodyOne" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" >Customer</a>
+        </h4>
+      </div>
+      <div id="panelBodyOne" class="panel-collapse collapse show in">
+      <div class="panel-body">
+                     
+
+                        <div class="row">
+						<div class="col-md-6">
+                         <div class="form-group">
+                            <label>Customer Id</label>
+                          <input type="text" class="form-control" readonly="" value="{{get_user_info.id}}" />
+                          </div>
+                        </div>
+						<div class="col-md-6">
+                         <div class="form-group">
+                            <label>Customer Name</label>
+                          <input type="text" class="form-control" readonly="" value="{{get_user_info.first_name}} {{get_user_info.last_name}}" />
+                          </div>
+                        </div>
+                        <div class="col-md-6">   
+                        <div class="form-group">
+                           <label class="age">Email Id</label>
+                           <input type="text" readonly="" class="form-control" value="{{get_user_info.email}}">
+                        </div>
+                      </div>
+
+                        <div class="col-md-6">   
+                        <div class="form-group">
+                           <label class="age">Phone Number</label>
+                           <input type="text" readonly="" class="form-control" value="{{get_user_info|get_user_number}}">
+                        </div>
+                      </div>   
+                        <div class="col-md-6">
+                        <div class="form-group">
+                           <label>Membership</label>
+                          <input type="text" readonly="" class="form-control" value="{{get_user_info|get_user_membership}}">
+                        </div>
+                      </div>
+					  
+					  <div class="col-md-6">
+                        <div class="form-group">
+                           <label>Sales</label>
+                          <input type="text" readonly="" class="form-control" value="{{get_user_info|get_userorder_items}}">
+                        </div>
+                      </div>
+
+                       
+					   <div class="col-md-6">
+					   <div class="form-group">
+                        <label class="age">Celler value</label>
+                        <input type="text" readonly="" class="form-control" value="${{get_user_info|get_userorder_amount_cellar|floatformat:2}}" >
+                       </div>
+					   </div>
+					   <div class="col-md-6">
+					   <div class="form-group">
+                        <label class="age">Date </label>
+
+                        <div id="datepicker" class="input-group date" data-date-format="mm-dd-yyyy">
+    <input class="form-control" type="text"  readonly="" value="{{get_user_info.date_joined}}" />
+    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+</div>
+                       </div>
+					   </div>
+					  
+
+                    </div>
+</div>
+    </div>
+	</div>
+  <div class="panel">
+      <div class="panel-heading">
+      <h4 class="panel-title">
+        <a href="#panelBodyTwo" class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion"> Preferences</a>
+        </h4>
+      </div>
+      <div id="panelBodyTwo" class="panel-collapse  collapse show in">
+      <div class="panel-body">
+	  <div class="row">
+	  <div class="col-md-12">
+	  <div class="accountBoxContent border-bottom">
+					 <h2>Service Interests</h2>
+<div class="row">
+     {% for item in  user_prefrence %}
+      {% if item.Service_interest.Select_Type.Type == 'Service Interests' %}
+  <div class="col-md-4">
+    <input id="{{item.Service_interest}}d" checked="" name="{{item.Service_interest}}" type="checkbox" value="true">{{item.Service_interest}}
+  </div>
+   {% endif %}
+  {% endfor %}
+
+
+  
+</div>
+<hr>
+  <h2>Wine Interests</h2>
+<div class="row">
+{% for item in  user_prefrence %}
+   {% if item.Service_interest.Select_Type.Type == 'Wine Interests' %}
+  <div class="col-md-4">
+    <input id="{{item.Service_interest}}" checked="" name="{{item.Service_interest}}" type="checkbox" value="true">{{item.Service_interest}}
+  </div>
+   {% endif %}
+  {% endfor %}
+  
+</div>
+</div>
+	  </div>
+	  
+	  </div>
+<div class="row">
+ 
+  
+</div>
+</div>
+</div>
+</div>
+</form>
+                                     <!---Table Ends---->
+</div>
+                                    
+                         </form>
+                     <!--  </div> -->
+             </div>
+          <!-- </div> -->
+               </div>
+      </div>
+         </div>
+      </div>
+
+
+
+
+
+
+
+
+
+  <!------------Modal Popup------->
+  <div class="modal fade in sp-map" id="modal-default">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">User Preferences</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" style="font-size: 32px;">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+   
+        </div>
+      </div>
+    </div>
+  </div>
+ {% endblock %}
+
+
+
+
+ {% block script %}
+  <script type="text/javascript">
+  $(document).on("click",".get_cost",function(){
+    var get_urls = $(this).data("price_url");
+
+    $.ajax({
+      method:"GET",
+      url:get_urls,
+      DataType:"html",
+      success:function(data)
+      {
+        console.log(data);
+
+     $("#modal-default .modal-body").html(data);
+     $("#modal-default").modal('show');
+
+      }
+    });
+
+  });
+</script>
+{% endblock %}

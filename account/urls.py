@@ -16,7 +16,7 @@ urlpatterns = [
     # ================ API START ========================
     path('api/register', views.UserRegistration.as_view()),
     path('api/logout', views.ApiLogoutView.as_view(),name="ApiLogout"),
-    path('api/login', csrf_exempt(views.ApiLoginView.as_view()),name="Apilogin"),
+    path('api/login', views.ApiLoginView.as_view(),name="Apilogin"),
     path('api/logout', views.ApiLogoutView.as_view(),name="ApiLogout"),
     path('api/get-login-user-info', views.ApiLoginUserInfoView.as_view(),name="login_user_info"),
     # ================ API END ========================

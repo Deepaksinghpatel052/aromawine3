@@ -9,6 +9,14 @@
   background-color:#fff;
   margin:50px;
 }
+.product-stock {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.product-stock select {
+    margin-right: 5px;
+}
 </style>
       {% endblock %}
 
@@ -54,7 +62,7 @@
         </button>
       </div>
       <div class="modal-body text-center">
-        <canvas id="360viewer" width="200" height="750"></canvas>
+        <canvas id="360viewer" width="200" height="450"></canvas>
       </div>
       
     </div>
@@ -72,7 +80,7 @@
 <div class="col-lg-5 col-sm-12 col-xs-12">
   <div class="simpleLens-gallery-container" id="demo-1">
     <div class="simpleLens-container">
-      <div class="simpleLens-big-image-container"> <a class="simpleLens-lens-image" href="{% if get_product_image.0.Image %} {{get_product_image.0.Image.url}} {% else %} {% static 'web/assets/image/shop/single-1.png' %} {% endif %}" data-lightbox="example-setc" data-title="{{get_product_one_year.Product.Product_name}}"> <img src="{% if get_product_image.0.Image %} {{get_product_image.0.Image.url}} {% else %} {% static 'web/assets/image/shop/single-1.png' %} {% endif %}" class="simpleLens-big-image"> </a> 
+      <div class="simpleLens-big-image-container"> <a class="simpleLens-lens-image" href="{% if get_product_image.0.Image %} {{get_product_image.0.Image.url}} {% else %} {% static 'web/assets/image/shop/single-1.png' %} {% endif %}" data-lightbox="example-setc" data-title="{{get_product_one_year.Product.Product_name}}"> <img src="{% if get_product_image.0.Image %} {{get_product_image.0.Image.url}} {% else %} {% static 'web/assets/image/shop/single-1.png' %} {% endif %}" style="height: 350px;" class="simpleLens-big-image"> </a> 
         <span class="heartbox">
 {% if user.username == '' %}
 <i class="fa fa-heart-o"></i>
@@ -85,7 +93,7 @@
     <div class="simpleLens-thumbnails-container"> 
     	{% if get_product_image %}
     	{% for items in get_product_image %}
-      <a class="simpleLens-thumbnail-wrapper" href="{{items.Image.url}}" data-lightbox="example-setc" data-title="{{get_product_one_year.Product.Product_name}}"><img src='{{items.Image.url}}' ></a>
+      <a class="simpleLens-thumbnail-wrapper" href="{{items.Image.url}}" data-lightbox="example-setc" data-title="{{get_product_one_year.Product.Product_name}}"><img src='{{items.Image.url}}' style="height: 168px;"></a>
     	<!-- <a 
                data-lens-image=''
                data-big-image='{{items.Image.url}}'> <img src='{{items.Image.url}}' > </a>  -->
@@ -148,7 +156,7 @@ We will only be able to deliver this product to a bonded account. But you can re
 	{% if get_produuct_years_one_data %}
 <div id="guaranteed-stock-tip">Bottle/Case Format</div>
 
-<select class="quantity_select select_case_formate" data-type="Bond" style="width:100%;" id="case_formate_Bond">
+<select class="quantity_select select_case_formate" data-type="Bond" style="width:100%;" id="case_formate_Bond_{{get_product_one_year.Product.Product_id}}">
 			
 			{% for items in get_produuct_years_one_data  %}
 			<option value="{{items.id}}">{{items.Bottle}}</option>
@@ -157,12 +165,16 @@ We will only be able to deliver this product to a bonded account. But you can re
 			{% endif %}
 			</div>
 </div>
-<div class="qtybox">
 
+{% if get_product_one_year.Bond_Stock > 0 %}
+<div class="qtybox">
 <select name="qty" id="quentyti_Bond">
-{% for i in get_product_one_year.Bond_Stock|times %}
-    <option>{{i}}</option>
+{% with ''|center:get_product_one_year.Bond_Stock as range %}
+{% for _ in range %}
+ <option>{{forloop.counter}}</option>
 {% endfor %}
+{% endwith %}
+
 </select>
 
 {% if get_product_one_year.Bond_Cost > 0 %}
@@ -174,8 +186,35 @@ Buy
 Buy
 </button>
 {% endif %}
-
 </div>
+
+{% else %}
+<h2 style="color:red:" id="Stock_Bond">Out of Stock</h2>
+
+<div class="qtybox product-stock" id="qtybox_Bond" style="display: none;" >
+<select name="qty" id="quentyti_Bond" >
+{% with ''|center:get_product_one_year.Bond_Stock as range %}
+{% for _ in range %}
+ <option>{{forloop.counter}}</option>
+{% endfor %}
+{% endwith %}
+
+</select>
+
+{% if get_product_one_year.Bond_Cost > 0 %}
+<button  type="button" id="Bond_buy" data-order_type="c" data-order_id="" data-event_id="" title="Add To Order" data-product_id="{{get_product_one_year.Product.Product_id}}" data-cost_type="Bond"  class="button btn-cart change-ib-db add_to_card">
+Buy
+</button>
+{% else %}
+<button  type="button" id="Bond_buy" disabled="true" data-cost_type="Bond" data-order_type="c" data-order_id="" data-event_id=""  data-product_id="{{get_product_one_year.Product.Product_id}}" title="Add To Order" class="add_to_card button btn-cart change-ib-db">
+Buy
+</button>
+{% endif %}
+</div>
+
+{% endif %}
+
+
  </div>
 </form>
 </div>
@@ -213,7 +252,7 @@ Delivery to United Kingdom Storage: 25 Mar 2020</p> -->
 	{% if get_produuct_years_one_data %}
 <div id="guaranteed-stock-tip">Bottle/Case Format</div>
 
-<select class="quantity_select select_case_formate" data-type="Retail" style="width:100%;" id="case_formate_Retail">
+<select class="quantity_select select_case_formate" data-type="Retail" style="width:100%;" id="case_formate_Retail_{{get_product_one_year.Product.Product_id}}">
 			
 			{% for items in get_produuct_years_one_data  %}
 			<option value="{{items.id}}">{{items.Bottle}}</option>
@@ -222,14 +261,17 @@ Delivery to United Kingdom Storage: 25 Mar 2020</p> -->
 			{% endif %}
 			</div>
 </div>
+
+
+{% if get_product_one_year.Retail_Stock > 0 %}
+
 <div class="qtybox">
-
 <select name="qty" id="quentyti_Retail">
-
-{% for i in get_product_one_year.Retail_Stock|times %}
-    <option>{{i}}</option>
+{% with ''|center:get_product_one_year.Retail_Stock as range %}
+{% for _ in range %}
+ <option>{{forloop.counter}}</option>
 {% endfor %}
-
+{% endwith %}
 </select>
 
 
@@ -238,7 +280,34 @@ Delivery to United Kingdom Storage: 25 Mar 2020</p> -->
 {% else %}
 <button type="button" id="Retail_buy"  disabled="true" data-product_id="{{get_product_one_year.Product.Product_id}}"data-cost_type="Retail" title="Add To Order" class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">Buy</button>
 {% endif %}
+
 </div>
+{% else  %}
+
+<h2 style="color:red:" id="Stock_Retail">Out of Stock</h2>
+
+<div class="qtybox product-stock" id="qtybox_Retail" style="display: none;">
+
+<select name="qty" id="quentyti_Retail" >
+{% with ''|center:get_product_one_year.Retail_Stock as range %}
+{% for _ in range %}
+ <option>{{forloop.counter}}</option>
+{% endfor %}
+{% endwith %}
+</select>
+
+
+{% if get_product_one_year.Retail_Cost > 0 %}
+<button  type="button" id="Retail_buy" title="Add To Order" data-product_id="{{get_product_one_year.Product.Product_id}}" data-cost_type="Retail" class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">Buy</button>
+{% else %}
+<button  type="button" id="Retail_buy"  disabled="true" data-product_id="{{get_product_one_year.Product.Product_id}}"data-cost_type="Retail" title="Add To Order" class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">Buy</button>
+{% endif %}
+</div>
+
+ 
+{% endif %}
+
+
  </div>
 </form>
 </div>
@@ -300,28 +369,22 @@ Delivery to United Kingdom Storage: 25 Mar 2020</p> -->
 
   
   <div class="accordion_container">
+ {% if get_product_review %}
+  {% for item in get_product_review %}
  <div class="accordion_box">
-    <div class="accordion_head"><span class="score">93 </span>Vinous<span class="plusminus">+</span></div>
+    <div class="accordion_head"><span class="score">{{item.scoreRaw}} </span>{{item.Publication}}<span class="plusminus">+</span></div>
     <div class="accordion_body" style="display: none;">
-        <p>The 2018 Charmes-Chambertin Grand Cru has a clean, precise bouquet with subtle violet aromas infusing the blackberry and cassis fruit. The palate is ripe and sensual on the opening, slightly lower in acidity compared to the other Grand Crus, but undeniably harmonious and velvety-smooth toward the finish. This is a classy, almost understated Charmes-Chambertin. Very fine.</p>
+        <p>{{item.tastingNote}}</p>
 <p>
-<strong>Drinking Window: 2024 - 2050</strong>
+<strong>Drinking Window: {{item.drinkFrom}} - {{item.drinkTo}}</strong>
 </p>
-<p><strong>Reviewer Name: Neal Martin</strong></p>
-<p><strong>Review Date: 20th January 2001</strong></p>
+<p><strong>Reviewer Name: {{item.reviewer}}</strong></p>
+<!-- <p><strong>Review Date: {{item.reviewDate}}</strong></p> -->
     </div>
 	</div>
-	<div class="accordion_box">
-    <div class="accordion_head"><span class="score">94 </span>Wine Advocate<span class="plusminus">+</span>
+  {% endfor %}
+{% endif %}
 
-    </div>
-    <div class="accordion_body" style="display: none;">
-       <p>Derived from two supplies, from one as grapes and from the other as wine, the 2018 Charmes-Chambertin Grand Cru (Maison Louis Jadot) offers up a pure, fruit-driven bouquet of ripe cherries and berries. On the palate, it's medium to full-bodied, ample and open-knit, with an expressive, generous 
-<p><strong>Reviewer Name: William Kelley</strong></p>
-<p><strong>Review Date: 10th January 2020</strong></p>
-    </div>
-
-</div>
        </div> 
 	   
 	   
@@ -421,7 +484,7 @@ See more wines from Alvear </a>
 </div>
 </div>
 </section>
-{% if get_filan_vintage_year %}
+{% if get_data_according_to_palate_profile %}
   <div class="fluid-container" style="border-top:1px solid rgba(204, 204, 204, 0.7)">
     <div class="popular p-t-b-20">
       <div class="container">
@@ -433,7 +496,7 @@ See more wines from Alvear </a>
 		<p>By the same winery</p></div>-->
 		
           <div id="releted-product" class="owl-carousel">
-            {% for get_items in get_filan_vintage_year %}
+            {% for get_items in get_data_according_to_palate_profile %}
 
             {% if get_items.Product|get_product_vintage_yera_one %}
             <div class="item"> 
@@ -444,7 +507,7 @@ See more wines from Alvear </a>
         <a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' get_items.Product.id get_items.Product|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:get_items.Product}} product_id_{{get_items.id}}" data-prodcut_id="{{get_items.id}}">{% if user|check_in_wish_list:get_items.Product == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
       {% endif %}
       </span>
-			<a href="{% url 'product_detail:product_detail' get_items.Product.Product_id get_items.Product.Product_slug  get_items.Product|get_product_vintage_yera_one %}"><img src='{{get_items.Product|get_product_image_one}}' alt="" /></a>
+			<a href="{% url 'product_detail:product_detail' get_items.Product.Product_id get_items.Product.Product_slug  get_items.Product|get_product_vintage_yera_one %}"><img src='{{get_items.Product|get_product_image_one}}' style="height: 340px;" alt="sdc" /></a>
               <div class="bottale-name">
 			  <p>{{get_items.Product}} ({{get_items}})</p>
 			  <a href="{% url 'product_detail:product_detail' get_items.Product.Product_id get_items.Product.Product_slug  get_items.Product|get_product_vintage_yera_one %}" class="product-story_info-btn">See Details</a>
@@ -484,7 +547,7 @@ See more wines from Alvear </a>
   <a href="javascript:;" data-wishlist_url="{% url 'user_wishlist:add_wishlist' items.id items|get_product_vintage_yera_one  %}"  class="wishlist {{user|check_in_wish_list:items}} product_id_{{items.id}}" data-prodcut_id="{{items.id}}">{% if user|check_in_wish_list:items == "" %} <i class="fa fa-heart-o"></i> {% else %}<i class="fa fa-heart"></i> {% endif %}</a>
   {% endif %}
 </span>
-			<a href="{% url 'product_detail:product_detail' items.Product_id items.Product_slug  items|get_product_vintage_yera_one %}"><img src='{{items|get_product_image_one}}'  alt="" /></a>
+			<a href="{% url 'product_detail:product_detail' items.Product_id items.Product_slug  items|get_product_vintage_yera_one %}"><img src='{{items|get_product_image_one}}'  alt="xdcd" style="height: 340px;"/></a>
               <div class="bottale-name">
 			  <p>{{items.Product_name}} 
                      ({{items|get_product_vintage_yera_one}})</p>
@@ -861,7 +924,7 @@ myTxt.x =20;
   function img360Loaded(event) {
     loaded++;
     bg.graphics.clear()
-    bg.graphics.beginFill("#fff").drawRect(0, 0, stage.canvas.width * loaded / totalFrames, stage.canvas.height);
+    bg.graphics.beginFill("#fff").drawRect(0, 0, 300*10 / 300);
     bg.graphics.endFill();
 
     if (loaded == totalFrames) start360();

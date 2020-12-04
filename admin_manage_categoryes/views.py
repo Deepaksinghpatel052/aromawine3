@@ -23,7 +23,7 @@ class CreateCategoryView(SuccessMessageMixin,generic.CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['Page_title'] = "Add Categoryes"
+        context['Page_title'] = "Add Categories"
         return context
 
     def get_success_message(self, cleaned_data):
@@ -58,7 +58,7 @@ class ManageCategoryesView(generic.ListView):
     template_name = "admin/categoryes/index.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['Page_title'] = "Categoryes"
+        context['Page_title'] = "Categories"
         return context
 
 

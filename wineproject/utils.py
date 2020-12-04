@@ -2,7 +2,7 @@ import random
 import string
 from django.utils.text import slugify
 
-def random_string_generator(size=10, chars=string.ascii_uppercase + string.digits):
+def random_string_generator(size=5, chars=string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
 

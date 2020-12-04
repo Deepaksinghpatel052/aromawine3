@@ -1,0 +1,18 @@
+{% if get_data %}
+<h2>{{get_name}}</h2>
+<ul>
+{% for item in get_data %}
+
+ <li>
+ <label class="container-checkbox">{{item.Type}}
+  {% if item.Type in get_user_palate_type and item.Category.Category_name in get_user_palate_category %}
+  <input type="checkbox" name="palat_profile_data[]" value="{{item.Type}}__{{item.Category.Category_name}}" checked="true" >
+  {% else %}
+  <input type="checkbox" name="palat_profile_data[]" value="{{item.Type}}__{{item.Category.Category_name}}" >
+  {% endif %}
+  <span class="checkmark"></span>
+</label></li>
+
+{% endfor %}
+ </ul>
+{% endif %}

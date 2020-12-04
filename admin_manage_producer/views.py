@@ -22,6 +22,11 @@ class ManageProducerView(SuccessMessageMixin,generic.ListView):
         return context
 
 
+
+
+
+
+
 @method_decorator(login_required , name="dispatch")
 class CreateProducerView(SuccessMessageMixin,generic.CreateView):
     form_class = AwProducersForm

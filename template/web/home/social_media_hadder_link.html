@@ -1,0 +1,20 @@
+{% if get_data %}
+  {% if get_data.Facebook %}
+   <li class="parent"><a href="{{get_data.Facebook}}" target="_blank"><i class="fa fa-facebook"></i></a> </li>
+  {% endif %}	
+    {% if get_data.Twitter %}
+		<li class="parent"><a href="{{get_data.Twitter}}" target="_blank"><i class="fa fa-twitter"></i></a>
+  {% endif %}	
+    {% if get_data.Instgram %}
+		<li class="parent"><a href="{{get_data.Instgram}}" target="_blank"><i class="fa fa-instagram"></i></a>
+  {% endif %}	
+ {% if get_data.Linkedin %}
+    <li class="parent"><a href="{{get_data.Linkedin}}" target="_blank"><i class="fa fa-linkedin"></i></a>
+  {% endif %} 
+    {% if get_data.Google %}
+		<li class="parent"><a href="{{get_data.Google}}" target="_blank"><i class="fa fa-google"></i></a>
+  {% endif %}	
+    {% if get_data.Yelp %}
+		<li class="parent"><a href="{{get_data.Yelp}}" target="_blank"><i class="fa fa-yelp"></i></a>
+  {% endif %}	
+{% endif %}

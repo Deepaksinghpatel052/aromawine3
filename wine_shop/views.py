@@ -17,6 +17,7 @@ from admin_manage_categoryes.models import AwCategory
 import operator
 from django.db.models import Q
 from admin_manage_country.models import AwCountry
+from admin_manage_setting.models import AwManageShipping
 from admin_manage_grape.models import AwGrape
 from .serializers import AwProductPriceSerializers,GetOneProductSerializersValidate,AwProductImageSerializers,GetAllImageOfOneProductSerializersValidate
 from rest_framework.response import Response
@@ -27,6 +28,9 @@ from rest_framework.authentication import TokenAuthentication,SessionAuthenticat
 from  wineproject.tokens  import account_activation_token,CsrfExemptSessionAuthentication
 
 # Create your views here.
+
+
+
 
 @register.simple_tag
 def get_product_count(instance,type):
@@ -64,6 +68,24 @@ def get_product_price_with_gst_include(cost,dis):
     # get_gst_cost = (cost*gst)/100
     cost_after_gst = cost-dis
     return cost_after_gst
+
+
+@register.filter(name='get_sum_of_two_numvber')
+def get_sum_of_two_numvber(num_1,num_2):
+    get = num_1 + num_2
+    return str(get)
+
+
+
+@register.filter(name='free_develovery_order_limit')
+def free_develovery_order_limit(dis):
+    order_amount = ""
+    order_country = ""
+    if AwManageShipping.objects.all().exists():
+        get_data = AwManageShipping.objects.all().first()
+        order_amount = get_data.min_ordr_amount
+        order_country = get_data.Country.Country_Name
+    return str(format(order_amount,".2f"))+" in "+str(order_country)
 
 
 
@@ -422,7 +444,7 @@ class ShowView(generic.ListView):
 
 class ApiAllImageOfOneProduct(APIView):
 
-    def post(self, request):
+    def get(self, request):
         product_image = {}
         serializer = GetAllImageOfOneProductSerializersValidate(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -434,10 +456,8 @@ class ApiOneWineById(APIView):
 
     def post(self, request):
         product = {}
-
         serializer = GetOneProductSerializersValidate(data=request.data)
         serializer.is_valid(raise_exception=True)
-
         product_seri = AwProductPriceSerializers(serializer.validated_data, context={"request": request})
         product = product_seri.data
         return Response({"product": product}, status=200)

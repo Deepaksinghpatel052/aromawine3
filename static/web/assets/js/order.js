@@ -2,9 +2,9 @@
 $(document).on('click',".add_to_card",function(){
 
 var product_id = $(this).data("product_id");
-// alert(product_id);
 var cost_type = $(this).data("cost_type");
-var case_formate = $("#case_formate_"+cost_type).val();
+var case_formate = $("#case_formate_"+cost_type+"_"+product_id).val();
+// alert("#case_formate_"+cost_type+"_"+product_id);
 var quentity = $("#quentyti_"+cost_type).val();
 if(product_id)
 {
@@ -21,7 +21,8 @@ var order_type = $(this).data("order_type");
 
 var order_id = $(this).data("order_id");
 var event_id = $(this).data("event_id");
-if(quentity == '0')
+
+if(quentity==null || quentity == '0')
 {
     swal({
             title: "Please Select quantity of product",
@@ -90,7 +91,16 @@ $.ajax({
     }
      
      var quentity_for_retail = data.data.Retail_Stock;
-     var price_for_bond = data.data.Bond_Cost;
+     
+     if(data.data.Bond_Descount_Cost > 0)
+     {
+      var price_for_bond = data.data.Bond_Descount_Cost;
+     }
+     else
+     {
+      var price_for_bond = data.data.Bond_Cost;
+     }
+
      var quentity_for_bond = data.data.Bond_Stock;
      
      if(type=="Bond")
@@ -100,6 +110,17 @@ $.ajax({
        {
        	 set_quntity +='<option>'+i+'</option>';
        }
+
+      if(quentity_for_bond > 0)
+      {
+        $("#qtybox_Bond").css('display','flex');
+        $("#Stock_Bond").css('display','none');
+      }
+      else
+      {
+        $("#qtybox_Bond").css('display','none');
+        $("#Stock_Bond").css('display','flex');
+      }
      	$("#quentyti_Bond").html(set_quntity);
      	$("#set_price_for_bond").text("$"+price_for_bond);
      	if(quentity_for_bond == 0 || price_for_bond == 0 )
@@ -118,6 +139,22 @@ $.ajax({
        {
        	 set_quntity +='<option>'+i+'</option>';
        }
+
+
+    if(quentity_for_retail > 0)
+      {
+        $("#qtybox_Retail").css('display','flex');
+        $("#Stock_Retail").css('display','none');
+      }
+      else
+      {
+      
+        $("#qtybox_Retail").css('display','none');
+        $("#Stock_Retail").css('display','flex');
+      }
+
+
+
      	$("#quentyti_Retail").html(set_quntity);
      	$("#set_price_for_retail").text("$"+price_for_retail);
      	if(quentity_for_retail == 0 || price_for_retail == 0)

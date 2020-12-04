@@ -157,59 +157,51 @@
         <div class="row">
           <div class="col-md-12">
             <div class="row p-t-b-20">
+             {% for item in get_data_of_special_off_only_two %}
+
+
+     {% if item.Priority_set == 1 %}
               <div class="col-md-8 p-t-b-10">
 			  <div class="offerbox shadowb">
-                <a href="#">
-                  <img src='{% static "web/assets/image/spacial-3.jpg" %}'>
+                <a href="{{item.Link}}" target="_blank">
+                  <img src='{{item.Banner_Image.url}}'>
                 </a>
 <div class="overtext">
-    <h2>Our Own wine Selection</h2>
-    <p>With 25% off selected bottles, and 20% off a range of magnums and half-bottles, there’s never been a better time to stock up. You can enjoy these bottles for less until 5pm on 31st December.</p></div>
+    <h2>{{item.Title}}</h2>
+    <p>{{item.Description}}</p></div>
 				</div>
               </div>
-              <div class="col-md-4 p-t-b-10">
-			  <div class="offertext shadowb">
-                <a href="#">
-                  <img src='{% static "web/assets/image/spacial-1.jpg" %}'>
+{% else %}
+
+<div class="col-md-4 p-t-b-10">
+        <div class="offertext shadowb">
+                <a href="{{item.Link}}" target="_blank">
+                  <img src='{{item.Banner_Image.url}}'>
                 </a>
-				<div class="textb">
-				<h4>Wine</h4>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
-				tempor.</p>
-				</div>
-				</div>
+        <div class="textb">
+        <h2>{{item.Title}}</h2>
+    <p>{{item.Description}}</p>
+        </div>
+        </div>
               </div>
-              <div class="col-md-4 p-t-b-10">
-			  <div class="offerbox shadowb">
-                <a href="#">
-                  <img src='{% static "web/assets/image/new-1.jpg" %}'>
-                </a>
-				<div class="overtext">
-    <h2>Penfolds Grange label</h2>
-    <p>Vantage 2018</p></div>
-				</div>
-              </div>
+ {% endif %}
+
+
+              {% endfor %}
+      
+      {% for item in get_data_of_special_off %}
               <div class="col-md-4 p-t-b-10">
 			  <div class="offerbox shadowb">
-                <a href="#">
-                  <img src='{% static "web/assets/image/new-2.jpg" %}'>
+                <a href="{{item.Link}}" target="_blank">
+                  <img src='{{item.Banner_Image.url}}'>
                 </a>
 				<div class="overtext">
-    <h2>Cos D' Estournel </h2>
-    <p>Saint-Estephe</p></div>
+    <h2>{{item.Title}}</h2>
+    <p>{{item.Description}}</p></div>
 				</div>
               </div>
-			  <div class="col-md-4 p-t-b-10">
-			  <div class="offerbox shadowb">
-                <a href="#">
-                  <img src='{% static "web/assets/image/new-3.jpg" %}'>
-                </a>
-				<div class="overtext">
-    <h2>Palate Profile</h2>
-    <p>We offer market beating excellent rates on top quality storage</p></div>
-				
-				</div>
-              </div>
+              {% endfor %}
+       
 			  
             </div>
           </div>

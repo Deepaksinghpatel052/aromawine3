@@ -60,7 +60,9 @@ urlpatterns = [
     path('admin/coupons/', include(('admin_manage_cupon_code.urls','admin_manage_cupon_code'),namespace='admin_manage_cupon_code')),
 
 
-    path('admin/categoryes/', include(('admin_manage_categoryes.urls','admin_manage_categoryes'),namespace='admin_manage_categoryes')),
+    path('admin/categories/', include(('admin_manage_categoryes.urls','admin_manage_categoryes'),namespace='admin_manage_categoryes')),
+
+    path('admin/special-offers/', include(('admin_manage_special_offers.urls','admin_manage_special_offers'),namespace='admin_manage_special_offers')),
 
     # path('admin/categoryes/', include(('admin_manage_categoryes.urls','admin_manage_categoryes'),namespace='admin_manage_categoryes')),
 
