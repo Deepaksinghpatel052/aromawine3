@@ -37,18 +37,18 @@ class PageContentView(generic.TemplateView):
 		# ======================================  FOR grape end ==================================
 
 		# ======================================  FOR AwProducers start ==================================
-		if type == 'producer':
+		if type == 'wineries':
 			if AwProducers.objects.filter(Status=True).exists():
 				page_content =  AwProducers.objects.filter(Status=True)
 		# ======================================  FOR grape end ==================================
 		# ======================================  FOR AwRegion start ==================================
-		if type == 'region':
+		if type == 'regions':
 			if AwRegion.objects.filter(Status=True).exists():
 				page_content = AwRegion.objects.filter(Status=True)
 		# ======================================  FOR grape end ==================================
 
 		# ======================================  FOR AwCountry start ==================================
-		if type == 'country':
+		if type == 'countries':
 			if AwCountry.objects.filter(Status=True).exists():
 				page_content = AwCountry.objects.filter(Status=True)
 		# ======================================  FOR country end ==================================

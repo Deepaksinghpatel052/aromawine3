@@ -13,16 +13,110 @@ from django.views.decorators.csrf import csrf_exempt
 from datetime import date
 import json
 from admin_manage_classification.models import AwClassification
+from admin_manage_producer.models import AwProducers
+from admin_manage_region.models import AwRegion
+from admin_manage_appellation.models import AwAppellation
 from django.template.defaulttags import register
 from django.urls import reverse_lazy
 from django.core.files.base import ContentFile
 import base64
 from django.template.loader import render_to_string
 from django.db.models import Q
+from admin_manage_varietals.forms import AwVarietalsForm
+from admin_manage_appellation.form import AwAppellationForm
+from admin_manage_varietals.models import AwVarietals
 
 import requests
 
 
+@csrf_exempt
+def AddAppellationName(request):
+    form_data = request.POST
+    Appellation = request.POST['Appellation_Name']
+    ls_blog_form = AwAppellationForm(form_data)
+    if ls_blog_form.is_valid():
+        data = ls_blog_form.save(commit=False)
+        data.save()
+    ls_blog_form.save_m2m()
+    if AwAppellation.objects.filter(Status=True).exists():
+        get_Appellation = AwAppellation.objects.filter(Status=True)
+    return render(request, "admin/products/set_appellation.html",{"get_Appellation": get_Appellation,'Appellation':Appellation})
+
+
+@csrf_exempt
+def CheckAppellationName(request):
+    form_data = request.POST
+    Appellation_Name = request.POST['Appellation_Name']
+    Country = request.POST.getlist('Appellation_Name')
+    Set_To = request.POST.getlist('Set_To')
+    if AwAppellation.objects.filter(Appellation_Name=Appellation_Name).exists():
+        return HttpResponse("0")
+    else:
+        return HttpResponse("1")
+
+
+@csrf_exempt
+def CkeckVarietalsName(request):
+    get_varietals = None
+    varietals = request.POST['varietals']
+    if AwVarietals.objects.filter(Varietals_Name=varietals).exists():
+        return HttpResponse("0")
+    else:
+        return HttpResponse("1")
+
+
+
+
+@csrf_exempt
+def AddVarietalsName(request):
+    get_varietals = None
+    varietals = request.POST['varietals']
+    add_data = AwVarietals(Varietals_Name=varietals)
+    add_data.save()
+    if AwVarietals.objects.filter(Status=True):
+        get_varietals = AwVarietals.objects.filter(Status=True)
+    return render(request, "admin/products/set_varietals.html",{"get_varietals": get_varietals,'varietals':varietals})
+
+@csrf_exempt
+def CheckLwinCodeInDatabase(request):
+    lwine = request.POST['lwine']
+    product_id = request.POST['product_id']
+    if product_id == "0":
+        if AwProducts.objects.filter(LWineCode=lwine).exists():
+            return HttpResponse(True)
+    else:
+        if AwProducts.objects.filter(LWineCode=lwine).filter(~Q(id=product_id)).exists():
+            return HttpResponse(True)
+    return HttpResponse(False)
+
+@csrf_exempt
+def select_appellation(request):
+    get_appellation = None
+    if AwAppellation.objects.filter(Status=True):
+        get_appellation = AwAppellation.objects.filter(Status=True)
+    return render(request, "admin/products/appellation.html",{"get_appellation": get_appellation})
+
+
+@csrf_exempt
+def add_new_region(request):
+    get_region = None
+    get_selected_region = request.POST['regions']
+    add_data = AwRegion(Region_Name=get_selected_region, Short_Description=get_selected_region,Description=get_selected_region)
+    add_data.save()
+    if AwRegion.objects.filter(Status=True):
+        get_region = AwRegion.objects.filter(Status=True)
+    return render(request, "admin/products/region.html",{"get_region": get_region, 'get_selected_region': get_selected_region})
+
+@csrf_exempt
+def add_new_producer(request):
+    get_producer = None
+    get_selected_producer = request.POST['producer']
+    add_data = AwProducers(Winnery_Name=get_selected_producer,Short_Description=get_selected_producer,Description=get_selected_producer)
+    add_data.save()
+    if AwProducers.objects.filter(Status=True):
+        get_producer = AwProducers.objects.filter(Status=True)
+    return render(request, "admin/products/producer.html",
+                  {"get_producer": get_producer, 'get_selected_producer': get_selected_producer})
 
 @csrf_exempt
 def get_product_vintage(request):
@@ -36,7 +130,11 @@ def get_product_vintage(request):
 @csrf_exempt
 def get_product_classifications(request):
     get_classifications = None
-    classifications = request.POST.getlist('classifications[]')
+    classifications = request.POST['classifications']
+    if classifications:
+        if not AwClassification.objects.filter(Classification_Name=classifications).exists():
+            add_data = AwClassification(Classification_Name=classifications)
+            add_data.save()
     get_all_classification = []
     if AwClassification.objects.all():
         get_classifications = AwClassification.objects.all()
@@ -44,6 +142,17 @@ def get_product_classifications(request):
             get_all_classification.append(item.Classification_Name)
     return render(request,"admin/products/classification.html",{"get_classifications":get_classifications,'classifications':classifications,'get_all_classification':get_all_classification})
 
+
+# add case text.
+@register.filter(name='add_text_case_of_bottles')
+def add_text_case_of_bottles(numbers):
+    if numbers in ['3','6','12','03','06']:
+        return 'A Case Of '+str(numbers)+' Bottles'
+    else:
+        if numbers in ['1','01']:
+            return str(numbers)+' Bottle'
+        else:
+            return str(numbers) + ' Bottles'
 
 
 
@@ -197,7 +306,9 @@ class CreateProductView(SuccessMessageMixin,generic.View):
     form_class = AwProductsForm
     def get(self, request, *args, **kwargs):
         form = self.form_class
-        return render(request, self.template_name,{'Page_title': "Add Product", 'form':form})
+        VarietalsForm = AwVarietalsForm
+        AppellationForm = AwAppellationForm
+        return render(request, self.template_name,{'Page_title': "Add Product", 'form':form,'VarietalsForm':VarietalsForm,"AppellationForm":AppellationForm})
 
     def post(self, request, *args, **kwargs):
         form = AwProductsForm(request.POST)
@@ -275,6 +386,7 @@ class CreateProductView(SuccessMessageMixin,generic.View):
                                     Bond_Cost = str(request.POST.getlist(str(years.Vintages_Year) + "_bond_cose[]")[i]),
                                     Bond_Stock = str(request.POST.getlist(str(years.Vintages_Year) + "_bond_stock[]")[i]),
                                     Bond_Descount_Cost = str(request.POST.getlist(str(years.Vintages_Year) + "_bond_descount_cost[]")[i]),
+                                    Aroma_Cose = str(request.POST.getlist(str(years.Vintages_Year) + "_set_aroma_of_wine_cost[]")[i]),
                                     Created_by = request.user,
                                     Updated_by = request.user
                                 )
@@ -294,7 +406,9 @@ class CreateProductView(SuccessMessageMixin,generic.View):
                 return HttpResponseRedirect(reverse('admin_manage_products:update_products', args=(product_ins.Product_id,)))
             return HttpResponseRedirect(reverse('admin_manage_products:products'))
         else:
-            return render(request, self.template_name, {'form': form,'Page_title':"Add Product"})
+            VarietalsForm = AwVarietalsForm
+            AppellationForm = AwAppellationForm
+            return render(request, self.template_name, {'form': form,'Page_title':"Add Product","VarietalsForm":VarietalsForm,"AppellationForm":AppellationForm})
 
 @method_decorator(login_required , name="dispatch")
 class ManagProducFullImagtView(SuccessMessageMixin,generic.TemplateView):
@@ -387,7 +501,9 @@ class UpdateProductView(SuccessMessageMixin,generic.View):
         if get_product_ins.Vintage.all():
             for items in get_product_ins.Vintage.all():
                 year_list.append(items.Vintages_Year)
-        return render(request, self.template_name,{'year_list':year_list,'get_price_and_cost':get_price_and_cost,'get_product_banner_image':get_product_banner_image,'get_product_image':get_product_image,'get_product_ins':get_product_ins,'Page_title': "Edit Product", 'form':form})
+        VarietalsForm = AwVarietalsForm
+        AppellationForm = AwAppellationForm
+        return render(request, self.template_name,{'VarietalsForm':VarietalsForm,'AppellationForm':AppellationForm,'year_list':year_list,'get_price_and_cost':get_price_and_cost,'get_product_banner_image':get_product_banner_image,'get_product_image':get_product_image,'get_product_ins':get_product_ins,'Page_title': "Edit Product", 'form':form})
 
     def post(self, request, *args, **kwargs):
         prodict_id = self.kwargs.get("prodict_id")
@@ -487,6 +603,8 @@ class UpdateProductView(SuccessMessageMixin,generic.View):
                                         Bond_Descount_Cost=str(
                                             request.POST.getlist(str(years.Vintages_Year) + "_bond_descount_cost[]")[
                                                 i]),
+                                        Aroma_Cose=str(request.POST.getlist(
+                                            str(years.Vintages_Year) + "_set_aroma_of_wine_cost[]")[i]),
                                         Created_by=request.user,
                                         Updated_by=request.user)
                                     # ==================================================
@@ -518,6 +636,8 @@ class UpdateProductView(SuccessMessageMixin,generic.View):
                                         Bond_Descount_Cost=str(
                                             request.POST.getlist(str(years.Vintages_Year) + "_bond_descount_cost[]")[
                                                 i]),
+                                        Aroma_Cose=str(request.POST.getlist(
+                                            str(years.Vintages_Year) + "_set_aroma_of_wine_cost[]")[i]),
                                         Created_by=request.user,
                                         Updated_by=request.user
                                     )
@@ -552,7 +672,9 @@ class UpdateProductView(SuccessMessageMixin,generic.View):
             if get_product_ins.Vintage.all():
                 for items in get_product_ins.Vintage.all():
                     year_list.append(items.Vintages_Year)
-            return render(request, self.template_name, {'year_list':year_list,'get_price_and_cost':get_price_and_cost,'get_product_banner_image':get_product_banner_image,'get_product_image':get_product_image,'get_product_ins':get_product_ins,'Page_title': "Edit Product",'form':form})
+            VarietalsForm = AwVarietalsForm
+            AppellationForm = AwAppellationForm
+            return render(request, self.template_name, {'VarietalsForm':VarietalsForm,'AppellationForm':AppellationForm,'year_list':year_list,'get_price_and_cost':get_price_and_cost,'get_product_banner_image':get_product_banner_image,'get_product_image':get_product_image,'get_product_ins':get_product_ins,'Page_title': "Edit Product",'form':form})
 
 
 

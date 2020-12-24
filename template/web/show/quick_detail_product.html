@@ -2,8 +2,8 @@ Special Prices{% load static %}
 		<div class="row modal-content-product">
   <div class="col-md-6 infoBloc">
     <div class="name title mb-2">{{object.Product.Select_Type}} :  {{object.Product}} ({{object}})</div>
-    <div class="attribut mt-2">Veneto - Amarone della Valpolicella Classico<br>
-      {{object.Product.Color.all|join:" | "}} - <a aria-label="See details" href="{% url 'product_detail:product_detail' object.Product.Product_id object.Product.Product_slug  object   %}">See details</a></div>
+    <div class="attribut mt-2">
+      {{object.Product.Color}} - <a aria-label="See details" href="{% url 'product_detail:product_detail' object.Product.Product_id object.Product.Product_slug  object   %}">See details</a></div>
     <div class="product-img product-modal mt-4"><img src='{{object.Product|get_product_image_one}}' alt=""></div>
   </div>
   <!-- {{object.Descount_Cost|get_product_price_with_gst_include:object.GST|floatformat:2}} -->
@@ -36,7 +36,10 @@ Special Prices{% load static %}
 <select class="quantity_select" style="width:100%;">
 			
 			{% for items in get_all_bottel_set_of_this_year  %}
-			<option>{{items.Bottle|slice:"0:25"}}</option>
+			<option>
+        {{items.Bottle|add_text_case_of_bottles}}
+      
+      </option>
 			{% endfor %}
 			</select>
 			{% endif %}
@@ -65,7 +68,7 @@ Special Prices{% load static %}
       </ul>
       <br><br>
       <!-- <div class="promo-label">Special Prices</div> -->
-      <a href="{% url 'product_detail:product_detail' object.Product.Product_id object.Product.Product_slug  object   %}"><button class="mb-2 product-story_info-btn cick_to_view_product">Buy</button></a>
+      <a href="{% url 'product_detail:product_detail' object.Product.Product_id object.Product.Product_slug  object   %}"><button class="mb-2 product-story_info-btn cick_to_view_product">Add to Cart</button></a>
     </div>
     <ul class="reassurance-list">
       <li class="reassurance-item"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check" class="svg-inline--fa fa-check fa-w-16 reassurance-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">

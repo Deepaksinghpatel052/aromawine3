@@ -11,13 +11,13 @@
          </tr>
          <tr style="cursor: pointer;">
             <th align="left" valign="top">Bottle</th>
-            <th align="left" valign="top">Retail Cost</th>
-            <th align="left" valign="top">Retail Stock</th>
+            <th align="left" valign="top">Resale Price</th>
+            <th align="left" valign="top">Available Count</th>
             <th align="left" valign="top">Discount Cost</th>
             <th align="left" valign="top">Duty</th>
             <th align="left" valign="top">GST</th>
             <th align="left" valign="top">Bond Cost</th>
-            <th align="left" valign="top">Bond Stock</th>
+            <th align="left" valign="top">Available Count</th>
             <th align="left" valign="top">Bond Discount Cost</th>
          </tr>
       </thead>
@@ -27,7 +27,8 @@
       
         {% if cost_items.Vintage_Year.Vintages_Year == year %}
          <tr data-id="1" style="cursor: pointer;">
-            <td data-field="retail" align="left" valign="top">{{cost_items.Bottle}}</td>
+            <td data-field="retail" align="left" valign="top">
+{{cost_items.Bottle|add_text_case_of_bottles}}</td>
             <td data-field="cost" align="left" valign="top">{{cost_items.Retail_Cost}}</td>
             <td data-field="retail-stock" align="left" valign="top">{{cost_items.Retail_Stock}}</td>
             <td data-field="discount" align="left" valign="top">{{cost_items.Descount_Cost}}</td>

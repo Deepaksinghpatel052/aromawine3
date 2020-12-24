@@ -3,11 +3,22 @@
 {% if get_classifications %}
 
   {% for item in get_classifications %}
-    {% if item.Classification_Name in classifications  %}
-  <option value="{{item.id}}" selected="">{{item.Classification_Name}}</option>
-  {% else %}
-  <option value="{{item.id}}">{{item.Classification_Name}}</option>
-  {% endif  %}
+
+     {% if classifications %}
+        {% if item.Classification_Name == classifications %}
+          <option value="{{item.id}}" selected="">{{item.Classification_Name}}</option>
+          {% else %}
+          <option value="{{item.id}}">{{item.Classification_Name}}</option>
+          {% endif  %} 
+     {% else %}
+        {% if item.Classification_Name == 'None' %}
+          <option value="{{item.id}}" selected="">{{item.Classification_Name}}</option>
+          {% else %}
+          <option value="{{item.id}}">{{item.Classification_Name}}</option>
+          {% endif  %} 
+     {% endif %}
+
+    
 
   {%  endfor %}
 {% endif %}
@@ -25,7 +36,7 @@
  {% endfor %}
 
 {% else %}
-<span id="show_error_message_Classification" style="color:red;">API is not provied classification for this wine.</span>
+<span id="show_error_message_Classification" style="color:red;">Classification is not in dropdown. So default selected.</span>
 {% endif %}
 
 

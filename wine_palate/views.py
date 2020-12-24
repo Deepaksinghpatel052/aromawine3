@@ -29,7 +29,7 @@ def categoryes_selected_categoryes_and_flavers(cayegory_ins_ins,user):
     print("==================")
     print(get_selected_flavers)
     print("==================")
-    content = {"Category_name":cayegory_ins_ins.Category_name,"get_all_falcers":get_all_falcers,"user":user.username,"get_selected_flavers":get_selected_flavers}
+    content = {"Category_name":cayegory_ins_ins.Category_name,"cate_id":cayegory_ins_ins.id,"get_all_falcers":get_all_falcers,"user":user.username,"get_selected_flavers":get_selected_flavers}
     return render_to_string('web/wine_palate/selected_flavers.html',content)
 
 
@@ -110,6 +110,37 @@ def GetWinePalatedataView(request):
     get_user_palate_category = []
     get_user_palate_type = []
     if request.method == 'POST':
+        get_name_id  = request.POST['Category_id']
+
+        get_user_palate_category = []
+        get_user_palate_type = []
+        if AwUserPalateWine.objects.filter(User=request.user).exists():
+            get_data_of_user = AwUserPalateWine.objects.filter(User=request.user)
+            for items in get_data_of_user:
+                get_user_palate_category.append(items.Category_name)
+                get_user_palate_type.append(items.Type)
+        if AwWinePalateFlavors.objects.filter(Category__Category_Id=get_name_id).exists():
+            get_data_Ins = AwWinePalateFlavors.objects.filter(Category__Category_Id=get_name_id)
+            data_scri = AwWinePalateFlavorsSerializear(get_data_Ins , many=True)
+            get_data = data_scri.data
+    get_name = ""
+    if AwWinePalateCategories.objects.filter(Category_Id=get_name_id).exists():
+        get_cate_data = get_object_or_404(AwWinePalateCategories,Category_Id=get_name_id)
+        get_name = get_cate_data.Category_name
+    # return render(request,"web/wine_palate/wine_palate_data.html",)
+    return JsonResponse({"get_data":get_data,"get_name":get_name,"get_user_palate_category":get_user_palate_category,'get_user_palate_type':get_user_palate_type})
+
+
+
+
+
+@csrf_exempt
+def GetWinePalatedataViewByName(request):
+    get_data = {}
+    get_name = "test"
+    get_user_palate_category = []
+    get_user_palate_type = []
+    if request.method == 'POST':
         get_name  = request.POST['Category']
         get_user_palate_category = []
         get_user_palate_type = []
@@ -124,4 +155,3 @@ def GetWinePalatedataView(request):
             get_data = data_scri.data
     # return render(request,"web/wine_palate/wine_palate_data.html",)
     return JsonResponse({"get_data":get_data,"get_name":get_name,"get_user_palate_category":get_user_palate_category,'get_user_palate_type':get_user_palate_type})
-    

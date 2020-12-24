@@ -139,6 +139,7 @@
                 <tr>
                   <th>Image</th>
                   <th>Product</th>
+                  <th>Lwine Code</th>
                   <th>Type & Case Size</th>
                   <th>Price</th>
                   <th>GST</th>
@@ -155,15 +156,20 @@
                   {% if item.Product_Delivered %}
                   <th><img src="{{item.Product_Delivered|get_product_image_one}}" style="height: 50px;"></th>
                   <td><a href="{% url 'product_detail:product_detail' item.Product_Delivered.Product_id item.Product_Delivered.Product_slug  item.Year %}">{{item.Product_Delivered}}({{item.Year}})</a></td>
+                  <td>
+                    {{item.Product_Delivered.LWineCode}}-{{item.Year}}
+                  </td>
                   {% endif %}
 
                   {% if item.Product_Cellar %}
                   <th><img src="{{item.Product_Cellar|get_product_image_one}}" style="height: 50px;"></th>
                   <td><a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year %}">{{item.Product_Cellar}}({{item.Year}})</a></td>
+                  <td>
+                    {{item.Product_Cellar.LWineCode}}-{{item.Year}}
+                  </td>
                   {% endif %}
 
-                  <td>
-                  	{{item.Type}}/({{item.Case_Formate_text}})
+                  <td>{{item.Type}}/({{item.Case_Formate.Bottle|add_text_case_of_bottles}})
                   </td>
                   <td>${{item.Cost_of_product|get_amount_without_persentage:item.Gst|floatformat:2}}</td>
                   <td>{{item.Gst}}%</td>
@@ -175,23 +181,23 @@
                  {% endfor %}
              
                  <tr>
-                   <th colspan="7" style="text-align: right;">Order Subtotal:</th>
+                   <th colspan="8" style="text-align: right;">Order Subtotal:</th>
                    <th >${{products.0.Order_id.Order_Product_Amount|floatformat:2}}</th>
                  </tr>
 
                  <tr>
-                   <th colspan="7" style="text-align: right;">GST:</th>
+                   <th colspan="8" style="text-align: right;">GST:</th>
                    <th >${{products.0.Order_id.Order_Gst_Amount|floatformat:2}}</th>
                  </tr>
                    {% if products.0.Order_id.Cupon_Discount > 0 %}
                  <tr>	
-                   <th colspan="7" style="text-align: right;">Descount Amount:</th>
+                   <th colspan="8" style="text-align: right;">Descount Amount:</th>
                    <th >-${{products.0.Order_id.Cupon_Discount|floatformat:2}}</th>
                  </tr>
                 {% endif %}
 {% if products.0.Order_id.Order_Type == 'Delivered' %}
 <tr>	
-                   <th colspan="7" style="text-align: right;">Order Shipping:</th>
+                   <th colspan="8" style="text-align: right;">Order Shipping:</th>
                    <th >{% if products.0.Order_id.shipping_charge <= 0 %}
 <span class="grid-report-item green">Free</span>
 {% else %}
@@ -203,23 +209,23 @@ ${{products.0.Order_id.shipping_charge|floatformat:2}}
 
             {% endif %}     
 				<tr>	
-                   <th colspan="7" style="text-align: right;">Order Total:</th>
+                   <th colspan="8" style="text-align: right;">Order Total:</th>
                    <th >${{total_order|floatformat:2}}</th>
                  </tr>
 
 				{% if products.0.Order_id.Order_Type == 'Delivered' %}
 				<tr>	
-                   <th colspan="7" style="text-align: right;">Payment Status:</th>
+                   <th colspan="8" style="text-align: right;">Payment Status:</th>
                    <th >{% if products.0.Order_id.Payment_Status %} <span class="grid-report-item green">Paid</span> {% else %} <span class="grid-report-item red">Not Paid</span>{% endif %}
                    	</th>
                    </tr>	
 <tr>	
-                   <th colspan="7" style="text-align: right;">Already paid(By Cellar):</th>
+                   <th colspan="8" style="text-align: right;">Already paid(By Cellar):</th>
                    <th >${{products.0.Order_id.Amount|floatformat:2}}
                    	</th>
                    </tr>	
 	               <tr>	
-	                   <th colspan="7" style="text-align: right;">Final Payable Amount:</th>
+	                   <th colspan="8" style="text-align: right;">Final Payable Amount:</th>
 	                   <th >{% if products.0.Order_id.shipping_charge <= 0 %}
 					<span class="grid-report-item green">Free</span>
 					{% else %}
@@ -228,7 +234,7 @@ ${{products.0.Order_id.shipping_charge|floatformat:2}}
 					{% endif %}</th>
 					                 </tr>
                  <tr> 
-                     <th colspan="7" style="text-align: right;">Shipping Payment Status:</th>
+                     <th colspan="8" style="text-align: right;">Shipping Payment Status:</th>
                      <th >{% if products.0.Order_id.shipping_charge <= 0 %}
           <span class="grid-report-item green">Free</span>
           {% else %}

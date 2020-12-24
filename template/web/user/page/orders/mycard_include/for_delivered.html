@@ -5,8 +5,9 @@
                         <table class="cart-wrap">
                             <thead>
                                 <tr>
-                                    <th align="left" valign="middle" class="first-td-width">IMAGE</th>
-                                    <th align="left" valign="middle">PRODUCT</th>
+                                    <th align="center" valign="middle" class="first-td-width">IMAGE</th>
+                                    <th align="center" valign="middle">PRODUCT</th>
+                                    <th align="center" valign="middle">LWINE</th>
                                     <th style="width: 133px;" align="left" valign="middle">TYPE & CASE SIZE</th>
                                     <th align="center" valign="middle">PRICE</th>
                                     <th align="center" valign="middle">GST</th>
@@ -29,7 +30,10 @@
 <input type="hidden" class="card_product_id" value="{{item.id}}">
                                       <a href="{% url 'product_detail:product_detail' item.Product_Delivered.Product_id item.Product_Delivered.Product_slug  item.Year %}">{{item.Product_Delivered.Product_name|slice:"0:20"}}<br>{{item.Year}} </a></td>
                                     <td align="center" valign="middle" style="width: 133px;">
-                                      {{item.Type}}/({{item.Case_Formate.Bottle}})
+                                      {{item.Product_Delivered.LWineCode}}-{{item.Year}}
+                                    </td>
+                                    <td align="center" valign="middle" style="width: 133px;">
+                                      {{item.Type}}/({{item.Case_Formate.Bottle|add_text_case_of_bottles}})
                                     </td>
                                     <td align="center" valign="middle">
                                       ${{item.Old_Cost|get_amount_without_persentage:item.order_item_id.Gst|floatformat:2}}
@@ -53,7 +57,7 @@
                                           {% endif %}
                                           <span class="input-group-addon bootstrap-touchspin-postfix quentity_set" data-product_id="{{item.id}}" data-Type="plus" style="display: none;"></span></div> -->
 
-                                          <div class="input-group bootstrap-touchspin" style="width: 38%;">
+                                          <div class="input-group bootstrap-touchspin" style="width: 53%;">
                                         <span class="input-group-addon bootstrap-touchspin-prefix quentity_set" style="display: none;" data-product_id="{{item.id}}" data-type="minus"></span>
                                         
                                         
@@ -129,7 +133,7 @@ $<span id="price_show_{{item.id}}">{{item.Old_Cost|multiply_of_prodiuct_amount_q
                                     </ul>
                                     <ul>
                                        
-                                       <li><span class="pull-left"> Total Paid Amount </span>$<span class="show_total_ampount">00.0</span></li>
+                                       <li><span class="pull-left"> Grand Total </span>$<span class="show_total_ampount">00.0</span></li>
                                     </ul>
                                     <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
                                     

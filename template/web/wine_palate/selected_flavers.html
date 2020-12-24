@@ -5,9 +5,9 @@
   <li><label class="container-checkbox">{{item.Type}}
    
    {% if item.Type in get_selected_flavers %}
-  	<input type="checkbox" checked="" name="palat_profile_data[]" value="{{item.Type}}__{{item.Category.Category_name}}" >
+  	<input type="checkbox" checked="" class="cate_id_{{cate_id}}" data-cate_id="{{cate_id}}" name="palat_profile_data[]" value="{{item.Type}}__{{item.Category.Category_name}}" >
   {% else %}
-<input type="checkbox" name="palat_profile_data[]" value="{{item.Type}}__{{item.Category.Category_name}}">
+<input type="checkbox" name="palat_profile_data[]" value="{{item.Type}}__{{item.Category.Category_name}}" class="cate_id_{{cate_id}}" data-cate_id="{{cate_id}}">
   {% endif %}
   	<span class="checkmark"></span></label></li>
 

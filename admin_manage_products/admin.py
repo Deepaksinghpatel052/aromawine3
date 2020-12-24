@@ -26,7 +26,7 @@ class AwWineTypeAdmin(ImportExportModelAdmin):
 admin.site.register(AwWineType,AwWineTypeAdmin)
 
 class AwProductsAdmin(ImportExportModelAdmin):
-    list_display = ('Product_id', 'Select_Type','Product_name','Producer','Country','Regions','Status', 'Created_date','Created_date','Updated_date')
+    list_display = ('Product_id', 'LWineCode' , 'Select_Type','Product_name','Producer','Country','Regions','Status', 'Created_date','Created_date','Updated_date')
     list_filter = ('Select_Type','Producer','Created_date','Updated_date',)
     readonly_fields = ["Product_id", 'Product_slug']
 admin.site.register(AwProducts,AwProductsAdmin)

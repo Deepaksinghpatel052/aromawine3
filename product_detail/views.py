@@ -147,9 +147,6 @@ class DetailView(generic.TemplateView):
 
 
 
-
-
-
         get_all_palate_info_of_user = None
         get_data_according_to_palate_profile = None
         get_list_of_my_palate = []
@@ -163,7 +160,7 @@ class DetailView(generic.TemplateView):
 
                 filters = None
                 # filters = Q(id__in=get_filan_vintage_year_id)
-                filters =  Q(Product__Category__Category_name__in=get_list_of_my_palate)
+                filters =  Q(Product__Flavours__Type__in=get_list_of_my_palate)
 
                 if AwProductPrice.objects.filter(filters).exists():
                     get_data_according_to_palate_profile = AwProductPrice.objects.filter(filters).annotate(replies=Count('Vintage_Year') - 1)

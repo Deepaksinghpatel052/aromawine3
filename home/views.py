@@ -206,7 +206,7 @@ class HomeView(generic.TemplateView):
 
         # ==================== set vintage data start========================
 
-        get_vintage_year = AwProductPrice.objects.filter(Product__Status=True).filter(Product__Category__Category_name='Aroma recommendations').order_by('-Vintage_Year')
+        get_vintage_year = AwProductPrice.objects.filter(Product__Status=True).filter(Product__Category__Category_name='Aroma recommendations').order_by('?')
         get_years_product = []
         get_filan_vintage_year = []
         if get_vintage_year:

@@ -302,6 +302,7 @@ E-Mail:</b> {{user_info.User.email}} <br>
       	<tr>
         <th align="left" style="margin: 0px;background: #000;padding: 5px;text-align: center;border-right: 1px solid #e7c77e;color: #e7c77e;">IMAGE</th>
         <th align="left" style="margin: 0px;background: #000;padding: 5px;text-align: center;border-right: 1px solid #e7c77e;color: #e7c77e;">PRODUCT</th>
+        <th align="left" style="margin: 0px;background: #000;padding: 5px;text-align: center;border-right: 1px solid #e7c77e;color: #e7c77e;">LWINE</th>
         <th align="left" style="margin: 0px;background: #000;padding: 5px;text-align: center;border-right: 1px solid #e7c77e;color: #e7c77e;">TYPE & CASE SIZE</th>
         <th align="left" style="margin: 0px;background: #000;padding: 5px;text-align: center;border-right: 1px solid #e7c77e;color: #e7c77e;">PRICE</th>
         <th align="left" style="margin: 0px;background: #000;padding: 5px;text-align: center;border-right: 1px solid #e7c77e;color: #e7c77e;">GST</th>
@@ -318,13 +319,17 @@ E-Mail:</b> {{user_info.User.email}} <br>
       	{% if item.Product_Delivered %}
         <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;"><img src="{{item.Product_Delivered|get_product_image_one}}" style="height: 50px;"></td>
         <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;"><a href="{% url 'product_detail:product_detail' item.Product_Delivered.Product_id item.Product_Delivered.Product_slug  item.Year %}">{{item.Product_Delivered}}({{item.Year}})</a></td>
+
+<td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;">{{item.Product_Delivered.LWineCode}}-{{item.Year}}</td>
+        
         {% endif %}
 
 		{% if item.Product_Cellar %}
         <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;"><img src="{{item.Product_Cellar|get_product_image_one}}" style="height: 50px;"></td>
         <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;"><a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year %}">{{item.Product_Cellar}}({{item.Year}})</a></td>
+        <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;">{{item.Product_Cellar.LWineCode}}-{{item.Year}}</td>
         {% endif %}        
-        <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;">{{item.Type}}/({{item.Case_Formate_text}})</td>
+        <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;">{{item.Type}}/({{item.Case_Formate.Bottle|add_text_case_of_bottles}})</td>
         <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;">${{item.Cost_of_product|get_amount_without_persentage:item.Gst|floatformat:2}}</td>
         <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;">{{item.Gst}}%</td>
         <td align="left" style="padding: 10px;font-weight: 400;border-right: 1px solid #ccc;">${{item.Cost_of_product|floatformat:2}}</td>
@@ -337,7 +342,7 @@ E-Mail:</b> {{user_info.User.email}} <br>
 {% endfor %}
 
   <tr>
-        <td colspan="3" style="
+        <td colspan="4" style="
     padding: 10px;
     font-weight: 400;
     border-top: 1px solid #ccc;

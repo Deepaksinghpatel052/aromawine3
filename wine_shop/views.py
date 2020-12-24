@@ -56,8 +56,18 @@ def get_product_count(instance,type):
 def product_list(request):
     item  = request.GET["q"]
     get_data = {}
-    if AwProductPrice.objects.filter(Q(Product__Product_name__contains=item)|Q(Product__Product_slug__contains=item)|Q(Product__Product_id__contains=item)).exists():
-        data = AwProductPrice.objects.filter(Q(Product__Product_name__contains=item)|Q(Product__Product_slug__contains=item)|Q(Product__Product_id__contains=item)).annotate(replies=Count('Vintage_Year') - 1)[:5]
+    get_vintage_year = AwProductPrice.objects.filter(Vintage_Year__isnull=False).order_by('-Vintage_Year').annotate(replies=Count('Vintage_Year') - 1)
+    get_years_product = []
+    get_filan_vintage_year = []
+    if get_vintage_year:
+        for items in get_vintage_year:
+            if str(items.Vintage_Year.Vintages_Year) + "_" + str(items.Product.Product_name) not in get_years_product:
+                get_filan_vintage_year.append(items.id)
+                get_years_product.append(str(items.Vintage_Year.Vintages_Year) + "_" + str(items.Product.Product_name))
+
+
+    if AwProductPrice.objects.filter(Q(Product__Product_name__contains=item)|Q(Product__Product_slug__contains=item)|Q(Product__Product_id__contains=item)).filter(id__in = get_filan_vintage_year).exists():
+        data = AwProductPrice.objects.filter(Q(Product__Product_name__contains=item)|Q(Product__Product_slug__contains=item)|Q(Product__Product_id__contains=item)).filter(id__in = get_filan_vintage_year).annotate(replies=Count('Vintage_Year') - 1)[:5]
         get_data_sri = AwProductPriceSerializers(data, many=True)
         get_data=get_data_sri.data
     return JsonResponse(get_data,safe=False)
@@ -121,7 +131,7 @@ class ShowView(generic.ListView):
                     get_filan_vintage_year.append(items.id)
                     get_years_product.append(
                         str(items.Vintage_Year.Vintages_Year) + "_" + str(items.Product.Product_name))
-        set_filters= 'Vintage_Year'
+        set_filters= 'Product__Product_name'
         if "short-by" in self.request.GET:
             if self.request.GET['short-by'] == "price":
                 set_filters = 'Retail_Cost'
@@ -168,7 +178,7 @@ class ShowView(generic.ListView):
 
         # ======================================vintage FLTER START======================
         if 'vintage' in self.request.GET:
-            filters = filters & Q(Product__Vintage__Slug__in=self.request.GET.getlist('vintage'))
+            filters = filters & Q(Vintage_Year__Slug__in=self.request.GET.getlist('vintage'))
         # ======================================vintage FLTER END======================
 
         # ======================================varietal FLTER START======================
@@ -326,7 +336,7 @@ class ShowView(generic.ListView):
         # ======================================region FLTER END======================
 
         # ======================================region FLTER START======================
-        context['short_by_set']  = []
+        context['short_by_set']  = "name"
         if 'short-by' in self.request.GET:
             context['short_by_set'] = self.request.GET['short-by']
         # ======================================region FLTER END======================

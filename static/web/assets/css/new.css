@@ -2362,7 +2362,7 @@ a.tooltips span.tooltip {
 button.button.btn-cart.change-ib-db {
     display: inline-block;
     height: 36px;
-    width: 50px;
+    width: 100px;
     border-radius: 3px;
 }
 

@@ -322,9 +322,20 @@ else
 }
 
 
+var set_aroma_of_wine_cost = "0";
+if($("."+vintage_year+"_set_aroma_of_wine_cost").last().val() == undefined)
+{
+  set_aroma_of_wine_cost = "0";
+}
+else
+{
+  set_aroma_of_wine_cost=$("."+vintage_year+"_set_aroma_of_wine_cost").last().val();
+}
 
 
-  $(".add_row_"+vintage_year).append('<tr style="cursor: pointer;"><td data-field="name" style="width: 75px;"><input type="hidden" name="'+vintage_year+'_id[]" value=""><input type="text" name="'+vintage_year+'_bottle[]" value="'+bottle_value+'" class="'+vintage_year+'_bottle"></td><td data-field="name" style="width: 116px;"><input type="text" style="width: 100px;" class="'+vintage_year+'_retail_cose" value="'+_retail_cose_set+'" name="'+vintage_year+'_retail_cose[]"></td><td data-field="name" style="width: 126px;"><input type="text" name="'+vintage_year+'_retail_stock[]" value="'+_retail_stock_set+'" class="'+vintage_year+'_retail_stock" style="width: 100px;"></td><td data-field="name" style="width: 147px;"><input type="text" name="'+vintage_year+'_descount_cose[]" class="'+vintage_year+'_descount_cose" value="'+_descount_cose_set+'" style="width: 100px;"> </td><td data-field="name" style="width: 63px;"><input type="text" name="'+vintage_year+'_duty[]"  class="'+vintage_year+'_duty" value="'+_duty_set+'" style="width: 65px;"></td><td data-field="name" style="width: 54px;"><input type="text" name="'+vintage_year+'_GST[]" value="'+set_GST+'" class="'+vintage_year+'_GST" style="width: 65px;"></td><td data-field="name" style="width: 115px;"><input type="text" name="'+vintage_year+'_bond_cose[]" value="'+set_bond_cose+'" class="'+vintage_year+'_bond_cose" style="width: 100px;"></td><td data-field="name" style="width: 125px;"><input type="text" name="'+vintage_year+'_bond_stock[]" class="'+vintage_year+'_bond_stock" value="'+set_bond_stock+'" style="width: 100px;"></td><td><input type="text" name="'+vintage_year+'_bond_descount_cost[]" class="'+vintage_year+'_bond_descount_cost" value="'+set_bond_descount_cost+'" style="width: 100px;"></td><td><a class="delect_ed" title="Delete"><i class="fa fa-trash"></i></a></td></tr>');  
+
+
+  $(".add_row_"+vintage_year).append('<tr style="cursor: pointer;"><td data-field="name" style="width: 75px;"><input type="hidden" name="'+vintage_year+'_id[]" value=""><input type="text" name="'+vintage_year+'_bottle[]" value="'+bottle_value+'" class="'+vintage_year+'_bottle"></td><td data-field="name" style="width: 116px;"><input type="text" style="width: 100px;" class="'+vintage_year+'_retail_cose" value="'+_retail_cose_set+'" name="'+vintage_year+'_retail_cose[]"></td><td data-field="name" style="width: 126px;"><input type="text" name="'+vintage_year+'_retail_stock[]" value="'+_retail_stock_set+'" class="'+vintage_year+'_retail_stock" style="width: 100px;"></td><td data-field="name" style="width: 147px;"><input type="text" name="'+vintage_year+'_descount_cose[]" class="'+vintage_year+'_descount_cose" value="'+_descount_cose_set+'" style="width: 100px;"> </td><td data-field="name" style="width: 63px;"><input type="text" name="'+vintage_year+'_duty[]"  class="'+vintage_year+'_duty" value="'+_duty_set+'" style="width: 65px;"></td><td data-field="name" style="width: 54px;"><input type="text" name="'+vintage_year+'_GST[]" value="'+set_GST+'" class="'+vintage_year+'_GST" style="width: 65px;"></td><td data-field="name" style="width: 115px;"><input type="text" name="'+vintage_year+'_bond_cose[]" value="'+set_bond_cose+'" class="'+vintage_year+'_bond_cose" style="width: 100px;"></td><td data-field="name" style="width: 125px;"><input type="text" name="'+vintage_year+'_bond_stock[]" class="'+vintage_year+'_bond_stock" value="'+set_bond_stock+'" style="width: 100px;"></td><td><input type="text" name="'+vintage_year+'_bond_descount_cost[]" class="'+vintage_year+'_bond_descount_cost" value="'+set_bond_descount_cost+'" style="width: 100px;"></td><td><input type="text" name="'+vintage_year+'_set_aroma_of_wine_cost[]" class="'+vintage_year+'_set_aroma_of_wine_cost" value="'+set_aroma_of_wine_cost+'" style="width: 100px;"></td><td><a class="delect_ed" title="Delete"><i class="fa fa-trash"></i></a></td></tr>');  
   
   // editTable();  
   // setTimeout(function(){   

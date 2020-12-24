@@ -87,7 +87,7 @@
 
 
 <!-- ============================== PRODUCER START==================== -->
-  {% if Page_title == 'producer' %}
+  {% if Page_title == 'wineries' %}
  {% if page_content %}
  {% for items in page_content %}
               
@@ -154,7 +154,7 @@
 
 
 <!-- ============================== region START==================== -->
-  {% if Page_title == 'region' %}
+  {% if Page_title == 'regions' %}
  {% if page_content %}
  {% for items in page_content %}
               
@@ -360,4 +360,82 @@
    {% endif %}
 {% endif %}
 <!-- ============================== wine-testing END ==================== -->
+
+
+<!-- ============================== countries START==================== -->
+  {% if Page_title == 'countries' %}
+
+
+
+ {% if page_content %}
+ {% for items in page_content %}
+              
+        {% if forloop.counter|divisibleby:2 %}
+
+ <section class="content-main bg-color">
+<div class="container">
+
+<div class="row">
+<div class="col-md-6">
+    <!-- <a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}"></a>-->
+ <a href="{% url 'wine_shop:wine_shop' %}?page-type=country&page-name={{items.Slug}}">
+  {% if items.Country_Image %}
+<img src='{{items.Country_Image.url}}' alt="">
+  {% else %}
+<img src='{% static "web/assets/image/shop/bodega-clos-floridene-banner.jpg" %}' alt="">
+  {% endif %}
+
+</a>
+
+</div>
+<div class="col-md-6">
+  <!-- <a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}"></a> -->
+<h3 class="title_h3">
+  {{items.Country_Name}}</h3>
+{{items.Short_Description|slice:"0:800" }}
+<!-- <div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}">View All Wines</a> </div> -->
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+</section>
+        {% else %}
+<section class="content-main">
+<div class="container">
+
+<div class="row m-t-50">
+  <!-- <a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}"></a> -->
+<div class="col-md-6">
+<h3 class="title_h3">{{items.Country_Name}}</a></h3>
+{{items.Short_Description|slice:"0:800" }}
+<!-- <div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}">View All Wines</a> </div> -->
+</div>
+<div class="col-md-6">
+  <!-- <a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{items.Slug}}"></a> -->
+ <a href="{% url 'wine_shop:wine_shop' %}?page-type=country&page-name={{items.Slug}}">
+  {% if items.Testing_Image %}
+<img src='{{items.Country_Image.url}}' alt="">
+  {% else %}
+<img src='{% static "web/assets/image/shop/bodega-clos-floridene-banner.jpg" %}' alt="">
+  {% endif %}
+</a>
+
+</div>
+</div>
+</div>
+</section>
+        {% endif %}     
+
+          {% endfor %}
+   {% endif %}
+{% endif %}
+<!-- ============================== countries END ==================== -->
+
+
 {% endblock %}

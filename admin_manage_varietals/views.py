@@ -20,7 +20,10 @@ class ManageVarietalsView(SuccessMessageMixin,generic.View):
     def get(self, request, *args, **kwargs):
         form = self.form_class
         queryset = AwVarietals.objects.all().order_by("-id")
-        return render(request, self.template_name, {'form_class': form,'Page_title':"Manage varietals","object":queryset})
+        add_status = ""
+        if "add-varital" in self.request.GET:
+            add_status = self.request.GET['add-varital']
+        return render(request, self.template_name, {'form_class': form,'Page_title':"Manage varietals","object":queryset,"add_status":add_status})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -28,7 +31,10 @@ class ManageVarietalsView(SuccessMessageMixin,generic.View):
         if form.is_valid():
             form.save()
             messages.info(request, "Varietals add successfully.")
-            return HttpResponseRedirect(reverse('admin_manage_varietals:varietals'))
+            if request.POST["add_from_product"]:
+                return HttpResponseRedirect(reverse('admin_manage_products:add_product'))
+            else:
+                return HttpResponseRedirect(reverse('admin_manage_varietals:varietals'))
         else:
             return render(request, self.template_name, {'form_class': form,"object":queryset,'Page_title':"Manage varietals"})
 

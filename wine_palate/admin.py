@@ -5,7 +5,7 @@ from import_export.admin import ImportExportModelAdmin
 
 
 class AwWinePalateCategoriesAdmin(ImportExportModelAdmin):
-    list_display = ('Category_name','Category_Color','Category_Type', 'Created_date')
+    list_display = ('Category_name','Category_Id','Category_Color','Category_Type', 'Created_date')
 admin.site.register(AwWinePalateCategories,AwWinePalateCategoriesAdmin)
 
 

@@ -1556,6 +1556,11 @@ $(document).ready(function(){
     {
         $(this).multiselect({
             includeSelectAllOption: true,
+
+          selectAllJustVisible: true,
+    enableFiltering: true,
+    //filterPlaceholder: 'Suchen...',
+    enableCaseInsensitiveFiltering: true,
           });  
     }
 

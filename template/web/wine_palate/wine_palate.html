@@ -159,6 +159,9 @@ body {
     padding: 15px;
     border-radius: 5px;
 }
+.hidden{
+  display: none;
+}
 </style>
       {% endblock %}
 {% block content %}
@@ -228,7 +231,7 @@ body {
       {% if get_all_unselected_value %}
         {% for item in get_all_unselected_value %}
           <div>
-          <h2>{{item}} <span class="close close_closest_div btn"><i class="fa fa-times"></i></span></h2>
+          <h2>{{item}} <span class="hidden close close_closest_cate close_closest_div_{{item.id}} btn"><i class="fa fa-times"></i></span></h2>
 		  
           <ul> 
             <input type="hidden" name="palat_profile_cate_data[]" value="{{item}}">
@@ -536,8 +539,10 @@ textEnter.append("tspan")
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 
+//======================================================
+$(document).on('click','path',function(){
 
-$(document).on('click','textPath',function(){
+var id = $(this).data("ac-wrapper-id");
 
 $(".se-pre-con").css("display","block");
 
@@ -546,6 +551,98 @@ $(".se-pre-con").css("display","block");
 $.ajax({
     method:"POST",
     url:"{% url 'wine_palate:get_wine_palate' %}",
+    data:{"Category_id":id},
+    dataType:"json",
+    success:function(data){
+
+      
+var html_content = '';
+// var get_ids_in_string = $("#content_ids").val();
+var get_ids_in_string = "";
+var new_ids = get_ids_in_string.split(",");;
+      
+    if(data["get_data"][0] != null)
+{
+for(var i=0; i<data["get_data"].length; i++)
+      {
+  
+    if(new_ids.indexOf(data["get_data"][i].id.toString()) == -1)
+    {
+        if(i==0)
+      {
+        html_content = '<div><h2>'+data["get_name"]+' <span class="close close_closest_cate close_closest_div_'+data["get_data"][0].Category.id+'  btn"><i class="fa fa-times"></i></span></h2><ul> <input type="hidden" name="palat_profile_cate_data[]" value="'+data["get_name"]+'">';
+      }
+      
+
+        var check_statud = '';
+        if(data["get_user_palate_type"].indexOf(data["get_data"][i].Type) != -1 && data["get_user_palate_category"].indexOf(data["get_data"][i].Category.Category_name) != -1)
+        {
+          check_statud = 'checked="true"';
+        }
+
+         html_content +='<li><label class="container-checkbox">'+data["get_data"][i].Type+'<input type="checkbox" name="palat_profile_data[]" value="'+data["get_data"][i].Type+'__'+data["get_data"][i].Category.Category_name+'" '+check_statud+' class="cate_id_'+data["get_data"][i].Category.id+'" data-cate_id="'+data["get_data"][i].Category.id+'"><span class="checkmark"></span></label></li>'
+      
+
+         if(i+1==data["get_data"].length)
+         {
+           html_content +='</ul></div';
+         }
+         new_ids.push(data["get_data"][i].id.toString());
+    }
+
+    
+      }
+// $("#content_ids").val(new_ids.toString());
+
+        $("#show_palate_data_set").prepend(html_content);
+        $(".se-pre-con").css("display","none");
+        $("#show_palate_data").css("display","block");
+		$('html, body').animate({
+        scrollTop: $("#show_palate_data_set").offset().top -300 /*class you want to scroll to!!*/
+    }, 1000); /*animation time length*/
+
+}
+else
+{
+  // $(".se-pre-con").css("display","none");
+  //  swal({
+  //           title: "Flavor not available.",
+  //           icon: "warning",
+  //           buttons: true,
+  //           dangerMode: true,
+  //         });
+}
+      
+
+        
+      }
+});
+
+{% else %}
+  $(".se-pre-con").css("display","none");
+// swal({
+//             title: "User Is Not Loged-In",
+//             icon: "warning",
+//             buttons: true,
+//             dangerMode: true,
+//           });
+window.location.href="{% url 'account:account' %}?next={{request.build_absolute_uri}}";
+
+
+{% endif %}
+
+});
+
+// ========================get data by cate name start===========
+$(document).on('click','textPath',function(){
+
+$(".se-pre-con").css("display","block");
+
+{% if user.username %}
+
+$.ajax({
+    method:"POST",
+    url:"{% url 'wine_palate:get_wine_palate_by_name' %}",
     data:{"Category":$(this).text()},
     dataType:"json",
     success:function(data){
@@ -565,7 +662,7 @@ for(var i=0; i<data["get_data"].length; i++)
     {
         if(i==0)
       {
-        html_content = '<div><h2>'+data["get_name"]+' <span class="close close_closest_div btn"><i class="fa fa-times"></i></span></h2><ul> <input type="hidden" name="palat_profile_cate_data[]" value="'+data["get_name"]+'">';
+        html_content = '<div><h2>'+data["get_name"]+' <span class="close close_closest_cate close_closest_div_'+data["get_data"][0].Category.id+'  btn"><i class="fa fa-times"></i></span></h2><ul> <input type="hidden" name="palat_profile_cate_data[]" value="'+data["get_name"]+'">';
       }
       
 
@@ -575,7 +672,7 @@ for(var i=0; i<data["get_data"].length; i++)
           check_statud = 'checked="true"';
         }
 
-         html_content +='<li><label class="container-checkbox">'+data["get_data"][i].Type+'<input type="checkbox" name="palat_profile_data[]" value="'+data["get_data"][i].Type+'__'+data["get_data"][i].Category.Category_name+'" '+check_statud+' ><span class="checkmark"></span></label></li>'
+         html_content +='<li><label class="container-checkbox">'+data["get_data"][i].Type+'<input type="checkbox" name="palat_profile_data[]" value="'+data["get_data"][i].Type+'__'+data["get_data"][i].Category.Category_name+'" '+check_statud+' class="cate_id_'+data["get_data"][i].Category.id+'" data-cate_id="'+data["get_data"][i].Category.id+'"><span class="checkmark"></span></label></li>'
       
 
          if(i+1==data["get_data"].length)
@@ -592,7 +689,7 @@ for(var i=0; i<data["get_data"].length; i++)
         $("#show_palate_data_set").prepend(html_content);
         $(".se-pre-con").css("display","none");
         $("#show_palate_data").css("display","block");
-		$('html, body').animate({
+    $('html, body').animate({
         scrollTop: $("#show_palate_data_set").offset().top -300 /*class you want to scroll to!!*/
     }, 1000); /*animation time length*/
 
@@ -627,12 +724,39 @@ window.location.href="{% url 'account:account' %}?next={{request.build_absolute_
 {% endif %}
 
 });
+// ========================get data by cate name end ===========
 
 
-$(document).on("click",".close_closest_div",function(){
+
+
+$(document).on("click",".close_closest_cate",function(){
   $(this).closest("div").remove();
 });
 
+$(document).on("click",'input',function(){
+  var id = $(this).data("cate_id");
+  var create_class_id = "cate_id_"+id;
+  var set_status = false;
+   $("."+create_class_id).each(function(){
+   // console.log($(this).val());
+     if($(this).prop("checked"))
+     {
+      set_status = true;
+     }
+
+   });
+
+   if(set_status)
+   {
+    $(".close_closest_div_"+id).addClass('hidden');     
+   }
+   else
+   {
+    $(".close_closest_div_"+id).removeClass('hidden');
+   }
+
+
+});
 // $(document).ready(function(){
 //   $("#ac_path_8").click(function(){
 //     $(".chart-data").show();

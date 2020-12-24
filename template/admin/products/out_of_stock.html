@@ -74,6 +74,7 @@
               <th align="left" valign="top">#</th>
                   <th align="left" valign="top">Product</th>
                   <th align="left" valign="top">Product Name</th>
+                  <th align="left" valign="top">LWIN Code</th>
                   <th align="left" valign="top">Year</th>
                   <th align="left" valign="top">Bottel Type</th>
                   <th align="left" valign="top">Quentity In Retail</th>
@@ -90,6 +91,7 @@
         <td >{{ forloop.counter }}</td>
         <th align="left" valign="top"><img style="width:33px; height:49px;" src="{{data.Product|get_product_image_one}}"></th>
         <th align="left" valign="top"><a href="{% url 'admin_manage_products:update_products' data.Product.Product_id %}" target="_blank"><u>{{data.Product.Product_name}}</u></a></th>
+        <th align="left" valign="top">{{data.Product.LWineCode}}</th>
         <th align="left" valign="top">{{data.Vintage_Year}}</th>
         <th align="left" valign="top">{{data.Bottle}}</th>
         <th align="left" valign="top">{{data.Retail_Stock}}</th>

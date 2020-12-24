@@ -153,6 +153,7 @@
 <tr style="cursor: pointer;">
       <td class="text-center"><b>IMAGE</b></td>
       <td class="text-center"><b>PRODUCT</b></td>
+      <td class="text-center"><b>LWINE</b></td>
     <td class="text-center"><b>TYPE & CASE SIZE</b></td>
         <td class="text-center">PRICE</td>
         <td class="text-center"><b>GST</b></td>
@@ -195,7 +196,8 @@
     <tr style="cursor: pointer;">
       <td class="text-center"><a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year %}"><img src='{{item.Product_Cellar|get_product_image_one}}' style="height: 50px;"></a></td>
       <td class="text-center"><a href="{% url 'product_detail:product_detail' item.Product_Cellar.Product_id item.Product_Cellar.Product_slug  item.Year %}">{{item.Product_Cellar.Product_name|slice:"0:20"}}({{item.Year}})</a></td>
-      <td class="text-center">{{item.Type}}/({{item.Case_Formate.Bottle}})</td>
+      <td class="text-center">{{item.Product_Cellar.LWineCode}}-{{item.Year}}</td>
+      <td class="text-center">{{item.Type}}/({{item.Case_Formate.Bottle|add_text_case_of_bottles}})</td>
         <td class="text-center">
         ${{item.Cost_of_product|get_amount_without_persentage:item.Case_Formate.GST|floatformat:2}}
       </td>
@@ -217,7 +219,8 @@
     <tr style="cursor: pointer;">
       <td class="text-center"><a href="{% url 'product_detail:product_detail' item.Product_Delivered.Product_id item.Product_Delivered.Product_slug  item.Year %}"><img src='{{item.Product_Delivered|get_product_image_one}}' style="height: 50px;"></a></td>
       <td class="text-center"><a href="{% url 'product_detail:product_detail' item.Product_Delivered.Product_id item.Product_Delivered.Product_slug  item.Year %}">{{item.Product_Delivered.Product_name|slice:"0:20"}}({{item.Year}})</a></td>
-      <td class="text-center">{{item.Type}}/({{item.Case_Formate.Bottle}})</td>
+      <td class="text-center">{{item.Product_Delivered.LWineCode}}-{{item.Year}}</td>
+      <td class="text-center">{{item.Type}}/({{item.Case_Formate.Bottle|add_text_case_of_bottles}})</td>
         <td class="text-center">
         ${{item.Cost_of_product|get_amount_without_persentage:item.Gst|floatformat:2}}
       </td>
@@ -240,12 +243,12 @@
 
 {% if card_product.0.Order_id.Order_Type != 'Tickets' %}
 <tr>
-       <th  colspan="5"></th>
+       <th  colspan="6"></th>
        <th  colspan="2">Order Subtotal</th>
    <th class="text-center"><span>${{get_order_ins.Order_Product_Amount|floatformat:2}}</span></th>
    </tr>
    <tr>
-       <th  colspan="5"></th>
+       <th  colspan="6"></th>
        <th  colspan="2">GST</th>
    <th class="text-center"><span>${{get_order_ins.Order_Gst_Amount|floatformat:2}}</span></th>
    </tr>
@@ -271,21 +274,21 @@
     <select class="form-control" name="order_type" disabled="true" >
      <option  selected="tyrue">Tickets</option>
                           </select></th>
-<th  colspan="2">Total Paid Amount sddcds</th>
+<th  colspan="2">Grand Total</th>
    <th>$<span id="show_total_ampount_dom">{{get_order_ins.Amount|floatformat:2}}</span></th>
 </tr>
       {% else %}
 
 
       <tr>
-       <th  colspan="5">
+       <th  colspan="6">
     <select class="form-control" name="order_type" disabled="true" >
         <option {% if get_order_ins.Order_Type == "Delivery" %} selected="tyrue" {% endif %} >Delivery</option>
       <option {% if get_order_ins.Order_Type == "Caller" %} selected="tyrue" {% endif %}>Cellar</option>
      <option {% if get_order_ins.Order_Type == "Bond" %} selected="tyrue" {% endif %}>Bond</option>
                           </select></th>
 
-                        <th  colspan="2">Total Paid Amount</th>
+                        <th  colspan="2">Grand Total</th>
    <th class="text-center">$<span id="show_total_ampount_dom">{{get_order_ins.Amount|floatformat:2}}</span></th>
    </tr>
       {% endif %}                    

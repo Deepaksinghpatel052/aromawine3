@@ -18,7 +18,7 @@
     {% for field in form %}
         {% for error in field.errors %}
             <div class="alert alert-danger">
-                <strong>{{field.title}} bgfdbdgb {{ error|escape }}</strong>
+                <strong>{{field.title}}  {{ error|escape }}</strong>
             </div>
         {% endfor %}
     {% endfor %}
@@ -64,7 +64,7 @@
 <div class="row">
   <div class="col-md-12">
       <div class="form-group">
-                   <label class="age">Recipe images</label>
+                   <label class="age">Recipe image (508px*318px)</label>
          <input type="file" name="Event_Image" accept="image/*" {% if object %} {% else %} required="" {% endif %}  id="id_Grape_Image" class="form-control">      
                  
 <input type="hidden" name="revipes_Image" id="Grape_Image" value="">

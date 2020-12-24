@@ -66,8 +66,8 @@
                         </div>
             <div class="col-md-12">
       <div class="form-group">
-                   <label class="age">Producer images</label>
-         <input type="file" name="Producer_Image" accept="image/*" {% if object %} {% else %} required="" {% endif %}  id="id_Country_Image" class="form-control">      
+                   <label class="age">Country Image (400px*200px)</label>
+         <input type="file" name="Producer_Image" accept="image/*"  id="id_Country_Image" class="form-control">      
                  
 <input type="hidden" name="country_image" id="country_image" value="">
         </div>
@@ -119,6 +119,19 @@
 
         </div>
       </div>
+
+      <div class="col-md-12">
+        <div class="form-group">
+                   <label class="age">Short Description</label>
+           <div class="summernote">
+           {{form.Short_Description}}
+           <!-- <textarea id="" class="form-control des summernote_text"></textarea> -->
+           </div>
+                  
+
+        </div>
+      </div>
+
 <div class="row">
   <div class="col-md-2">
     <button type="reset" class="btn-block btn btn-white subbtn" data-dismiss="modal">Cancel</button>

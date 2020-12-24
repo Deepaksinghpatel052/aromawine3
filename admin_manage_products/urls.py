@@ -12,4 +12,12 @@ urlpatterns = [
     path('<pk>/delete-products', views.ProductsDeleteView.as_view(),name="delete_products"),
     path('get-product-vintage', views.get_product_vintage, name='get_product_vintage'),
     path('get-product-classifications', views.get_product_classifications, name='get_product_classifications'),
+    path('add-new-producer', views.add_new_producer, name='add_new_producer'),
+    path('select-appellation', views.select_appellation, name='select_appellation'),
+    path('add-new-region', views.add_new_region, name='add_new_region'),
+    path('check-lwin-code-in-database', views.CheckLwinCodeInDatabase, name='CheckLwinCodeInDatabase'),
+    path('check-varietals-name', views.CkeckVarietalsName, name='CheckVarietalsName'),
+    path('add-varietals-name', views.AddVarietalsName, name='AddVarietalsName'),
+    path('check-appellation-name', views.CheckAppellationName, name='CheckAppellationName'),
+    path('add-appellation-name', views.AddAppellationName, name='AddAppellationName'),
 ]

@@ -11,6 +11,7 @@ from admin_manage_size.models import AwSize
 from admin_manage_classification.models import AwClassification
 from admin_manage_Vintages.models import AwVintages
 from admin_manage_varietals.models import AwVarietals
+from wine_palate.models import AwWinePalateFlavors
 from admin_manage_country.models import AwCountry
 from admin_manage_region.models import AwRegion
 from admin_manage_grape.models import AwGrape
@@ -70,8 +71,9 @@ class AwProductReviews(models.Model):
 class AwProducts(models.Model):
     Product_id = models.CharField(max_length=120,unique=True)
     LWineCode = models.CharField(max_length=120,unique=True,null=True, blank=True)
+    AlcoholPercentage = models.FloatField(default=0,null=True, blank=True)
     Select_Type = models.ForeignKey(AwWineType, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwProducts_Created_by')
-    Product_name  = models.CharField(max_length=120,unique=True)
+    Product_name  = models.CharField(max_length=120)
     Product_slug  = AutoSlugField(populate_from='Product_name', always_update=True,unique_with='Created_date__month',null=True, blank=True)
     Producer = models.ForeignKey(AwProducers, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwProducts_Producer')
     Category = models.ManyToManyField(AwCategory, related_name='AwProducts_Category')
@@ -81,6 +83,7 @@ class AwProducts(models.Model):
     Classification = models.ManyToManyField(AwClassification,  related_name='AwProducts_Classification')
     Vintage = models.ManyToManyField(AwVintages, related_name='AwProducts_Vintage')
     Varietals = models.ManyToManyField(AwVarietals, related_name='AwProducts_Varietals')
+    Flavours = models.ManyToManyField(AwWinePalateFlavors, related_name='AwWinePalateFlavors_Flaver',null=True,blank=True)
     Country = models.ForeignKey(AwCountry, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwProducts_Country')
     Regions = models.ForeignKey(AwRegion, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwProducts_Regions')
     Grape = models.ManyToManyField(AwGrape,  related_name='AwProducts_Grape')
@@ -90,7 +93,6 @@ class AwProducts(models.Model):
     Meta_Keyword = models.CharField(max_length=120,null=True,blank=True)
     Meta_Description = models.TextField(null=True,blank=True)
     Product_image = models.ImageField(upload_to=user_directory_path_for_product,null=True,blank=True)
-
     Created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwProducts_Created_by')
     Created_date = models.DateTimeField(default=django.utils.timezone.now)
     Updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwProducts_Updated_by')
@@ -156,6 +158,7 @@ class AwProductPrice(models.Model):
     Bond_Cost = models.FloatField(default=0)
     Bond_Stock = models.IntegerField(default=0)
     Bond_Descount_Cost = models.FloatField(default=0)
+    Aroma_Cose = models.FloatField(default=0)
     Other_info = models.TextField(null=True,blank=True)
     Created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwProductPrice_Created_by')
     Created_date = models.DateTimeField(default=django.utils.timezone.now)

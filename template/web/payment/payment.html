@@ -1,46 +1,16 @@
-<html>
-    <head>
-        <script src="https://ap-gateway.mastercard.com/checkout/version/57/checkout.js"
-                data-error="errorCallback"
-                data-cancel="cancelCallback">
-        </script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
 
-        <script type="text/javascript">
-            function errorCallback(error) {
-                  console.log(JSON.stringify(error));
-            }
-            function cancelCallback() {
-                  console.log('Payment cancelled');
-            }
 
-            Checkout.configure({
-                merchant: 'TEST97523571',
-                order: {
-                    amount: function() {
-                        //Dynamic calculation of amount
-                        return 80 + 20;
-                    },
-                    currency: 'SGD',
-                    description: 'Ordered goods',
-                    id: '234432424'
-                },
-                interaction: {
-                    operation:'PURCHASE',
-                    merchant: {
-                        name: 'JC WINE & SPIRITS PTE. LTD.',
-                        address: {
-                            line1: '200 Sample St',
-                            line2: '1234 Example Town'
-                        }
-                    }
-                }
-            });
-        </script>
-    </head>
-    <body>
-        ...
-        <input type="button" value="Pay with Lightbox" onclick="Checkout.showLightbox();" />
-        <input type="button" value="Pay with Payment Page" onclick="Checkout.showPaymentPage();" />
-        ...
-    </body>
+
+</body>
 </html>

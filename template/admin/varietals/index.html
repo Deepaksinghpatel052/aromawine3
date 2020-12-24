@@ -148,7 +148,7 @@
       
 {% csrf_token %}
 
-
+<input type="hidden" name="add_from_product" value="{{add_status}}">
     <div class="row">
      <div class="col-md-12">
       <div class="form-group">
@@ -201,6 +201,19 @@
 
    {% block script %}
    
+<script type="text/javascript">
+  $(document).ready(function(){
+     var add_status = "{{add_status}}";
+     if(add_status)
+     {
+       $("#modal-default").modal('show');  
+     }
+    
+   
+  });
+</script>
+
+
 <script type="text/javascript">
   $(document).on("click",".edit_data",function(){
 

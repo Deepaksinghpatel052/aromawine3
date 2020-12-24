@@ -1,0 +1,30 @@
+<label class="age">Varietals* </label>
+<select name="Varietals" required="" id="id_Varietals" multiple="" >
+{% if get_varietals %}
+
+  {% for item in get_varietals %}
+
+     {% if item.Varietals_Name == varietals %}
+          <option value="{{item.id}}" selected="">{{item.Varietals_Name}}</option>
+          {% else %}
+          <option value="{{item.id}}">{{item.Varietals_Name}}</option>
+          {% endif  %} 
+  {%  endfor %}
+{% endif %}
+
+</select>
+
+<script type="text/javascript">
+      
+           $(document).ready(function(){
+            $("select").each(function(){
+             if($(this).prop('multiple'))
+              {
+                 $(this).multiselect({
+                     includeSelectAllOption: true,
+                    });  
+     }
+
+   });
+          });
+</script>

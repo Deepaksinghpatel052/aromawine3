@@ -1,0 +1,16 @@
+<label class="age">Producer Name/Winery* <span id="show_error_message_Producer" style="color:red;"> </span></label>
+<select name="Producer" class="form-control" required="" id="id_Producer">
+
+  <option value="" selected="">Please select producer</option>
+  
+  {% if get_producer %}
+    {% for item in get_producer %}
+     {% if get_selected_producer == item.Winnery_Name %}
+		<option value="{{item.id}}" selected="true">{{item.Winnery_Name}}</option>
+	 {% else %}
+	 	<option value="{{item.id}}">{{item.Winnery_Name}}</option>
+	 {% endif %}
+    {% endfor %}
+  {% endif %}
+</select>
+<span id="show_error_message_Producer_not_avelabel" style="color:red;">Producer {{get_selected_producer}} is not in dropdown. So we have created producer.</span>

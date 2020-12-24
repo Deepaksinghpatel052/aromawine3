@@ -28,8 +28,6 @@
 <div class="breadcrumbs">
 <div class="container">
 
-<a href="{% url 'home:home' %}" title="Go to Home Page"><i class="fa fa-home"></i></a>
-<span>/ </span>
 
 <strong>{{get_product_one_year.Product.Product_name}} ->
  {% if get_product_one_year.Product.Vintage.all %}
@@ -41,7 +39,7 @@
 {% endif %}
 
  ->({{get_product_one_year.Product.Bottel_Size}})  
-
+->{{get_product_one_year.Product.LWineCode}}-{{get_product_one_year}}
 
 
 
@@ -80,7 +78,7 @@
 <div class="col-lg-5 col-sm-12 col-xs-12">
   <div class="simpleLens-gallery-container" id="demo-1">
     <div class="simpleLens-container">
-      <div class="simpleLens-big-image-container"> <a class="simpleLens-lens-image" href="{% if get_product_image.0.Image %} {{get_product_image.0.Image.url}} {% else %} {% static 'web/assets/image/shop/single-1.png' %} {% endif %}" data-lightbox="example-setc" data-title="{{get_product_one_year.Product.Product_name}}"> <img src="{% if get_product_image.0.Image %} {{get_product_image.0.Image.url}} {% else %} {% static 'web/assets/image/shop/single-1.png' %} {% endif %}" style="height: 350px;" class="simpleLens-big-image"> </a> 
+      <div class="simpleLens-big-image-container"> <a class="simpleLens-lens-image" href="{% if get_product_one_year.Product.Product_image %} {{get_product_one_year.Product.Product_image.url}} {% else %} {% static 'web/assets/image/shop/single-1.png' %} {% endif %}" data-lightbox="example-setc" data-title="{{get_product_one_year.Product.Product_name}}"> <img src="{% if get_product_one_year.Product.Product_image %} {{get_product_one_year.Product.Product_image.url}} {% else %} {% static 'web/assets/image/shop/single-1.png' %} {% endif %}" style="height: 350px;" class="simpleLens-big-image"> </a> 
         <span class="heartbox">
 {% if user.username == '' %}
 <i class="fa fa-heart-o"></i>
@@ -159,7 +157,13 @@ We will only be able to deliver this product to a bonded account. But you can re
 <select class="quantity_select select_case_formate" data-type="Bond" style="width:100%;" id="case_formate_Bond_{{get_product_one_year.Product.Product_id}}">
 			
 			{% for items in get_produuct_years_one_data  %}
-			<option value="{{items.id}}">{{items.Bottle}}</option>
+			<option value="{{items.id}}">
+      {% if items.Bottle == "1" %} 
+      {{items.Bottle}}  
+      {% else %}
+      A case of {{items.Bottle}} Bottles
+      {% endif %} 
+      </option>
 			{% endfor %}
 			</select>
 			{% endif %}
@@ -179,11 +183,11 @@ We will only be able to deliver this product to a bonded account. But you can re
 
 {% if get_product_one_year.Bond_Cost > 0 %}
 <button type="button" id="Bond_buy" data-order_type="c" data-order_id="" data-event_id="" title="Add To Order" data-product_id="{{get_product_one_year.Product.Product_id}}" data-cost_type="Bond"  class="button btn-cart change-ib-db add_to_card">
-Buy
+Add to Cart
 </button>
 {% else %}
 <button type="button" id="Bond_buy" disabled="true" data-cost_type="Bond" data-order_type="c" data-order_id="" data-event_id=""  data-product_id="{{get_product_one_year.Product.Product_id}}" title="Add To Order" class="add_to_card button btn-cart change-ib-db">
-Buy
+Add to Cart
 </button>
 {% endif %}
 </div>
@@ -203,11 +207,11 @@ Buy
 
 {% if get_product_one_year.Bond_Cost > 0 %}
 <button  type="button" id="Bond_buy" data-order_type="c" data-order_id="" data-event_id="" title="Add To Order" data-product_id="{{get_product_one_year.Product.Product_id}}" data-cost_type="Bond"  class="button btn-cart change-ib-db add_to_card">
-Buy
+Add to Cart
 </button>
 {% else %}
 <button  type="button" id="Bond_buy" disabled="true" data-cost_type="Bond" data-order_type="c" data-order_id="" data-event_id=""  data-product_id="{{get_product_one_year.Product.Product_id}}" title="Add To Order" class="add_to_card button btn-cart change-ib-db">
-Buy
+Add to Cart
 </button>
 {% endif %}
 </div>
@@ -255,7 +259,9 @@ Delivery to United Kingdom Storage: 25 Mar 2020</p> -->
 <select class="quantity_select select_case_formate" data-type="Retail" style="width:100%;" id="case_formate_Retail_{{get_product_one_year.Product.Product_id}}">
 			
 			{% for items in get_produuct_years_one_data  %}
-			<option value="{{items.id}}">{{items.Bottle}}</option>
+			<option value="{{items.id}}">
+				{{items.Bottle|add_text_case_of_bottles}}
+      </option>
 			{% endfor %}
 			</select>
 			{% endif %}
@@ -276,9 +282,9 @@ Delivery to United Kingdom Storage: 25 Mar 2020</p> -->
 
 
 {% if get_product_one_year.Retail_Cost > 0 %}
-<button type="button" id="Retail_buy" title="Add To Order" data-product_id="{{get_product_one_year.Product.Product_id}}" data-cost_type="Retail" class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">Buy</button>
+<button type="button" id="Retail_buy" title="Add To Order" data-product_id="{{get_product_one_year.Product.Product_id}}" data-cost_type="Retail" class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">Add to Cart</button>
 {% else %}
-<button type="button" id="Retail_buy"  disabled="true" data-product_id="{{get_product_one_year.Product.Product_id}}"data-cost_type="Retail" title="Add To Order" class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">Buy</button>
+<button type="button" id="Retail_buy"  disabled="true" data-product_id="{{get_product_one_year.Product.Product_id}}"data-cost_type="Retail" title="Add To Order" class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">Add to Cart</button>
 {% endif %}
 
 </div>
@@ -298,9 +304,9 @@ Delivery to United Kingdom Storage: 25 Mar 2020</p> -->
 
 
 {% if get_product_one_year.Retail_Cost > 0 %}
-<button  type="button" id="Retail_buy" title="Add To Order" data-product_id="{{get_product_one_year.Product.Product_id}}" data-cost_type="Retail" class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">Buy</button>
+<button  type="button" id="Retail_buy" title="Add To Order" data-product_id="{{get_product_one_year.Product.Product_id}}" data-cost_type="Retail" class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">Add to Cart</button>
 {% else %}
-<button  type="button" id="Retail_buy"  disabled="true" data-product_id="{{get_product_one_year.Product.Product_id}}"data-cost_type="Retail" title="Add To Order" class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">Buy</button>
+<button  type="button" id="Retail_buy"  disabled="true" data-product_id="{{get_product_one_year.Product.Product_id}}"data-cost_type="Retail" title="Add To Order" class="button btn-cart change-ib-db add_to_card" data-order_type="c" data-order_id="" data-event_id="">Add to Cart</button>
 {% endif %}
 </div>
 
@@ -409,7 +415,7 @@ Delivery to United Kingdom Storage: 25 Mar 2020</p> -->
 		<li class="tab-link current" data-tab="tab-1">Details</li>
 		<!--<li class="tab-link" data-tab="tab-2">Review (2)</li>-->
 		<li class="tab-link" data-tab="tab-2">Winery</li>
-		<li class="tab-link" data-tab="tab-3">Producer Notes</li>
+		<li class="tab-link" data-tab="tab-3">Aroma Wine Notes</li>
 		<!--<li class="tab-link" data-tab="tab-5">Valuation Tools</li>-->
 	</ul>
 
@@ -421,8 +427,9 @@ Delivery to United Kingdom Storage: 25 Mar 2020</p> -->
 </li>
 <li>
 <span>Colour</span>
-<span>{{get_product_one_year.Product.Color.all|join:" | "}}</span>
+<span>{{get_product_one_year.Product.Color}}</span>
 </li>
+
 <li>
 <span>Country</span>
 <span>{{get_product_one_year.Product.Country}}</span>
@@ -431,29 +438,56 @@ Delivery to United Kingdom Storage: 25 Mar 2020</p> -->
 <span>Region</span>
 <span>{{get_product_one_year.Product.Regions}}</span>
 </li>
-<!-- <li>
-<span>Designation</span>
-<span>{{get_product_one_year.Product.Description | safe}}</span>
-</li> -->
+
+<li>
+<span>Wine Type</span>
+<span>{{get_product_one_year.Product.Select_Type}}</span>
+</li>
+<li>
+<span>Category</span>
+<span>{{get_product_one_year.Product.Category.all|join:" | "}}</span>
+</li>
 <li>
 <span>Classification</span>
 <span>{{get_product_one_year.Product.Classification.all|join:" | "}}</span>
 </li>
 <li>
-<span>Pack Size</span>
-<span>{{get_product_one_year.Product.Bottel_Size.all|join:" | "}}</span>
+<span>Appellation</span>
+<span>{{get_product_one_year.Product.Appellation.all|join:" | "}}</span>
 </li>
 <li>
-<span>Drinking Window</span>
-<span>2024 - 2050</span>
+<span>Flavours</span>
+<span>{{get_product_one_year.Product.Flavours.all|join:" | "}}</span>
 </li>
+
 <li>
-<span>Drinking Recommendation</span>
-<span>Not Ready</span>
+<span>Varietals</span>
+<span>{{get_product_one_year.Product.Varietals.all|join:" | "}}</span>
 </li>
+
+<li>
+<span>Grapes</span>
+<span>{{get_product_one_year.Product.Grape.all|join:" | "}}</span>
+</li>
+
+<li>
+<span>Country</span>
+<span>{{get_product_one_year.Product.Country}}</span>
+</li>
+
+<li>
+<span>Bottle Size</span>
+<span>{{get_product_one_year.Product.Bottel_Size}}</span>
+</li>
+{% if get_product_one_year.Product.AlcoholPercentage > 0 %}
+<li>
+<span>Alcohol Percentage</span>
+<span>{{get_product_one_year.Product.AlcoholPercentage}}%</span>
+</li>
+{% endif %}
 <li>
 <span>LWIN</span>
-<span>{{get_product_one_year.Product.Product_id}}</span>
+<span>{{get_product_one_year.Product.LWineCode}}</span>
 </li>
 </ul>
 	</div>
@@ -658,7 +692,7 @@ See more wines from Alvear </a>
         </a>
       	 </div>
       	 <div class="col-md-6">
-        <h3 class="title_h3">{{ get_product_one_year.Product.Regions}}</h3>
+        <h3 class="title_h3"><a href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{get_product_one_year.Product.Regions.Slug}}">{{ get_product_one_year.Product.Regions}}</a></h3>
         {{get_product_one_year.Product.Regions.Description | safe }}
         <div class="view_producer_btn"> <a class="product-story_info-btn" href="{% url 'wine_shop:wine_shop' %}?page-type=region&page-name={{get_product_one_year.Product.Regions.Slug}}">View Region</a> </div>
       </div>

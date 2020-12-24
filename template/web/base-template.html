@@ -34,7 +34,8 @@ li.list-group-item:last-child {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 15px !important;
+    padding: 5px 0px !important;
+    padding-right: 15px !important;
 }
    </style>
 
@@ -1491,7 +1492,7 @@ $('#facetfilterNavigation .dropdown').hover(function() {
   $(document).ready(function(){
 
 $("input[name='quick_search']").keyup(function() {
-     
+    
      var search_filed=$(this).val();
      if(search_filed)
      {
@@ -1529,6 +1530,7 @@ $.ajax({
           {
             res_data +='<li class="list-group-item"><span>'+(data.length - 1)+' Results</span> <span><a href="/shop/?keyword='+search_filed+'">View More</span></a></li>';
           }
+       
         $("#result").html(res_data);
         
         }
@@ -1540,6 +1542,22 @@ $.ajax({
      }
      
 });
+
+
+
+$(document).on('click',".remove_search",function(){
+   $(this).parent('ul').text('');
+   console.gol($(this).parent('ul'));
+});
+
+ $(".search-box").on("click", function (event) {
+        event.stopPropagation();
+		 $("#result").show();
+    });
+	$(document).on("click", function () {
+    $("#result").hide();
+});
+
 
 //   $("input[name='quick_search']").marcoPolo({
 // url:"/shop/filters",
@@ -1554,6 +1572,7 @@ $.ajax({
 // });
 
 });
+
 </script>
 
 <script type="text/javascript">

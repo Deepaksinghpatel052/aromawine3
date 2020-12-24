@@ -13,6 +13,7 @@ def user_directory_path_for_product(instance, filename):
 
 class AwWinePalateCategories(models.Model):
     Category_name = models.CharField(max_length=120,unique=True,null=True, blank=True)
+    Category_Id = models.IntegerField(max_length=120,unique=True,null=True, blank=True)
     Category_Color = models.CharField(max_length=120,null=True, blank=True)
     Category_Type = models.CharField(max_length=120,null=True, blank=True)
     Category_image = models.ImageField(upload_to=user_directory_path_for_product, null=True, blank=True)

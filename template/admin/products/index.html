@@ -75,7 +75,8 @@
                 
                   <th align="left" valign="top">Images</th>
                   <th align="left" valign="top">Product Name</th>
-                  <th align="left" valign="top">Product ID</th>
+                  <!-- <th align="left" valign="top">Product ID</th> -->
+                  <th align="left" valign="top">LWINE Code</th>
                   
                   <th align="left" valign="top">Producer</th>
           <th align="left" valign="top">Cost & Stock</th>
@@ -99,10 +100,17 @@
         <td align="left" valign="top">{{ forloop.counter }}</td>
                  
           <td align="center" valign="top">
-            {{item|get_product_image}}
+            {% if item.Product_image %}
+            <img style="width:33px; height:49px;" src="{{item.Product_image.url}}">
+            {% else %}
+              {{item|get_product_image}}
+            {% endif %}
+            
+            
           </td>
                   <td align="left" valign="top">{{item.Product_name}}</td>
-                  <td align="left" valign="top">{{item.Product_id}}</td>
+                  <!-- <td align="left" valign="top">{{item.Product_id}}</td> -->
+                  <td align="left" valign="top">{{item.LWineCode}}</td>
                  
                   <td align="left" valign="top">{{item.Producer}}</td>
           <td align="left" valign="top">
