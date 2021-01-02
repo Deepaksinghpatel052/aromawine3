@@ -1,16 +1,103 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<html>
+    <head>
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
-<body>
+        <script src="https://ap-gateway.mastercard.com/checkout/version/57/checkout.js"
+                data-error="errorCallback"
+                data-cancel="cancelCallback">
+        </script>
+
+        <script type="text/javascript">
+            function errorCallback(error) {
+                  console.log(JSON.stringify(error));
+            }
+            function cancelCallback() {
+                  console.log('Payment cancelled');
+            }
+
+            Checkout.configure({
+              session: { 
+                id: function() {
+                       
+                        return $("#session_id").val();
+                    }
+                },
+                order: {
+                    amount: function() {
+
+                        // return parseInt($("#amount").val());
+                        return 200;
+                    },
+                    currency: 'SGD',
+                    description: 'Ordered goods',
+                    id: function() {
+                       
+                        return $("#order_id").val();
+                    }
+                },
+              interaction: {
+                    merchant: {
+                        name: 'JC WINE & SPIRITS PTE. LTD',
+                        address: {
+                            line1: '200 Sample St',
+                            line2: '1234 Example Town'            
+                        }    
+                    }
+               }
+            });
+        </script>
+    </head>
+    <body>
+        ...
+        <input type="hidden" name="" id="session_id" value="">
+        <input type="test" name="" id="order_id" value="345252345">
+        <!-- <input type="hiden" name="" id="amount" value="100"> -->
+        <input type="button" value="Pay with Lightbox" id="buttons_status_set" onclick="Checkout.showLightbox();"  disabled="true" />
+        <!-- <input type="button" value="Pay with Payment Page" class="buttons_status_set" onclick="Checkout.showPaymentPage();" disabled="true" /> -->
+        ...
+    </body>
 
 
+    <script type="text/javascript">
 
-</body>
+$(document).ready(function(){
+
+// alert("test");
+
+  var settings = {
+  "url": "https://cors-anywhere.herokuapp.com/https://ap-gateway.mastercard.com/api/nvp/version/57",
+  "method": "POST",
+  "timeout": 0,
+  "headers": {
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Access-Control-Allow-Credentials": true,
+    "Access-Control-Allow-Origin":"*",
+    "Access-Control-Allow-Methods": "*",
+    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  },
+  "data": {
+    "apiOperation": "CREATE_CHECKOUT_SESSION",
+    "apiPassword": "eed86a9e3fe46e94516ffc46c3a2bf1b",
+    "apiUsername": "merchant.TEST97523571",
+    "merchant": "TEST97523571",
+    "interaction.operation": "PURCHASE",
+    "order.id": "2556",
+    "order.amount": "100.00",
+    "order.currency": "SGD"
+  }
+};
+
+$.ajax(settings).done(function (response) {
+	var response_in_array = response.split("&");
+  console.log(response_in_array);
+  var session_id_in_array =response_in_array[2].split("="); 
+  console.log(session_id_in_array[1]);
+  $("#session_id").val(session_id_in_array[1]);
+  document.getElementById("buttons_status_set").disabled = false;
+});
+
+});
+      
+    </script>
 </html>

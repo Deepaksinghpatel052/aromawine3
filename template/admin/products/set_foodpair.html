@@ -1,0 +1,30 @@
+<label class="age">Food pair </label>
+<select name="FoodPair" required="" id="id_FoodPair" multiple="" >
+{% if foodpair_data %}
+
+  {% for item in foodpair_data %}
+
+     {% if item.Food_Pair_Name == Food_Pair_Name %}
+          <option value="{{item.id}}" selected="">{{item.Food_Pair_Name}}</option>
+          {% else %}
+          <option value="{{item.id}}">{{item.Food_Pair_Name}}</option>
+          {% endif  %} 
+  {%  endfor %}
+{% endif %}
+
+</select>
+
+<script type="text/javascript">
+      
+           $(document).ready(function(){
+            $("select").each(function(){
+             if($(this).prop('multiple'))
+              {
+                 $(this).multiselect({
+                     includeSelectAllOption: true,
+                    });  
+     }
+
+   });
+          });
+</script>

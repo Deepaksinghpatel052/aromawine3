@@ -68,7 +68,8 @@ class PageContentView(generic.TemplateView):
 			page_title_show = page_info.Title
 			page_banner_image = page_info.Background_Image.url
 			page_info_data_set = page_info.description
-
+		if page_title_show == 'Grapes':
+			page_title_show = 'Grapes/Blend'
 		context['page_content'] = page_content
 		context['Page_title'] = page_title
 		context['page_title_show'] = page_title_show

@@ -12,7 +12,9 @@ from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date
 import json
+from admin_manage_size.models import AwSize
 from admin_manage_classification.models import AwClassification
+from admin_manage_classification.forms import AwClassificationForm
 from admin_manage_producer.models import AwProducers
 from admin_manage_region.models import AwRegion
 from admin_manage_appellation.models import AwAppellation
@@ -25,8 +27,103 @@ from django.db.models import Q
 from admin_manage_varietals.forms import AwVarietalsForm
 from admin_manage_appellation.form import AwAppellationForm
 from admin_manage_varietals.models import AwVarietals
-
+from admin_manage_flavours.forms import AwFlavorsForm
+from wine_palate.models import AwWinePalateFlavors,AwWinePalateCategories
+from admin_manage_food_pair.forms import AwFoodpairForm
 import requests
+from admin_manage_food_pair.models import AwFoodpair
+
+import random
+import string
+from django.utils.text import slugify
+
+
+def random_string_generator(size=3, chars=string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
+
+
+def CreateCopyOfProduct(request,id):
+    old_product_ins =  get_object_or_404(AwProducts,id=id)
+    var_rendom_data = random_string_generator()
+    set_alwine_code = old_product_ins.LWineCode+'-'+var_rendom_data
+    new_product_ins = AwProducts.objects.create(LWineCode=set_alwine_code,
+                          AlcoholPercentage=old_product_ins.AlcoholPercentage,
+                          Select_Type=old_product_ins.Select_Type,
+                          Product_name=old_product_ins.Product_name,
+                          Product_slug=old_product_ins.Product_slug,
+                          Producer=old_product_ins.Producer,
+                          Color=old_product_ins.Color,
+                          Bottel_Size=old_product_ins.Bottel_Size,
+                          Country=old_product_ins.Country,
+                          Regions=old_product_ins.Regions,
+                          Status=False,
+                          Description=old_product_ins.Description,
+                          Meta_Title=old_product_ins.Meta_Title,
+                          Meta_Keyword=old_product_ins.Meta_Keyword,
+                          Meta_Description=old_product_ins.Meta_Description,
+                          Product_image=old_product_ins.Product_image,
+                          Created_by=request.user,
+                          Updated_by=request.user,
+                          is_copy=True,
+                          parent_product_code=old_product_ins.Product_id
+                          )
+    # product_ins.save()
+    new_product_ins.Category.set(old_product_ins.Category.all())
+    new_product_ins.Appellation.set(old_product_ins.Appellation.all())
+    new_product_ins.Classification.set(old_product_ins.Classification.all())
+    new_product_ins.Vintage.set(old_product_ins.Vintage.all())
+    new_product_ins.Varietals.set(old_product_ins.Varietals.all())
+    new_product_ins.Flavours.set(old_product_ins.Flavours.all())
+    new_product_ins.FoodPair.set(old_product_ins.FoodPair.all())
+    new_product_ins.Grape.set(old_product_ins.Grape.all())
+
+    if AwProductImage.objects.filter(Product=old_product_ins).exists():
+        get_old_image = AwProductImage.objects.filter(Product=old_product_ins)
+        for item in get_old_image:
+            insert_image = AwProductImage(Product=new_product_ins, Image=item.Image,Image_Type=item.Image_Type,Created_by=request.user,Updated_by=request.user)
+            insert_image.save()
+    if AwProductPrice.objects.filter(Product=old_product_ins).exists():
+        get_old_price = AwProductPrice.objects.filter(Product=old_product_ins)
+        for item in get_old_price:
+            insert_price = AwProductPrice(Product=new_product_ins,
+                                          Vintage_Year=item.Vintage_Year, Bottle=item.Bottle,
+                                          Retail_Cost=item.Retail_Cost, Retail_Stock=item.Retail_Stock,
+                                          Descount_Cost=item.Descount_Cost, Duty=item.Duty,
+                                          GST=item.GST, Bond_Cost=item.Bond_Cost,
+                                          Bond_Stock=item.Bond_Stock, Bond_Descount_Cost=item.Bond_Descount_Cost,
+                                          Aroma_Cose=item.Aroma_Cose,
+                                          Created_by=request.user, Updated_by=request.user
+                                          )
+            insert_price.save()
+    messages.info(request, "Copy created successfully.")
+    return HttpResponseRedirect(reverse('admin_manage_products:products'))
+
+
+@csrf_exempt
+def CheckProductInfoByAjax(request):
+    form_data = request.POST
+    lwine_code = request.POST['LWineCode']
+    if AwProducts.objects.filter(LWineCode=lwine_code).exists():
+        return HttpResponse("0")
+    else:
+        return HttpResponse("1")
+
+
+@csrf_exempt
+def AddProductInfoByAjax(request):
+    form_data = request.POST
+    lwine_code = request.POST['LWineCode']
+    ls_blog_form = AwProductsForm(form_data)
+    if ls_blog_form.is_valid():
+        data = ls_blog_form.save(commit=False)
+        if request.POST["product_status"] == "Activate":
+            data.Status = True
+        else:
+            data.Status = False
+        data.save()
+    ls_blog_form.save_m2m()
+    get_data = get_object_or_404(AwProducts,LWineCode=lwine_code)
+    return HttpResponse(get_data.id)
 
 
 @csrf_exempt
@@ -39,7 +136,7 @@ def AddAppellationName(request):
         data.save()
     ls_blog_form.save_m2m()
     if AwAppellation.objects.filter(Status=True).exists():
-        get_Appellation = AwAppellation.objects.filter(Status=True)
+        get_Appellation = AwAppellation.objects.filter(Status=True).order_by('Appellation_Name')
     return render(request, "admin/products/set_appellation.html",{"get_Appellation": get_Appellation,'Appellation':Appellation})
 
 
@@ -53,6 +150,88 @@ def CheckAppellationName(request):
         return HttpResponse("0")
     else:
         return HttpResponse("1")
+
+
+
+
+@csrf_exempt
+def CheckFlavoursName(request):
+    form_data = request.POST
+    Category = request.POST['Category']
+    Type = request.POST['Type']
+    if AwWinePalateFlavors.objects.filter(Category__id=Category).filter(Type=Type).exists():
+        return HttpResponse("0")
+    else:
+        return HttpResponse("1")
+
+
+@csrf_exempt
+def AddFlavoursName(request):
+    form_data = request.POST
+    Type = request.POST['Type']
+    get_Flavors = None
+    ls_blog_form = AwFlavorsForm(form_data)
+    if ls_blog_form.is_valid():
+        data = ls_blog_form.save(commit=False)
+        data.save()
+    if AwWinePalateFlavors.objects.all().exists():
+        get_Flavors = AwWinePalateFlavors.objects.all().order_by('Type')
+    return render(request, "admin/products/set_flavors.html",{"get_Flavors": get_Flavors,'Type':Type})
+
+# =======================================
+@csrf_exempt
+def CheckClassificationName(request):
+    form_data = request.POST
+    Classification_Name = request.POST['Classification_Name']
+    if AwClassification.objects.filter(Classification_Name=Classification_Name).exists():
+        return HttpResponse("0")
+    else:
+        return HttpResponse("1")
+
+
+@csrf_exempt
+def AddClassificationName(request):
+    form_data = request.POST
+    Classification_Name = request.POST['Classification_Name']
+    get_classification = None
+    ls_blog_form = AwClassificationForm(form_data)
+    if ls_blog_form.is_valid():
+        data = ls_blog_form.save(commit=False)
+        data.save()
+    if AwClassification.objects.filter(Status=True).exists():
+        get_classification = AwClassification.objects.filter(Status=True).order_by('Classification_Name')
+    return render(request, "admin/products/set_classification.html",{"get_classification": get_classification,'Classification_Name':Classification_Name})
+# =======================================
+
+
+
+
+# =======================================
+@csrf_exempt
+def CheckfoodpairName(request):
+    form_data = request.POST
+    Food_Pair_Name = request.POST['Food_Pair_Name']
+    if AwFoodpair.objects.filter(Food_Pair_Name=Food_Pair_Name).exists():
+        return HttpResponse("0")
+    else:
+        return HttpResponse("1")
+
+
+@csrf_exempt
+def AddFoodpairName(request):
+    form_data = request.POST
+    Food_Pair_Name = request.POST['Food_Pair_Name']
+    foodpair_data = None
+    ls_blog_form = AwFoodpairForm(form_data)
+    if ls_blog_form.is_valid():
+        data = ls_blog_form.save(commit=False)
+        data.save()
+    if AwFoodpair.objects.filter(Status=True).exists():
+        foodpair_data = AwFoodpair.objects.filter(Status=True).order_by('Food_Pair_Name')
+    return render(request, "admin/products/set_foodpair.html",{"foodpair_data": foodpair_data,'Food_Pair_Name':Food_Pair_Name})
+# =======================================
+
+
 
 
 @csrf_exempt
@@ -74,7 +253,7 @@ def AddVarietalsName(request):
     add_data = AwVarietals(Varietals_Name=varietals)
     add_data.save()
     if AwVarietals.objects.filter(Status=True):
-        get_varietals = AwVarietals.objects.filter(Status=True)
+        get_varietals = AwVarietals.objects.filter(Status=True).order_by('Varietals_Name')
     return render(request, "admin/products/set_varietals.html",{"get_varietals": get_varietals,'varietals':varietals})
 
 @csrf_exempt
@@ -93,7 +272,7 @@ def CheckLwinCodeInDatabase(request):
 def select_appellation(request):
     get_appellation = None
     if AwAppellation.objects.filter(Status=True):
-        get_appellation = AwAppellation.objects.filter(Status=True)
+        get_appellation = AwAppellation.objects.filter(Status=True).order_by('Appellation_Name')
     return render(request, "admin/products/appellation.html",{"get_appellation": get_appellation})
 
 
@@ -104,7 +283,7 @@ def add_new_region(request):
     add_data = AwRegion(Region_Name=get_selected_region, Short_Description=get_selected_region,Description=get_selected_region)
     add_data.save()
     if AwRegion.objects.filter(Status=True):
-        get_region = AwRegion.objects.filter(Status=True)
+        get_region = AwRegion.objects.filter(Status=True).order_by('Region_Name')
     return render(request, "admin/products/region.html",{"get_region": get_region, 'get_selected_region': get_selected_region})
 
 @csrf_exempt
@@ -114,7 +293,7 @@ def add_new_producer(request):
     add_data = AwProducers(Winnery_Name=get_selected_producer,Short_Description=get_selected_producer,Description=get_selected_producer)
     add_data.save()
     if AwProducers.objects.filter(Status=True):
-        get_producer = AwProducers.objects.filter(Status=True)
+        get_producer = AwProducers.objects.filter(Status=True).order_by('Winnery_Name')
     return render(request, "admin/products/producer.html",
                   {"get_producer": get_producer, 'get_selected_producer': get_selected_producer})
 
@@ -123,7 +302,7 @@ def get_product_vintage(request):
     get_vintage = None
     get_selected_years = request.POST.getlist('selected_year[]')
     if AwVintages.objects.all():
-        get_vintage = AwVintages.objects.all()
+        get_vintage = AwVintages.objects.all().order_by('Vintages_Year')
     return render(request,"admin/products/vintage_year.html",{"get_vintage":get_vintage,'get_selected_years':get_selected_years})
 
 
@@ -300,7 +479,7 @@ class ManageProductsView(SuccessMessageMixin,generic.ListView):
         print(context)
         return context
 
-@method_decorator(login_required , name="dispatch")
+# @method_decorator(login_required , name="dispatch")
 class CreateProductView(SuccessMessageMixin,generic.View):
     template_name = 'admin/products/create.html'
     form_class = AwProductsForm
@@ -308,11 +487,18 @@ class CreateProductView(SuccessMessageMixin,generic.View):
         form = self.form_class
         VarietalsForm = AwVarietalsForm
         AppellationForm = AwAppellationForm
-        return render(request, self.template_name,{'Page_title': "Add Product", 'form':form,'VarietalsForm':VarietalsForm,"AppellationForm":AppellationForm})
+        FlavorsForm = AwFlavorsForm
+        FoodpairForm = AwFoodpairForm
+        ClassificationForm = AwClassificationForm
+        return render(request, self.template_name,{'Page_title': "Add Product",'FoodpairForm':FoodpairForm, 'ClassificationForm':ClassificationForm, 'form':form,'VarietalsForm':VarietalsForm,"AppellationForm":AppellationForm,"FlavorsForm":FlavorsForm})
 
     def post(self, request, *args, **kwargs):
-        form = AwProductsForm(request.POST)
-        if form.is_valid():
+        # form = AwProductsForm(request.POST)
+        # if form.is_valid():
+        if request.POST["set_new_insert_product_id"]:
+            product_ins = get_object_or_404(AwProducts,id=request.POST["set_new_insert_product_id"])
+        else:
+            form = AwProductsForm(request.POST)
             product_ins = form.save(commit=False)
             if request.POST["product_status"] == "Activate":
                 product_ins.Status = True
@@ -321,94 +507,110 @@ class CreateProductView(SuccessMessageMixin,generic.View):
             product_ins.save()
             form.save_m2m()
 
-            # ========================== add images CODE START================================
-            if "product_images[]" in request.POST:
-                if request.POST["product_images[]"]:
-                    i=0
-                    for items in request.POST.getlist('product_images[]'):
-                        format, imgstr = items.split(';base64,')
-                        ext = format.split('/')[-1]
-                        dateTimeObj = datetime.now()
-                        today_date = date.today()
-                        set_file_name = str(today_date.day) + "_" + str(today_date.month) + "_" + str(today_date.year) + "_" + str(dateTimeObj.microsecond)
-                        file_name = set_file_name + "." + ext
-                        data = ContentFile(base64.b64decode(imgstr), name=file_name)
-                        # if i == 0:
-                        #     product_ins.Product_image.delete(save=False)
-                        #     product_ins.Product_image = data
-                        #     product_ins.save()
-                        # else:
-                        add_image = AwProductImage(Product=product_ins, Image_Type="Product_image", Image=data)
-                        add_image.save()
-                        i = i + 1
+        # ========================== add images CODE START================================
+        if "product_images[]" in request.POST:
+            if request.POST["product_images[]"]:
+                i=0
+                for items in request.POST.getlist('product_images[]'):
+                    format, imgstr = items.split(';base64,')
+                    ext = format.split('/')[-1]
+                    dateTimeObj = datetime.now()
+                    today_date = date.today()
+                    set_file_name = str(today_date.day) + "_" + str(today_date.month) + "_" + str(today_date.year) + "_" + str(dateTimeObj.microsecond)
+                    file_name = set_file_name + "." + ext
+                    data = ContentFile(base64.b64decode(imgstr), name=file_name)
+                    # if i == 0:
+                    #     product_ins.Product_image.delete(save=False)
+                    #     product_ins.Product_image = data
+                    #     product_ins.save()
+                    # else:
+                    add_image = AwProductImage(Product=product_ins, Image_Type="Product_image", Image=data)
+                    add_image.save()
+                    i = i + 1
 
-            if request.POST["product_banner_image"]:
-                format_banner, imgstr_banner = request.POST["product_banner_image"].split(';base64,')
-                ext_banner = format_banner.split('/')[-1]
-                dateTimeObj_banner = datetime.now()
-                today_date = date.today()
-                set_file_name_banner = str(today_date.day) + "_" + str(today_date.month) + "_" + str(today_date.year) + "_" + str(dateTimeObj_banner.microsecond)
-                file_name_banner = set_file_name_banner + "." + ext_banner
-                data_banner = ContentFile(base64.b64decode(imgstr_banner), name=file_name_banner)
-                add_image = AwProductImage(Product=product_ins, Image_Type="Product_Banner_image", Image=data_banner)
-                add_image.save()
+        if request.POST["product_banner_image"]:
+            format_banner, imgstr_banner = request.POST["product_banner_image"].split(';base64,')
+            ext_banner = format_banner.split('/')[-1]
+            dateTimeObj_banner = datetime.now()
+            today_date = date.today()
+            set_file_name_banner = str(today_date.day) + "_" + str(today_date.month) + "_" + str(today_date.year) + "_" + str(dateTimeObj_banner.microsecond)
+            file_name_banner = set_file_name_banner + "." + ext_banner
+            data_banner = ContentFile(base64.b64decode(imgstr_banner), name=file_name_banner)
+            add_image = AwProductImage(Product=product_ins, Image_Type="Product_Banner_image", Image=data_banner)
+            add_image.save()
 
 
-            if request.POST["product_thumbnail_image"]:
-                format_thumbnail, imgstr_thumbnail = request.POST["product_thumbnail_image"].split(';base64,')
-                ext_thumbnail = format_thumbnail.split('/')[-1]
-                dateTimeObj_thumbnail = datetime.now()
-                today_date = date.today()
-                set_file_name_thumbnail = str(today_date.day) + "_" + str(today_date.month) + "_" + str(today_date.year) + "_" + str(dateTimeObj_thumbnail.microsecond)
-                file_name_thumbnail = set_file_name_thumbnail + "." + ext_thumbnail
-                data_thumbnail = ContentFile(base64.b64decode(imgstr_thumbnail), name=file_name_thumbnail)
-                product_ins.Product_image.delete(save=False)
-                product_ins.Product_image = data_thumbnail
-                product_ins.save()
-            # ========================== add images CODE END================================
-            # ========================== add Price CODE END================================
-            if request.POST.getlist('Vintage'):
-                get_vintage_year = AwVintages.objects.filter(id__in=request.POST.getlist('Vintage'))
-                if get_vintage_year:
-                    for years in get_vintage_year:
-                        if str(years.Vintages_Year) + "_bottle[]" in request.POST:
-                            i = 0
-                            for items in request.POST.getlist(str(years.Vintages_Year) + "_bottle[]"):
-                                add_price = AwProductPrice(
-                                    Product = product_ins,
-                                    Vintage_Year = years,
-                                    Bottle = str(request.POST.getlist(str(years.Vintages_Year) + "_bottle[]")[i]),
-                                    Retail_Cost = str(request.POST.getlist(str(years.Vintages_Year) + "_retail_cose[]")[i]),
-                                    Retail_Stock = str(request.POST.getlist(str(years.Vintages_Year) + "_retail_stock[]")[i]),
-                                    Descount_Cost = str(request.POST.getlist(str(years.Vintages_Year) + "_descount_cose[]")[i]),
-                                    Duty = str(request.POST.getlist(str(years.Vintages_Year) + "_duty[]")[i]),
-                                    GST = str(request.POST.getlist(str(years.Vintages_Year) + "_GST[]")[i]),
-                                    Bond_Cost = str(request.POST.getlist(str(years.Vintages_Year) + "_bond_cose[]")[i]),
-                                    Bond_Stock = str(request.POST.getlist(str(years.Vintages_Year) + "_bond_stock[]")[i]),
-                                    Bond_Descount_Cost = str(request.POST.getlist(str(years.Vintages_Year) + "_bond_descount_cost[]")[i]),
-                                    Aroma_Cose = str(request.POST.getlist(str(years.Vintages_Year) + "_set_aroma_of_wine_cost[]")[i]),
-                                    Created_by = request.user,
-                                    Updated_by = request.user
-                                )
-                                add_price.save()
-                                i = i + 1
-                                # ==================================================
-                                if product_ins.LWineCode:
-                                    lwine_code = str(product_ins.LWineCode)
-                                    if years.Vintages_Year:
-                                        year = str(years.Vintages_Year)
-                                        set_lwine_code_with_year = lwine_code + year
-                                        TEST_REVIEW = get_review(set_lwine_code_with_year)
-                                # ==================================================
-            # ========================== add Price CODE END================================
-            messages.info(request, "Product add successfully.")
-            if '_continue' in request.POST:
-                return HttpResponseRedirect(reverse('admin_manage_products:update_products', args=(product_ins.Product_id,)))
-            return HttpResponseRedirect(reverse('admin_manage_products:products'))
-        else:
-            VarietalsForm = AwVarietalsForm
-            AppellationForm = AwAppellationForm
-            return render(request, self.template_name, {'form': form,'Page_title':"Add Product","VarietalsForm":VarietalsForm,"AppellationForm":AppellationForm})
+        if request.POST["product_thumbnail_image"]:
+            format_thumbnail, imgstr_thumbnail = request.POST["product_thumbnail_image"].split(';base64,')
+            ext_thumbnail = format_thumbnail.split('/')[-1]
+            dateTimeObj_thumbnail = datetime.now()
+            today_date = date.today()
+            set_file_name_thumbnail = str(today_date.day) + "_" + str(today_date.month) + "_" + str(today_date.year) + "_" + str(dateTimeObj_thumbnail.microsecond)
+            file_name_thumbnail = set_file_name_thumbnail + "." + ext_thumbnail
+            data_thumbnail = ContentFile(base64.b64decode(imgstr_thumbnail), name=file_name_thumbnail)
+            product_ins.Product_image.delete(save=False)
+            product_ins.Product_image = data_thumbnail
+            product_ins.save()
+        # ========================== add images CODE END================================
+        # ========================== add Price CODE END================================
+        get_no_of_years_and_size = request.POST.getlist('no_of_years_and_size[]');
+        print("==================")
+        print(request.POST)
+
+        print("==================")
+        if request.POST.getlist('Vintage'):
+            get_vintage_year = AwVintages.objects.filter(id__in=request.POST.getlist('Vintage')).order_by("Vintages_Year")
+            if get_vintage_year:
+                for years in get_vintage_year:
+                    print("==============")
+                    bottle_size_id = ""
+                    for ids in get_no_of_years_and_size:
+                        ids_in_array = ids.split("-")
+                        if ids_in_array[0] == str(years.Vintages_Year):
+                            bottle_size_id = ids_in_array[1]
+                            get_bottle_size_ins = get_object_or_404(AwSize, id=bottle_size_id)
+                            print(str(years.Vintages_Year)+"-"+str(bottle_size_id))
+                            if str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_bottle[]" in request.POST:
+                                i = 0
+                                for items in request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_bottle[]"):
+                                    add_price = AwProductPrice(
+                                        Product = product_ins,
+                                        Vintage_Year = years,
+                                        Bottle = str(request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_bottle[]")[i]),
+                                        Bottel_Size = get_bottle_size_ins,
+                                        Retail_Cost = str(request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_retail_cose[]")[i]),
+                                        Retail_Stock = str(request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_retail_stock[]")[i]),
+                                        Descount_Cost = str(request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_descount_cose[]")[i]),
+                                        Duty = str(request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_duty[]")[i]),
+                                        GST = str(request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_GST[]")[i]),
+                                        Bond_Cost = str(request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_bond_cose[]")[i]),
+                                        Bond_Stock = str(request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_bond_stock[]")[i]),
+                                        Bond_Descount_Cost = str(request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_bond_descount_cost[]")[i]),
+                                        Aroma_Cose = str(request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_set_aroma_of_wine_cost[]")[i])
+
+                                    )
+                                    add_price.save()
+                                    i = i + 1
+                                    # ==================================================
+                                    if product_ins.LWineCode:
+                                        lwine_code = str(product_ins.LWineCode)
+                                        if years.Vintages_Year:
+                                            year = str(years.Vintages_Year)
+                                            set_lwine_code_with_year = lwine_code + year
+                                            TEST_REVIEW = get_review(set_lwine_code_with_year)
+                                    # ==================================================
+        # ========================== add Price CODE END================================
+        messages.info(request, "Product add successfully.")
+        if '_continue' in request.POST:
+            return HttpResponseRedirect(reverse('admin_manage_products:update_products', args=(product_ins.Product_id,)))
+        return HttpResponseRedirect(reverse('admin_manage_products:products'))
+        # else:
+        #     VarietalsForm = AwVarietalsForm
+        #     AppellationForm = AwAppellationForm
+        #     FlavorsForm = AwFlavorsForm
+        #     FoodpairForm = AwFoodpairForm
+        #     ClassificationForm = AwClassificationForm
+        #     return render(request, self.template_name, {'form': form,'FoodpairForm':FoodpairForm,'ClassificationForm':ClassificationForm,'ClassificationForm':ClassificationForm,'FlavorsForm':FlavorsForm,'Page_title':"Add Product","VarietalsForm":VarietalsForm,"AppellationForm":AppellationForm})
 
 @method_decorator(login_required , name="dispatch")
 class ManagProducFullImagtView(SuccessMessageMixin,generic.TemplateView):
@@ -474,7 +676,7 @@ class ManageProductCostView(SuccessMessageMixin,generic.DetailView):
 
 
 
-@method_decorator(login_required , name="dispatch")
+# @method_decorator(login_required , name="dispatch")
 class UpdateProductView(SuccessMessageMixin,generic.View):
     template_name = 'admin/products/product_edit.html'
 
@@ -482,6 +684,7 @@ class UpdateProductView(SuccessMessageMixin,generic.View):
         prodict_id = self.kwargs.get("prodict_id")
         get_product_ins = get_object_or_404(AwProducts, Product_id=prodict_id)
         form = AwProductsForm(instance=get_product_ins)
+
         get_product_image = None
         get_product_banner_image = None
         if AwProductImage.objects.filter(Product=get_product_ins).exists():
@@ -503,7 +706,10 @@ class UpdateProductView(SuccessMessageMixin,generic.View):
                 year_list.append(items.Vintages_Year)
         VarietalsForm = AwVarietalsForm
         AppellationForm = AwAppellationForm
-        return render(request, self.template_name,{'VarietalsForm':VarietalsForm,'AppellationForm':AppellationForm,'year_list':year_list,'get_price_and_cost':get_price_and_cost,'get_product_banner_image':get_product_banner_image,'get_product_image':get_product_image,'get_product_ins':get_product_ins,'Page_title': "Edit Product", 'form':form})
+        FlavorsForm = AwFlavorsForm
+        ClassificationForm = AwClassificationForm
+        FoodpairForm = AwFoodpairForm
+        return render(request, self.template_name,{'VarietalsForm':VarietalsForm,'FoodpairForm':FoodpairForm,'ClassificationForm':ClassificationForm,'FlavorsForm':FlavorsForm,'AppellationForm':AppellationForm,'year_list':year_list,'get_price_and_cost':get_price_and_cost,'get_product_banner_image':get_product_banner_image,'get_product_image':get_product_image,'get_product_ins':get_product_ins,'Page_title': "Edit Product", 'form':form})
 
     def post(self, request, *args, **kwargs):
         prodict_id = self.kwargs.get("prodict_id")
@@ -572,86 +778,109 @@ class UpdateProductView(SuccessMessageMixin,generic.View):
                 product_ins.save()
             # ========================== add images CODE END================================
             # # ========================== add Price CODE END================================
+
+            not_remove_year = []
+            not_remove_bottle_size = []
+
+            get_no_of_years_and_size = request.POST.getlist('no_of_years_and_size[]');
             if request.POST["all_remove_vintage_ids"]:
                 get_all_removed_id = [int(x) for x in request.POST["all_remove_vintage_ids"].split(",")]
                 AwProductPrice.objects.filter(id__in =get_all_removed_id).delete()
+
             if request.POST.getlist('Vintage'):
                 get_vintage_year = AwVintages.objects.filter(id__in=request.POST.getlist('Vintage'))
                 if get_vintage_year:
                     for years in get_vintage_year:
-                        if str(years.Vintages_Year) + "_bottle[]" in request.POST:
-                            i = 0
-                            for items in request.POST.getlist(str(years.Vintages_Year) + "_bottle[]"):
-                                if request.POST.getlist(str(years.Vintages_Year) + "_id[]")[i]:
-                                    AwProductPrice.objects.filter(
-                                        id=request.POST.getlist(str(years.Vintages_Year) + "_id[]")[i]).update(
-                                        Product=product_ins,
-                                        Vintage_Year=years,
-                                        Bottle=str(request.POST.getlist(str(years.Vintages_Year) + "_bottle[]")[i]),
-                                        Retail_Cost=str(
-                                            request.POST.getlist(str(years.Vintages_Year) + "_retail_cose[]")[i]),
-                                        Retail_Stock=str(
-                                            request.POST.getlist(str(years.Vintages_Year) + "_retail_stock[]")[i]),
-                                        Descount_Cost=str(
-                                            request.POST.getlist(str(years.Vintages_Year) + "_descount_cose[]")[i]),
-                                        Duty=str(request.POST.getlist(str(years.Vintages_Year) + "_duty[]")[i]),
-                                        GST=str(request.POST.getlist(str(years.Vintages_Year) + "_GST[]")[i]),
-                                        Bond_Cost=str(
-                                            request.POST.getlist(str(years.Vintages_Year) + "_bond_cose[]")[i]),
-                                        Bond_Stock=str(
-                                            request.POST.getlist(str(years.Vintages_Year) + "_bond_stock[]")[i]),
-                                        Bond_Descount_Cost=str(
-                                            request.POST.getlist(str(years.Vintages_Year) + "_bond_descount_cost[]")[
-                                                i]),
-                                        Aroma_Cose=str(request.POST.getlist(
-                                            str(years.Vintages_Year) + "_set_aroma_of_wine_cost[]")[i]),
-                                        Created_by=request.user,
-                                        Updated_by=request.user)
-                                    # ==================================================
-                                    if product_ins.LWineCode:
-                                        lwine_code = str(product_ins.LWineCode)
-                                        if years.Vintages_Year:
-                                            year = str(years.Vintages_Year)
-                                            set_lwine_code_with_year = lwine_code + year
-                                            TEST_REVIEW = get_review(set_lwine_code_with_year)
-                                    # ==================================================
+                        bottle_size_id = ""
+                        not_remove_year.append(years.Vintages_Year)
+                        for ids in get_no_of_years_and_size:
+                            ids_in_array = ids.split("-")
+                            not_remove_bottle_size.append(int(ids_in_array[1]))
+                            if ids_in_array[0] == str(years.Vintages_Year):
+                                bottle_size_id = ids_in_array[1]
 
-                                else:
-                                    add_price = AwProductPrice(
-                                        Product=product_ins,
-                                        Vintage_Year=years,
-                                        Bottle=str(request.POST.getlist(str(years.Vintages_Year) + "_bottle[]")[i]),
-                                        Retail_Cost=str(
-                                            request.POST.getlist(str(years.Vintages_Year) + "_retail_cose[]")[i]),
-                                        Retail_Stock=str(
-                                            request.POST.getlist(str(years.Vintages_Year) + "_retail_stock[]")[i]),
-                                        Descount_Cost=str(
-                                            request.POST.getlist(str(years.Vintages_Year) + "_descount_cose[]")[i]),
-                                        Duty=str(request.POST.getlist(str(years.Vintages_Year) + "_duty[]")[i]),
-                                        GST=str(request.POST.getlist(str(years.Vintages_Year) + "_GST[]")[i]),
-                                        Bond_Cost=str(
-                                            request.POST.getlist(str(years.Vintages_Year) + "_bond_cose[]")[i]),
-                                        Bond_Stock=str(
-                                            request.POST.getlist(str(years.Vintages_Year) + "_bond_stock[]")[i]),
-                                        Bond_Descount_Cost=str(
-                                            request.POST.getlist(str(years.Vintages_Year) + "_bond_descount_cost[]")[
-                                                i]),
-                                        Aroma_Cose=str(request.POST.getlist(
-                                            str(years.Vintages_Year) + "_set_aroma_of_wine_cost[]")[i]),
-                                        Created_by=request.user,
-                                        Updated_by=request.user
-                                    )
-                                    add_price.save()
-                                    # ==================================================
-                                    if product_ins.LWineCode:
-                                        lwine_code = str(product_ins.LWineCode)
-                                        if years.Vintages_Year:
-                                            year = str(years.Vintages_Year)
-                                            set_lwine_code_with_year = lwine_code+year
-                                            TEST_REVIEW = get_review(set_lwine_code_with_year)
-                                    # ==================================================
-                                i = i + 1
+                                get_bottle_size_ins = get_object_or_404(AwSize, id=bottle_size_id)
+                                if str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_bottle[]" in request.POST:
+                                    i = 0
+                                    for items in request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_bottle[]"):
+                                        if request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_id[]")[i]:
+                                            AwProductPrice.objects.filter(
+                                                id=request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_id[]")[i]).update(
+                                                Product=product_ins,
+                                                Vintage_Year=years,
+                                                Bottle=str(request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_bottle[]")[i]),
+                                                Retail_Cost=str(
+                                                    request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_retail_cose[]")[i]),
+                                                Bottel_Size=get_bottle_size_ins,
+                                                Retail_Stock=str(
+                                                    request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_retail_stock[]")[i]),
+                                                Descount_Cost=str(
+                                                    request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_descount_cose[]")[i]),
+                                                Duty=str(request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_duty[]")[i]),
+                                                GST=str(request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_GST[]")[i]),
+                                                Bond_Cost=str(
+                                                    request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_bond_cose[]")[i]),
+                                                Bond_Stock=str(
+                                                    request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_bond_stock[]")[i]),
+                                                Bond_Descount_Cost=str(
+                                                    request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_bond_descount_cost[]")[
+                                                        i]),
+                                                Aroma_Cose=str(request.POST.getlist(
+                                                    str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_set_aroma_of_wine_cost[]")[i]),
+                                                Created_by=request.user,
+                                                Updated_by=request.user
+                                            )
+                                            # ==================================================
+                                            if product_ins.LWineCode:
+                                                lwine_code = str(product_ins.LWineCode)
+                                                if years.Vintages_Year:
+                                                    year = str(years.Vintages_Year)
+                                                    set_lwine_code_with_year = lwine_code + year
+                                                    TEST_REVIEW = get_review(set_lwine_code_with_year)
+                                            # ==================================================
+
+                                        else:
+                                            add_price = AwProductPrice(
+                                                Product=product_ins,
+                                                Vintage_Year=years,
+                                                Bottel_Size=get_bottle_size_ins,
+                                                Bottle=str(request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_bottle[]")[i]),
+                                                Retail_Cost=str(
+                                                    request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_retail_cose[]")[i]),
+                                                Retail_Stock=str(
+                                                    request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_retail_stock[]")[i]),
+                                                Descount_Cost=str(
+                                                    request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_descount_cose[]")[i]),
+                                                Duty=str(request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_duty[]")[i]),
+                                                GST=str(request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_GST[]")[i]),
+                                                Bond_Cost=str(
+                                                    request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_bond_cose[]")[i]),
+                                                Bond_Stock=str(
+                                                    request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_bond_stock[]")[i]),
+                                                Bond_Descount_Cost=str(
+                                                    request.POST.getlist(str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_bond_descount_cost[]")[
+                                                        i]),
+                                                Aroma_Cose=str(request.POST.getlist(
+                                                    str(years.Vintages_Year)+"-"+str(bottle_size_id)+"_set_aroma_of_wine_cost[]")[i]),
+                                                Created_by=request.user,
+                                                Updated_by=request.user
+                                            )
+                                            add_price.save()
+                                            # ==================================================
+                                            if product_ins.LWineCode:
+                                                lwine_code = str(product_ins.LWineCode)
+                                                if years.Vintages_Year:
+                                                    year = str(years.Vintages_Year)
+                                                    set_lwine_code_with_year = lwine_code+year
+                                                    TEST_REVIEW = get_review(set_lwine_code_with_year)
+                                            # ==================================================
+                                        i = i + 1
             # ========================== add Price CODE END================================
+            if request.POST.getlist('Bottel_Size'):
+                AwProductPrice.objects.filter(Product=product_ins).filter(~Q(Bottel_Size__id__in = request.POST.getlist('Bottel_Size'))).delete()
+
+            if not_remove_year:
+                AwProductPrice.objects.filter(Product=product_ins).filter(~Q(Vintage_Year__Vintages_Year__in = not_remove_year)).delete()
             messages.info(request, "Product update successfully.")
             if '_continue' in request.POST:
                 return HttpResponseRedirect(reverse('admin_manage_products:update_products', args=(prodict_id,)))
@@ -674,7 +903,10 @@ class UpdateProductView(SuccessMessageMixin,generic.View):
                     year_list.append(items.Vintages_Year)
             VarietalsForm = AwVarietalsForm
             AppellationForm = AwAppellationForm
-            return render(request, self.template_name, {'VarietalsForm':VarietalsForm,'AppellationForm':AppellationForm,'year_list':year_list,'get_price_and_cost':get_price_and_cost,'get_product_banner_image':get_product_banner_image,'get_product_image':get_product_image,'get_product_ins':get_product_ins,'Page_title': "Edit Product",'form':form})
+            FlavorsForm = AwFlavorsForm
+            ClassificationForm = AwClassificationForm
+            FoodpairForm = AwFoodpairForm
+            return render(request, self.template_name, {'FoodpairForm':FoodpairForm,'ClassificationForm':ClassificationForm,'FlavorsForm':FlavorsForm,'VarietalsForm':VarietalsForm,'AppellationForm':AppellationForm,'year_list':year_list,'get_price_and_cost':get_price_and_cost,'get_product_banner_image':get_product_banner_image,'get_product_image':get_product_image,'get_product_ins':get_product_ins,'Page_title': "Edit Product",'form':form})
 
 
 

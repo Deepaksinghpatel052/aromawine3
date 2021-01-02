@@ -10,7 +10,7 @@ var CLIENT_KEY_set = '9e43038b-b7ae-4b56-aab7-44c90469923f';
 var CLIENT_SECRET_set = '3ELHBshL';
 
 
-var base_url = "http://3.133.12.113/";
+var base_url = "https://aromaofwine.com/";
 
 $(document).on('click','#run_lwine_code',function(){
 
@@ -350,7 +350,7 @@ else{
 
 
 
-function get_data_with_year_lwine_code(lwine_code, year)
+function get_data_with_year_lwine_code(lwine_code, year,bottle_size_id)
 {
 var LwineCcodeWithYear = lwine_code; 
 	console.log("========================");
@@ -396,10 +396,12 @@ var _duty_set = "0";
    	
    	 for(var j=0; j<dataDetail.length; j++)
    	 {
+
+   	 	-
    	 	// console.log(dataDetail[i].vintage);
    	 	// console.log(dataDetail[i].priceData);
    	 	// console.log(dataDetail[i].packSize);
-   	 	$(".add_row_"+dataDetail[i].vintage).append('<tr style="cursor: pointer;"><td data-field="name" style="width: 75px;"><input type="text" name="'+dataDetail[i].vintage+'_bottle[]" value="'+dataDetail[i].packSize+'" class="'+dataDetail[i].vintage+'_bottle"></td><td data-field="name" style="width: 116px;"><input type="text" style="width: 100px;" class="'+dataDetail[i].vintage+'_retail_cose" value="0" name="'+dataDetail[i].vintage+'_retail_cose[]"></td><td data-field="name" style="width: 126px;">\<input type="text" name="'+dataDetail[i].vintage+'_retail_stock[]" value="0" class="'+dataDetail[i].vintage+'_retail_stock" style="width: 100px;"></td><td data-field="name" style="width: 147px;"><input type="text" name="'+dataDetail[i].vintage+'_descount_cose[]" class="'+dataDetail[i].vintage+'_descount_cose" value="0" style="width: 100px;"></td><td data-field="name" style="width: 63px;"><input type="text" name="'+dataDetail[i].vintage+'_duty[]" class="'+dataDetail[i].vintage+'_duty" value="'+_duty_set+'" style="width: 65px;"></td><td data-field="name" style="width: 70px;"><input type="text" name="'+dataDetail[i].vintage+'_GST[]" value="'+set_GST+'" class="'+dataDetail[i].vintage+'_GST" style="width: 65px;"></td><td data-field="name" style="width: 115px;"><input type="text" name="'+dataDetail[i].vintage+'_bond_cose[]" value="0" class="'+dataDetail[i].vintage+'_bond_cose" style="width: 100px;"></td><td data-field="name" style="width: 125px;"><input type="text" name="'+dataDetail[i].vintage+'_bond_stock[]" class="'+dataDetail[i].vintage+'_bond_stock" value="0" style="width: 100px;"></td><td data-field="name" style="width: 125px;"><input type="text" name="'+dataDetail[i].vintage+'_bond_descount_cost[]" class="'+dataDetail[i].vintage+'_bond_descount_cost" value="0" style="width: 100px;"></td> <td data-field="name" style="width: 125px;"><input type="text" name="'+dataDetail[i].vintage+'_set_aroma_of_wine_cost[]" class="'+dataDetail[i].vintage+'_set_aroma_of_wine_cost" value="0" style="width: 100px;"></td> <td><a class="delect_ed" data-vintage_id="{{cost_items.id}}" title="Delete"><i class="fa fa-trash"></i></a></td></tr>');
+   	 	$(".add_row_"+dataDetail[i].vintage+"-"+bottle_size_id).append('<tr style="cursor: pointer;"><td data-field="name" style="width: 75px;"><input type="text" name="'+dataDetail[i].vintage+'-'+bottle_size_id+'_bottle[]" value="'+dataDetail[i].packSize+'" class="'+dataDetail[i].vintage+'-'+bottle_size_id+'_bottle"></td><td data-field="name" style="width: 116px;"><input type="text" style="width: 100px;" class="'+dataDetail[i].vintage+'-'+bottle_size_id+'_retail_cose" value="0" name="'+dataDetail[i].vintage+'-'+bottle_size_id+'_retail_cose[]"></td><td data-field="name" style="width: 126px;">\<input type="text" name="'+dataDetail[i].vintage+'-'+bottle_size_id+'_retail_stock[]" value="0" class="'+dataDetail[i].vintage+'-'+bottle_size_id+'_retail_stock" style="width: 100px;"></td><td data-field="name" style="width: 147px;"><input type="text" name="'+dataDetail[i].vintage+'-'+bottle_size_id+'_descount_cose[]" class="'+dataDetail[i].vintage+'-'+bottle_size_id+'_descount_cose" value="0" style="width: 100px;"></td><td data-field="name" style="width: 63px;"><input type="text" name="'+dataDetail[i].vintage+'-'+bottle_size_id+'_duty[]" class="'+dataDetail[i].vintage+'-'+bottle_size_id+'_duty" value="'+_duty_set+'" style="width: 65px;"></td><td data-field="name" style="width: 70px;"><input type="text" name="'+dataDetail[i].vintage+'-'+bottle_size_id+'_GST[]" value="'+set_GST+'" class="'+dataDetail[i].vintage+'-'+bottle_size_id+'_GST" style="width: 65px;"></td><td data-field="name" style="width: 115px;"><input type="text" name="'+dataDetail[i].vintage+'-'+bottle_size_id+'_bond_cose[]" value="0" class="'+dataDetail[i].vintage+'-'+bottle_size_id+'_bond_cose" style="width: 100px;"></td><td data-field="name" style="width: 125px;"><input type="text" name="'+dataDetail[i].vintage+'-'+bottle_size_id+'_bond_stock[]" class="'+dataDetail[i].vintage+'-'+bottle_size_id+'_bond_stock" value="0" style="width: 100px;"></td><td data-field="name" style="width: 125px;"><input type="text" name="'+dataDetail[i].vintage+'-'+bottle_size_id+'_bond_descount_cost[]" class="'+dataDetail[i].vintage+'-'+bottle_size_id+'_bond_descount_cost" value="0" style="width: 100px;"></td> <td data-field="name" style="width: 125px;"><input type="text" name="'+dataDetail[i].vintage+'-'+bottle_size_id+'_set_aroma_of_wine_cost[]" class="'+dataDetail[i].vintage+'-'+bottle_size_id+'_set_aroma_of_wine_cost" value="0" style="width: 100px;"></td> <td><a class="delect_ed" data-vintage_id="{{cost_items.id}}" title="Delete"><i class="fa fa-trash"></i></a></td></tr>');
    	 }
 
    }
@@ -505,6 +507,169 @@ function add_Appellation(form_data){
 	             	$("#modal-default-Appellation").modal('toggle');
 	             	
 	             	$("#modal-default-Appellation").modal('hide');
+	             	$( ".modal-backdrop" ).removeClass( "modal-backdrop fade in" )
+	             }
+		     });
+}
+
+
+// =========================================================
+
+
+$(document).ready(function(){
+
+$("#Flavours_submit_from_product").submit(function(e){
+	e.preventDefault();
+	$("#Flavours_submit_from_product_error").text("");
+	var form = $(this);
+	$.ajax({
+           type: "POST",
+           url: base_url+"admin/products/check-flavours-name",
+           data: form.serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+           	if(data=="0")
+	             	{
+                      $("#Flavours_submit_from_product_error").text("This is already exists.");
+	             	}
+	             	else
+	             	{
+                       add_Flavours(form.serialize());
+	             	}
+               console.log(data); // show response from the php script.
+           }
+         });
+});
+
+
+});
+
+
+
+function add_Flavours(form_data){
+
+			$.ajax({
+	             method:"POST",
+	             url:base_url+"admin/products/add-flavours-name",
+	             data:form_data,
+	             dataType:'html',
+	             success:function(data)
+	             {
+	             	$(".Flavours_ajax").html(data);
+	             	$("#modal-default-Flavours").modal('toggle');
+	             	
+	             	$("#mmodal-default-Flavours").modal('hide');
+	             	$( ".modal-backdrop" ).removeClass( "modal-backdrop fade in" )
+	             }
+		     });
+}
+
+
+
+
+// =========================================================
+
+
+$(document).ready(function(){
+
+$("#Classification_submit_from_product").submit(function(e){
+	e.preventDefault();
+	$("#Classification_submit_from_product_error").text("");
+	var form = $(this);
+	$.ajax({
+           type: "POST",
+           url: base_url+"admin/products/check-classification-name",
+           data: form.serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+           	if(data=="0")
+	             	{
+                      $("#Classification_submit_from_product_error").text("This is already exists.");
+	             	}
+	             	else
+	             	{
+                       add_Classification(form.serialize());
+	             	}
+               console.log(data); // show response from the php script.
+           }
+         });
+});
+
+
+});
+
+
+
+function add_Classification(form_data){
+
+			$.ajax({
+	             method:"POST",
+	             url:base_url+"admin/products/add-classification-name",
+	             data:form_data,
+	             dataType:'html',
+	             success:function(data)
+	             {
+	             	$(".classifications_ajax").html(data);
+	             	$("#modal-default-Classification").modal('toggle');
+	             	
+	             	$("#modal-default-Classification").modal('hide');
+	             	$( ".modal-backdrop" ).removeClass( "modal-backdrop fade in" )
+	             }
+		     });
+}
+
+
+
+
+
+
+
+// =========================================================
+
+
+$(document).ready(function(){
+
+$("#Food_Pair_submit_from_product").submit(function(e){
+	e.preventDefault();
+	$("#Food_pair_submit_from_product_error").text("");
+	var form = $(this);
+	$.ajax({
+           type: "POST",
+           url: base_url+"admin/products/check-food-pair-name",
+           data: form.serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+           	if(data=="0")
+	             	{
+                      $("#Food_pair_submit_from_product_error").text("This is already exists.");
+	             	}
+	             	else
+	             	{
+                       add_foodpair(form.serialize());
+	             	}
+               console.log(data); // show response from the php script.
+           }
+         });
+});
+
+
+});
+
+
+
+function add_foodpair(form_data){
+
+			$.ajax({
+	             method:"POST",
+	             url:base_url+"admin/products/add-foodpair-name",
+	             data:form_data,
+	             dataType:'html',
+	             success:function(data)
+	             {
+	             	$(".FoodPair_ajax").html(data);
+	             	$("#modal-default-Food-pair").modal('toggle');
+	             	
+	             	$("#modal-default-Food-pair").modal('hide');
 	             	$( ".modal-backdrop" ).removeClass( "modal-backdrop fade in" )
 	             }
 		     });

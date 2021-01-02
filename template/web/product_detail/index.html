@@ -158,11 +158,7 @@ We will only be able to deliver this product to a bonded account. But you can re
 			
 			{% for items in get_produuct_years_one_data  %}
 			<option value="{{items.id}}">
-      {% if items.Bottle == "1" %} 
-      {{items.Bottle}}  
-      {% else %}
-      A case of {{items.Bottle}} Bottles
-      {% endif %} 
+      {{items.Bottle|add_text_case_of_bottles}}
       </option>
 			{% endfor %}
 			</select>
@@ -443,10 +439,10 @@ Delivery to United Kingdom Storage: 25 Mar 2020</p> -->
 <span>Wine Type</span>
 <span>{{get_product_one_year.Product.Select_Type}}</span>
 </li>
-<li>
+<!-- <li>
 <span>Category</span>
 <span>{{get_product_one_year.Product.Category.all|join:" | "}}</span>
-</li>
+</li> -->
 <li>
 <span>Classification</span>
 <span>{{get_product_one_year.Product.Classification.all|join:" | "}}</span>
@@ -456,17 +452,27 @@ Delivery to United Kingdom Storage: 25 Mar 2020</p> -->
 <span>{{get_product_one_year.Product.Appellation.all|join:" | "}}</span>
 </li>
 <li>
+  {% if get_product_one_year.Product.Flavours %}
 <span>Flavours</span>
 <span>{{get_product_one_year.Product.Flavours.all|join:" | "}}</span>
 </li>
+{% endif %}
 
-<li>
+<!-- <li>
 <span>Varietals</span>
 <span>{{get_product_one_year.Product.Varietals.all|join:" | "}}</span>
 </li>
+ -->
+{% if get_product_one_year.Product.Analytical_date %}
+<li>
+<span>Analytical Date</span>
+<span>{{get_product_one_year.Product.Analytical_date}}</span>
+</li>
+{% endif %}
+
 
 <li>
-<span>Grapes</span>
+<span>Grapes/Blend </span>
 <span>{{get_product_one_year.Product.Grape.all|join:" | "}}</span>
 </li>
 
@@ -620,7 +626,7 @@ See more wines from Alvear </a>
       {% for items in get_product_one_year.Product.Grape.all  %}
       <div class="col-md-6">
         <div class="newstylebox">
-          <h2 class="title_h2">The Grape</h2>
+          <h2 class="title_h2">The Grape/Blend</h2>
           <a href="{% url 'wine_shop:wine_shop' %}?page-type=grape&page-name={{items.Slug}}">
           {% if items.Grape_Image %}
            <img src='{{items.Grape_Image.url}}' alt=""/>

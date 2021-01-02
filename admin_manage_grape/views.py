@@ -20,7 +20,7 @@ class ManageGrapeView(SuccessMessageMixin,generic.ListView):
 
     def get_context_data(self, *args,**kwargs):
         context  = super(ManageGrapeView,self).get_context_data(*args,**kwargs)
-        context['Page_title'] = "Manage Grape"
+        context['Page_title'] = "Manage Grape/Blend"
         print(context)
         return context
 
@@ -32,10 +32,10 @@ class CreateGrapeView(SuccessMessageMixin,generic.CreateView):
 
     def get_success_message(self, cleaned_data):
         print(cleaned_data)
-        return "Grape add successfully."
+        return "Grape/Blend add successfully."
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['Page_title'] = "Add Grape"
+        context['Page_title'] = "Add Grape/Blend"
         return context
 
     def form_valid(self, form):
@@ -66,13 +66,13 @@ class GrapeUpdateView(SuccessMessageMixin, generic.UpdateView):
 
     def get_success_message(self, cleaned_data):
         print(cleaned_data)
-        return "Grape update successfully."
+        return "Grape/Blend update successfully."
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books
-        context['Page_title'] = "Edit Grape"
+        context['Page_title'] = "Edit Grape/Blend"
 
         return context
 
@@ -103,9 +103,9 @@ class GrapeDeleteView(SuccessMessageMixin,generic.DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['Page_title'] = "Delete Grape"
+        context['Page_title'] = "Delete Grape/Blend"
         return context
 
     def get_success_message(self, cleaned_data):
         print(cleaned_data)
-        return "Grape remove successfully."
+        return "Grape/Blend remove successfully."

@@ -18,6 +18,26 @@
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
 <link rel="stylesheet" href='{% static "admin/assets/cropme/croppie.css" %}'  type="text/css">
+  
+
+
+<!-- ================================= dummy start ============================ -->
+<link rel="icon" href='https://aromaofwine.com/static/admin/assets/img/basic/logo.png'  type="image/x-icon">
+<title>Wine| Admin</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href='https://aromaofwine.com/static/admin/assets/css/panel.css' >
+<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href='https://aromaofwine.com/static/admin/assets/css/dataTables.bootstrap4.css' >
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
+
+
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
+<link rel="stylesheet" href='https://aromaofwine.com/static/admin/assets/cropme/croppie.css'  type="text/css">
+<!-- ================================= dummy end ============================ -->
+
+
+
    {% block cssstyle %}
       {% endblock %}
 
@@ -194,11 +214,11 @@ ul.multiselect-container.dropdown-menu li span.input-group-addon {
                   </ul>
                </li>
                <li class="treeview" id="Grape">
-           <a href="#"><span>Grapes</span><i class="icon icon-angle-left pull-right"></i></a>
+           <a href="#"><span>Grapes/Blend</span><i class="icon icon-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
-                      <li class="treeview" id="Manage_Grape"><a href="{% url 'admin_manage_grape:grape' %}">Manage Grapes</a></li>
+                      <li class="treeview" id="Manage_Grape"><a href="{% url 'admin_manage_grape:grape' %}">Manage Grapes/Blend</a></li>
                      <li class="treeview" id="Add_Grape">
-           <a href="{% url 'admin_manage_grape:add_grape' %}">Add Grape</a>
+           <a href="{% url 'admin_manage_grape:add_grape' %}">Add Grape/Blend</a>
            </li>
                      
                   </ul>
@@ -213,6 +233,14 @@ ul.multiselect-container.dropdown-menu li span.input-group-addon {
             </li>
             <li class="treeview" id="Bottle_Size">
            <a href="{% url 'admin_manage_size:size'%}">Bottle Size</a>
+           </li>
+
+           <li class="treeview" id="Manage_Flavours">
+           <a href="{% url 'admin_manage_flavours:flavours'%}">Manage Flavours</a>
+           </li>
+
+            <li class="treeview" id="Manage_Food Pair">
+           <a href="{% url 'admin_manage_food_pair:foodpair'%}">Manage Food Pair</a>
            </li>
                      
                      <li class="treeview" id="Classification">
@@ -470,6 +498,20 @@ ul.multiselect-container.dropdown-menu li span.input-group-addon {
  <script src='{% static "web/assets/js/sweetalert.min.js" %}' ></script>
 
  <script src='{% static "admin/assets/cropme/croppie.js" %}' ></script>
+
+<!-- =====================deom start ========================== -->
+
+<!--  <script src='https://aromaofwine.com/static/admin/assets/js/script.js' ></script>
+ 
+ <script src='https://aromaofwine.com/static/admin/assets/js/app.js'></script>
+
+<script src='https://aromaofwine.com/static/admin/assets/js/editable.js' ></script>
+<script src='https://aromaofwine.com/static/admin/assets/js/customjs.js' ></script>
+ <script src='https://aromaofwine.com/static/web/assets/js/sweetalert.min.js' ></script>
+
+ <script src='https://aromaofwine.com/static/admin/assets/cropme/croppie.js' ></script> -->
+<!-- =====================deom end ========================== -->
+
   <!-- <script src='{% static "admin/assets/cropme/croppie_user_image.js" %}' ></script> -->
 <script>
 $(function () {

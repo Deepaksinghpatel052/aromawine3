@@ -76,7 +76,10 @@
     {% for get_item_wine in object_list %}
 	<div class="product-card product-card-list mb-4">
   <div class="img"><a href="{% url 'product_detail:product_detail' get_item_wine.Product.Product_id get_item_wine.Product.Product_slug  get_item_wine  %}">
-    <img style="width: 100%; height:auto;" src='{{get_item_wine.Product|get_product_image_one}}' alt="{{get_item_wine.Product.Select_Type}} : {{get_item_wine.Product}} ({{get_item_wine}})">
+    {% if get_item_wine.Descount_Cost > 0 %}
+   <div class="promo-label">Special Prices Available</div>
+   {% endif %}
+   <img style="width: 100%; height:auto;" src='{{get_item_wine.Product|get_product_image_one}}' alt="{{get_item_wine.Product.Select_Type}} : {{get_item_wine.Product}} ({{get_item_wine}})">
   </a></div>
   <div class="product-info">
     <div class="product-info-header">
@@ -116,10 +119,10 @@
 	
 	</div>
   </div>
-  <div class="options">
-    <div class="promo-label">Special Prices  {{get_item_wine.Product.Bottel_Size.all|join:" | "}}</div>
+  <!-- <div class="options">
+    
     <div><span>Available</span></div>
-  </div>
+  </div> -->
 </div>
 
  {% endfor %}

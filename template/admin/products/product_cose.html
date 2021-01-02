@@ -1,12 +1,17 @@
-{% if year_list %}
-{% for year in year_list %}
 
-<div class="since2010">
-   <table width="100%" border="1" class="table table-striped table-bordered newpage editableTable" align="center" cellpadding="0" cellspacing="0" style=" font-size: 15px;">
+
+{% if year_list %}
+
+{% for bottle_size in product_ins.Bottel_Size.all %}
+
+ {% for year in year_list %}
+
+  <div class="since2010">
+    <table width="100%" border="1" class="table table-striped table-bordered newpage editableTable" align="center" cellpadding="0" cellspacing="0" style=" font-size: 15px;">
       <thead>
          <tr style="cursor: pointer;">
             <td colspan="9">
-               <div class="yearwine"><span>{{year}}</span> -> {{product_ins}}</div>
+               <div class="yearwine"><span>{{year}} ({{bottle_size}}) </span> -> {{product_ins}}</div>
             </td>
          </tr>
          <tr style="cursor: pointer;">
@@ -25,7 +30,7 @@
         {% if object %}
         {% for cost_items in object %}
       
-        {% if cost_items.Vintage_Year.Vintages_Year == year %}
+        {% if cost_items.Vintage_Year.Vintages_Year == year and cost_items.Bottel_Size.Bottle_Size == bottle_size.Bottle_Size %}
          <tr data-id="1" style="cursor: pointer;">
             <td data-field="retail" align="left" valign="top">
 {{cost_items.Bottle|add_text_case_of_bottles}}</td>
@@ -46,4 +51,7 @@
 </div>
 <hr>
 {% endfor %}
+
+{% endfor %}
+
 {% endif %}

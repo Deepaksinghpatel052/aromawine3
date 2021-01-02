@@ -347,6 +347,13 @@ if(jQuery.inArray("customer", url_in_array) != -1)
 }
 
 
+if(jQuery.inArray("flavours", url_in_array) != -1)
+{
+	$("#Manage_Flavours").addClass("active_dsp");
+	$("#Manage_Filtters").addClass("active");
+}
+
+
 if(jQuery.inArray("size", url_in_array) != -1)
 {
 	$("#Bottle_Size").addClass("active_dsp");

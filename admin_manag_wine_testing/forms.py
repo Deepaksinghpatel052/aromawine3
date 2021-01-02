@@ -1,5 +1,6 @@
 from django import forms
 from .models import AwTesting
+from admin_manage_products.models import AwProducts
 
 
 class AwTestingForm(forms.ModelForm):
@@ -11,3 +12,8 @@ class AwTestingForm(forms.ModelForm):
     class Meta:
         model = AwTesting
         fields = ['Name', 'Wine_With_Testing', 'Testing_Image','Short_Description', 'Description']
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['Wine_With_Testing'].queryset = AwProducts.objects.filter(Status=True).order_by("Product_name")

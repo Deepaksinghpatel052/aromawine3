@@ -18,6 +18,7 @@ from admin_manage_grape.models import AwGrape
 from django.db.models.signals import pre_save
 from wineproject.utils import  unique_id_generator , slug_generator_for_product
 from datetime import date
+from admin_manage_food_pair.models import AwFoodpair
 # Create your models here.
 
 class AwWineType(models.Model):
@@ -79,14 +80,19 @@ class AwProducts(models.Model):
     Category = models.ManyToManyField(AwCategory, related_name='AwProducts_Category')
     Color = models.ForeignKey(AwColor, on_delete=models.SET_NULL,null=True, blank=True,  related_name='AwProducts_Color')
     Appellation = models.ManyToManyField(AwAppellation, related_name='AwProducts_Appellation')
-    Bottel_Size = models.ForeignKey(AwSize, on_delete=models.SET_NULL,null=True, blank=True, related_name='AwProducts_Bottel_Size')
+    # Bottel_Size = models.ForeignKey(AwSize, on_delete=models.SET_NULL,null=True, blank=True, related_name='AwProducts_Bottel_Size')
+    Bottel_Size = models.ManyToManyField(AwSize, related_name='AwSize_Bottel_Size')
     Classification = models.ManyToManyField(AwClassification,  related_name='AwProducts_Classification')
     Vintage = models.ManyToManyField(AwVintages, related_name='AwProducts_Vintage')
-    Varietals = models.ManyToManyField(AwVarietals, related_name='AwProducts_Varietals')
+    Varietals = models.ManyToManyField(AwVarietals, related_name='AwProducts_Varietals',null=True,blank=True)
+    Analytical_date = models.CharField(max_length=500,null=True,blank=True)
     Flavours = models.ManyToManyField(AwWinePalateFlavors, related_name='AwWinePalateFlavors_Flaver',null=True,blank=True)
+    FoodPair = models.ManyToManyField(AwFoodpair, related_name='AwWine_AwFoodpair',null=True,blank=True)
     Country = models.ForeignKey(AwCountry, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwProducts_Country')
     Regions = models.ForeignKey(AwRegion, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwProducts_Regions')
     Grape = models.ManyToManyField(AwGrape,  related_name='AwProducts_Grape')
+    is_copy = models.BooleanField(default=False)
+    parent_product_code = models.CharField(max_length=120,null=True, blank=True)
     Status = models.BooleanField(default=True)
     Description = models.TextField(null=True,blank=True)
     Meta_Title = models.CharField(max_length=120,null=True,blank=True)
@@ -150,6 +156,7 @@ class AwProductPrice(models.Model):
     Product = models.ForeignKey(AwProducts, on_delete=models.CASCADE, null=True, blank=True,related_name='AwProductPrice_Product')
     Vintage_Year = models.ForeignKey(AwVintages, on_delete=models.SET_NULL, null=True, blank=True,related_name='AwProductPrice_Vintage_Year')
     Bottle = models.CharField(max_length=120,null=True,blank=True)
+    Bottel_Size = models.ForeignKey(AwSize,on_delete=models.CASCADE, null=True, blank=True, related_name='AwSize_Bottel_AwProductPrice')
     Retail_Cost = models.FloatField(default=0)
     Retail_Stock = models.IntegerField(default=0)
     Descount_Cost = models.FloatField(default=0)

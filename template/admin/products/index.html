@@ -88,6 +88,7 @@
           <th align="left" valign="top">Image For 360<sup>o</sup> </th>
           
           
+                  <th align="left" valign="top">Is Copy</th>
                   <th align="left" valign="top">Status</th>
                   <th align="left" valign="top">Action</th>
                 </tr>
@@ -131,6 +132,16 @@
   <button type="button" class="btn btn-primary get_full_view_image" data-product_id="{{item.Product_id}}" data-price_url="{% url 'admin_manage_products:products_all_image' item.Product_id  %}">360<sup>0</sup> Image</button>
 </td>
         
+  <td align="left" valign="top">
+
+
+            {% if item.is_copy %}
+          <span class="label label-warning font-weight-100">Copy of {{item.Product_id}}</span>
+          {% else %}
+          <span class="label label-success font-weight-100">Parent</span>
+          {% endif %}
+        </td>
+
         <td align="left" valign="top">
 
 
@@ -150,6 +161,7 @@
           <a href="{% url 'admin_manage_products:update_products' item.Product_id %}" ><i class="icon-pencil"></i></a>
                         </td>
                         <td align="center" valign="top"><a href="{% url 'admin_manage_products:delete_products' item.id %}"><i class="icon-delete"></i><a></td>
+                          <td align="center" valign="top"><a href="#" class="create_copy_data" data-copy_url="{% url 'admin_manage_products:CreateCopyOfProduct' item.id %}" ><i class="icon-copy"></i><a></td>
                    </tr>
                 </table>
                 </td>
@@ -257,6 +269,32 @@
     });
 
   }); 
+</script>
+
+
+<script type="text/javascript">
+
+
+ $(document).on('click','.create_copy_data',function(){
+
+var urls = $(this).data("copy_url");
+
+       swal({
+            title: "Are you sure to create a copy of this product.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+                $(".se-pre-con").css("display","block");
+             window.location.href = urls;           
+            } else {
+              swal("Copy not created.");
+            }
+          });
+ }); 
+  
 </script>
 
 {% endblock %}

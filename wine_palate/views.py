@@ -155,3 +155,6 @@ def GetWinePalatedataViewByName(request):
             get_data = data_scri.data
     # return render(request,"web/wine_palate/wine_palate_data.html",)
     return JsonResponse({"get_data":get_data,"get_name":get_name,"get_user_palate_category":get_user_palate_category,'get_user_palate_type':get_user_palate_type})
+
+
+

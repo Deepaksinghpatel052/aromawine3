@@ -21,7 +21,7 @@ class AwEventForm(forms.ModelForm):
     ticket_pr_person = forms.CharField(widget=forms.NumberInput(
         attrs={"class": "form-control", 'name': 'End_Date', 'placeholder': "ticket pr person"}))
     Event_Type = forms.ModelChoiceField(required=True, empty_label="Please select type",
-                                         queryset=AwEventType.objects.all(),
+                                         queryset=AwEventType.objects.all().order_by('Type'),
                                          widget=forms.Select(attrs={"class": "form-control", 'name': 'Country'}))
     ticket_price = forms.CharField(widget=forms.NumberInput(
         attrs={"class": "form-control", 'name': 'ticket_price', 'placeholder': "Ticket price"}))

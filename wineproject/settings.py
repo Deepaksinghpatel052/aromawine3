@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'admin_manage_flavours',
     'knox',
     'rest_framework.authtoken',
     'webpack_loader',
@@ -104,8 +105,11 @@ INSTALLED_APPS = [
     'payment_method',
     'wine_palate',
     'admin_manage_special_offers',
+    'admin_manage_food_pair',
 
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -115,9 +119,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'wineproject.urls'
+
+
 
 TEMPLATES = [
     {
@@ -197,7 +204,8 @@ MEDIA_URL ='/media/'
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
-BASE_URL = "http://3.133.12.113/"
+# BASE_URL = "http://3.133.12.113:8000/"
+BASE_URL = "https://aromaofwine.com/"
 # Login Root
 
 

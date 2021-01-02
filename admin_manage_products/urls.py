@@ -20,4 +20,18 @@ urlpatterns = [
     path('add-varietals-name', views.AddVarietalsName, name='AddVarietalsName'),
     path('check-appellation-name', views.CheckAppellationName, name='CheckAppellationName'),
     path('add-appellation-name', views.AddAppellationName, name='AddAppellationName'),
+
+    path('check-flavours-name', views.CheckFlavoursName, name='CheckFlavoursName'),
+    path('add-flavours-name', views.AddFlavoursName, name='AddFlavoursName'),
+
+    path('check-classification-name', views.CheckClassificationName, name='CheckClassificationName'),
+    path('add-classification-name', views.AddClassificationName, name='AddClassificationName'),
+
+    path('check-food-pair-name', views.CheckfoodpairName, name='CheckfoodpairName'),
+    path('add-foodpair-name', views.AddFoodpairName, name='AddFoodpairName'),
+
+    path('add-product-info-by-ajax', views.AddProductInfoByAjax, name='AddProductInfoByAjax'),
+    path('check-product-info-by-ajax', views.CheckProductInfoByAjax, name='CheckProductInfoByAjax'),
+
+    path('<slug:id>/create-copy-of-product', views.CreateCopyOfProduct, name='CreateCopyOfProduct'),
 ]

@@ -4,7 +4,7 @@ from import_export.admin import ImportExportModelAdmin
 # Register your models here.
 
 class AwProductPriceAdmin(ImportExportModelAdmin):
-    list_display = ('Product', 'Vintage_Year','Bottle','Retail_Cost','Retail_Stock','Descount_Cost','Duty','GST','Bond_Cost','Bond_Stock','Created_by', 'Created_date','Created_date','Updated_date')
+    list_display = ('Product', 'Vintage_Year','Bottel_Size','Bottle','Retail_Cost','Retail_Stock','Descount_Cost','Duty','GST','Bond_Cost','Bond_Stock','Created_by', 'Created_date','Created_date','Updated_date')
     list_filter = ('Created_date','Vintage_Year','Product','Updated_date',)
 admin.site.register(AwProductPrice,AwProductPriceAdmin)
 

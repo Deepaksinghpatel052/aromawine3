@@ -1,5 +1,6 @@
 from django import forms
 from .models import AwSetTo,AwProducers
+from admin_manage_producer.models import AwSetTo
 
 class AwProducersForm(forms.ModelForm):
     Winnery_Name = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control", 'name': 'Winnery_Name', 'placeholder': "Enter your winery name"}))
@@ -10,3 +11,8 @@ class AwProducersForm(forms.ModelForm):
     class Meta:
         model = AwProducers
         fields = ['Winnery_Name','Set_To','Producer_Image','Short_Description','Description','Banner_Image']
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['Set_To'].queryset = AwSetTo.objects.filter(Status=True).order_by("Title")

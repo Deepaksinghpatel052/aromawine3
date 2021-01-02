@@ -59,6 +59,8 @@ urlpatterns = [
 
     path('admin/coupons/', include(('admin_manage_cupon_code.urls','admin_manage_cupon_code'),namespace='admin_manage_cupon_code')),
 
+    path('admin/flavours/', include(('admin_manage_flavours.urls','admin_manage_flavours'),namespace='admin_manage_flavours')),
+
 
     path('admin/categories/', include(('admin_manage_categoryes.urls','admin_manage_categoryes'),namespace='admin_manage_categoryes')),
 
@@ -90,6 +92,8 @@ urlpatterns = [
     path('admin/notifications/', include(('admin_manage_notification.urls', 'admin_manage_notification'), namespace='admin_manage_notification')),
 
     path('admin/settings/', include(('admin_manage_setting.urls', 'admin_manage_setting'), namespace='admin_manage_setting')),
+
+    path('admin/food-pair/', include(('admin_manage_food_pair.urls', 'admin_manage_food_pair'), namespace='admin_manage_food_pair')),
 
 
 

@@ -58,9 +58,10 @@
 <input type="hidden" id="gst_set" value="{{''|get_GST}}">
 
 <div class="login-form-content">
-  <form action="" method="POST" enctype='multipart/form-data'>
+  <form action="" method="POST" id="submit_first_tab_data_on_next_click" enctype='multipart/form-data'>
     {% csrf_token %}  
      
+    <input type="hidden" name="set_new_insert_product_id" value="" id="set_new_insert_product_id"> 
       <div class="panel-group" id="accordion">
     <div class="panel panel-default">
     <div class="panel-heading">
@@ -74,7 +75,7 @@
     <div id="collapseOne" class="panel-collapse collapse show in">
       <div class="panel-body">
        <div class="row">
-<div class="col-md-4">
+<div class="col-md-6">
 
         <div class="form-group">
                    <label class="age">LWIN Code*<span id="show_error_message_id_LWineCode" style="color:red; background-color: beige;"> </span></label>
@@ -86,22 +87,22 @@
         </div>
       </div>
        	
-        <div class="col-md-4">   
+        <div class="col-md-6">   
               <label class="age">Select*  <span id="show_error_message_Select_Type" style="color:red; background-color: beige;"> </span></label>
                        {{form.Select_Type}}
                        <span id="show_error_message_Select_Type_not_avelabel" style="color:red;"></span>
                         </div>
-            
-             <div class="col-md-4">
+            <div class="col-md-12">
+  <span id="show_error_message_id_LWineCode_avelabel" style="color:red;"></span>
+</div>
+             <div class="col-md-6">
         <div class="form-group">
                    <label class="age">Product Name* <span id="show_error_message_Product_name" style="color:red; background-color: beige;"> </span></label>
                    {{form.Product_name}}
 
         </div>
       </div>
-<div class="col-md-12">
-  <span id="show_error_message_id_LWineCode_avelabel" style="color:red;"></span>
-</div>
+
        
     <div class="col-md-6">
         <div class="form-group scroll_cat producer_name_ajax">
@@ -123,16 +124,7 @@
       </div>
     
   
-    
-    <div class="col-md-6">
-        <div class="form-group">
-                   <label class="age">Color* <span id="show_error_message_Color" style="color:red; background-color: beige;"> </span></label>
-            {{form.Color}}
-                  
-        <span id="show_error_message_Color_not_avelabel" style="color:red;"> </span>
-        </div>
-      </div>
-    <div class="col-md-4">
+  <div class="col-md-4">
         <div class="form-group appellation_ajax">
                    <label class="age">Appellation* <span id="show_error_message_Appellation" style="color:red; background-color: beige;"> </span></label>
            {{form.Appellation}}
@@ -150,11 +142,40 @@
         </div>
 
       </div>
+
+    
+    <div class="col-md-6">
+        <div class="form-group">
+                   <label class="age">Color* <span id="show_error_message_Color" style="color:red; background-color: beige;"> </span></label>
+            {{form.Color}}
+                  
+        <span id="show_error_message_Color_not_avelabel" style="color:red;"> </span>
+        </div>
+      </div>
+    
     
 
 
 
+  <div class="col-md-4">
+        <div class="form-group classifications_ajax">
+                   <label class="age">Classification* <span id="show_error_message_Classification" style="color:red; background-color: beige;"> </span></label>
+          {{form.Classification}}
+                  
 
+        </div>
+      </div>
+
+      <div class="col-md-2" style="margin-top: 14px;">
+        
+<div class="form-group scroll_cat">
+                   <label class="age"> </label><br>
+         <a href="#" data-toggle="modal" data-target="#modal-default-Classification"><button class="btn-lwine" type="button" title="Add New Classification">Add Classification</button></a>
+                  
+
+        </div>
+
+      </div>
 
     <div class="col-md-6">
         <div class="form-group">
@@ -166,14 +187,26 @@
       </div>
       
    
-  <div class="col-md-6">
-        <div class="form-group classifications_ajax">
-                   <label class="age">Classification* <span id="show_error_message_Classification" style="color:red; background-color: beige;"> </span></label>
-          {{form.Classification}}
+<div class="col-md-4 Flavours_ajax">
+        <div class="form-group">
+                   <label class="age">Flavours</label>
+          {{form.Flavours}}
                   
 
         </div>
       </div>
+      <div class="col-md-2" style="margin-top: 14px;">
+        
+<div class="form-group scroll_cat">
+                   <label class="age"> </label><br>
+         <a href="#" data-toggle="modal" data-target="#modal-default-Flavours"><button class="btn-lwine" type="button" title="Add New Flavours">Add New Flavours</button></a>
+                  
+
+        </div>
+
+      </div>
+
+
 
       <div class="col-md-6">
         <div class="form-group">
@@ -183,15 +216,26 @@
 
         </div>
       </div>
-
-      <div class="col-md-6">
+<div class="col-md-4  FoodPair_ajax">
         <div class="form-group">
-                   <label class="age">Flavours</label>
-          {{form.Flavours}}
+                   <label class="age">Food Pair</label>
+          {{form.FoodPair}}
                   
 
         </div>
       </div>
+      <div class="col-md-2" style="margin-top: 14px;">
+        
+<div class="form-group scroll_cat">
+                   <label class="age"> </label><br>
+         <a href="#" data-toggle="modal" data-target="#modal-default-Food-pair"><button class="btn-lwine" type="button" title="Add New Food Pair">Add New Food Pair</button></a>
+                  
+
+        </div>
+
+      </div>
+   
+      
 
 
 
@@ -203,8 +247,16 @@
 
         </div>
       </div>
+       <div class="col-md-6">
+        <div class="form-group scroll_cat">
+                   <label class="age">Analytical Data <span id="show_error_message_Vintage" style="color:red; background-color: beige;"> </span></label>
+           {{form.Analytical_date}}
+                  
+
+        </div>
+      </div>
     
-    <div class="col-md-4">
+  <!--   <div class="col-md-4">
         <div class="form-group scroll_cat Varietals_ajax">
                    <label class="age">Varietals*  <span id="show_error_message_Varietals" style="color:red; background-color: beige;"> </span></label>
            {{form.Varietals}}
@@ -222,7 +274,7 @@
 
         </div>
 
-      </div>
+      </div> -->
     <div class="col-md-6">
         <div class="form-group">
                    <label class="age">Country* <span id="show_error_message_Country" style="color:red; background-color: beige;"> </span></label>
@@ -242,7 +294,7 @@
       </div>
     <div class="col-md-6">
         <div class="form-group">
-                   <label class="age">Grape* <span id="show_error_message_Grape" style="color:red; background-color: beige;"> </span></label>
+                   <label class="age">Grape/Blend* <span id="show_error_message_Grape" style="color:red; background-color: beige;"> </span></label>
            {{form.Grape}}
                   <span id="show_error_message_Grape_not_avelabel" style="color:red;"> </span>
 
@@ -706,6 +758,154 @@
 
     <!------------Modal Popup------->
 
+
+
+
+<!------------Modal Popup------->
+  <div class="modal fade in sp-map" id="modal-default-Flavours">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Manage Flavours</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" style="font-size: 32px;">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="login-form-content">
+  <form action="" method="post" id="Flavours_submit_from_product" enctype='multipart/form-data'>
+      
+{% csrf_token %}
+
+<span id="Flavours_submit_from_product_error" style="color:red;"></span>
+
+    <div class="row">
+     <div class="col-md-12">
+      <div class="form-group">
+                   <label class="age">Category</label>
+                   {{FlavorsForm.Category}}
+                   <!-- <input type="text" class="form-control" placeholder="Enter your winery name"> -->
+        </div>
+     </div>
+    </div>
+
+    <div class="row">
+     <div class="col-md-12">
+      <div class="form-group">
+                   <label class="age">Flavours</label>
+                   {{FlavorsForm.Type}}
+                   <!-- <input type="text" class="form-control" placeholder="Enter your winery name"> -->
+        </div>
+     </div>
+    </div>
+  
+
+<div class="row">
+ 
+  <div class="col-md-6">
+    <div class="form-group">
+      <button type="submit" class="btn-block btn btn-white subbtn" >Save</button>
+    </div>
+  </div>
+</div>
+</form>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+    <!------------Modal Popup------->
+
+
+
+<!------------Modal Popup------->
+  <div class="modal fade in sp-map" id="modal-default-Classification">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Manage Classification</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" style="font-size: 32px;">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="login-form-content">
+  <form action="" method="post" id="Classification_submit_from_product" enctype='multipart/form-data'>
+      
+{% csrf_token %}
+
+<span id="Classification_submit_from_product_error" style="color:red;"></span>
+
+    <div class="row">
+     <div class="col-md-12">
+      <div class="form-group">
+                   <label class="age">Classification</label>
+                   {{ClassificationForm.Classification_Name}}
+                   <!-- <input type="text" class="form-control" placeholder="Enter your winery name"> -->
+        </div>
+     </div>
+    </div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <button type="submit" class="btn-block btn btn-white subbtn" >Save</button>
+    </div>
+  </div>
+</div>
+</form>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!------------Modal Popup------->
+
+
+
+<!------------Modal Popup------->
+  <div class="modal fade in sp-map" id="modal-default-Food-pair">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Manage Food pair</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" style="font-size: 32px;">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="login-form-content">
+  <form action="" method="post" id="Food_Pair_submit_from_product" enctype='multipart/form-data'>
+      
+{% csrf_token %}
+
+<span id="Food_pair_submit_from_product_error" style="color:red;"></span>
+
+    <div class="row">
+     <div class="col-md-12">
+      <div class="form-group">
+                   <label class="age">Food Pair name</label>
+                   {{FoodpairForm.Food_Pair_Name}}
+                   <!-- <input type="text" class="form-control" placeholder="Enter your winery name"> -->
+        </div>
+     </div>
+    </div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <button type="submit" class="btn-block btn btn-white subbtn" >Save</button>
+    </div>
+  </div>
+</div>
+</form>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!------------Modal Popup------->
+
+
+
+
+
  {% endblock %}
 
 
@@ -713,6 +913,10 @@
 
      <script src='{% static "admin/assets/cropme/croppie_product_image.js" %}' ></script>
      <script src='{% static "admin/assets/js/create_lwine_search.js" %}' ></script>
+<!-- 
+  <script src='https://aromaofwine.com/static/admin/assets/cropme/croppie_product_image.js' ></script>
+     <script src='https://aromaofwine.com/static/admin/assets/js/create_lwine_search.js' ></script> -->
+
     <script type="text/javascript">
    $(document).ready(function() {
 
@@ -741,16 +945,40 @@ $("#id_Meta_Description").val(get_product_name);
 
 var lwine_code =  $("#id_LWineCode").val();
 
+
+// ============ Bottle size start  ===========
+var get_bottel_size_test = new Array();
+var get_bottel_size_id = new Array();
+
+  console.log("=============");
+
+$("#id_Bottel_Size option:selected").each(function(){
+  console.log("=============");
+  get_bottel_size_test.push($(this).text());
+  get_bottel_size_id.push($(this).val())
+
+});
+console.log("=============");
+  console.log(get_bottel_size_test);
+  console.log(get_bottel_size_id);
+  console.log("=============");
+// ============ Bottle size end  ===========
+
+
+
 $("#show_vintage_year_stock_data").html('');
 $("#id_Vintage option:selected").each(function(){
 
+
  var vintage_year =  $(this).text();
-$("#show_vintage_year_stock_data").append('<div class="since_'+vintage_year+'"><table width="100%" border="1" class="table table-striped table-bordered newpage editableTable" align="center" cellpadding="0" cellspacing="0" style=" font-size: 15px;"><thead><tr style="cursor: pointer;"><td colspan="10"><div class="yearwine"><span>'+vintage_year+'<span></span></span></div></td><td><div class="add_button year_add add_rows" data-vintage_year="'+vintage_year+'"> <a class="add-row"><i class="fa fa-plus"></i>Add Row</a></div></td></tr><tr style="cursor: pointer;"><th align="left" valign="top">Bottle</th><th align="left" valign="top">Resale Price</th><th align="left" valign="top">Available Count</th><th align="left" valign="top">Discount Cost</th><th align="left" valign="top">Duty</th><th align="left" valign="top">GST (%)</th><th align="left" valign="top">Bond Cost</th><th align="left" valign="top">Available Count</th><th align="left" valign="top">Bond Descount Cost</th><th align="left" valign="top">Aroma Cost</th><th align="left" valign="top">Action</th></tr></thead><tbody class="add_row_'+vintage_year+'"></tbody></table></div>');
+ 
+ for(var i=0; i <get_bottel_size_test.length; i++)
+ {
+   $("#show_vintage_year_stock_data").append('<input type="hidden" name="no_of_years_and_size[]" value="'+vintage_year+'-'+get_bottel_size_id[i]+'" ><div class="since_'+vintage_year+'-'+get_bottel_size_id[i]+'"><table width="100%" border="1" class="table table-striped table-bordered newpage editableTable" align="center" cellpadding="0" cellspacing="0" style=" font-size: 15px;"><thead><tr style="cursor: pointer;"><td colspan="10"><div class="yearwine"><span>'+vintage_year+' ('+get_bottel_size_test[i]+')<span></span></span></div></td><td><div class="add_button year_add add_rows" data-vintage_year="'+vintage_year+'-'+get_bottel_size_id[i]+'"> <a class="add-row"><i class="fa fa-plus"></i>Add Row</a></div></td></tr><tr style="cursor: pointer;"><th align="left" valign="top">Bottle</th><th align="left" valign="top">Resale Price</th><th align="left" valign="top">Available Count</th><th align="left" valign="top">Discount Cost</th><th align="left" valign="top">Duty</th><th align="left" valign="top">GST (%)</th><th align="left" valign="top">Bond Cost</th><th align="left" valign="top">Available Count</th><th align="left" valign="top">Bond Descount Cost</th><th align="left" valign="top">Aroma Cost</th><th align="left" valign="top">Action</th></tr></thead><tbody class="add_row_'+vintage_year+'-'+get_bottel_size_id[i]+'"></tbody></table></div>');
+get_data_with_year_lwine_code(lwine_code, vintage_year,get_bottel_size_id[i]);
 
-
-
-
-get_data_with_year_lwine_code(lwine_code, vintage_year);
+ }
+ $("#show_vintage_year_stock_data").append('<hr>');
 
 });
 
@@ -868,13 +1096,44 @@ if($("#id_Varietals").val()=="")
 console.log(set_status);
 if(set_status)
 {
-   $("#first_tab").addClass('collapsed');
-  $("#collapseOne").removeClass('in');
-  $("#collapseOne").removeClass('show');
-   
-   $("#second_tab").removeClass('collapsed');
-   $("#collapseTwo").addClass('in');
-   $("#collapseTwo").addClass('show');
+
+ $(".se-pre-con").css("display","block");
+var form_data = $("#submit_first_tab_data_on_next_click").serialize();
+console.log(form_data);
+         $.ajax({
+           type: "POST",
+           url: "{% url 'admin_manage_products:CheckProductInfoByAjax' %}",
+           data: form_data, // serializes the form's elements.
+           success: function(data)
+           {
+            if(data=="0")
+                {
+                   $(".se-pre-con").css("display","none");
+                      alert("LWINE Code is already exists.");
+                }
+                else
+                {
+                       add_product_by_next_click(form_data);
+                   $("#first_tab").addClass('collapsed');
+                  $("#collapseOne").removeClass('in');
+                  $("#collapseOne").removeClass('show');
+                   
+                   $("#second_tab").removeClass('collapsed');
+                   $("#collapseTwo").addClass('in');
+                   $("#collapseTwo").addClass('show');
+
+                }
+           }
+         });
+
+
+         // $("#first_tab").addClass('collapsed');
+         //          $("#collapseOne").removeClass('in');
+         //          $("#collapseOne").removeClass('show');
+                   
+         //           $("#second_tab").removeClass('collapsed');
+         //           $("#collapseTwo").addClass('in');
+         //           $("#collapseTwo").addClass('show');
 
 }
 else{
@@ -886,6 +1145,36 @@ else{
 });
 
 });
+
+
+
+
+function add_product_by_next_click(form_data)
+{
+    $.ajax({
+               method:"POST",
+               url:"{% url 'admin_manage_products:AddProductInfoByAjax' %}",
+               data:form_data,
+               dataType:'html',
+               success:function(data)
+               {
+                console.log(data);
+                $("#set_new_insert_product_id").val(data);
+                 $("#first_tab").addClass('collapsed');
+                  $("#collapseOne").removeClass('in');
+                  $("#collapseOne").removeClass('show');
+                   
+                   $("#second_tab").removeClass('collapsed');
+                   $("#collapseTwo").addClass('in');
+                   $("#collapseTwo").addClass('show');
+                   $(".se-pre-con").css("display","none");
+               }
+         });
+
+}
+
+
+
 
 $(document).on("click",'.remove_div',function(){
 
